@@ -1,0 +1,20 @@
+{
+  "name": "whppt-nuxt",
+  "description": "Whppt nuxt module",
+  "version": "0.0.0",
+  "author": "Svelte Studios (https://www.npmjs.com/settings/svelte-studios/packages)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/svelte-studios/whppt-nuxt.git"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/svelte-studios/whppt-nuxt/issues"
+  },
+  "homepage": "https://github.com/svelte-studios/whppt-nuxt"
+}
