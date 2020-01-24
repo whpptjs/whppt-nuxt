@@ -1,7 +1,6 @@
 <template>
   <div class="container">
-    Menu:
-    <EditorMenu></EditorMenu>
+    <w-editor-menu></w-editor-menu>
   </div>
 </template>
 

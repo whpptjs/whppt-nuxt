@@ -2,20 +2,10 @@
   <!-- https://vuejsexamples.com/a-vue-component-that-create-moveable-and-resizable/ -->
   <div class="menu">
     <div v-for="(item, index) in menuItems" :key="index" class="menu__item">
-      <component :is="item.icon" />
+      <button @click="callMethod(item.action)">
+        <component :is="item.icon" />
+      </button>
     </div>
-    <!-- Up -->
-    <!--Down-->
-    <!--Remove-->
-    <!--Publish-->
-    <!--Unpublish-->
-    <!--Preview-->
-    <!--Page Settings-->
-    <!--SEO-->
-    <!--Socials-->
-    <!--Documents-->
-    <!--Redirects-->
-    <!--Logout-->
   </div>
 </template>
 
@@ -25,29 +15,37 @@ export default {
   data: () => ({
     currentAction: undefined,
     menuItems: [
-      { key: 'draggable', label: '', icon: 'draggable', group: '' },
-      { key: 'cursor', label: 'Cursor', icon: '', group: '' },
-      { key: 'select', label: 'Select', icon: '', group: '' },
-      { key: 'edit', label: 'Edit', icon: '', group: '' },
-      { key: 'up', label: 'Up', icon: '', group: '' },
-      { key: 'down', label: 'Down', icon: '', group: '' },
-      { key: 'publish', label: 'Publish', icon: '', group: '' },
-      { key: 'preview', label: 'Preview', icon: '', group: '' },
-      { key: 'page-settings', label: 'Page Settings', icon: '', group: '' },
-      { key: 'seo', label: 'SEO', icon: '', group: '' },
-      { key: 'socials', label: 'Socials', icon: '', group: '' },
-      { key: 'documents', label: 'Documents', icon: '', group: '' },
-      { key: 'redirects', label: 'Redirects', icon: '', group: '' },
-      { key: 'logout', label: 'Logout', icon: '', group: '' },
+      { key: 'draggable', label: '', icon: 'w-draggable', group: '' },
+      // { key: 'cursor', label: 'Cursor', icon: 'w-cursor', group: '' },
+      // { key: 'select', label: 'Select', icon: 'w-select', group: '' },
+      { key: 'edit', label: 'Edit', icon: 'w-edit', group: '' },
+      { key: 'up', label: 'Up', icon: 'w-arrow-up', group: '' },
+      { key: 'down', label: 'Down', icon: 'w-arrow-down', group: '' },
+      { key: 'save', label: 'Save Page', icon: 'w-save', group: '', action: 'doSomething' },
+      { key: 'publish', label: 'Publish', icon: 'w-publish', group: '' },
+      { key: 'preview', label: 'Preview', icon: 'w-preview', group: '' },
+      { key: 'page-settings', label: 'Page Settings', icon: 'w-settings', group: '' },
+      // { key: 'seo', label: 'SEO', icon: 'w-seo', group: '' },
+      // { key: 'socials', label: 'Socials', icon: 'w-socials', group: '' },
+      // { key: 'documents', label: 'Documents', icon: 'w-document', group: '' },
+      // { key: 'redirects', label: 'Redirects', icon: 'w-redirect', group: '' },
+      // { key: 'logout', label: 'Logout', icon: 'w-logout', group: '' },
     ],
   }),
+  methods: {
+    callMethod(action, options) {
+      return this[action](options);
+    },
+    doSomething() {
+      console.log(this);
+    },
+  },
 };
 </script>
 
 <style scoped>
 .menu {
   background-color: rgba(0, 0, 0, 0.8);
-  color: #ffffff;
   display: flex;
   flex-direction: column;
   padding: 1.5rem 0.4rem;
@@ -59,6 +57,13 @@ export default {
 
 .menu__item {
   margin: 0.4rem 0;
+}
+
+.menu__item button {
+  border: none;
+  color: white;
+  background-color: transparent;
+  cursor: pointer;
 }
 
 .menu__item--bordered {

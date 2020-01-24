@@ -1,33 +1,42 @@
 const { resolve, join } = require('path');
-const { readdirSync } = require('fs');
+const glob = require('glob');
 
 export default function WhpptNuxtModule(moduleOptions) {
-  const pluginsToSync = ['components/index.js', 'components/lib/index.js', 'debug.js'];
+  const options = {
+    ...moduleOptions,
+    ...this.options.whppt,
+  };
 
+  const pluginsToSync = ['components/index.js', 'debug.js', 'store/index.js'];
   for (const pathString of pluginsToSync) {
     this.addPlugin({
       src: resolve(__dirname, pathString),
       fileName: join('whppt-nuxt', pathString),
-      options: moduleOptions,
+      options,
     });
   }
 
-  const foldersToSync = [
-    'components/lib/icons',
-    'components/lib/content',
-    'components/lib/layouts',
-    'components/lib/system',
-  ];
-  for (const pathString of foldersToSync) {
-    const path = resolve(__dirname, pathString);
-    for (const file of readdirSync(path)) {
-      this.addTemplate({
-        src: resolve(path, file),
-        fileName: join('whppt-nuxt', pathString, file),
-        options: moduleOptions,
+  const self = this;
+
+  const copyDirectory = function(dir) {
+    const pattern = `${__dirname}/${dir}/**/*.{js,vue}`;
+    const directoryOptions = {
+      ignore: [],
+    };
+
+    const files = glob.sync(pattern, directoryOptions);
+
+    for (const file of files) {
+      self.addTemplate({
+        src: file,
+        fileName: join('whppt-nuxt', file.replace(`${__dirname}/`, '')),
+        options,
       });
     }
-  }
+  };
+
+  copyDirectory('components');
+  copyDirectory('store');
 }
 
 module.exports.meta = require('./package.json');

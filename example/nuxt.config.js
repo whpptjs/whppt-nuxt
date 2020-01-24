@@ -44,6 +44,9 @@ export default {
     '@nuxtjs/dotenv',
     ['../../module.js']
   ],
+  whppt: {
+    componentPrefix: 'W'
+  },
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
