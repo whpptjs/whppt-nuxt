@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
 export default {
   name: 'WhpptMenu',
   data: () => ({
@@ -18,7 +19,7 @@ export default {
       { key: 'draggable', label: '', icon: 'w-draggable', group: '' },
       // { key: 'cursor', label: 'Cursor', icon: 'w-cursor', group: '' },
       // { key: 'select', label: 'Select', icon: 'w-select', group: '' },
-      { key: 'edit', label: 'Edit', icon: 'w-edit', group: '' },
+      { key: 'edit', label: 'Edit', icon: 'w-edit', group: '', action: 'editSelected' },
       { key: 'up', label: 'Up', icon: 'w-arrow-up', group: '' },
       { key: 'down', label: 'Down', icon: 'w-arrow-down', group: '' },
       { key: 'save', label: 'Save Page', icon: 'w-save', group: '', action: 'doSomething' },
@@ -33,11 +34,15 @@ export default {
     ],
   }),
   methods: {
+    ...mapMutations('whppt-nuxt', ['openEditor']),
     callMethod(action, options) {
       return this[action](options);
     },
     doSomething() {
       console.log(this);
+    },
+    editSelected(options) {
+      this.openEditor(options);
     },
   },
 };

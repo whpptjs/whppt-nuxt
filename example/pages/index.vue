@@ -1,11 +1,22 @@
 <template>
   <div class="container">
-    <w-editor-menu></w-editor-menu>
+    <div v-w-data="test" @click="$editRichText(test)">
+      Hey
+    </div>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  data() {
+    return { test: 'bbbb' }
+  },
+  methods: {
+    editObject() {
+      return this.test
+    }
+  }
+}
 </script>
 
 <style>
