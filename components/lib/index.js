@@ -1,4 +1,4 @@
-import system from './system';
+import content from './content';
 import icons from './icons';
 
-export default { ...system, ...icons };
+export default { ...content, ...icons };

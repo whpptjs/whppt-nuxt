@@ -1,7 +1,7 @@
 <template>
-  <w-editor-overview>
+  <w-editor-app>
     <nuxt />
-  </w-editor-overview>
+  </w-editor-app>
 </template>
 
 <style>

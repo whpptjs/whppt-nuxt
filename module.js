@@ -7,7 +7,7 @@ export default function WhpptNuxtModule(moduleOptions) {
     ...this.options.whppt,
   };
 
-  const pluginsToSync = ['components/index.js', 'debug.js', 'store/index.js'];
+  const pluginsToSync = ['components/index.js', 'plugins/index.js', 'debug.js', 'store/index.js'];
   for (const pathString of pluginsToSync) {
     this.addPlugin({
       src: resolve(__dirname, pathString),
@@ -37,6 +37,8 @@ export default function WhpptNuxtModule(moduleOptions) {
 
   copyDirectory('components');
   copyDirectory('store');
+  copyDirectory('plugins');
+  // add the debug plugin
 }
 
 module.exports.meta = require('./package.json');

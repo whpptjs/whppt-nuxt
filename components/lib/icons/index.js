@@ -6,6 +6,8 @@ import Preview from './Preview';
 import Publish from './Publish';
 import Save from './Save';
 import Settings from './Settings';
+import Remove from './Remove';
+import Warning from './Warning';
 
 export default {
   ArrowDown,
@@ -16,4 +18,6 @@ export default {
   Publish,
   Save,
   Settings,
+  Remove,
+  Warning,
 };

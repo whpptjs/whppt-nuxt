@@ -1,15 +1,20 @@
 <template>
   <div class="container">
-    <div v-w-data="test" @click="$editRichText(test)">
-      Hey
-    </div>
+    <w-rich-text
+      v-rich-text="page.content"
+      :content="page.content"
+    ></w-rich-text>
+    <w-link v-link="page2.content" :content="page2.content"></w-link>
   </div>
 </template>
 
 <script>
 export default {
   data() {
-    return { test: 'bbbb' }
+    return {
+      page: { content: { value: '' } },
+      page2: { content: { href: '', text: '', type: '' } }
+    }
   },
   methods: {
     editObject() {
@@ -23,7 +28,6 @@ export default {
 .container {
   margin: 0 auto;
   min-height: 100vh;
-  display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;

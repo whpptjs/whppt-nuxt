@@ -1,9 +1,5 @@
-import EditorOverview from './EditorOverview';
-import EditorMenu from './EditorMenu';
-import EditorSidebar from './EditorSidebar';
+import EditorMenu from './Editor/Menu';
+import RichText from './RichText';
+import LinkSidebar from './LinkSidebar';
 
-export default {
-  EditorOverview,
-  EditorMenu,
-  EditorSidebar,
-};
+export { EditorMenu, RichText, LinkSidebar };

@@ -2,7 +2,10 @@ export default options => ({
   namespaced: true,
   state: () => ({
     options,
-    editing: false,
+    selector: undefined,
+    editSidebar: false,
+    editSidebarType: undefined,
+    editTest: 0,
   }),
   actions: {
     savePage() {
@@ -10,8 +13,23 @@ export default options => ({
     },
   },
   mutations: {
-    openEditor(state) {
-      state.editing = !state.editing;
+    setSelector(state, actionType) {
+      if (state.selector === actionType) {
+        state.selector = undefined;
+        state.editSidebar = false;
+        return;
+      }
+      state.selector = actionType;
+    },
+    editInSidebar(state, { type, data }) {
+      state.editSidebar = true;
+      state.editSidebarType = type;
+      state.editTest = state.editTest + 1;
+      console.log('mutations', state.editTest);
+    },
+    closeSidebar(state) {
+      state.editSidebar = false;
+      state.editSidebarType = undefined;
     },
   },
   getters: {},

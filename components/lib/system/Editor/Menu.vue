@@ -1,8 +1,13 @@
 <template>
   <!-- https://vuejsexamples.com/a-vue-component-that-create-moveable-and-resizable/ -->
   <div class="menu">
-    <div v-for="(item, index) in menuItems" :key="index" class="menu__item">
-      <button @click="callMethod(item.action)">
+    <div
+      v-for="(item, index) in menuItems"
+      :key="index"
+      class="menu__item"
+      :class="{ 'menu__item--active': item.actionCommand && selector === item.actionCommand }"
+    >
+      <button @click="callMethod(item.action, item)">
         <component :is="item.icon" />
       </button>
     </div>
@@ -10,7 +15,7 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
+import { mapMutations, mapState } from 'vuex';
 export default {
   name: 'WhpptMenu',
   data: () => ({
@@ -19,7 +24,7 @@ export default {
       { key: 'draggable', label: '', icon: 'w-draggable', group: '' },
       // { key: 'cursor', label: 'Cursor', icon: 'w-cursor', group: '' },
       // { key: 'select', label: 'Select', icon: 'w-select', group: '' },
-      { key: 'edit', label: 'Edit', icon: 'w-edit', group: '', action: 'editSelected' },
+      { key: 'edit', label: 'Edit', icon: 'w-edit', group: '', action: 'selectSelector', actionCommand: 'edit' },
       { key: 'up', label: 'Up', icon: 'w-arrow-up', group: '' },
       { key: 'down', label: 'Down', icon: 'w-arrow-down', group: '' },
       { key: 'save', label: 'Save Page', icon: 'w-save', group: '', action: 'doSomething' },
@@ -33,16 +38,18 @@ export default {
       // { key: 'logout', label: 'Logout', icon: 'w-logout', group: '' },
     ],
   }),
+  computed: mapState('whppt-nuxt', ['selector']),
   methods: {
-    ...mapMutations('whppt-nuxt', ['openEditor']),
+    ...mapMutations('whppt-nuxt', ['setSelector']),
     callMethod(action, options) {
+      if (!action) return;
       return this[action](options);
     },
-    doSomething() {
-      console.log(this);
+    selectSelector({ actionCommand }) {
+      this.setSelector(actionCommand);
     },
-    editSelected(options) {
-      this.openEditor(options);
+    doSomething(options) {
+      console.log('OPTIONS', options);
     },
   },
 };
@@ -53,7 +60,7 @@ export default {
   background-color: rgba(0, 0, 0, 0.8);
   display: flex;
   flex-direction: column;
-  padding: 1.5rem 0.4rem;
+  padding: 0rem 0.25rem;
   position: absolute;
   top: 20px;
   left: 20px;
@@ -61,7 +68,11 @@ export default {
 }
 
 .menu__item {
-  margin: 0.4rem 0;
+  /* margin: 0.4rem 0; */
+}
+.menu__item--active {
+  border-radius: 100%;
+  background-color: #262626;
 }
 
 .menu__item button {
@@ -69,16 +80,28 @@ export default {
   color: white;
   background-color: transparent;
   cursor: pointer;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+}
+.menu__item:first-child {
+  margin-top: 0.25rem;
+}
+.menu__item:last-child {
+  margin-bottom: 0.25rem;
+}
+
+.menu__item--active button {
+  color: orangered;
 }
 
 .menu__item--bordered {
   border-bottom: 1px solid rgba(255, 255, 255, 0.5);
 }
 
-.menu__item--active {
+.menu__item :hover {
   border-radius: 100%;
   background-color: #262626;
-  color: orangered;
 }
 
 .menu__item,
