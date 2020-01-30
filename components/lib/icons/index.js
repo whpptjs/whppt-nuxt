@@ -2,6 +2,7 @@ import ArrowDown from './ArrowDown';
 import ArrowUp from './ArrowUp';
 import Draggable from './Draggable';
 import Edit from './Edit';
+import NewPage from './NewPage';
 import Preview from './Preview';
 import Publish from './Publish';
 import Save from './Save';
@@ -14,6 +15,7 @@ export default {
   ArrowUp,
   Draggable,
   Edit,
+  NewPage,
   Preview,
   Publish,
   Save,

@@ -27,7 +27,7 @@ export default {
       { key: 'edit', label: 'Edit', icon: 'w-edit', group: '', action: 'selectSelector', actionCommand: 'edit' },
       { key: 'up', label: 'Up', icon: 'w-arrow-up', group: '' },
       { key: 'down', label: 'Down', icon: 'w-arrow-down', group: '' },
-      { key: 'new-page', label: 'New Page', icon: 'w-new', group: 'page', action: '', actionCommand: '' },
+      { key: 'new-page', label: 'New Page', icon: 'w-new-page', group: 'page', action: '', actionCommand: '' },
       { key: 'save', label: 'Save Page', icon: 'w-save', group: 'page', action: 'savePage' },
       { key: 'publish', label: 'Publish', icon: 'w-publish', group: 'page' },
       { key: 'preview', label: 'Preview', icon: 'w-preview', group: 'page' },
