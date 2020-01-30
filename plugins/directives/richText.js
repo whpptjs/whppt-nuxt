@@ -1,19 +1,19 @@
 import Vue from 'vue';
 
-export default (store, whppt) => {
+export default ({ store }, whppt) => {
   Vue.directive('richText', {
     bind(el, binding) {
       let originalStyle = 'border: none';
       el.addEventListener('click', function(e) {
         whppt.editData = undefined;
 
-        const whpptNuxt = store.state[`whppt-nuxt`];
+        const whpptNuxt = store.state[`whppt-nuxt/editor`];
         if (whpptNuxt.selector !== 'edit') return;
-        store.commit('whppt-nuxt/editInSidebar', { type: 'richText', data: binding.value });
+        store.commit('whppt-nuxt/editor/editInSidebar', { type: 'richText', data: binding.value });
         whppt.editData = binding.value;
       });
       el.addEventListener('mouseover', function(e) {
-        const whpptNuxt = store.state[`whppt-nuxt`];
+        const whpptNuxt = store.state[`whppt-nuxt/editor`];
         if (whpptNuxt.selector !== 'edit') return;
         originalStyle = 'border: none';
         el.style = 'border: 1px solid blue';

@@ -18,8 +18,8 @@ import * as Editors from '../system';
 export default {
   name: 'WhpptEditorSidebar',
   components: { ...Editors },
-  computed: mapState('whppt-nuxt', ['editSidebar', 'editSidebarType']),
-  methods: mapMutations('whppt-nuxt', ['closeSidebar']),
+  computed: mapState('whppt-nuxt/editor', ['editSidebar', 'editSidebarType']),
+  methods: mapMutations('whppt-nuxt/editor', ['closeSidebar']),
 };
 </script>
 

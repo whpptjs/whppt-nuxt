@@ -91,7 +91,7 @@ export default {
       internal: undefined,
     };
   },
-  computed: mapState('whppt-nuxt', ['editTest']),
+  computed: mapState('whppt-nuxt/editor', ['editTest']),
   watch: {
     editTest(val) {
       if (this.internal !== this.$whppt.editData.value) {

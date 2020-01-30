@@ -16,6 +16,7 @@ export default {
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
+  dev: false,
   /*
    ** Customize the progress-bar color
    */

@@ -1,16 +1,18 @@
 import richTextDirective from './directives/richText';
 import linkDirective from './directives/link';
-import save from './helpers/save';
+import SavePage from './helpers/SavePage';
+import LoadPage from './helpers/LoadPage';
 
-export default ({ app, store, ...v }, inject) => {
+export default (context, inject) => {
   const whppt = {
     editData: undefined,
-    save,
+    savePage: SavePage(context),
+    loadPage: LoadPage(context),
   };
 
-  app.$whppt = whppt;
+  context.app.$whppt = whppt;
   inject('whppt', whppt);
 
-  richTextDirective(store, whppt);
-  linkDirective(store, whppt);
+  richTextDirective(context, whppt);
+  linkDirective(context, whppt);
 };

@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex';
+import { mapMutations, mapState, mapActions } from 'vuex';
 export default {
   name: 'WhpptMenu',
   data: () => ({
@@ -27,10 +27,11 @@ export default {
       { key: 'edit', label: 'Edit', icon: 'w-edit', group: '', action: 'selectSelector', actionCommand: 'edit' },
       { key: 'up', label: 'Up', icon: 'w-arrow-up', group: '' },
       { key: 'down', label: 'Down', icon: 'w-arrow-down', group: '' },
-      { key: 'save', label: 'Save Page', icon: 'w-save', group: '', action: 'doSomething' },
-      { key: 'publish', label: 'Publish', icon: 'w-publish', group: '' },
-      { key: 'preview', label: 'Preview', icon: 'w-preview', group: '' },
-      { key: 'page-settings', label: 'Page Settings', icon: 'w-settings', group: '' },
+      { key: 'new-page', label: 'New Page', icon: 'w-new', group: 'page', action: '', actionCommand: '' },
+      { key: 'save', label: 'Save Page', icon: 'w-save', group: 'page', action: 'savePage' },
+      { key: 'publish', label: 'Publish', icon: 'w-publish', group: 'page' },
+      { key: 'preview', label: 'Preview', icon: 'w-preview', group: 'page' },
+      { key: 'page-settings', label: 'Page Settings', icon: 'w-settings', group: 'page' },
       // { key: 'seo', label: 'SEO', icon: 'w-seo', group: '' },
       // { key: 'socials', label: 'Socials', icon: 'w-socials', group: '' },
       // { key: 'documents', label: 'Documents', icon: 'w-document', group: '' },
@@ -38,9 +39,12 @@ export default {
       // { key: 'logout', label: 'Logout', icon: 'w-logout', group: '' },
     ],
   }),
-  computed: mapState('whppt-nuxt', ['selector']),
+  computed: {
+    ...mapState('whppt-nuxt/editor', ['selector']),
+  },
   methods: {
-    ...mapMutations('whppt-nuxt', ['setSelector']),
+    ...mapActions('whppt-nuxt/page', ['save']),
+    ...mapMutations('whppt-nuxt/editor', ['setSelector']),
     callMethod(action, options) {
       if (!action) return;
       return this[action](options);
@@ -48,8 +52,11 @@ export default {
     selectSelector({ actionCommand }) {
       this.setSelector(actionCommand);
     },
-    doSomething(options) {
-      console.log('OPTIONS', options);
+    savePage() {
+      return this.save().then(page => {
+        const { slug } = page;
+        return this.$router.push(`/${slug}`);
+      });
     },
   },
 };

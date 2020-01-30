@@ -7,11 +7,7 @@ export default options => ({
     editSidebarType: undefined,
     editTest: 0,
   }),
-  actions: {
-    savePage() {
-      console.log('saving Page');
-    },
-  },
+  actions: {},
   mutations: {
     setSelector(state, actionType) {
       if (state.selector === actionType) {
