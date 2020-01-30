@@ -67,7 +67,7 @@ export default {
   background-color: rgba(0, 0, 0, 0.8);
   display: flex;
   flex-direction: column;
-  padding: 0rem 0.25rem;
+  padding: 0 0.25rem;
   position: absolute;
   top: 20px;
   left: 20px;
