@@ -1,6 +1,6 @@
 <template>
   <li class="tabItem">
-    <button class="tabItem__button" :class="{ 'tabItem__button--active': active }" href="#" @click="$emit('click')">
+    <button class="whppt-button" :class="{ 'tabItem__button--active': active }" href="#" @click="$emit('click')">
       <slot></slot>
     </button>
   </li>
@@ -31,22 +31,6 @@ export default {
   display: block;
   margin-right: 0.75rem;
   color: white;
-}
-
-.tabItem__button {
-  display: inline-block;
-  color: white;
-  border-radius: 0.25rem;
-  padding: 0.25rem 0.75rem;
-  background-color: black;
-}
-
-.tabItem__button:hover {
-  background-color: #eee;
-  color: black;
-}
-.tabItem__button:focus {
-  outline: none;
 }
 
 .tabItem__button--active {

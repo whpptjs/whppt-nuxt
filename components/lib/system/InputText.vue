@@ -28,7 +28,7 @@ export default {
 </script>
 <style scoped>
 .inputText__label {
-  color: White;
+  color: white;
   display: block;
   text-transform: uppercase;
   letter-spacing: 0.025em;
@@ -41,15 +41,15 @@ export default {
   appearance: none;
   display: block;
   width: 100%;
-  background-color: gray;
-  color: white;
+  background-color: white;
+  color: black;
   border-radius: 0.25rem;
   padding: 0.75rem 1rem;
   line-height: 1.25;
+  font-size: 0.75rem;
 }
 .inputText__input:focus {
   outline: none;
-  background-color: white;
 }
 
 .inputText__info {

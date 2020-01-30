@@ -24,7 +24,7 @@
             label="Link Text"
           />
         </div>
-        <div class="px-5 -mt-5 text-gray-900 text-xs italic mb-3">
+        <div class="tabs__info">
           Page links take the user to another page on this website
         </div>
       </div>
@@ -45,7 +45,7 @@
             label="Link Text"
           />
         </div>
-        <div class="px-5 -mt-5 text-gray-900 text-xs italic mb-3">
+        <div class="tabs__info">
           External links open a new tab to another website. Examples: https://example.com or mailto:example@mail.com
         </div>
       </div>
@@ -66,7 +66,7 @@
             label="Link Text"
           />
         </div>
-        <div class="px-5 -mt-5 text-gray-900 text-xs italic mb-3">
+        <div class="tabs__info">
           Anchors refer to identifing elements on the page using a #. Clicking on a anchor will scroll the page down to
           it.
         </div>
@@ -93,5 +93,13 @@ export default {
   display: flex;
   padding-bottom: 1.5rem;
   padding-left: 0;
+}
+
+.tabs__info {
+  padding: 0 1.25rem;
+  color: gray;
+  font-size: 0.75rem;
+  margin-bottom: 0.75rem;
+  font-style: italic;
 }
 </style>

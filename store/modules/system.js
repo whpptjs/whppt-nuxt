@@ -25,7 +25,6 @@ export default options => ({
       state.editSidebar = true;
       state.editSidebarType = type;
       state.editTest = state.editTest + 1;
-      console.log('mutations', state.editTest);
     },
     closeSidebar(state) {
       state.editSidebar = false;

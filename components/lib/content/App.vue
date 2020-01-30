@@ -1,10 +1,10 @@
 <template>
-  <div class="flex">
+  <div class="whppt-flex">
     <editor-menu></editor-menu>
-    <div class="content"><slot> </slot></div>
-    <div class="sidebar" :class="{ openEditor: editSidebar }">
+    <div class="whppt-content"><slot> </slot></div>
+    <div class="whppt-sidebar" :class="{ 'whppt-openEditor': editSidebar }">
       <component :is="editSidebarType"></component>
-      <button @click="closeSidebar">
+      <button class="whppt-button whppt-button__close" @click="closeSidebar">
         Close
       </button>
     </div>
@@ -23,8 +23,35 @@ export default {
 };
 </script>
 
-<style scoped>
-.sidebar {
+<style>
+.whppt-button__close {
+  margin-top: 10px;
+}
+.whppt-link {
+  padding-bottom: 1px;
+  text-decoration: none;
+  color: black;
+}
+.whppt-button {
+  display: inline-block;
+  color: white;
+  border-radius: 0.25rem;
+  padding: 0.75rem 1rem;
+  background-color: black;
+  font-size: 1em;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+.whppt-button:hover {
+  background-color: #eee;
+  color: black;
+}
+.whppt-button:focus {
+  outline: none;
+}
+
+.whppt-sidebar {
   background-color: rgba(0, 0, 0, 0.8);
   color: white;
   padding: 1rem;
@@ -32,16 +59,16 @@ export default {
   margin-right: -400px;
   transition: 0.5s;
 }
-.openEditor {
+.whppt-openEditor {
   margin-right: 0;
 }
-.flex {
+.whppt-flex {
   height: 100vh;
   display: flex;
   background-color: gray;
   overflow-x: hidden;
 }
-.content {
+.whppt-content {
   flex-grow: 1;
   background-color: white;
 }
