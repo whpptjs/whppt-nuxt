@@ -1,5 +1,6 @@
 import RichText from './RichText';
 import LinkSidebar from './LinkSidebar';
 import EditorMenu from './Menu';
+import Page from './Page';
 
-export { EditorMenu, RichText, LinkSidebar };
+export { Page, EditorMenu, RichText, LinkSidebar };

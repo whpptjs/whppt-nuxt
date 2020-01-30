@@ -46,7 +46,15 @@ export default {
     ['../../module.js']
   ],
   whppt: {
-    componentPrefix: 'W'
+    componentPrefix: 'W',
+    templates: [
+      { key: 'home', label: 'Home' },
+      { key: 'generic', label: 'Generic' },
+      { key: 'category', label: 'Category' },
+      { key: 'chapters', label: 'Chapters' },
+      { key: 'listings', label: 'Listings' },
+      { key: 'listing', label: 'listing' }
+    ]
   },
   /*
    ** Axios module configuration

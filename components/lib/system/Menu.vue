@@ -22,21 +22,21 @@ export default {
     currentAction: undefined,
     menuItems: [
       { key: 'draggable', label: '', icon: 'w-draggable', group: '' },
-      // { key: 'cursor', label: 'Cursor', icon: 'w-cursor', group: '' },
-      // { key: 'select', label: 'Select', icon: 'w-select', group: '' },
-      { key: 'edit', label: 'Edit', icon: 'w-edit', group: '', action: 'selectSelector', actionCommand: 'edit' },
-      { key: 'up', label: 'Up', icon: 'w-arrow-up', group: '' },
-      { key: 'down', label: 'Down', icon: 'w-arrow-down', group: '' },
-      { key: 'new-page', label: 'New Page', icon: 'w-new-page', group: 'page', action: '', actionCommand: '' },
+      // { key: 'cursor', label: 'Cursor', icon: 'w-cursor', group: 'editor' },
+      // { key: 'select', label: 'Select', icon: 'w-select', group: 'editor' },
+      { key: 'edit', label: 'Edit', icon: 'w-edit', group: 'editor', action: 'selectSelector', actionCommand: 'edit' },
+      { key: 'up', label: 'Up', icon: 'w-arrow-up', group: 'editor' },
+      { key: 'down', label: 'Down', icon: 'w-arrow-down', group: 'editor' },
+      { key: 'new-page', label: 'New Page', icon: 'w-new-page', group: 'page', action: 'newPage' },
       { key: 'save', label: 'Save Page', icon: 'w-save', group: 'page', action: 'savePage' },
       { key: 'publish', label: 'Publish', icon: 'w-publish', group: 'page' },
       { key: 'preview', label: 'Preview', icon: 'w-preview', group: 'page' },
       { key: 'page-settings', label: 'Page Settings', icon: 'w-settings', group: 'page' },
-      // { key: 'seo', label: 'SEO', icon: 'w-seo', group: '' },
-      // { key: 'socials', label: 'Socials', icon: 'w-socials', group: '' },
-      // { key: 'documents', label: 'Documents', icon: 'w-document', group: '' },
-      // { key: 'redirects', label: 'Redirects', icon: 'w-redirect', group: '' },
-      // { key: 'logout', label: 'Logout', icon: 'w-logout', group: '' },
+      // { key: 'seo', label: 'SEO', icon: 'w-seo', group: 'site' },
+      // { key: 'socials', label: 'Socials', icon: 'w-socials', group: 'site' },
+      // { key: 'documents', label: 'Documents', icon: 'w-document', group: 'site' },
+      // { key: 'redirects', label: 'Redirects', icon: 'w-redirect', group: 'site' },
+      // { key: 'logout', label: 'Logout', icon: 'w-logout', group: 'security' },
     ],
   }),
   computed: {
@@ -44,7 +44,7 @@ export default {
   },
   methods: {
     ...mapActions('whppt-nuxt/page', ['save']),
-    ...mapMutations('whppt-nuxt/editor', ['setSelector']),
+    ...mapMutations('whppt-nuxt/editor', ['setSelector', 'editInSidebar']),
     callMethod(action, options) {
       if (!action) return;
       return this[action](options);
@@ -57,6 +57,9 @@ export default {
         const { slug } = page;
         return this.$router.push(`/${slug}`);
       });
+    },
+    newPage() {
+      return this.editInSidebar({ type: 'page' });
     },
   },
 };
