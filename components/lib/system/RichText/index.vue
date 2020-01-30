@@ -94,17 +94,17 @@ export default {
   computed: mapState('whppt-nuxt/editor', ['editTest']),
   watch: {
     editTest(val) {
-      if (this.internal !== this.$whppt.editData.value) {
-        this.internal = this.$whppt.editData.value;
+      if (this.internal !== this.$whppt.editData.text) {
+        this.internal = this.$whppt.editData.text;
         this.editor.setContent(
-          isEmptyValue(this.$whppt.editData.value) ? 'Start typing here ' : this.$whppt.editData.value
+          isEmptyValue(this.$whppt.editData.text) ? 'Start typing here ' : this.$whppt.editData.text
         );
       }
     },
   },
   mounted() {
     const vm = this;
-    this.internal = this.$whppt.editData.value;
+    this.internal = this.$whppt.editData.text;
 
     this.editor = new Editor({
       extensions: [
@@ -118,10 +118,10 @@ export default {
         new Link(),
         new HardBreak(),
       ],
-      content: isEmptyValue(this.$whppt.editData.value) ? 'Start typing here ' : this.$whppt.editData.value,
+      content: isEmptyValue(this.$whppt.editData.text) ? 'Start typing here ' : this.$whppt.editData.text,
       onUpdate({ getHTML }) {
         vm.internal = getHTML();
-        vm.$whppt.editData.value = getHTML();
+        vm.$whppt.editData.text = getHTML();
       },
     });
   },

@@ -5,6 +5,21 @@
       :content="page.content"
     ></w-rich-text>
     <w-link v-link="page2.content" :content="page2.content"></w-link>
+    <div v-content="page3.contents">
+      <div v-if="page3.contents.length">
+        <div
+          v-for="content in page3.contents"
+          :key="content.key"
+          v-move="{ parent: page3, item: content }"
+          class="margin"
+        >
+          {{ content.value || 'Content here' }}
+        </div>
+      </div>
+      <div v-else>
+        Content here
+      </div>
+    </div>
   </div>
 </template>
 
@@ -23,8 +38,9 @@ export default {
   },
   data() {
     return {
-      page: { content: { value: '' } },
-      page2: { content: { href: '', text: '', type: '' } }
+      page: { content: { text: '' } },
+      page2: { content: { href: '', text: '', type: '' } },
+      page3: { contents: [] }
     }
   },
   methods: {
@@ -42,5 +58,8 @@ export default {
   justify-content: center;
   align-items: center;
   text-align: center;
+}
+.margin {
+  margin: 20px 0;
 }
 </style>

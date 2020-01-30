@@ -10,9 +10,9 @@ export default options => ({
   actions: {},
   mutations: {
     setSelector(state, actionType) {
+      state.editSidebar = false;
       if (state.selector === actionType) {
         state.selector = undefined;
-        state.editSidebar = false;
         return;
       }
       state.selector = actionType;

@@ -1,4 +1,5 @@
 import ArrowDown from './ArrowDown';
+import AddCircle from './AddCircle';
 import ArrowUp from './ArrowUp';
 import Draggable from './Draggable';
 import Edit from './Edit';
@@ -13,6 +14,7 @@ import Warning from './Warning';
 export default {
   ArrowDown,
   ArrowUp,
+  AddCircle,
   Draggable,
   Edit,
   NewPage,
