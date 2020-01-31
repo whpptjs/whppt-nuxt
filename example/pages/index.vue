@@ -16,7 +16,6 @@
           v-select="content"
           class="margin"
         >
-          {{ index }}
           {{ content.value || 'Content here' }}
         </div>
       </div>
