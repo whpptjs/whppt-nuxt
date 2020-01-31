@@ -10,6 +10,7 @@ import Save from './Save';
 import Settings from './Settings';
 import Remove from './Remove';
 import Warning from './Warning';
+import Pointer from './Pointer';
 
 export default {
   ArrowDown,
@@ -24,4 +25,5 @@ export default {
   Settings,
   Remove,
   Warning,
+  Pointer,
 };
