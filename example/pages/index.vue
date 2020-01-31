@@ -5,14 +5,18 @@
       :content="page.content"
     ></w-rich-text>
     <w-link v-link="page2.content" :content="page2.content"></w-link>
-    <div v-content="page3.contents">
-      <div v-if="page3.contents.length">
+    <div v-text-box="page3.content" :content="page3.content">
+      {{ page3.content.text || 'Text Box' }}
+    </div>
+    <div v-content="page4.contents">
+      <div v-if="page4.contents.length">
         <div
-          v-for="content in page3.contents"
-          :key="content.key"
-          v-move="{ parent: page3, item: content }"
+          v-for="(content, index) in page4.contents"
+          :key="index"
+          v-select="content"
           class="margin"
         >
+          {{ index }}
           {{ content.value || 'Content here' }}
         </div>
       </div>
@@ -39,8 +43,9 @@ export default {
   data() {
     return {
       page: { content: { text: '' } },
-      page2: { content: { href: '', text: '', type: '' } },
-      page3: { contents: [] }
+      page2: { content: { href: '', text: '', type: 'page' } },
+      page3: { content: { text: '' } },
+      page4: { contents: [] }
     }
   },
   methods: {

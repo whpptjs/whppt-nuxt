@@ -5,11 +5,18 @@ export default options => ({
     selector: undefined,
     editSidebar: false,
     editSidebarType: undefined,
-    editTest: 0,
+    richTextWatcher: 0,
   }),
-  actions: {},
+  actions: {
+    selectComponent({ commit }, actionType) {
+      this.$whppt.clearSelected();
+      this.$whppt.clearSelectedContentsFormatting();
+      this.$whppt.clearEditingElementFormatting();
+      commit('componentSelected', actionType);
+    },
+  },
   mutations: {
-    setSelector(state, actionType) {
+    componentSelected(state, actionType) {
       state.editSidebar = false;
       if (state.selector === actionType) {
         state.selector = undefined;
@@ -20,7 +27,7 @@ export default options => ({
     editInSidebar(state, { type, data }) {
       state.editSidebar = true;
       state.editSidebarType = type;
-      state.editTest = state.editTest + 1;
+      state.richTextWatcher = state.richTextWatcher + 1;
     },
     closeSidebar(state) {
       state.editSidebar = false;

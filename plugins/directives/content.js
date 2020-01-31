@@ -3,23 +3,35 @@ import Vue from 'vue';
 export default ({ store }, whppt) => {
   Vue.directive('content', {
     bind(el, binding) {
-      let originalStyle = 'border: none';
       el.addEventListener('click', function(e) {
-        whppt.editData = undefined;
+        whppt.clearContents();
+        whppt.clearEditData();
 
         const whpptNuxt = store.state[`whppt-nuxt/editor`];
-        if (whpptNuxt.selector !== 'content') return;
-        store.commit('whppt-nuxt/editor/editInSidebar', { type: 'eContent', data: binding.value });
-        whppt.editData = binding.value;
+
+        if (whpptNuxt.selector === 'select') {
+          e.preventDefault();
+          whppt.selectedContents = binding.value;
+          whppt.selectedContentsElement = el;
+          el.classList.add('whppt-component__select--active');
+          whppt.clearEditingElementFormatting();
+        }
+
+        if (whpptNuxt.selector === 'content') {
+          whppt.editData = undefined;
+          store.commit('whppt-nuxt/editor/editInSidebar', { type: 'eContent', data: binding.value });
+          whppt.editData = binding.value;
+          whppt.editingElement = el;
+          el.classList.add('whppt-component__content--active');
+        }
       });
       el.addEventListener('mouseover', function(e) {
         const whpptNuxt = store.state[`whppt-nuxt/editor`];
         if (whpptNuxt.selector !== 'content') return;
-        originalStyle = 'border: none';
-        el.style = 'border: 1px solid blue';
+        el.classList.add('whppt-component__select--hover');
       });
       el.addEventListener('mouseout', function(e) {
-        el.style = originalStyle;
+        el.classList.remove('whppt-component__select--hover');
       });
     },
   });

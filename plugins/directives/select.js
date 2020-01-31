@@ -1,20 +1,20 @@
 import Vue from 'vue';
 
 export default ({ store }, whppt) => {
-  Vue.directive('link', {
+  Vue.directive('select', {
     bind(el, binding) {
       el.addEventListener('click', function(e) {
         whppt.clearEditData();
+        whppt.clearSelected();
+
         const whpptNuxt = store.state[`whppt-nuxt/editor`];
-        if (whpptNuxt.selector !== 'edit') return;
-        store.commit('whppt-nuxt/editor/editInSidebar', { type: 'linkSidebar', data: binding.value });
-        whppt.editData = binding.value;
-        whppt.editingElement = el;
-        el.classList.add('whppt-component__content--active');
+        if (whpptNuxt.selector !== 'select') return;
+        whppt.select(el, binding.value);
+        whppt.formatSelectedElement();
       });
       el.addEventListener('mouseover', function(e) {
         const whpptNuxt = store.state[`whppt-nuxt/editor`];
-        if (whpptNuxt.selector !== 'edit') return;
+        if (whpptNuxt.selector !== 'select') return;
         el.classList.add('whppt-component__select--hover');
       });
       el.addEventListener('mouseout', function(e) {

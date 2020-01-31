@@ -56,7 +56,17 @@ export default {
   flex-grow: 1;
   background-color: white;
 }
-.w-full {
+.whppt-full {
   width: 100%;
+}
+.whppt-component__content--active {
+  border: 2px solid palegreen;
+}
+.whppt-component__select--active {
+  border: 2px solid orange;
+}
+
+.whppt-component__select--hover {
+  border: 2px solid blue;
 }
 </style>

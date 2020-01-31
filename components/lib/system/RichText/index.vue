@@ -91,9 +91,9 @@ export default {
       internal: undefined,
     };
   },
-  computed: mapState('whppt-nuxt/editor', ['editTest']),
+  computed: mapState('whppt-nuxt/editor', ['richTextWatcher']),
   watch: {
-    editTest(val) {
+    richTextWatcher(val) {
       if (this.internal !== this.$whppt.editData.text) {
         this.internal = this.$whppt.editData.text;
         this.editor.setContent(

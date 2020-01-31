@@ -23,7 +23,14 @@ export default {
     menuItems: [
       { key: 'draggable', label: '', icon: 'w-draggable', group: '' },
       // { key: 'cursor', label: 'Cursor', icon: 'w-cursor', group: '' },
-      // { key: 'select', label: 'Select', icon: 'w-select', group: '' },
+      {
+        key: 'select',
+        label: 'Select',
+        icon: 'w-pointer',
+        group: '',
+        action: 'selectSelector',
+        actionCommand: 'select',
+      },
       { key: 'edit', label: 'Edit', icon: 'w-edit', group: '', action: 'selectSelector', actionCommand: 'edit' },
       {
         key: 'content',
@@ -33,14 +40,13 @@ export default {
         action: 'selectSelector',
         actionCommand: 'content',
       },
-      { key: 'up', label: 'Up', icon: 'w-arrow-up', group: '', action: 'selectSelector', actionCommand: 'moveUp' },
+      { key: 'up', label: 'Up', icon: 'w-arrow-up', group: '', action: 'moveUp' },
       {
         key: 'down',
         label: 'Down',
         icon: 'w-arrow-down',
         group: '',
-        action: 'selectSelector',
-        actionCommand: 'moveDown',
+        action: 'moveDown',
       },
       { key: 'new-page', label: 'New Page', icon: 'w-new-page', group: 'page', action: 'newPage' },
       { key: 'save', label: 'Save Page', icon: 'w-save', group: 'page', action: 'savePage' },
@@ -59,13 +65,14 @@ export default {
   },
   methods: {
     ...mapActions('whppt-nuxt/page', ['save']),
-    ...mapMutations('whppt-nuxt/editor', ['setSelector', 'editInSidebar']),
+    ...mapActions('whppt-nuxt/editor', ['selectComponent']),
+    ...mapMutations('whppt-nuxt/editor', ['editInSidebar']),
     callMethod(action, options) {
       if (!action) return;
       return this[action](options);
     },
     selectSelector({ actionCommand }) {
-      this.setSelector(actionCommand);
+      this.selectComponent(actionCommand);
     },
     savePage() {
       return this.save().then(page => {
@@ -75,6 +82,12 @@ export default {
     },
     newPage() {
       return this.editInSidebar({ type: 'page' });
+    },
+    moveDown() {
+      this.$whppt.moveDown();
+    },
+    moveUp() {
+      this.$whppt.moveUp();
     },
   },
 };
