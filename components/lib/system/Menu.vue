@@ -76,7 +76,7 @@ export default {
     },
     savePage() {
       return this.save().then(page => {
-        const { slug } = page;
+        const slug = page.slug || '';
         return this.$router.push(`/${slug}`);
       });
     },

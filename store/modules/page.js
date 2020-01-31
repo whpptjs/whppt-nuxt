@@ -4,6 +4,12 @@ export default options => ({
     options,
     page: undefined,
   }),
+  mutations: {
+    loaded(state, page) {
+      if (!page) return (state.page = {});
+      state.page = page;
+    },
+  },
   actions: {
     load({ commit }, { slug }) {
       return this.$whppt
@@ -12,19 +18,15 @@ export default options => ({
           commit('loaded', page);
         })
         .catch(err => {
-          if (err.response.status === 404) commit('loaded', { slug });
+          if (err.response.status === 404) commit('loaded', {});
           throw err;
         });
     },
-    save({ commit }) {
-      return this.$whppt.savePage().then(page => {
+    save({ commit }, newPage) {
+      return this.$whppt.savePage(newPage).then(page => {
         commit('loaded', page);
+        return page;
       });
-    },
-  },
-  mutations: {
-    loaded(state, page) {
-      state.page = page;
     },
   },
   getters: {},
