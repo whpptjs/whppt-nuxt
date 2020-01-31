@@ -23,6 +23,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
+import { lowerCase } from 'lodash';
 import slugify from 'slugify';
 import WhpptButton from '../../../components/lib/system/WhpptButton';
 
@@ -50,7 +51,7 @@ export default {
     },
     formatSlug() {
       if (this.newPage.slug.startsWith('/')) this.newPage.slug = this.newPage.slug.replace(/^(\/*)/, '');
-      this.newPage.slug = slugify(this.newPage.slug, { remove: '^[a-z](-?[a-z])*$' });
+      this.newPage.slug = slugify(this.newPage.slug, { remove: '^[a-z](-?[a-z])*$', lower: true });
     },
   },
 };
