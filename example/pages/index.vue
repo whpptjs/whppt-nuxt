@@ -13,10 +13,18 @@
         <div
           v-for="(content, index) in page4.contents"
           :key="index"
-          v-select="content"
           class="margin"
         >
-          {{ content.value || 'Content here' }}
+          <div v-if="content.type === 'wText'" v-text-box="content">
+            {{ content.text || 'Enter Text here' }}
+          </div>
+          <div v-if="content.type === 'wRichText'" v-rich-text="content">
+            {{ content.text || 'Enter rich text here' }}
+          </div>
+          <div v-if="content.type === 'wLink'" v-link="content">
+            {{ content.text || 'Enter link here' }}
+          </div>
+          <!-- {{ content.value || 'Content here' }} -->
         </div>
       </div>
       <div v-else>

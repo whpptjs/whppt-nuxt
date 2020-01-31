@@ -1,7 +1,6 @@
 <template>
   <div class="richContent">
-    <div v-if="!isEmpty" v-html="content.value"></div>
-    <div v-if="isEmpty">Enter text here</div>
+    <div v-html="content.text || 'Enter Text Here'"></div>
   </div>
 </template>
 
@@ -15,7 +14,7 @@ export default {
   props: ['content'],
   computed: {
     isEmpty() {
-      return isEmptyValue(this.content.value);
+      return isEmptyValue(this.content.text);
     },
   },
 };

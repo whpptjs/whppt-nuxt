@@ -69,4 +69,8 @@ export default {
 .whppt-component__select--hover {
   border: 2px solid blue;
 }
+
+.whppt-component__edit--active {
+  border: 2px solid red;
+}
 </style>

@@ -1,37 +1,33 @@
 import Vue from 'vue';
 
-export default ({ store }, whppt) => {
+export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
   Vue.directive('content', {
     bind(el, binding) {
       el.addEventListener('click', function(e) {
-        whppt.clearContents();
-        whppt.clearEditData();
+        store.commit('whppt-nuxt/editor/closeSidebar');
+        $whppt.clearEditData();
+        $whppt.clearContents();
+        // $whppt.clearSelected();
 
-        const whpptNuxt = store.state[`whppt-nuxt/editor`];
-
-        if (whpptNuxt.selector === 'select') {
+        if (menuIsInState(MENUSTATES.SELECT)) {
           e.preventDefault();
-          whppt.selectedContents = binding.value;
-          whppt.selectedContentsElement = el;
-          el.classList.add('whppt-component__select--active');
-          whppt.clearEditingElementFormatting();
+          $whppt.clearEditingElementFormatting();
+          $whppt.selectContents(el, binding.value);
         }
 
-        if (whpptNuxt.selector === 'content') {
-          whppt.editData = undefined;
-          store.commit('whppt-nuxt/editor/editInSidebar', { type: 'eContent', data: binding.value });
-          whppt.editData = binding.value;
-          whppt.editingElement = el;
-          el.classList.add('whppt-component__content--active');
+        if (menuIsInState(MENUSTATES.CONTENT)) {
+          $whppt.clearEditData();
+          store.commit('whppt-nuxt/editor/editInSidebar', 'eContent');
+          $whppt.select(el, binding.value);
+          $whppt.edit(el, binding.value);
         }
       });
       el.addEventListener('mouseover', function(e) {
-        const whpptNuxt = store.state[`whppt-nuxt/editor`];
-        if (whpptNuxt.selector !== 'content') return;
-        el.classList.add('whppt-component__select--hover');
+        if (!menuIsInState(MENUSTATES.SELECT) && !menuIsInState(MENUSTATES.CONTENT)) return;
+        $whppt.mouseover(el);
       });
       el.addEventListener('mouseout', function(e) {
-        el.classList.remove('whppt-component__select--hover');
+        $whppt.mouseout(el);
       });
     },
   });

@@ -31,7 +31,6 @@ export default {
         action: 'selectSelector',
         actionCommand: 'select',
       },
-      { key: 'edit', label: 'Edit', icon: 'w-edit', group: '', action: 'selectSelector', actionCommand: 'edit' },
       {
         key: 'content',
         label: 'Content',

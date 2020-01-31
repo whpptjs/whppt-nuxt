@@ -8,11 +8,11 @@ export default options => ({
     richTextWatcher: 0,
   }),
   actions: {
-    selectComponent({ commit }, actionType) {
+    selectComponent({ commit }, type) {
       this.$whppt.clearSelected();
       this.$whppt.clearSelectedContentsFormatting();
       this.$whppt.clearEditingElementFormatting();
-      commit('componentSelected', actionType);
+      commit('componentSelected', type);
     },
   },
   mutations: {
@@ -24,7 +24,7 @@ export default options => ({
       }
       state.selector = actionType;
     },
-    editInSidebar(state, { type, data }) {
+    editInSidebar(state, type) {
       state.editSidebar = true;
       state.editSidebarType = type;
       state.richTextWatcher = state.richTextWatcher + 1;

@@ -1,3 +1,6 @@
+const selectActiveClass = 'whppt-component__select--active';
+const contentActiveClass = 'whppt-component__content--active';
+
 export default function($whppt) {
   $whppt.selected = undefined;
   $whppt.selectedElement = undefined;
@@ -13,24 +16,44 @@ export default function($whppt) {
   const select = (el, value) => {
     $whppt.selected = value;
     $whppt.selectedElement = el;
+    $whppt.selectedElement.classList.add(selectActiveClass);
+  };
+
+  const selectContents = (el, value) => {
+    $whppt.selectedContents = value;
+    $whppt.selectedContentsElement = el;
+    formatSelectedContentsElement();
+  };
+  const clearContents = () => {
+    $whppt.selectedContents = undefined;
+    clearSelectedContentsFormatting();
+    $whppt.selectedContentsElement = undefined;
   };
 
   const clearSelectedContentsFormatting = () => {
-    if ($whppt.selectedContentsElement)
-      $whppt.selectedContentsElement.classList.remove('whppt-component__select--active');
+    if ($whppt.selectedContentsElement) {
+      $whppt.selectedContentsElement.classList.remove(selectActiveClass, contentActiveClass);
+    }
   };
 
   const clearSelectedFormatting = () => {
-    if ($whppt.selectedElement) $whppt.selectedElement.classList.remove('whppt-component__content--active');
+    if (!$whppt.selectedElement) return;
+    $whppt.selectedElement.classList.remove(contentActiveClass, selectActiveClass);
   };
 
   const formatSelectedElement = () => {
-    $whppt.selectedElement.classList.add('whppt-component__content--active');
+    $whppt.selectedElement.classList.add(contentActiveClass);
+  };
+  const formatSelectedContentsElement = () => {
+    if ($whppt.selectedContentsElement) {
+      $whppt.selectedContentsElement.classList.add(selectActiveClass);
+      $whppt.selectedContentsElement.classList.remove(contentActiveClass);
+    }
   };
 
   const moveUp = () => {
     const i = $whppt.selectedContents.indexOf($whppt.selected);
-    if (i === 0) return;
+    if (i <= 0) return;
 
     const current = $whppt.selectedContents[i];
     const prev = $whppt.selectedContents[i - 1];
@@ -44,7 +67,7 @@ export default function($whppt) {
 
   const moveDown = () => {
     const i = $whppt.selectedContents.indexOf($whppt.selected);
-    if ($whppt.selectedContents.length === i + 1) return;
+    if ($whppt.selectedContents.length === i + 1 || i < 0) return;
     const current = $whppt.selectedContents[i];
     const prev = $whppt.selectedContents[i + 1];
     clearSelectedFormatting();
@@ -59,9 +82,12 @@ export default function($whppt) {
     clearSelected,
     clearSelectedFormatting,
     select,
+    selectContents,
     formatSelectedElement,
     moveUp,
     moveDown,
     clearSelectedContentsFormatting,
+    clearContents,
+    formatSelectedContentsElement,
   });
 }
