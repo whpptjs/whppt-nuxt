@@ -27,7 +27,7 @@
 export default {
   fetch({ params, store, error }) {
     return store
-      .dispatch('whppt-nuxt/page/load', { slug: params.slug })
+      .dispatch('whppt-nuxt/page/load', { slug: params.pathMatch })
       .catch((err) => {
         error({
           statusCode: (err.response && err.response.status) || 500,
