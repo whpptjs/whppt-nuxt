@@ -5,16 +5,18 @@
       <slot></slot>
     </div>
     <div class="whppt-sidebar" :class="{ 'whppt-openEditor': editSidebar }">
-      <component :is="editSidebarType"></component>
-      <whppt-button class="whppt-button__close" @click="closeSidebar">
-        Close
-      </whppt-button>
+      <div class="whppt-sidebar__inner">
+        <component :is="editSidebarType"></component>
+        <whppt-button class="whppt-button__close" @click="closeSidebar">
+          Close
+        </whppt-button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import * as Editors from '../system';
 import WhpptButton from '../system/WhpptButton';
 
@@ -22,7 +24,9 @@ export default {
   name: 'WhpptEditorApp',
   components: { ...Editors, WhpptButton },
   computed: mapState('whppt-nuxt/editor', ['editSidebar', 'editSidebarType']),
-  methods: mapMutations('whppt-nuxt/editor', ['closeSidebar']),
+  methods: {
+    ...mapActions('whppt-nuxt/editor', ['closeSidebar']),
+  },
 };
 </script>
 
@@ -45,6 +49,11 @@ export default {
   min-width: 400px;
   margin-right: -400px;
   transition: 0.5s;
+  z-index: 51;
+}
+.whppt-sidebar__inner {
+  width: 365px;
+  position: fixed;
 }
 
 .whppt-openEditor {
@@ -58,7 +67,7 @@ export default {
 }
 
 .whppt-content {
-  width: 100%;
+  width: 75%;
   flex-grow: 1;
   background-color: white;
 }
