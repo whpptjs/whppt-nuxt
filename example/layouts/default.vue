@@ -5,7 +5,11 @@
     <div>Footer</div>
   </w-editor-app>
 </template>
-
+<script>
+export default {
+  name: 'LayoutDefault'
+}
+</script>
 <style>
 html {
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',

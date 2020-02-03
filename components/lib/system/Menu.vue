@@ -95,8 +95,6 @@ export default {
 <style scoped>
 .whhpt-menu {
   background-color: rgba(0, 0, 0, 0.8);
-  display: flex;
-  flex-direction: column;
   padding: 0 0.25rem;
   position: fixed;
   z-index: 51;
@@ -106,8 +104,8 @@ export default {
 }
 
 .whhpt-menu__item {
-  /* margin: 0.4rem 0; */
 }
+
 .whhpt-menu__item--active {
   border-radius: 100%;
   background-color: #262626;
@@ -121,6 +119,8 @@ export default {
   border-radius: 50%;
   width: 36px;
   height: 36px;
+  display: flex;
+  justify-content: center;
 }
 .whhpt-menu__item:first-child {
   margin-top: 0.25rem;
@@ -137,7 +137,7 @@ export default {
   border-bottom: 1px solid rgba(255, 255, 255, 0.5);
 }
 
-.whhpt-menu__item :hover {
+.whhpt-menu__item:hover {
   border-radius: 100%;
   background-color: #262626;
 }

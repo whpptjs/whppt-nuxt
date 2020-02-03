@@ -2,9 +2,7 @@
   <div class="whppt-flex">
     <editor-menu></editor-menu>
     <div class="whppt-content">
-      <div class="whppt-content__inner">
-        <slot></slot>
-      </div>
+      <slot></slot>
     </div>
     <div class="whppt-sidebar" :class="{ 'whppt-openEditor': editSidebar }">
       <component :is="editSidebarType"></component>
@@ -32,6 +30,7 @@ export default {
 .whppt-button__close {
   margin-top: 10px;
 }
+
 .whppt-link {
   padding-bottom: 1px;
   text-decoration: none;
@@ -47,31 +46,31 @@ export default {
   margin-right: -400px;
   transition: 0.5s;
 }
+
 .whppt-openEditor {
   margin-right: 0;
 }
+
 .whppt-flex {
-  height: 100vh;
+  height: 100%;
   display: flex;
   overflow-x: hidden;
 }
+
 .whppt-content {
+  width: 100%;
   flex-grow: 1;
   background-color: white;
-}
-
-.whppt-content__inner {
-  display: block;
-  position: static;
-  flex: none;
 }
 
 .whppt-full {
   width: 100%;
 }
+
 .whppt-component__content--active {
   border: 2px solid palegreen;
 }
+
 .whppt-component__select--active {
   border: 2px solid orange;
 }
