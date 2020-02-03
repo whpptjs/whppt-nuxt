@@ -25,6 +25,7 @@
 
 <script>
 export default {
+  name: 'WildCardPage',
   fetch({ params, store, error }) {
     return store
       .dispatch('whppt-nuxt/page/load', { slug: params.pathMatch })

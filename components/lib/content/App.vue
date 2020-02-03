@@ -19,7 +19,7 @@ import * as Editors from '../system';
 import WhpptButton from '../system/WhpptButton';
 
 export default {
-  name: 'WhpptEditorSidebar',
+  name: 'WhpptEditorApp',
   components: { ...Editors, WhpptButton },
   computed: mapState('whppt-nuxt/editor', ['editSidebar', 'editSidebarType']),
   methods: mapMutations('whppt-nuxt/editor', ['closeSidebar']),

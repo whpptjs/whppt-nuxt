@@ -35,6 +35,7 @@
 
 <script>
 export default {
+  name: 'LandingPage',
   fetch({ store, error }) {
     return store
       .dispatch('whppt-nuxt/page/load', { slug: 'home' })

@@ -8,6 +8,7 @@
 
 <script>
 export default {
+  name: 'ErrorLayout',
   props: {
     error: {
       type: Object,
