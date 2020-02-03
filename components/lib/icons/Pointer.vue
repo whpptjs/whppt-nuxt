@@ -6,6 +6,8 @@
     x="0px"
     y="0px"
     viewBox="0 0 20 20"
+    height="20px"
+    width="20px"
     enable-background="new 0 0 20 20"
     xml:space="preserve"
     style="fill: currentColor;"

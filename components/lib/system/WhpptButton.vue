@@ -12,7 +12,6 @@ export default {
 .whppt-button {
   display: inline-block;
   color: white;
-  border-radius: 0.25rem;
   padding: 0.75rem 1rem;
   background-color: black;
   font-size: 1em;

@@ -1,7 +1,11 @@
 <template>
   <div class="whppt-flex">
     <editor-menu></editor-menu>
-    <div class="whppt-content"><slot> </slot></div>
+    <div class="whppt-content">
+      <div class="whppt-content__inner">
+        <slot></slot>
+      </div>
+    </div>
     <div class="whppt-sidebar" :class="{ 'whppt-openEditor': editSidebar }">
       <component :is="editSidebarType"></component>
       <whppt-button class="whppt-button__close" @click="closeSidebar">
@@ -49,13 +53,19 @@ export default {
 .whppt-flex {
   height: 100vh;
   display: flex;
-  background-color: gray;
   overflow-x: hidden;
 }
 .whppt-content {
   flex-grow: 1;
   background-color: white;
 }
+
+.whppt-content__inner {
+  display: block;
+  position: static;
+  flex: none;
+}
+
 .whppt-full {
   width: 100%;
 }

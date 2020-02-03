@@ -4,7 +4,6 @@
       v-rich-text="page.content"
       :content="page.content"
     ></w-rich-text>
-    <w-link v-link="page2.content" :content="page2.content"></w-link>
     <div v-text-box="page3.content" :content="page3.content">
       {{ page3.content.text || 'Text Box' }}
     </div>
@@ -67,6 +66,8 @@ export default {
 .container {
   margin: 0 auto;
   min-height: 100vh;
+  height: 200vh;
+  background-color: #efefef;
   justify-content: center;
   align-items: center;
   text-align: center;

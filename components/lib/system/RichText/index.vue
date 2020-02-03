@@ -1,8 +1,8 @@
 <template>
-  <div class="w-editor">
-    <h1 class="w-editor__header">Rich Text Editor</h1>
+  <div class="whppt-editor">
+    <h1 class="whppt-editor__header">Rich Text Editor</h1>
     <editor-menu-bar :editor="editor">
-      <div slot-scope="{ commands, isActive, getMarkAttrs }" class="menubar" style="top: -52px">
+      <div slot-scope="{ commands, isActive, getMarkAttrs }" class="whppt-menubar" style="top: -52px">
         <button @click="commands.bold">
           <i-bold :fill="isActive.bold() ? 'orangered' : 'white'" />
         </button>
@@ -36,7 +36,7 @@
         </button>
       </div>
     </editor-menu-bar>
-    <editor-content class="rich-content" :editor="editor" />
+    <editor-content class="whppt-rich-content" :editor="editor" />
   </div>
 </template>
 
@@ -145,26 +145,26 @@ export default {
 </script>
 
 <style>
-.w-editor {
+.whppt-editor {
   width: 100%;
   color: white;
 }
 
-.has-focus {
+.whppt-editor .has-focus {
   border-radius: 3px;
   box-shadow: 0 0 0 3px #3ea4ffe6;
 }
 
-.menubar {
+.whppt-menubar {
   padding: 0.2em;
   border: 1px solid white;
   color: white;
 }
-.menubar--active {
+.whppt-menubar--active {
   color: orangered !important;
 }
 
-.menubar button {
+.whppt-menubar button {
   border: none;
   color: white;
   background-color: transparent;
@@ -174,18 +174,19 @@ export default {
   height: 30px;
 }
 
-.ProseMirror {
+.whppt-editor .ProseMirror {
   margin: 1em 0;
   border: 1px solid white;
-  height: 100%;
   min-height: 400px;
   padding: 1em;
   height: 75vh;
 }
-.ProseMirror-focused {
+
+.whppt-editor .ProseMirror-focused {
   outline: none;
 }
-.editor__header {
+
+.whppt-editor__header {
   margin-bottom: 5px;
 }
 </style>

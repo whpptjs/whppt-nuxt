@@ -1,5 +1,5 @@
 <template>
-  <div class="richContent">
+  <div class="whppt-richContent">
     <div v-html="content.text || 'Enter Text Here'"></div>
   </div>
 </template>
@@ -20,7 +20,7 @@ export default {
 };
 </script>
 <style scoped>
-.richContent {
+.whppt-richContent {
   width: 100%;
 }
 </style>

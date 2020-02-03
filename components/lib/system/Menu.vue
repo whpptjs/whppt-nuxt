@@ -1,11 +1,11 @@
 <template>
   <!-- https://vuejsexamples.com/a-vue-component-that-create-moveable-and-resizable/ -->
-  <div class="menu">
+  <div class="whhpt-menu">
     <div
       v-for="(item, index) in menuItems"
       :key="index"
-      class="menu__item"
-      :class="{ 'menu__item--active': item.actionCommand && selector === item.actionCommand }"
+      class="whhpt-menu__item"
+      :class="{ 'whhpt-menu__item--active': item.actionCommand && selector === item.actionCommand }"
     >
       <button @click="callMethod(item.action, item)">
         <component :is="item.icon" />
@@ -93,26 +93,27 @@ export default {
 </script>
 
 <style scoped>
-.menu {
+.whhpt-menu {
   background-color: rgba(0, 0, 0, 0.8);
   display: flex;
   flex-direction: column;
   padding: 0 0.25rem;
-  position: absolute;
+  position: fixed;
+  z-index: 51;
   top: 20px;
   left: 20px;
   border-radius: 100px;
 }
 
-.menu__item {
+.whhpt-menu__item {
   /* margin: 0.4rem 0; */
 }
-.menu__item--active {
+.whhpt-menu__item--active {
   border-radius: 100%;
   background-color: #262626;
 }
 
-.menu__item button {
+.whhpt-menu__item button {
   border: none;
   color: white;
   background-color: transparent;
@@ -121,28 +122,28 @@ export default {
   width: 36px;
   height: 36px;
 }
-.menu__item:first-child {
+.whhpt-menu__item:first-child {
   margin-top: 0.25rem;
 }
-.menu__item:last-child {
+.whhpt-menu__item:last-child {
   margin-bottom: 0.25rem;
 }
 
-.menu__item--active button {
+.whhpt-menu__item--active button {
   color: orangered;
 }
 
-.menu__item--bordered {
+.whhpt-menu__item--bordered {
   border-bottom: 1px solid rgba(255, 255, 255, 0.5);
 }
 
-.menu__item :hover {
+.whhpt-menu__item :hover {
   border-radius: 100%;
   background-color: #262626;
 }
 
-.menu__item,
-.menu__item--active svg {
+.whhpt-menu__item,
+.whhpt-menu__item--active svg {
   fill: currentColor;
 }
 </style>

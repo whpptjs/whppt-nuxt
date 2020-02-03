@@ -4,7 +4,7 @@
     <whppt-button
       v-for="component in components"
       :key="component.key"
-      class="whppt-full content--margin"
+      class="whppt-full whppt-content--margin"
       @click="addContent(component)"
       >{{ component.value }}</whppt-button
     >
@@ -31,7 +31,7 @@ export default {
 </script>
 
 <style scoped>
-.content--margin {
+.whppt-content--margin {
   margin: 0.2rem 0;
 }
 </style>

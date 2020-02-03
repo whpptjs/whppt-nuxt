@@ -1,10 +1,10 @@
 <template>
   <div>
-    <label class="inputText__label" :for="id">{{ label }}</label>
+    <label class="whppt-inputText__label" :for="id">{{ label }}</label>
     <input
       :id="id"
-      class="inputText__input"
-      :class="{ 'editor-disabled': disabled }"
+      class="whppt-inputText__input"
+      :class="{ 'whppt-editor-disabled': disabled }"
       type="text"
       :placeholder="placeholder"
       :value="value"
@@ -15,7 +15,7 @@
       @blur="$emit('blur', $event.target.value)"
     />
     <!-- v-on="$listeners" -->
-    <p class="inputText__info">{{ info }}&nbsp;</p>
+    <p class="whppt-inputText__info">{{ info }}&nbsp;</p>
   </div>
 </template>
 
@@ -27,7 +27,7 @@ export default {
 };
 </script>
 <style scoped>
-.inputText__label {
+.whppt-inputText__label {
   color: white;
   display: block;
   text-transform: uppercase;
@@ -37,7 +37,7 @@ export default {
   margin-bottom: 0.5rem;
 }
 
-.inputText__input {
+.whppt-inputText__input {
   appearance: none;
   display: block;
   width: 100%;
@@ -48,11 +48,11 @@ export default {
   line-height: 1.25;
   font-size: 0.75rem;
 }
-.inputText__input:focus {
+.whppt-inputText__input:focus {
   outline: none;
 }
 
-.inputText__info {
+.whppt-inputText__info {
   color: gray;
   font-size: 0.75rem;
   font-style: italic;

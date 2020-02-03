@@ -1,6 +1,6 @@
 <template>
-  <li class="tabItem">
-    <whppt-button :class="{ 'tabItem__button--active': active }" @click="$emit('click')">
+  <li class="whppt-tab-item">
+    <whppt-button :class="{ 'whppt-tab-item__button--active': active }" @click="$emit('click')">
       <slot></slot>
     </whppt-button>
   </li>
@@ -16,13 +16,13 @@ export default {
 };
 </script>
 <style scoped>
-.tabItem__button--active {
+.whppt-tab-item__button--active {
   border-width: 1px;
   background-color: white;
   border-color: white;
   color: black;
 }
-li {
+.whppt-tab-item {
   display: inline-block;
 }
 </style>
