@@ -4,8 +4,8 @@ export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
   Vue.directive('content', {
     bind(el, binding) {
       el.addEventListener('click', function(e) {
-        store.commit('whppt-nuxt/editor/closeSidebar');
-        $whppt.clearEditData();
+        // store.commit('whppt-nuxt/editor/closeSidebar');
+        // $whppt.clearEditData();
         $whppt.clearContents();
         // $whppt.clearSelected();
 
