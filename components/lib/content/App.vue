@@ -16,15 +16,17 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import * as Editors from '../system';
 import WhpptButton from '../system/WhpptButton';
 
 export default {
-  name: 'WhpptEditorSidebar',
+  name: 'WhpptEditorApp',
   components: { ...Editors, WhpptButton },
   computed: mapState('whppt-nuxt/editor', ['editSidebar', 'editSidebarType']),
-  methods: mapMutations('whppt-nuxt/editor', ['closeSidebar']),
+  methods: {
+    ...mapActions('whppt-nuxt/editor', ['closeSidebar']),
+  },
 };
 </script>
 

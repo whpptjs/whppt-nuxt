@@ -14,6 +14,12 @@ export default options => ({
       this.$whppt.clearEditingElementFormatting();
       commit('componentSelected', type);
     },
+    closeSidebar({ commit }) {
+      this.$whppt.clearSelected();
+      this.$whppt.clearSelectedContentsFormatting();
+      this.$whppt.clearEditingElementFormatting();
+      commit('sidebarClosed');
+    },
   },
   mutations: {
     componentSelected(state, actionType) {
@@ -29,7 +35,7 @@ export default options => ({
       state.editSidebarType = type;
       state.richTextWatcher = state.richTextWatcher + 1;
     },
-    closeSidebar(state) {
+    sidebarClosed(state) {
       state.editSidebar = false;
       state.editSidebarType = undefined;
     },

@@ -80,7 +80,7 @@ export default {
       });
     },
     newPage() {
-      return this.editInSidebar({ type: 'page' });
+      return this.editInSidebar('WhpptPage');
     },
     moveDown() {
       this.$whppt.moveDown();
