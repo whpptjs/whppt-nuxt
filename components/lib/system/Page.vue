@@ -23,7 +23,6 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import { lowerCase } from 'lodash';
 import slugify from 'slugify';
 import WhpptButton from '../../../components/lib/system/WhpptButton';
 
@@ -45,8 +44,9 @@ export default {
   methods: {
     ...mapActions('whppt-nuxt/page', ['save']),
     saveNewPage() {
-      return this.save(this.newPage).then(() => {
-        return this.$router.push(this.newPage.slug || '/');
+      return this.save(this.newPage).then(({ data }) => {
+        const { slug } = data;
+        return this.$router.push(`/${slug}` || '/');
       });
     },
     formatSlug() {
