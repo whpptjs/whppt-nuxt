@@ -24,7 +24,9 @@ export default {
   },
   methods: {
     addContent(content) {
-      this.$whppt.editData.push(JSON.parse(JSON.stringify(content)));
+      console.log('THIS.$WHPPT.EDITDATA', this.$whppt.editData);
+      console.log('THIS.$WHPPT.EDITDATAPROPERTY', this.$whppt.editDataProperty);
+      this.$whppt.editData[this.$whppt.editDataProperty].push(JSON.parse(JSON.stringify(content)));
     },
   },
 };

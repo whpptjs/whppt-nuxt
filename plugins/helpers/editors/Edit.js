@@ -2,10 +2,12 @@ const className = 'whppt-component__edit--active';
 
 export default function($whppt) {
   $whppt.editData = undefined;
+  $whppt.editDataProperty = undefined;
   $whppt.editingElement = undefined;
 
   const edit = (el, value) => {
-    $whppt.editData = value;
+    $whppt.editData = value.data;
+    $whppt.editDataProperty = value.property;
     $whppt.editingElement = el;
     el.classList.add(className);
   };

@@ -1,27 +1,42 @@
 <template>
   <div class="container">
     <w-rich-text
-      v-rich-text="page.content"
-      :content="page.content"
+      v-rich-text="{ data: page.content, property: 'value' }"
+      :content="page.content.value"
     ></w-rich-text>
-    <div v-text-box="page3.content" :content="page3.content">
+    <div v-link="{ data: page2, property: 'content' }">
+      {{ page2.content || 'Link' }}
+    </div>
+    <div
+      v-text-box="{ data: page3.content, property: 'text' }"
+      :content="page3.content"
+    >
       {{ page3.content.text || 'Text Box' }}
     </div>
-    <div v-content="page4.contents">
+    <div v-content="{ data: page4, property: 'contents' }">
       <div v-if="page4.contents.length">
         <div
           v-for="(content, index) in page4.contents"
           :key="index"
           class="margin"
         >
-          <div v-if="content.type === 'wText'" v-text-box="content">
+          <div
+            v-if="content.type === 'wText'"
+            v-text-box="{ data: content, property: 'text' }"
+          >
             {{ content.text || 'Enter Text here' }}
           </div>
-          <div v-if="content.type === 'wRichText'" v-rich-text="content">
+          <div
+            v-if="content.type === 'wRichText'"
+            v-rich-text="{ data: content, property: 'text' }"
+          >
             {{ content.text || 'Enter rich text here' }}
           </div>
-          <div v-if="content.type === 'wLink'" v-link="content">
-            {{ content.text || 'Enter link here' }}
+          <div
+            v-if="content.type === 'wLink'"
+            v-link="{ data: content, property: 'link' }"
+          >
+            {{ content.link || 'Enter link here' }}
           </div>
           <!-- {{ content.value || 'Content here' }} -->
         </div>
@@ -49,7 +64,7 @@ export default {
   },
   data() {
     return {
-      page: { content: { text: '' } },
+      page: { content: { value: '' } },
       page2: { content: { href: '', text: '', type: 'page' } },
       page3: { content: { text: '' } },
       page4: { contents: [] }

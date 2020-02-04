@@ -4,7 +4,9 @@
       v-rich-text="page.content"
       :content="page.content"
     ></w-rich-text>
-    <w-link v-link="page2.content" :content="page2.content"></w-link>
+    <div v-text-box="page.content.text">
+      {{ page.content.text || 'Enter Text here' }}
+    </div>
     <div v-content="page3.contents">
       <div v-if="page3.contents.length">
         <div
@@ -13,11 +15,19 @@
           v-move="{ parent: page3, item: content }"
           class="margin"
         >
-          {{ content.value || 'Content here' }}
+          <div v-if="content.type === 'wText'" v-text-box="content">
+            {{ content.text || 'Enter Text here' }}
+          </div>
+          <div v-if="content.type === 'wRichText'" v-rich-text="content">
+            {{ content.text || 'Enter rich text here' }}
+          </div>
+          <div v-if="content.type === 'wLink'" v-link="content">
+            {{ content.text || 'Enter link here' }}
+          </div>
         </div>
       </div>
       <div v-else>
-        Content here
+        Content hered
       </div>
     </div>
   </div>
