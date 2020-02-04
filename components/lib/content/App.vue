@@ -1,6 +1,9 @@
 <template>
   <div class="whppt-flex">
     <editor-menu></editor-menu>
+    <modal :is-active="editInModal" @closeModal="closeModal">
+      <component :is="editInModal" />
+    </modal>
     <div class="whppt-content">
       <slot></slot>
     </div>
@@ -18,14 +21,15 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import * as Editors from '../system';
+import Modal from '../system/Modal';
 import WhpptButton from '../system/WhpptButton';
 
 export default {
   name: 'WhpptEditorApp',
-  components: { ...Editors, WhpptButton },
-  computed: mapState('whppt-nuxt/editor', ['editSidebar', 'editSidebarType']),
+  components: { ...Editors, WhpptButton, Modal },
+  computed: mapState('whppt-nuxt/editor', ['editInModal', 'editSidebar', 'editSidebarType']),
   methods: {
-    ...mapActions('whppt-nuxt/editor', ['closeSidebar']),
+    ...mapActions('whppt-nuxt/editor', ['closeSidebar', 'closeModal']),
   },
 };
 </script>

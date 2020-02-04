@@ -15,7 +15,6 @@ export default options => ({
       return this.$whppt
         .loadPage({ slug })
         .then(page => {
-          console.log('from store', page);
           commit('loaded', page);
         })
         .catch(err => {
@@ -25,7 +24,6 @@ export default options => ({
     },
     save({ commit }, newPage) {
       return this.$whppt.savePage(newPage).then(page => {
-        console.log('savePage', page);
         commit('loaded', page);
         return page;
       });
