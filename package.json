@@ -1,11 +1,7 @@
 {
   "name": "@whppt/nuxt",
   "description": "Whppt nuxt module",
-<<<<<<< HEAD
-  "version": "0.0.7",
-=======
   "version": "0.0.8",
->>>>>>> 1070e86a3a712310be33485bf21f295e1421024a
   "author": "Svelte Studios (https://www.npmjs.com/settings/svelte-studios/packages)",
   "main": "module.js",
   "scripts": {
