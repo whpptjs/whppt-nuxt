@@ -3,6 +3,7 @@ import AddCircle from './AddCircle';
 import ArrowUp from './ArrowUp';
 import Draggable from './Draggable';
 import Edit from './Edit';
+import Globe from './Globe';
 import NewPage from './NewPage';
 import Preview from './Preview';
 import Publish from './Publish';
@@ -18,6 +19,7 @@ export default {
   AddCircle,
   Draggable,
   Edit,
+  Globe,
   NewPage,
   Preview,
   Publish,
