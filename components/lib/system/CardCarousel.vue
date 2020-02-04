@@ -1,6 +1,15 @@
 <template>
   <div class="whppt-full ">
     <h1>Card Carousel</h1>
+    <whppt-select :items="['a', 'b']" />
+    <whppt-tabs>
+      <whppt-tab title="Services" :selected="true">
+        ABC
+      </whppt-tab>
+      <whppt-tab title="TEST">
+        HAHA
+      </whppt-tab>
+    </whppt-tabs>
     <e-input
       v-model="$whppt.editData[$whppt.editDataProperty].title"
       class="whppt-textBox--margin-top-20"
@@ -20,10 +29,13 @@
 
 <script>
 import EInput from './InputText';
+import WhpptSelect from './WhpptSelect';
+import WhpptTab from './WhpptTab';
+import WhpptTabs from './WhpptTabs';
 
 export default {
   name: 'EditorCardCarousel',
-  components: { EInput },
+  components: { EInput, WhpptTab, WhpptTabs, WhpptSelect },
 };
 </script>
 <style>
