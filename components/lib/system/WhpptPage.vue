@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState } from 'vuex';
 import slugify from 'slugify';
 import WhpptButton from '../../../components/lib/system/WhpptButton';
 
@@ -44,9 +44,8 @@ export default {
     },
   },
   methods: {
-    ...mapActions('whppt-nuxt/page', ['save']),
     saveNewPage() {
-      return this.save(this.newPage).then(({ data }) => {
+      return this.$whppt.createPage(this.newPage).then(({ data }) => {
         const { slug } = data;
         return this.$router.push(`/${slug}` || '/');
       });

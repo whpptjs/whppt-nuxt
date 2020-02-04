@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <w-rich-text
-      v-rich-text="{ data: page.content, property: 'value' }"
+      v-rich-text="{ data: page.content, property: 'text' }"
       :content="page.content.value"
     ></w-rich-text>
     <div v-link="{ data: page2, property: 'content' }">
@@ -32,10 +32,7 @@
           >
             {{ content.text || 'Enter rich text here' }}
           </div>
-          <div
-            v-if="content.type === 'wLink'"
-            v-link="{ data: content, property: 'link' }"
-          >
+          <div v-if="content.type === 'wLink'" v-link="content">
             {{ content.link || 'Enter link here' }}
           </div>
           <!-- {{ content.value || 'Content here' }} -->
@@ -51,21 +48,27 @@
 <script>
 export default {
   name: 'LandingPage',
-  fetch({ store, error }) {
-    return store
-      .dispatch('whppt-nuxt/page/load', { slug: 'home' })
-      .catch((err) => {
-        error({
-          statusCode: (err.response && err.response.status) || 500,
-          message: (err.response && err.response.statusText) || 'Unknown Error',
-          stack: err.stack
-        })
-      })
-  },
+  // fetch({ store, error }) {
+  //   return store
+  //     .dispatch('whppt-nuxt/page/load', { slug: 'home' })
+  //     .catch((err) => {
+  //       error({
+  //         statusCode: (err.response && err.response.status) || 500,
+  //         message: (err.response && err.response.statusText) || 'Unknown Error',
+  //         stack: err.stack
+  //       })
+  //     })
+  // },
   data() {
     return {
-      page: { content: { value: '' } },
-      page2: { content: { href: '', text: '', type: 'page' } },
+      page: {
+        header: { title: { text: '' }, subtitle: { text: '' }, image: {} },
+        header2: { title: '', subtitle: '', image: {} },
+        contents: [{ value: '' }]
+      },
+      page2: {
+        content: { href: '', text: '', type: 'page' }
+      },
       page3: { content: { text: '' } },
       page4: { contents: [] }
     }
