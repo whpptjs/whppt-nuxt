@@ -28,7 +28,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: ['plugins/axios.js'],
   /*
    ** Nuxt.js dev-modules
    */
@@ -46,6 +46,7 @@ export default {
     ['../../module.js']
   ],
   whppt: {
+    baseAPIUrl: process.env.BASE_API_URL,
     componentPrefix: 'W',
     templates: [
       { key: 'home', label: 'Home' },
