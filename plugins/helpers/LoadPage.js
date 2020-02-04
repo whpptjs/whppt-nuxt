@@ -1,9 +1,17 @@
 export default context => ({ slug }) => {
-  const { $axios, store } = context;
-  // const { $whppt, store } = context;
+  const {
+    $axios,
+    app: { $whppt },
+  } = context;
 
-  return $axios.get(`/api/page/load?slug=${slug}`).then(page => {
-    // return $whppt.loadPage(slug).then(page => {
-    return store.commit('whppt-nuxt/page/loaded', page);
-  });
+  return $axios
+    .get(`${$whppt.baseAPIUrl}/api/page/load?slug=${slug}`)
+    .then(response => {
+      $whppt.page = response.data;
+      return response.data;
+    })
+    .catch(err => {
+      if (err.response.status === 404) $whppt.page = {};
+      throw err;
+    });
 };

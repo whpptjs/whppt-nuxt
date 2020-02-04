@@ -22,17 +22,19 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState } from 'vuex';
 import slugify from 'slugify';
 import WhpptButton from '../../../components/lib/system/WhpptButton';
 
 export default {
-  name: 'PageEdit',
+  name: 'WhpptPage',
   components: { WhpptButton },
   data: () => ({
     newPage: {
       template: '',
       slug: '',
+      header: {},
+      contents: [],
     },
   }),
   computed: {
@@ -42,9 +44,8 @@ export default {
     },
   },
   methods: {
-    ...mapActions('whppt-nuxt/page', ['save']),
     saveNewPage() {
-      return this.save(this.newPage).then(({ data }) => {
+      return this.$whppt.createPage(this.newPage).then(({ data }) => {
         const { slug } = data;
         return this.$router.push(`/${slug}` || '/');
       });
@@ -61,7 +62,8 @@ export default {
 .whppt-page {
 }
 
-.whppt-page__form {
+.whppt-page__form select input[type='text'] {
+  color: black;
 }
 
 .whppt-page__form fieldset {

@@ -2,23 +2,35 @@
   <div>
     <div>
       <ul class="whppt-tabs">
-        <e-tab :active="$whppt.editData.type === 'page'" @click="$whppt.editData.type = 'page'">Page</e-tab>
-        <e-tab :active="$whppt.editData.type === 'external'" @click="$whppt.editData.type = 'external'">External</e-tab>
-        <e-tab :active="$whppt.editData.type === 'anchor'" @click="$whppt.editData.type = 'anchor'">Anchor</e-tab>
+        <e-tab
+          :active="$whppt.editData[$whppt.editDataProperty].type === 'page'"
+          @click="$whppt.editData[$whppt.editDataProperty].type = 'page'"
+          >Page</e-tab
+        >
+        <e-tab
+          :active="$whppt.editData[$whppt.editDataProperty].type === 'external'"
+          @click="$whppt.editData[$whppt.editDataProperty].type = 'external'"
+          >External</e-tab
+        >
+        <e-tab
+          :active="$whppt.editData[$whppt.editDataProperty].type === 'anchor'"
+          @click="$whppt.editData[$whppt.editDataProperty].type = 'anchor'"
+          >Anchor</e-tab
+        >
       </ul>
 
-      <div v-if="$whppt.editData.type === 'page'">
+      <div v-if="$whppt.editData[$whppt.editDataProperty].type === 'page'">
         <div>
           <e-input
             id="linkHref"
-            v-model="$whppt.editData.href"
+            v-model="$whppt.editData[$whppt.editDataProperty].href"
             class="whppt-input-half"
             placeholder="e.g. /contact"
             label="Hyperlink"
           />
           <e-input
             id="linkText"
-            v-model="$whppt.editData.text"
+            v-model="$whppt.editData[$whppt.editDataProperty].text"
             class="whppt-input-half"
             placeholder="Link Text"
             label="Link Text"
@@ -28,18 +40,18 @@
           Page links take the user to another page on this website
         </div>
       </div>
-      <div v-if="$whppt.editData.type === 'external'">
+      <div v-if="$whppt.editData[$whppt.editDataProperty].type === 'external'">
         <div class="whppt-flex">
           <e-input
             id="linkHref"
-            v-model="$whppt.editData.href"
+            v-model="$whppt.editData[$whppt.editDataProperty].href"
             class="whppt-input-half"
             placeholder="e.g. https://example.com/example"
             label="Hyperlink"
           />
           <e-input
             id="linkText"
-            v-model="$whppt.editData.text"
+            v-model="$whppt.editData[$whppt.editDataProperty].text"
             class="whppt-input-half"
             placeholder="Link Text"
             label="Link Text"
@@ -49,10 +61,10 @@
           External links open a new tab to another website. Examples: https://example.com or mailto:example@mail.com
         </div>
       </div>
-      <div v-if="$whppt.editData.type === 'anchor'">
+      <div v-if="$whppt.editData[$whppt.editDataProperty].type === 'anchor'">
         <div class="whppt-flex">
           <e-input
-            v-model="$whppt.editData.href"
+            v-model="$whppt.editData[$whppt.editDataProperty].href"
             class="whppt-input-half"
             placeholder="e.g. #museum"
             label="Hyperlink"
@@ -60,7 +72,7 @@
           />
           <e-input
             id="linkText"
-            v-model="$whppt.editData.text"
+            v-model="$whppt.editData[$whppt.editDataProperty].text"
             class="whppt-input-half"
             placeholder="Link Text"
             label="Link Text"

@@ -94,17 +94,19 @@ export default {
   computed: mapState('whppt-nuxt/editor', ['richTextWatcher']),
   watch: {
     richTextWatcher(val) {
-      if (this.internal !== this.$whppt.editData.text) {
-        this.internal = this.$whppt.editData.text;
+      if (this.internal !== this.$whppt.editData[this.$whppt.editDataProperty]) {
+        this.internal = this.$whppt.editData[this.$whppt.editDataProperty];
         this.editor.setContent(
-          isEmptyValue(this.$whppt.editData.text) ? 'Start typing here ' : this.$whppt.editData.text
+          isEmptyValue(this.$whppt.editData[this.$whppt.editDataProperty])
+            ? 'Start typing here '
+            : this.$whppt.editData[this.$whppt.editDataProperty]
         );
       }
     },
   },
   mounted() {
     const vm = this;
-    this.internal = this.$whppt.editData.text;
+    this.internal = this.$whppt.editData[this.$whppt.editDataProperty];
 
     this.editor = new Editor({
       extensions: [
@@ -118,10 +120,12 @@ export default {
         new Link(),
         new HardBreak(),
       ],
-      content: isEmptyValue(this.$whppt.editData.text) ? 'Start typing here ' : this.$whppt.editData.text,
+      content: isEmptyValue(this.$whppt.editData[this.$whppt.editDataProperty])
+        ? 'Start typing here '
+        : this.$whppt.editData[this.$whppt.editDataProperty],
       onUpdate({ getHTML }) {
         vm.internal = getHTML();
-        vm.$whppt.editData.text = getHTML();
+        vm.$whppt.editData[vm.$whppt.editDataProperty] = getHTML();
       },
     });
   },

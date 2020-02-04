@@ -10,7 +10,7 @@ export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
         $whppt.clearSelected();
 
         if (!menuIsInState(MENUSTATES.SELECT)) return;
-        $whppt.select(el, binding.value);
+        $whppt.select(el, binding.value.parent);
         $whppt.formatSelectedContentsElement();
         $whppt.edit(el, binding.value);
         store.commit('whppt-nuxt/editor/editInSidebar', 'textBox');

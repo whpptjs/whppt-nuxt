@@ -19,7 +19,7 @@ export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
           $whppt.clearEditData();
           store.commit('whppt-nuxt/editor/editInSidebar', 'eContent');
           $whppt.select(el, binding.value);
-          $whppt.edit(el, binding.value);
+          $whppt.edit(el, { data: binding.value });
         }
       });
       el.addEventListener('mouseover', function(e) {

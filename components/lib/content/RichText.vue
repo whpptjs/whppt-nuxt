@@ -1,6 +1,6 @@
 <template>
   <div class="whppt-richContent">
-    <div v-html="content.text || 'Enter Text Here'"></div>
+    <div v-html="content || 'Enter Text Here'"></div>
   </div>
 </template>
 
@@ -14,7 +14,7 @@ export default {
   props: ['content'],
   computed: {
     isEmpty() {
-      return isEmptyValue(this.content.text);
+      return isEmptyValue(this.content);
     },
   },
 };
