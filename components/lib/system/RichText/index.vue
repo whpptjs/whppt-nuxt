@@ -126,7 +126,6 @@ export default {
       onUpdate({ getHTML }) {
         vm.internal = getHTML();
         vm.$whppt.editData[vm.$whppt.editDataProperty] = getHTML();
-        console.log('VM.$WHPPT.EDITDATA', vm.$whppt.editData);
       },
     });
   },

@@ -63,7 +63,6 @@ export default {
     ...mapState('whppt-nuxt/editor', ['selector']),
   },
   methods: {
-    ...mapActions('whppt-nuxt/page', ['save']),
     ...mapActions('whppt-nuxt/editor', ['selectComponent']),
     ...mapMutations('whppt-nuxt/page', ['loaded']),
     ...mapMutations('whppt-nuxt/editor', ['editInSidebar']),
@@ -75,11 +74,7 @@ export default {
       this.selectComponent(actionCommand);
     },
     savePage() {
-      return this.save().then(page => {
-        const slug = page.slug || '';
-        this.loaded(page);
-        return this.$router.push(`/${slug}`);
-      });
+      return this.$whppt.savePage();
     },
     newPage() {
       return this.editInSidebar('WhpptPage');

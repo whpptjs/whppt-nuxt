@@ -10,7 +10,7 @@ export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
         if (!menuIsInState(MENUSTATES.SELECT)) return;
         store.commit('whppt-nuxt/editor/editInSidebar', 'linkSidebar');
         $whppt.select(el, binding.value);
-        $whppt.edit(el, binding.value);
+        $whppt.edit(el, { data: binding.value });
       });
       el.addEventListener('mouseover', function(e) {
         if (!menuIsInState(MENUSTATES.SELECT)) return;

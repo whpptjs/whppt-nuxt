@@ -4,6 +4,7 @@ import cardCarouselDirective from './directives/cardCarousel';
 import textBoxDirective from './directives/textBox';
 import linkDirective from './directives/link';
 import SavePage from './helpers/SavePage';
+import CreatePage from './helpers/CreatePage';
 import LoadPage from './helpers/LoadPage';
 import Select from './helpers/editors/Select';
 import Edit from './helpers/editors/Edit';
@@ -14,7 +15,9 @@ const options = JSON.parse(`<%= JSON.stringify(options) %>`);
 export default (context, inject) => {
   const { store } = context;
   const whppt = {
+    page: undefined,
     editData: undefined,
+    createPage: CreatePage(context),
     savePage: SavePage(context),
     loadPage: LoadPage(context),
     templates: options.templates,
