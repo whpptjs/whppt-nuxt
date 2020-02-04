@@ -27,10 +27,17 @@
             {{ content.text || 'Enter Text here' }}
           </div>
           <div
-            v-if="content.type === 'wRichText'"
+            v-if="content.type === '≈'"
             v-rich-text="{ data: content, property: 'text' }"
           >
-            {{ content.text || 'Enter rich text here' }}
+            {{ content.text || 'Enter rich text here~~~~~' }}
+          </div>
+          <div
+            v-if="content.type === 'wCardCarousel'"
+            v-card-carousel="{ data: content, property: 'data' }"
+          >
+            <!-- {{ content.text || 'Enter rich text here' }} -->
+            Just placeholder
           </div>
           <div v-if="content.type === 'wLink'" v-link="content">
             {{ content.link || 'Enter link here' }}
