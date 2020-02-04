@@ -61,7 +61,8 @@ export default {
 .whppt-page {
 }
 
-.whppt-page__form {
+.whppt-page__form select input[type='text'] {
+  color: black;
 }
 
 .whppt-page__form fieldset {
