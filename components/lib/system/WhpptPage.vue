@@ -33,6 +33,8 @@ export default {
     newPage: {
       template: '',
       slug: '',
+      header: {},
+      contents: [],
     },
   }),
   computed: {
