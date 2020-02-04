@@ -4,5 +4,5 @@ export default context => newPage => {
   const { page } = store.state[`whppt-nuxt/page`];
   const pageToSave = newPage || page;
 
-  return $axios.post(`http://localhost:3001/api/page/save`, { page: pageToSave });
+  return $axios.post(`/api/page/save`, { page: pageToSave });
 };
