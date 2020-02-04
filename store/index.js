@@ -1,6 +1,5 @@
 import editorModule from './modules/editor';
 import siteModule from './modules/site';
-import pageModule from './modules/page';
 
 const options = JSON.parse(`<%= JSON.stringify(options) %>`);
 
@@ -17,9 +16,5 @@ export default ({ store }, inject) => {
 
   store.registerModule(`${namespace}/site`, siteModule(options), {
     preserveState: Boolean(store.state[`${namespace}/site`]),
-  });
-
-  store.registerModule(`${namespace}/page`, pageModule(options), {
-    preserveState: Boolean(store.state[`${namespace}/page`]),
   });
 };
