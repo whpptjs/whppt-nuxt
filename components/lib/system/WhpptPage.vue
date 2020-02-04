@@ -27,7 +27,7 @@ import slugify from 'slugify';
 import WhpptButton from '../../../components/lib/system/WhpptButton';
 
 export default {
-  name: 'PageEdit',
+  name: 'WhpptPage',
   components: { WhpptButton },
   data: () => ({
     newPage: {
