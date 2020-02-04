@@ -17,6 +17,7 @@ export default (context, inject) => {
     savePage: SavePage(context),
     loadPage: LoadPage(context),
     templates: options.templates,
+    baseAPIUrl: options.baseAPIUrl,
     // loadPage(slug) {
     //   return $axios.get(`http://localhost:3001/api/page/load?slug=${slug}`)
     // }
