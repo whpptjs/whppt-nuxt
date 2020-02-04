@@ -1,5 +1,6 @@
 import contentDirective from './directives/content';
 import richTextDirective from './directives/richText';
+import cardCarouselDirective from './directives/cardCarousel';
 import textBoxDirective from './directives/textBox';
 import linkDirective from './directives/link';
 import SavePage from './helpers/SavePage';
@@ -41,6 +42,7 @@ export default (context, inject) => {
 
   contentDirective({ ...context, menuIsInState, MENUSTATES });
   textBoxDirective({ ...context, menuIsInState, MENUSTATES });
+  cardCarouselDirective({ ...context, menuIsInState, MENUSTATES });
   richTextDirective({ ...context, menuIsInState, MENUSTATES });
   linkDirective({ ...context, menuIsInState, MENUSTATES });
 };
