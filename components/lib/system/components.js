@@ -6,6 +6,8 @@ const components = [
     value: 'Card Carousel',
     type: 'wCardCarousel',
     reversed: false,
+    title: '',
+    description: '',
     items: [],
   },
 ];
