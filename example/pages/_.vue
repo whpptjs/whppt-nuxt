@@ -1,7 +1,7 @@
 <template>
   <div v-if="page" class="container">
     <div v-link-group="page.linkgroup">
-      {{ page.linkGroup || 'HEY' }}
+      {{ (page.linkgroup && page.linkgroup.text) || 'HEY' }}
     </div>
     <div v-link="page.link">
       {{ page.text || 'Enter link here' }}
@@ -47,9 +47,11 @@
 export default {
   name: 'WildCardPage',
   asyncData({ params, store, error, app: { $whppt } }) {
-    return $whppt
-      .loadPage({ slug: params.pathMatch })
-      .then((page) => {
+    return Promise.all([
+      $whppt.loadPage({ slug: params.pathMatch }),
+      $whppt.loadFooter()
+    ])
+      .then(([page]) => {
         return { page }
       })
       .catch((err) => {
@@ -59,6 +61,9 @@ export default {
           stack: err.stack
         })
       })
+  },
+  mounted() {
+    this.$whppt.page = this.page
   }
 }
 </script>

@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import slugify from 'slugify';
 import WhpptButton from '../../../components/lib/system/WhpptButton';
 import WhpptSelect from './WhpptSelect';
@@ -45,7 +45,7 @@ export default {
   components: { WhpptButton, WhpptSelect, WhpptInputText },
   data: () => ({
     newPage: {
-      template: '',
+      template: -1,
       slug: '',
       header: {},
       contents: [],
@@ -60,10 +60,13 @@ export default {
     },
   },
   methods: {
+    ...mapActions('whppt-nuxt/editor', ['closeSidebar']),
     saveNewPage() {
-      return this.$whppt.createPage(this.newPage).then(({ data }) => {
+      const vm = this;
+      return vm.$whppt.createPage(vm.newPage).then(({ data }) => {
         const { slug } = data;
-        return this.$router.push(`/${slug}` || '/');
+        vm.closeSidebar();
+        return vm.$router.push(`/${slug}` || '/');
       });
     },
     formatSlug() {

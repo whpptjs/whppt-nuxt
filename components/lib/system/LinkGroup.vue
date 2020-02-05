@@ -51,7 +51,7 @@ export default {
   components: { ELink, WhpptCheckBox, WhpptSelect },
   data() {
     return {
-      selectKey: '',
+      selectKey: -1,
     };
   },
   methods: {

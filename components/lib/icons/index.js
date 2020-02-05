@@ -14,6 +14,7 @@ import Warning from './Warning';
 import Pointer from './Pointer';
 import Check from './Check';
 import Circle from './Circle';
+import Footer from './Footer';
 
 export default {
   ArrowDown,
@@ -32,4 +33,5 @@ export default {
   Pointer,
   Circle,
   Check,
+  Footer,
 };
