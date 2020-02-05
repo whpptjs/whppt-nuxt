@@ -5,11 +5,8 @@ const components = [
     key: 'CardCarousel',
     value: 'Card Carousel',
     type: 'wCardCarousel',
-    data: {
-      title: '',
-      subtitle: '',
-      reversed: '',
-    },
+    reversed: false,
+    items: [],
   },
 ];
 

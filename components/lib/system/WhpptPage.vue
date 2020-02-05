@@ -2,7 +2,9 @@
   <div class="whppt-page">
     <h2>Create a Page</h2>
     <form class="whppt-page__form" @submit.prevent>
-      <fieldset>
+      <whppt-select v-model="newPage.template" :items="templates" label="Page Template: " />
+
+      <!-- <fieldset class="whppt-fieldset">
         <label for="template">Page Template: </label>
         <select id="template" v-model="newPage.template">
           <option class="whppt-page__form--black" value="" disabled>Select a Template</option>
@@ -14,12 +16,18 @@
             >{{ template.label }}</option
           >
         </select>
-      </fieldset>
-      <fieldset>
+      </fieldset> -->
+      <!-- <fieldset class="whppt-fieldset">
         <label for="slug">Page Slug:</label>
         <input class="whppt-page__form--black" id="slug" v-model="newPage.slug" @blur="formatSlug" />
         <span class="whppt-page__hint">Enter any text and we'll turn it into a slug for you!</span>
-      </fieldset>
+      </fieldset> -->
+      <whppt-input-text
+        v-model="newPage.slug"
+        label="Page Slug:"
+        info="Enter any text and we'll turn it into a slug for you!"
+      ></whppt-input-text>
+
       <whppt-button @click="saveNewPage">Create Page</whppt-button>
     </form>
   </div>
@@ -29,10 +37,12 @@
 import { mapState } from 'vuex';
 import slugify from 'slugify';
 import WhpptButton from '../../../components/lib/system/WhpptButton';
+import WhpptSelect from './WhpptSelect';
+import WhpptInputText from './InputText';
 
 export default {
   name: 'WhpptPage',
-  components: { WhpptButton },
+  components: { WhpptButton, WhpptSelect, WhpptInputText },
   data: () => ({
     newPage: {
       template: '',
@@ -40,7 +50,7 @@ export default {
       header: {},
       contents: [],
       link: { type: 'page' },
-      linkgroup: { type: 'page', links: [] },
+      linkgroup: { type: 'page', links: [], showOnDesktop: true },
     },
   }),
   computed: {

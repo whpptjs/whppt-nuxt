@@ -57,6 +57,7 @@ export default {
       // { key: 'documents', label: 'Documents', icon: 'w-document', group: 'site' },
       // { key: 'redirects', label: 'Redirects', icon: 'w-redirect', group: 'site' },
       // { key: 'logout', label: 'Logout', icon: 'w-logout', group: 'security' },
+      { key: 'atdw', label: 'ATDW', icon: 'w-globe', group: 'atdw', action: 'editATDW' },
     ],
   }),
   computed: {
@@ -65,13 +66,13 @@ export default {
   methods: {
     ...mapActions('whppt-nuxt/editor', ['selectComponent']),
     ...mapMutations('whppt-nuxt/page', ['loaded']),
-    ...mapMutations('whppt-nuxt/editor', ['editInSidebar']),
+    ...mapMutations('whppt-nuxt/editor', ['editInModal', 'editInSidebar']),
     callMethod(action, options) {
       if (!action) return;
       return this[action](options);
     },
     selectSelector({ actionCommand }) {
-      this.selectComponent(actionCommand);
+      return this.selectComponent(actionCommand);
     },
     savePage() {
       return this.$whppt.savePage();
@@ -80,10 +81,13 @@ export default {
       return this.editInSidebar('WhpptPage');
     },
     moveDown() {
-      this.$whppt.moveDown();
+      return this.$whppt.moveDown();
     },
     moveUp() {
-      this.$whppt.moveUp();
+      return this.$whppt.moveUp();
+    },
+    editATDW() {
+      return this.editInModal('atdw');
     },
   },
 };

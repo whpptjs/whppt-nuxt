@@ -23,15 +23,13 @@ export default (context, inject) => {
     loadPage: LoadPage(context),
     templates: options.templates,
     baseAPIUrl: options.baseAPIUrl,
-    // loadPage(slug) {
-    //   return $axios.get(`http://localhost:3001/api/page/load?slug=${slug}`)
-    // }
   };
 
   const menuIsInState = type => {
     const editorState = store.state[`whppt-nuxt/editor`];
     return editorState.selector === type;
   };
+
   const MENUSTATES = {
     SELECT: 'select',
     CONTENT: 'content',

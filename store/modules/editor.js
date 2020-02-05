@@ -4,7 +4,9 @@ export default options => ({
     options,
     selector: undefined,
     editSidebar: false,
+    editInModal: false,
     editSidebarType: undefined,
+    editInModalType: undefined,
     richTextWatcher: 0,
   }),
   actions: {
@@ -19,6 +21,12 @@ export default options => ({
       this.$whppt.clearSelectedContentsFormatting();
       this.$whppt.clearEditingElementFormatting();
       commit('sidebarClosed');
+    },
+    closeModal({ commit }) {
+      this.$whppt.clearSelected();
+      this.$whppt.clearSelectedContentsFormatting();
+      this.$whppt.clearEditingElementFormatting();
+      commit('modalClosed');
     },
   },
   mutations: {
@@ -35,9 +43,17 @@ export default options => ({
       state.editSidebarType = type;
       state.richTextWatcher = state.richTextWatcher + 1;
     },
+    editInModal(state, type) {
+      state.editInModal = true;
+      state.editInModalTypeType = type;
+    },
     sidebarClosed(state) {
       state.editSidebar = false;
       state.editSidebarType = undefined;
+    },
+    modalClosed(state) {
+      state.editInModal = false;
+      state.editInModalTypeType = undefined;
     },
   },
   getters: {},

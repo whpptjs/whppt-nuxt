@@ -1,7 +1,10 @@
 <template>
   <div class="whppt-flex whppt-overflow-hidden">
     <editor-menu></editor-menu>
-    <div class="whppt-content ">
+    <modal :is-active="editInModal" @closeModal="closeModal">
+      <component :is="editInModal" />
+    </modal>
+    <div class="whppt-content">
       <slot></slot>
     </div>
     <div class="whppt-sidebar" :class="{ 'whppt-openEditor': editSidebar }">
@@ -18,14 +21,15 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import * as Editors from '../system';
+import Modal from '../system/Modal';
 import WhpptButton from '../system/WhpptButton';
 
 export default {
   name: 'WhpptEditorApp',
-  components: { ...Editors, WhpptButton },
-  computed: mapState('whppt-nuxt/editor', ['editSidebar', 'editSidebarType']),
+  components: { ...Editors, WhpptButton, Modal },
+  computed: mapState('whppt-nuxt/editor', ['editInModal', 'editSidebar', 'editSidebarType']),
   methods: {
-    ...mapActions('whppt-nuxt/editor', ['closeSidebar']),
+    ...mapActions('whppt-nuxt/editor', ['closeSidebar', 'closeModal']),
   },
 };
 </script>
@@ -125,6 +129,9 @@ export default {
   background-color: transparent;
   color: white;
   border: 0;
-  /* cursor: pointer; */
+  cursor: pointer;
+}
+:focus {
+  outline: none;
 }
 </style>
