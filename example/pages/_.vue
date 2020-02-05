@@ -20,7 +20,7 @@
           </div>
           <div
             v-if="content.type === 'wCardCarousel'"
-            v-card-carousel="{ data: content, property: 'data' }"
+            v-card-carousel="{ data: content, property: 'items' }"
           >
             <!-- {{ content.text || 'Enter rich text here' }} -->
             Just placeholder
