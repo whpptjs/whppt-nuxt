@@ -1,7 +1,7 @@
 <template>
   <!-- v-model="selected"  -->
   <div class="whppt-select">
-    <label for="template">Page Template: </label>
+    <label for="template">{{ label }}</label>
     <select ref="select" class="whppt-select__input" @change="selectIndex">
       <option>
         {{ title }}

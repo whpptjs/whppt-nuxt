@@ -1,16 +1,30 @@
 <template>
   <div class="whppt-full">
     <h1>Card Carousel</h1>
+    <whppt-input-text
+      v-model="editingCarousel.title"
+      class="whppt-textBox--margin-top-20"
+      placeholder="Enter text here"
+      label="Title"
+    />
+    <whppt-input-text
+      v-model="editingCarousel.description"
+      class="whppt-textBox--margin-top-20"
+      placeholder="Optional"
+      label="Description"
+    />
     <whppt-check-box
-      :value="$whppt.editData.reversed"
+      :value="editingCarousel.reversed"
       label="Reversed"
-      @click="$whppt.editData.reversed = !$whppt.editData.reversed"
+      @click="editingCarousel.reversed = !editingCarousel.reversed"
     ></whppt-check-box>
-    <whppt-select v-model="selectedIndex" :items="editingCarousel" />
+    <whppt-select v-model="selectedIndex" :items="editingCarousel" label="Editing Card" />
 
     <div class="whppt-card-carousel__actions">
       <button class="whppt-card-carousel__actions-add" @click="add">Add a New Card After This</button>
-      <button class="whppt-card-carousel__actions-remove" @click="remove">Remove This Card</button>
+      <button class="whppt-card-carousel__actions-remove" @click="remove" v-if="selectedIndex >= 0">
+        Remove This Card
+      </button>
     </div>
 
     <whppt-tabs v-if="selectedIndex >= 0">
@@ -36,7 +50,7 @@
 </template>
 
 <script>
-import EInput from './InputText';
+import WhpptInputText from './InputText';
 import WhpptSelect from './WhpptSelect';
 import WhpptTab from './WhpptTab';
 import WhpptTabs from './WhpptTabs';
@@ -44,7 +58,7 @@ import WhpptCheckBox from './CheckBox';
 
 export default {
   name: 'EditorCardCarousel',
-  components: { EInput, WhpptTab, WhpptTabs, WhpptSelect, WhpptCheckBox },
+  components: { WhpptInputText, WhpptTab, WhpptTabs, WhpptSelect, WhpptCheckBox },
   data() {
     return {
       selectedIndex: -1,
@@ -52,10 +66,10 @@ export default {
   },
   computed: {
     editingCarousel() {
-      return this.$whppt.editData[this.$whppt.editDataProperty];
+      return this.$whppt.editData;
     },
     editingCard() {
-      return this.editingCarousel[this.selectedIndex] || {};
+      return this.editingCarousel[this.$whppt.editDataProperty][this.selectedIndex] || {};
     },
   },
   methods: {
