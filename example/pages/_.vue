@@ -1,5 +1,11 @@
 <template>
   <div v-if="page" class="container">
+    <div v-link-group="page.linkgroup">
+      {{ page.linkGroup || 'HEY' }}
+    </div>
+    <div v-link="page.link">
+      {{ page.text || 'Enter link here' }}
+    </div>
     <div v-text-box="{ data: page, property: 'title' }">
       {{ page.title || 'HEY' }}
     </div>

@@ -1,15 +1,14 @@
 import Vue from 'vue';
 
 export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
-  Vue.directive('link', {
+  Vue.directive('linkGroup', {
     bind(el, binding) {
       el.addEventListener('click', function(e) {
-        console.log('BINDING.VALUE ', binding.value);
         $whppt.clearEditData();
         $whppt.clearContents();
         $whppt.clearSelected();
         if (!menuIsInState(MENUSTATES.SELECT)) return;
-        store.commit('whppt-nuxt/editor/editInSidebar', 'linkSidebar');
+        store.commit('whppt-nuxt/editor/editInSidebar', 'linkGroup');
         $whppt.select(el, binding.value);
         $whppt.edit(el, { data: binding.value });
       });

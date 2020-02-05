@@ -5,15 +5,19 @@
       <fieldset>
         <label for="template">Page Template: </label>
         <select id="template" v-model="newPage.template">
-          <option value="" disabled>Select a Template</option>
-          <option v-for="(template, index) in templates" :key="index" :value="template.key">{{
-            template.label
-          }}</option>
+          <option class="whppt-page__form--black" value="" disabled>Select a Template</option>
+          <option
+            v-for="(template, index) in templates"
+            :key="index"
+            class="whppt-page__form--black"
+            :value="template.key"
+            >{{ template.label }}</option
+          >
         </select>
       </fieldset>
       <fieldset>
         <label for="slug">Page Slug:</label>
-        <input id="slug" v-model="newPage.slug" @blur="formatSlug" />
+        <input class="whppt-page__form--black" id="slug" v-model="newPage.slug" @blur="formatSlug" />
         <span class="whppt-page__hint">Enter any text and we'll turn it into a slug for you!</span>
       </fieldset>
       <whppt-button @click="saveNewPage">Create Page</whppt-button>
@@ -35,6 +39,8 @@ export default {
       slug: '',
       header: {},
       contents: [],
+      link: { type: 'page' },
+      linkgroup: { type: 'page', links: [] },
     },
   }),
   computed: {
@@ -59,20 +65,8 @@ export default {
 </script>
 
 <style>
-.whppt-page {
-}
-
-.whppt-page__form select input[type='text'] {
+.whppt-page__form--black {
   color: black;
-}
-
-.whppt-page__form fieldset {
-  border: 0;
-  padding: 0;
-  margin: 1rem 0;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
 }
 
 .whppt-page__form label {

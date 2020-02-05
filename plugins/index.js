@@ -3,6 +3,7 @@ import richTextDirective from './directives/richText';
 import cardCarouselDirective from './directives/cardCarousel';
 import textBoxDirective from './directives/textBox';
 import linkDirective from './directives/link';
+import linkGroupDirective from './directives/linkGroup';
 import SavePage from './helpers/SavePage';
 import CreatePage from './helpers/CreatePage';
 import LoadPage from './helpers/LoadPage';
@@ -48,4 +49,5 @@ export default (context, inject) => {
   cardCarouselDirective({ ...context, menuIsInState, MENUSTATES });
   richTextDirective({ ...context, menuIsInState, MENUSTATES });
   linkDirective({ ...context, menuIsInState, MENUSTATES });
+  linkGroupDirective({ ...context, menuIsInState, MENUSTATES });
 };
