@@ -6,7 +6,7 @@
 
       <fieldset class="whppt-fieldset">
         <label for="template">Page Template: </label>
-        <select id="template" v-model="newPage.template">
+        <select id="template" v-model="chosenTemplate">
           <option class="whppt-page__form--black" value="" disabled>Select a Template</option>
           <option
             v-for="(template, index) in templates"
@@ -44,6 +44,7 @@ export default {
   name: 'WhpptPage',
   components: { WhpptButton, WhpptSelect, WhpptInputText },
   data: () => ({
+    chosenTemplate: undefined,
     newPage: {
       template: -1,
       slug: '',
@@ -63,6 +64,12 @@ export default {
     ...mapActions('whppt-nuxt/editor', ['closeSidebar']),
     saveNewPage() {
       const vm = this;
+      if (!vm.newPage.slug || !vm.chosenTemplate) return;
+      vm.newPage = {
+        ...vm.newPage,
+        template: vm.chosenTemplate.key,
+        ...vm.chosenTemplate.initialData,
+      };
       return vm.$whppt.createPage(vm.newPage).then(({ data }) => {
         const { slug } = data;
         vm.closeSidebar();
