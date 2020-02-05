@@ -1,15 +1,11 @@
 <template>
-  <div v-if="isActive" class="h-screen w-screen fixed inset-0 overflow-hidden z-40">
-    <div class="relative h-full w-full">
-      <div class="absolute bg-gray-900 opacity-75 inset-0"></div>
-      <button
-        class="absolute z-50 text-white w-12 h-12 flex justify-center items-center"
-        style="top: 3rem; right: 3rem;"
-        @click="$emit('closeModal')"
-      >
+  <div v-if="isActive" class="whppt-modal">
+    <div class="whppt-modal-inner">
+      <div class="whppt-modal__background" @click="$emit('closeModal')"></div>
+      <button class="whppt-modal__close-btn" @click="$emit('closeModal')">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="stroke-current "
+          style="stroke: currentColor;"
           width="22.828"
           height="22.828"
           viewBox="0 0 22.828 22.828"
@@ -36,7 +32,7 @@
           </g>
         </svg>
       </button>
-      <div class="h-screen w-screen flex justify-center items-center">
+      <div class="whppt-modal__content">
         <slot name="content" />
       </div>
     </div>
@@ -45,7 +41,7 @@
 
 <script>
 export default {
-  name: 'Modal',
+  name: 'WhpptModal',
   props: {
     isActive: {
       type: Boolean,
@@ -58,3 +54,56 @@ export default {
   },
 };
 </script>
+
+<style>
+.whppt-modal {
+  height: 100vh;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  overflow: hidden;
+  z-index: 40;
+}
+
+.whppt-modal__background {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.75);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.whppt-modal__close-btn {
+  position: absolute;
+  background-color: transparent;
+  border: none;
+  z-index: 50;
+  color: white;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 3rem;
+  right: 3rem;
+}
+
+.whppt-modal__content {
+  margin: 0 auto;
+  height: 100vh;
+  width: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.whppt-modal-inner {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+</style>

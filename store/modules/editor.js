@@ -45,7 +45,7 @@ export default options => ({
     },
     editInModal(state, type) {
       state.editInModal = true;
-      state.editInModalTypeType = type;
+      state.editInModalType = type;
     },
     sidebarClosed(state) {
       state.editSidebar = false;
@@ -53,7 +53,7 @@ export default options => ({
     },
     modalClosed(state) {
       state.editInModal = false;
-      state.editInModalTypeType = undefined;
+      state.editInModalType = undefined;
     },
   },
   getters: {},
