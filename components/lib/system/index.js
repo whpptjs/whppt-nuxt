@@ -6,5 +6,6 @@ import WhpptPage from './WhpptPage';
 import TextBox from './TextBox';
 import CardCarousel from './CardCarousel';
 import LinkGroup from './LinkGroup';
+import atdw from './ATDW';
 
-export { WhpptPage, EditorMenu, RichText, LinkSidebar, EContent, TextBox, CardCarousel, LinkGroup };
+export { WhpptPage, EditorMenu, RichText, LinkSidebar, EContent, TextBox, CardCarousel, LinkGroup, atdw };

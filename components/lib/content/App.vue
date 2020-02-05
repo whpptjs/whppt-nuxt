@@ -2,7 +2,9 @@
   <div class="whppt-flex whppt-overflow-hidden">
     <editor-menu></editor-menu>
     <modal :is-active="editInModal" @closeModal="closeModal">
-      <component :is="editInModal" />
+      <template v-slot:content>
+        <component :is="editInModalType" />
+      </template>
     </modal>
     <div class="whppt-content">
       <slot></slot>
@@ -27,7 +29,7 @@ import WhpptButton from '../system/WhpptButton';
 export default {
   name: 'WhpptEditorApp',
   components: { ...Editors, WhpptButton, Modal },
-  computed: mapState('whppt-nuxt/editor', ['editInModal', 'editSidebar', 'editSidebarType']),
+  computed: mapState('whppt-nuxt/editor', ['editInModal', 'editInModalType', 'editSidebar', 'editSidebarType']),
   methods: {
     ...mapActions('whppt-nuxt/editor', ['closeSidebar', 'closeModal']),
   },
