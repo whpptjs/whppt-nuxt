@@ -2,9 +2,9 @@
   <div class="whppt-page">
     <h2>Create a Page</h2>
     <form class="whppt-page__form" @submit.prevent>
-      <whppt-select v-model="newPage.template" :items="templates" label="Page Template: " />
+      <!-- <whppt-select v-model="newPage.template" :items="templates" label="Page Template: " /> -->
 
-      <!-- <fieldset class="whppt-fieldset">
+      <fieldset class="whppt-fieldset">
         <label for="template">Page Template: </label>
         <select id="template" v-model="newPage.template">
           <option class="whppt-page__form--black" value="" disabled>Select a Template</option>
@@ -16,7 +16,7 @@
             >{{ template.label }}</option
           >
         </select>
-      </fieldset> -->
+      </fieldset>
       <!-- <fieldset class="whppt-fieldset">
         <label for="slug">Page Slug:</label>
         <input class="whppt-page__form--black" id="slug" v-model="newPage.slug" @blur="formatSlug" />
