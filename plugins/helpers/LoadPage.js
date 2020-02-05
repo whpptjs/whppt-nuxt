@@ -4,8 +4,10 @@ export default context => ({ slug }) => {
     app: { $whppt },
   } = context;
 
+  const baseAPIUrl = $whppt.baseAPIUrl || ``;
+
   return $axios
-    .get(`${$whppt.baseAPIUrl}/api/page/load?slug=${slug}`)
+    .get(`${baseAPIUrl}/api/page/load?slug=${slug}`)
     .then(response => {
       $whppt.page = response.data;
       return response.data;
