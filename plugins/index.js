@@ -1,7 +1,7 @@
 import contentDirective from './directives/content';
 import richTextDirective from './directives/richText';
 import cardCarouselDirective from './directives/cardCarousel';
-import textBoxDirective from './directives/textBox';
+import plainTextDirective from './directives/plainText';
 import linkDirective from './directives/link';
 import linkGroupDirective from './directives/linkGroup';
 import SavePage from './helpers/SavePage';
@@ -48,7 +48,7 @@ export default (context, inject) => {
   inject('whppt', whppt);
 
   contentDirective({ ...context, menuIsInState, MENUSTATES });
-  textBoxDirective({ ...context, menuIsInState, MENUSTATES });
+  plainTextDirective({ ...context, menuIsInState, MENUSTATES });
   cardCarouselDirective({ ...context, menuIsInState, MENUSTATES });
   richTextDirective({ ...context, menuIsInState, MENUSTATES });
   linkDirective({ ...context, menuIsInState, MENUSTATES });

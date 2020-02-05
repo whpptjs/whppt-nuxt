@@ -14,9 +14,9 @@
         @click="$whppt.editData.showOnTablet = !$whppt.editData.showOnTablet"
       ></whppt-check-box>
       <whppt-check-box
-        :value="$whppt.editData.showOnPhone"
+        :value="$whppt.editData.showOnMobile"
         label="Show on phone"
-        @click="$whppt.editData.showOnPhone = !$whppt.editData.showOnPhone"
+        @click="$whppt.editData.showOnMobile = !$whppt.editData.showOnMobile"
       ></whppt-check-box>
       <e-link :data="$whppt.editData"></e-link>
     </div>

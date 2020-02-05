@@ -2,7 +2,7 @@ import Vue from 'vue';
 
 // export default ({ store }, whppt) => {
 export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
-  Vue.directive('textBox', {
+  Vue.directive('plainText', {
     bind(el, binding) {
       el.addEventListener('click', function(e) {
         $whppt.clearEditData();
@@ -13,7 +13,7 @@ export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
         $whppt.select(el, binding.value.parent);
         $whppt.formatSelectedContentsElement();
         $whppt.edit(el, binding.value);
-        store.commit('whppt-nuxt/editor/editInSidebar', 'textBox');
+        store.commit('whppt-nuxt/editor/editInSidebar', 'plainText');
       });
       el.addEventListener('mouseover', function(e) {
         if (!menuIsInState(MENUSTATES.SELECT)) return;
