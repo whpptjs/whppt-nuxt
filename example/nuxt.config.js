@@ -22,7 +22,7 @@ export default {
   /*
    ** Customize the progress-bar color
    */
-  loading: { color: '#fff' },
+  loading: { color: '#ff9000' },
   /*
    ** Global CSS
    */
@@ -66,6 +66,17 @@ export default {
   axios: {
     proxy: true,
     retry: { retries: 3 }
+  },
+  purgeCSS: {
+    whitelist: [],
+    whitelistPatterns: [
+      /^bg-\w+-\d00/,
+      /^text-\w+-\d00/,
+      /^border-\w+-\d00/,
+      /^hover:border-\w+-\d00/,
+      /^whppt-/
+    ],
+    whitelistPatternsChildren: []
   },
   /*
    ** Build configuration
