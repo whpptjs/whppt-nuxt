@@ -62,6 +62,6 @@ export default {
   height: 35px;
 }
 .whppt-select {
-  margin: 20px 0;
+  margin: 10px 0;
 }
 </style>

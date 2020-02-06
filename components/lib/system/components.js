@@ -9,14 +9,22 @@ const components = [
     linkGroup: { type: 'page', links: [], showOnDesktop: true, showOnTablet: true, showOnMobile: true },
   },
   {
-    key: 'CardCarousel',
-    value: 'Card Carousel',
-    editorType: 'wCardCarousel',
-    displayType: 'wCardCarousel',
+    key: 'Carousel',
+    value: 'Carousel',
+    editorType: 'wCarousel',
+    displayType: 'wCarousel',
     reversed: false,
     title: '',
     description: '',
-    items: [],
+    items: [
+      {
+        title: '',
+        description: '',
+        ctaText: '',
+        ctaIcon: undefined,
+        image: undefined,
+      },
+    ],
   },
 ];
 
