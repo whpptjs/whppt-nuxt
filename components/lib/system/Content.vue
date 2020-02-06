@@ -2,7 +2,7 @@
   <div class="whppt-full">
     <h1>Add Content</h1>
     <whppt-button
-      v-for="component in components"
+      v-for="component in componentList"
       :key="component.key"
       class="whppt-full whppt-content--margin"
       @click="addContent(component)"
@@ -25,6 +25,11 @@ export default {
   methods: {
     addContent(content) {
       this.$whppt.editData.push(JSON.parse(JSON.stringify(content)));
+    },
+  },
+  computed: {
+    componentList() {
+      return this.$whppt.components ? [...this.components, ...this.$whppt.components] : this.components;
     },
   },
 };
