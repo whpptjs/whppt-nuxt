@@ -18,6 +18,23 @@ const components = [
     description: '',
     items: [],
   },
+  {
+    key: 'CardCarousel',
+    value: 'Card Carousel',
+    editorType: 'wCardCarousel',
+    displayType: 'wCardCarousel',
+    reversed: false,
+    title: '',
+    description: '',
+    items: [],
+  },
+  {
+    key: 'Listings',
+    value: 'Listings',
+    editorType: 'wListings',
+    displayType: 'wListings',
+    items: [],
+  },
 ];
 
 export { components };
