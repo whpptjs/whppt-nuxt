@@ -1,15 +1,30 @@
 <template>
   <div class="whppt-full">
     <h1>Card Carousel</h1>
-    <div class="whppt-checkbox">
-      <input type="checkbox" v-model="$whppt.editData.reversed" />
-      <span class="whppt-checkbox__title">Reversed</span>
-    </div>
-    <whppt-select :items="editingCarousel" v-model="selectedIndex" />
+    <whppt-input-text
+      v-model="editingCarousel.title"
+      class="whppt-textBox--margin-top-20"
+      placeholder="Enter text here"
+      label="Title"
+    />
+    <whppt-input-text
+      v-model="editingCarousel.description"
+      class="whppt-textBox--margin-top-20"
+      placeholder="Optional"
+      label="Description"
+    />
+    <whppt-check-box
+      :value="editingCarousel.reversed"
+      label="Reversed"
+      @click="editingCarousel.reversed = !editingCarousel.reversed"
+    ></whppt-check-box>
+    <whppt-select v-model="selectedIndex" :items="editingCarousel" label="Editing Card" />
 
     <div class="whppt-card-carousel__actions">
       <button class="whppt-card-carousel__actions-add" @click="add">Add a New Card After This</button>
-      <button class="whppt-card-carousel__actions-remove" @click="remove">Remove This Card</button>
+      <button class="whppt-card-carousel__actions-remove" @click="remove" v-if="selectedIndex >= 0">
+        Remove This Card
+      </button>
     </div>
 
     <whppt-tabs v-if="selectedIndex >= 0">
@@ -35,18 +50,27 @@
 </template>
 
 <script>
-import EInput from './InputText';
+import WhpptInputText from './InputText';
 import WhpptSelect from './WhpptSelect';
 import WhpptTab from './WhpptTab';
 import WhpptTabs from './WhpptTabs';
+import WhpptCheckBox from './CheckBox';
 
 export default {
   name: 'EditorCardCarousel',
-  components: { EInput, WhpptTab, WhpptTabs, WhpptSelect },
+  components: { WhpptInputText, WhpptTab, WhpptTabs, WhpptSelect, WhpptCheckBox },
   data() {
     return {
       selectedIndex: -1,
     };
+  },
+  computed: {
+    editingCarousel() {
+      return this.$whppt.editData;
+    },
+    editingCard() {
+      return this.editingCarousel[this.$whppt.editDataProperty][this.selectedIndex] || {};
+    },
   },
   methods: {
     add() {
@@ -63,29 +87,13 @@ export default {
       }
     },
   },
-  computed: {
-    editingCarousel() {
-      return this.$whppt.editData[this.$whppt.editDataProperty];
-    },
-    editingCard() {
-      return this.editingCarousel[this.selectedIndex] || {};
-    },
-  },
 };
 </script>
 <style>
 .whppt-textBox--margin-top-20 {
   margin-top: 20px;
 }
-.whppt-checkbox {
-  display: inline-flex;
-  align-items: center;
-  margin: 10px 0;
-}
-.whppt-checkbox__title {
-  font-size: 14px;
-  margin-left: 10px;
-}
+
 .whppt-card-carousel__actions {
   display: flex;
   justify-content: space-between;

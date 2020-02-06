@@ -12,6 +12,9 @@ import Settings from './Settings';
 import Remove from './Remove';
 import Warning from './Warning';
 import Pointer from './Pointer';
+import Check from './Check';
+import Circle from './Circle';
+import Footer from './Footer';
 
 export default {
   ArrowDown,
@@ -28,4 +31,7 @@ export default {
   Remove,
   Warning,
   Pointer,
+  Circle,
+  Check,
+  Footer,
 };

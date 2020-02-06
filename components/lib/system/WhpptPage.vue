@@ -2,39 +2,58 @@
   <div class="whppt-page">
     <h2>Create a Page</h2>
     <form class="whppt-page__form" @submit.prevent>
-      <fieldset>
+      <!-- <whppt-select v-model="newPage.template" :items="templates" label="Page Template: " /> -->
+
+      <!-- <fieldset class="whppt-fieldset">
         <label for="template">Page Template: </label>
-        <select id="template" v-model="newPage.template">
-          <option value="" disabled>Select a Template</option>
-          <option v-for="(template, index) in templates" :key="index" :value="template.key">{{
-            template.label
-          }}</option>
+        <select id="template" v-model="chosenTemplate">
+          <option class="whppt-page__form--black" value="" disabled>Select a Template</option>
+          <option
+            v-for="(template, index) in templates"
+            :key="index"
+            class="whppt-page__form--black"
+            :value="template.key"
+            >{{ template.label }}</option
+          >
         </select>
-      </fieldset>
-      <fieldset>
+      </fieldset> -->
+      <whppt-select v-model="chosenTemplate" :items="templates" label="Page Template:" />
+
+      <!-- <fieldset class="whppt-fieldset">
         <label for="slug">Page Slug:</label>
-        <input id="slug" v-model="newPage.slug" @blur="formatSlug" />
+        <input class="whppt-page__form--black" id="slug" v-model="newPage.slug" @blur="formatSlug" />
         <span class="whppt-page__hint">Enter any text and we'll turn it into a slug for you!</span>
-      </fieldset>
+      </fieldset> -->
+      <whppt-input-text
+        v-model="newPage.slug"
+        label="Page Slug:"
+        info="Enter any text and we'll turn it into a slug for you!"
+      ></whppt-input-text>
+
       <whppt-button @click="saveNewPage">Create Page</whppt-button>
     </form>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import slugify from 'slugify';
 import WhpptButton from '../../../components/lib/system/WhpptButton';
+import WhpptSelect from './WhpptSelect';
+import WhpptInputText from './InputText';
 
 export default {
   name: 'WhpptPage',
-  components: { WhpptButton },
+  components: { WhpptButton, WhpptSelect, WhpptInputText },
   data: () => ({
+    chosenTemplate: undefined,
     newPage: {
-      template: '',
+      template: -1,
       slug: '',
       header: {},
       contents: [],
+      link: { type: 'page' },
+      linkgroup: { type: 'page', links: [], showOnDesktop: true },
     },
   }),
   computed: {
@@ -44,10 +63,20 @@ export default {
     },
   },
   methods: {
+    ...mapActions('whppt-nuxt/editor', ['closeSidebar']),
     saveNewPage() {
-      return this.$whppt.createPage(this.newPage).then(({ data }) => {
+      const vm = this;
+      const template = this.$whppt.templates[vm.chosenTemplate];
+      if (!vm.newPage.slug || !template) return;
+      vm.newPage = {
+        ...vm.newPage,
+        template: template.key,
+        ...template.initialData,
+      };
+      return vm.$whppt.createPage(vm.newPage).then(({ data }) => {
         const { slug } = data;
-        return this.$router.push(`/${slug}` || '/');
+        vm.closeSidebar();
+        return vm.$router.push(`/${slug}` || '/');
       });
     },
     formatSlug() {
@@ -59,20 +88,8 @@ export default {
 </script>
 
 <style>
-.whppt-page {
-}
-
-.whppt-page__form select input[type='text'] {
+.whppt-page__form--black {
   color: black;
-}
-
-.whppt-page__form fieldset {
-  border: 0;
-  padding: 0;
-  margin: 1rem 0;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
 }
 
 .whppt-page__form label {

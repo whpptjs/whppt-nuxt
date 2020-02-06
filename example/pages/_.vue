@@ -1,6 +1,12 @@
 <template>
   <div v-if="page" class="container">
-    <div v-text-box="{ data: page, property: 'title' }">
+    <div v-link-group="page.linkgroup">
+      {{ (page.linkgroup && page.linkgroup.text) || 'HEY' }}
+    </div>
+    <div v-link="page.link">
+      {{ page.text || 'Enter link here' }}
+    </div>
+    <div v-plain-text="{ data: page, property: 'title' }">
       {{ page.title || 'HEY' }}
     </div>
     <div v-content="page.contents">
@@ -8,7 +14,7 @@
         <div v-for="content in page.contents" :key="content.key" class="margin">
           <div
             v-if="content.type === 'wText'"
-            v-text-box="{ data: content, property: 'text' }"
+            v-plain-text="{ data: content, property: 'text' }"
           >
             {{ content.text || 'Enter Text here' }}
           </div>
@@ -28,6 +34,13 @@
           <div v-if="content.type === 'wLink'" v-link="content">
             {{ content.text || 'Enter link here' }}
           </div>
+          {{ content.type }}
+          <div
+            v-if="content.type === 'wLinkGroup'"
+            v-link-group="content.linkGroup"
+          >
+            {{ (content.linkgroup && content.linkgroup.text) || 'HEY' }}
+          </div>
         </div>
       </div>
       <div v-else>
@@ -41,9 +54,11 @@
 export default {
   name: 'WildCardPage',
   asyncData({ params, store, error, app: { $whppt } }) {
-    return $whppt
-      .loadPage({ slug: params.pathMatch })
-      .then((page) => {
+    return Promise.all([
+      $whppt.loadPage({ slug: params.pathMatch }),
+      $whppt.loadFooter()
+    ])
+      .then(([page]) => {
         return { page }
       })
       .catch((err) => {
@@ -53,6 +68,9 @@ export default {
           stack: err.stack
         })
       })
+  },
+  mounted() {
+    this.$whppt.page = this.page
   }
 }
 </script>

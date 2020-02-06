@@ -53,7 +53,6 @@ export default {
   border-bottom-color: lightgrey;
   border-bottom-width: 1px;
   border-bottom-style: outset;
-  cursor: pointer;
 }
 
 .whppt-tabs__title {
@@ -61,12 +60,13 @@ export default {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   font-size: 14px;
+  cursor: pointer;
 }
 
 .whppt-tabs__title--active {
   color: white;
   border-bottom-color: white;
-  border-bottom-width: 1;
+  border-bottom-width: 3px;
   border-bottom-style: solid;
 }
 
