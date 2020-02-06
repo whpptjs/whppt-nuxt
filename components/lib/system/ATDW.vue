@@ -8,7 +8,7 @@
 export default {
   name: 'WhpptATDW',
   props: {
-    page: { type: Object, default: () => {} },
+    listing: { type: Object, default: () => {} },
   },
 };
 </script>
