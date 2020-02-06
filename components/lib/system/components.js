@@ -6,7 +6,11 @@ const components = [
     value: 'Link Group',
     editorType: 'wLinkGroup',
     displayType: 'wLinkGroup',
-    linkGroup: { type: 'page', links: [], showOnDesktop: true, showOnTablet: true, showOnMobile: true },
+    type: 'page',
+    links: [],
+    showOnDesktop: true,
+    showOnTablet: true,
+    showOnMobile: true,
   },
   {
     key: 'CardCarousel',
