@@ -4,7 +4,7 @@
     <form class="whppt-page__form" @submit.prevent>
       <!-- <whppt-select v-model="newPage.template" :items="templates" label="Page Template: " /> -->
 
-      <fieldset class="whppt-fieldset">
+      <!-- <fieldset class="whppt-fieldset">
         <label for="template">Page Template: </label>
         <select id="template" v-model="chosenTemplate">
           <option class="whppt-page__form--black" value="" disabled>Select a Template</option>
@@ -16,7 +16,9 @@
             >{{ template.label }}</option
           >
         </select>
-      </fieldset>
+      </fieldset> -->
+      <whppt-select v-model="chosenTemplate" :items="templates" label="Page Template:" />
+
       <!-- <fieldset class="whppt-fieldset">
         <label for="slug">Page Slug:</label>
         <input class="whppt-page__form--black" id="slug" v-model="newPage.slug" @blur="formatSlug" />
@@ -64,11 +66,12 @@ export default {
     ...mapActions('whppt-nuxt/editor', ['closeSidebar']),
     saveNewPage() {
       const vm = this;
-      if (!vm.newPage.slug || !vm.chosenTemplate) return;
+      const template = this.$whppt.templates[vm.chosenTemplate];
+      if (!vm.newPage.slug || !template) return;
       vm.newPage = {
         ...vm.newPage,
-        template: vm.chosenTemplate.key,
-        ...vm.chosenTemplate.initialData,
+        template: template.key,
+        ...template.initialData,
       };
       return vm.$whppt.createPage(vm.newPage).then(({ data }) => {
         const { slug } = data;
