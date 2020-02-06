@@ -13,30 +13,30 @@
       <div v-if="page.contents.length">
         <div v-for="content in page.contents" :key="content.key" class="margin">
           <div
-            v-if="content.type === 'wText'"
+            v-if="content.displayType === 'wPlainText'"
             v-plain-text="{ data: content, property: 'text' }"
           >
             {{ content.text || 'Enter Text here' }}
           </div>
           <div
-            v-if="content.type === 'wRichText'"
+            v-if="content.displayType === 'wRichText'"
             v-rich-text="{ data: content, property: 'text' }"
           >
             {{ content.text || 'Enter rich text here' }}
           </div>
           <div
-            v-if="content.type === 'wCardCarousel'"
-            v-card-carousel="{ data: content, property: 'items' }"
+            v-if="content.displayType === 'wCardCarousel'"
+            v-carousel="{ data: content, property: 'items' }"
           >
             <!-- {{ content.text || 'Enter rich text here' }} -->
-            Just placeholder
+            Just a card carousel
           </div>
-          <div v-if="content.type === 'wLink'" v-link="content">
+          <div v-if="content.displayType === 'wLink'" v-link="content">
             {{ content.text || 'Enter link here' }}
           </div>
           {{ content.type }}
           <div
-            v-if="content.type === 'wLinkGroup'"
+            v-if="content.displayType === 'wLinkGroup'"
             v-link-group="content.linkGroup"
           >
             {{ (content.linkgroup && content.linkgroup.text) || 'HEY' }}

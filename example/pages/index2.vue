@@ -21,25 +21,25 @@
           class="margin"
         >
           <div
-            v-if="content.type === 'wText'"
+            v-if="content.editorType === 'wText'"
             v-text-box="{ data: content, property: 'text' }"
           >
             {{ content.text || 'Enter Text here' }}
           </div>
           <div
-            v-if="content.type === '≈'"
+            v-if="content.editorType === '≈'"
             v-rich-text="{ data: content, property: 'text' }"
           >
             {{ content.text || 'Enter rich text here~~~~~' }}
           </div>
           <div
-            v-if="content.type === 'wCardCarousel'"
-            v-card-carousel="{ data: content, property: 'items' }"
+            v-if="content.editorType === 'wCarousel'"
+            v-carousel="{ data: content, property: 'items' }"
           >
             <!-- {{ content.text || 'Enter rich text here' }} -->
-            Just placeholder
+            Just a carousel
           </div>
-          <div v-if="content.type === 'wLink'" v-link="content">
+          <div v-if="content.editorType === 'wLink'" v-link="content">
             {{ content.link || 'Enter link here' }}
           </div>
           <!-- {{ content.value || 'Content here' }} -->

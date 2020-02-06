@@ -1,6 +1,6 @@
 import contentDirective from './directives/content';
 import richTextDirective from './directives/richText';
-import cardCarouselDirective from './directives/cardCarousel';
+import carouselDirective from './directives/carousel';
 import plainTextDirective from './directives/plainText';
 import linkDirective from './directives/link';
 import linkGroupDirective from './directives/linkGroup';
@@ -27,6 +27,7 @@ export default (context, inject) => {
     loadFooter: LoadFooter(context),
     saveFooter: SaveFooter(context),
     templates: options.templates,
+    components: options.components,
     baseAPIUrl: options.baseAPIUrl,
   };
 
@@ -49,7 +50,7 @@ export default (context, inject) => {
 
   contentDirective({ ...context, menuIsInState, MENUSTATES });
   plainTextDirective({ ...context, menuIsInState, MENUSTATES });
-  cardCarouselDirective({ ...context, menuIsInState, MENUSTATES });
+  carouselDirective({ ...context, menuIsInState, MENUSTATES });
   richTextDirective({ ...context, menuIsInState, MENUSTATES });
   linkDirective({ ...context, menuIsInState, MENUSTATES });
   linkGroupDirective({ ...context, menuIsInState, MENUSTATES });
