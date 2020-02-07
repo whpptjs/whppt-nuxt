@@ -6,11 +6,12 @@
           <h1>ATDW</h1>
           <button @click="showReconnect = !showReconnect">Close</button>
         </div>
-        <div>
-          <select>
-            <option value="atdw">ATDW</option>
-          </select>
-          {{ propToReconnect }}
+        <div v-for="(field, key) in atdwFields" :key="key" class="whppt-linker">
+          <div class="whppt-linker__labels">
+            <span class="whppt__bold">{{ key }}</span>
+            <div>{{ field(listing.atdw, key) }}</div>
+          </div>
+          <button @click="reconnect(field, key)">Link</button>
         </div>
       </div>
     </div>
@@ -23,24 +24,39 @@
         <fieldset>
           <label for="name">Name</label>
           <input id="name" v-model="listing.name.value" />
-          ATDW: {{ listing.name.path }}
-          <button @click="disconnect(listing.name)">disconnect</button>
-          <button @click="openReconnectMenu(listing.name)">reconnect</button>
+          <div class="whppt-atdw__form-controls">
+            <span>Linked To: {{ listing.name.path }}</span>
+            <div>
+              <button v-if="listing.name.path" @click="disconnect(listing.name)">disconnect</button>
+              <button v-if="!listing.name.path" @click="openReconnectMenu('name')">reconnect</button>
+            </div>
+          </div>
         </fieldset>
         <fieldset>
           <label for="desc">Description</label>
           <textarea id="desc" v-model="listing.description.value" rows="5" />
-          ATDW: {{ listing.atdw.productDescription }}
+          <div class="whppt-atdw__form-controls">
+            <span>Linked To: {{ listing.description.path }}</span>
+            <div>
+              <button v-if="listing.description.path" @click="disconnect(listing.description)">disconnect</button>
+              <button v-if="!listing.description.path" @click="openReconnectMenu('description')">reconnect</button>
+            </div>
+          </div>
         </fieldset>
         <fieldset>
           <label for="address">Address</label>
           <input id="address" v-model="listing.physicalAddress.value" />
-          ATDW: {{ listing.atdw.addresses }}
-        </fieldset>
-        <fieldset>
-          <label for="categories">Categories</label>
-          <input id="categories" v-model="listing.categories" />
-          ATDW: {{ listing.atdw.productCategoryId }}
+          <div class="whppt-atdw__form-controls">
+            <span>Linked To: {{ listing.physicalAddress.path }}</span>
+            <div>
+              <button v-if="listing.physicalAddress.path" @click="disconnect(listing.physicalAddress)">
+                disconnect
+              </button>
+              <button v-if="!listing.physicalAddress.path" @click="openReconnectMenu('physicalAddress')">
+                reconnect
+              </button>
+            </div>
+          </div>
         </fieldset>
       </form>
     </div>
@@ -48,12 +64,39 @@
 </template>
 
 <script>
+import { get, find } from 'lodash';
+const URI = require('uri-js');
+
+const stringFromPath = function(product, path) {
+  return get(product, path);
+};
+
 export default {
   name: 'WhpptATDW',
   data: () => ({
     listing: undefined,
     showReconnect: false,
     propToReconnect: '',
+    atdwFields: {
+      productName: stringFromPath,
+      productDescription: stringFromPath,
+      // Category: stringFromPath,
+      email(product) {
+        return find(product.communication, comm => comm.attributeIdCommunication === 'CAEMENQUIR');
+      },
+      physicalAddress(product) {
+        const address = find(product.addresses, address => address.address_type === 'PHYSICAL');
+        return address && `${address.address_line} ${address.city}`;
+      },
+      postalAddress(product) {
+        const address = find(product.addresses, address => address.address_type === 'POSTAL');
+        return address && `${address.address_line} ${address.city}`;
+      },
+      image(product) {
+        const { scheme, host, path } = URI.parse(product.productImage);
+        return `${scheme}://${host}${path}`;
+      },
+    },
   }),
   mounted() {
     this.$axios.get(`http://localhost:3001/api/listing/findById?id=56b26d16d5f1565045dae8ca`).then(({ data }) => {
@@ -61,6 +104,11 @@ export default {
     });
   },
   methods: {
+    reconnect(field, key) {
+      this.listing[this.propToReconnect].path = key;
+      this.listing[this.propToReconnect].value = field(this.listing.atdw, key);
+      this.showReconnect = false;
+    },
     disconnect(property) {
       property.provider = undefined;
       property.path = undefined;
@@ -87,6 +135,26 @@ export default {
   position: relative;
 }
 
+.whppt-linker {
+  display: flex;
+  margin: 0.4rem 1rem;
+}
+
+.whppt-linker__labels span {
+  font-weight: bold;
+  margin-bottom: 0.4rem;
+}
+
+.whppt-atdw__form-controls {
+  display: flex;
+  /*justify-content: center;*/
+  align-items: center;
+}
+
+.whppt-atdw__form-controls span {
+  margin-right: auto;
+}
+
 .whppt-atdw__modal {
   width: 100%;
   height: 100%;
@@ -104,11 +172,12 @@ export default {
   border-radius: 8px;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   overflow-y: auto;
+  width: 100%;
 }
 
 .whppt-atdw__modal--inner {
   margin: 1rem auto;
-  width: 33.33%;
+  /*width: 33.33%;*/
 }
 
 .whppt-atdw__heading {
@@ -160,9 +229,5 @@ export default {
   color: white;
   background-color: black;
   border-radius: 25px;
-}
-
-.bold {
-  font-weight: bold;
 }
 </style>
