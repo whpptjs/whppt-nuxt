@@ -26,6 +26,7 @@
           >
             {{ content.text || 'Enter Text here' }}
           </div>
+
           <div
             v-if="content.editorType === '≈'"
             v-rich-text="{ data: content, property: 'text' }"

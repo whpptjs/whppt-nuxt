@@ -56,6 +56,12 @@
           >
             I am a gap
           </div>
+          <div
+            v-if="content.editorType === 'wContainer'"
+            v-container="{ data: content, property: 'container' }"
+          >
+            You are a Container.
+          </div>
         </div>
       </div>
       <div v-else>
