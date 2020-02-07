@@ -7,16 +7,22 @@
       placeholder="Enter text here"
       label="Text"
     />
-    <whppt-input-text v-model="$whppt.editData.marginTop" placeholder="Height in px" label="Margin Top" />
+    <whppt-text-input
+      type="number"
+      min="0"
+      v-model="$whppt.editData.marginTop"
+      placeholder="Height in px"
+      label="Margin Top"
+    />
   </div>
 </template>
 
 <script>
-import WhpptInputText from './WhpptTextInput';
+import WhpptTextInput from './WhpptTextInput';
 
 export default {
   name: 'EditorTextBox',
-  components: { WhpptInputText },
+  components: { WhpptTextInput },
 };
 </script>
 <style>

@@ -9,14 +9,14 @@
 
       <div v-if="data.type === 'page'">
         <div class="whppt-flex">
-          <e-input
+          <whppt-text-input
             id="linkHref"
             v-model="data.href"
             class="whppt-input-half"
             placeholder="e.g. /contact"
             label="Hyperlink"
           />
-          <e-input
+          <whppt-text-input
             id="linkText"
             v-model="data.text"
             class="whppt-input-half"
@@ -30,14 +30,14 @@
       </div>
       <div v-if="data.type === 'external'">
         <div class="whppt-flex">
-          <e-input
+          <whppt-text-input
             id="linkHref"
             v-model="data.href"
             class="whppt-input-half"
             placeholder="e.g. https://example.com/example"
             label="Hyperlink"
           />
-          <e-input
+          <whppt-text-input
             id="linkText"
             v-model="data.text"
             class="whppt-input-half"
@@ -51,8 +51,15 @@
       </div>
       <div v-if="data.type === 'anchor'">
         <div class="whppt-flex">
-          <e-input v-model="data.href" class="whppt-input-half" placeholder="e.g. #museum" label="Hyperlink" info />
-          <e-input
+          <whppt-input
+            v-model="data.href"
+            class="whppt-input-half"
+            placeholder="e.g. #museum"
+            label="Hyperlink"
+            info
+            text-
+          />
+          <whppt-text-input
             id="linkText"
             v-model="data.text"
             class="whppt-input-half"
@@ -71,11 +78,11 @@
 
 <script>
 import ETab from './Tab';
-import EInput from './WhpptTextInput';
+import WhpptTextInput from './WhpptTextInput';
 
 export default {
   name: 'EditorLinkEdit',
-  components: { EInput, ETab },
+  components: { WhpptTextInput, ETab },
   props: ['data'],
 };
 </script>
