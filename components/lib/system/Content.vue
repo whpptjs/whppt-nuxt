@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     addContent(content) {
-      this.$whppt.editData.push(JSON.parse(JSON.stringify(content)));
+      this.$whppt.editData.push(JSON.parse(JSON.stringify({ ...content, marginTop: '5' })));
     },
   },
   computed: {

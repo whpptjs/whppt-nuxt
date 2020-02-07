@@ -12,6 +12,14 @@
     <div class="whppt-sidebar" :class="{ 'whppt-openEditor': editSidebar }">
       <div class="whppt-sidebar__inner">
         <component :is="editSidebarType"></component>
+        <whppt-text-input
+          v-if="$whppt.editData"
+          type="number"
+          min="0"
+          v-model="$whppt.editData.marginTop"
+          placeholder="Height in px"
+          label="Margin Top"
+        />
         <whppt-button class="whppt-button__close" @click="closeSidebar">
           Close
         </whppt-button>
@@ -25,10 +33,11 @@ import { mapState, mapActions } from 'vuex';
 import * as Editors from '../system';
 import Modal from '../system/Modal';
 import WhpptButton from '../system/WhpptButton';
+import WhpptTextInput from '../system/WhpptTextInput';
 
 export default {
   name: 'WhpptEditorApp',
-  components: { ...Editors, WhpptButton, Modal },
+  components: { ...Editors, WhpptButton, Modal, WhpptTextInput },
   computed: mapState('whppt-nuxt/editor', ['editInModal', 'editInModalType', 'editSidebar', 'editSidebarType']),
   methods: {
     ...mapActions('whppt-nuxt/editor', ['closeSidebar', 'closeModal']),
