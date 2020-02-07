@@ -1,6 +1,20 @@
 <template>
   <div v-if="listing" class="whppt-atdw">
-    <div class="whppt-atdw__content whppt-atdw__content--left">
+    <div v-if="showReconnect" class="whppt-atdw__modal">
+      <div class="whppt-atdw__content whppt-atdw__modal--inner">
+        <div class="whppt-atdw__heading">
+          <h1>ATDW</h1>
+          <button @click="showReconnect = !showReconnect">Close</button>
+        </div>
+        <div>
+          <select>
+            <option value="atdw">ATDW</option>
+          </select>
+          {{ propToReconnect }}
+        </div>
+      </div>
+    </div>
+    <div class="whppt-atdw__content">
       <div class="whppt-atdw__heading">
         <h1>Edit Listing</h1>
         <button class="whppt-button" @click="saveListing">Save</button>
@@ -9,16 +23,18 @@
         <fieldset>
           <label for="name">Name</label>
           <input id="name" v-model="listing.name.value" />
-          ATDW: {{ listing.atdw.productName }}
+          ATDW: {{ listing.name.path }}
+          <button @click="disconnect(listing.name)">disconnect</button>
+          <button @click="openReconnectMenu(listing.name)">reconnect</button>
         </fieldset>
         <fieldset>
           <label for="desc">Description</label>
-          <textarea id="desc" v-model="listing.description.value" rows="3" />
+          <textarea id="desc" v-model="listing.description.value" rows="5" />
           ATDW: {{ listing.atdw.productDescription }}
         </fieldset>
         <fieldset>
           <label for="address">Address</label>
-          <input id="address" v-model="listing.address.value" />
+          <input id="address" v-model="listing.physicalAddress.value" />
           ATDW: {{ listing.atdw.addresses }}
         </fieldset>
         <fieldset>
@@ -28,11 +44,6 @@
         </fieldset>
       </form>
     </div>
-    <div class="whppt-atdw__content whppt-atdw__content--right">
-      <div class="whppt-atdw__heading">
-        <h1>ATDW</h1>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -41,6 +52,8 @@ export default {
   name: 'WhpptATDW',
   data: () => ({
     listing: undefined,
+    showReconnect: false,
+    propToReconnect: '',
   }),
   mounted() {
     this.$axios.get(`http://localhost:3001/api/listing/findById?id=56b26d16d5f1565045dae8ca`).then(({ data }) => {
@@ -48,6 +61,14 @@ export default {
     });
   },
   methods: {
+    disconnect(property) {
+      property.provider = undefined;
+      property.path = undefined;
+    },
+    openReconnectMenu(property) {
+      this.showReconnect = !this.showReconnect;
+      this.propToReconnect = property;
+    },
     saveListing() {
       return this.$axios.post(`http://localhost:3001/api/listing/save`, { listing: this.listing });
     },
@@ -63,6 +84,19 @@ export default {
   width: 100%;
   height: 80vh;
   margin: 1.5rem;
+  position: relative;
+}
+
+.whppt-atdw__modal {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 53;
 }
 
 .whppt-atdw__content {
@@ -71,12 +105,9 @@ export default {
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   overflow-y: auto;
 }
-.whppt-atdw__content--left {
-  position: relative;
-  width: 66.66%;
-  margin-right: 1rem;
-}
-.whppt-atdw__content--right {
+
+.whppt-atdw__modal--inner {
+  margin: 1rem auto;
   width: 33.33%;
 }
 
@@ -89,6 +120,7 @@ export default {
   width: 100%;
   padding: 0.5rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+  height: 4rem;
 }
 
 .whppt-atdw__content form {
