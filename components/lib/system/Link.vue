@@ -71,7 +71,7 @@
 
 <script>
 import ETab from './Tab';
-import EInput from './InputText';
+import EInput from './WhpptTextInput';
 
 export default {
   name: 'EditorLinkEdit',
