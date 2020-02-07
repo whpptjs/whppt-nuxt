@@ -65,7 +65,7 @@ export default {
   left: 0;
   bottom: 0;
   overflow: hidden;
-  z-index: 40;
+  z-index: 52;
 }
 
 .whppt-modal__background {
@@ -95,7 +95,7 @@ export default {
 .whppt-modal__content {
   margin: 0 auto;
   height: 100vh;
-  width: 100vh;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
