@@ -4,6 +4,7 @@ import carouselDirective from './directives/carousel';
 import plainTextDirective from './directives/plainText';
 import linkDirective from './directives/link';
 import linkGroupDirective from './directives/linkGroup';
+import listingsDirective from './directives/listings';
 import SavePage from './helpers/SavePage';
 import SaveFooter from './helpers/SaveFooter';
 import LoadFooter from './helpers/LoadFooter';
@@ -54,4 +55,5 @@ export default (context, inject) => {
   richTextDirective({ ...context, menuIsInState, MENUSTATES });
   linkDirective({ ...context, menuIsInState, MENUSTATES });
   linkGroupDirective({ ...context, menuIsInState, MENUSTATES });
+  listingsDirective({ ...context, menuIsInState, MENUSTATES });
 };

@@ -45,7 +45,7 @@ const components = [
     value: 'Listings',
     editorType: 'wListings',
     displayType: 'wListings',
-    items: [],
+    categories: [],
   },
 ];
 

@@ -7,5 +7,6 @@ import PlainText from './TextBox';
 import Carousel from './Carousel';
 import LinkGroup from './LinkGroup';
 import atdw from './ATDW';
+import Listings from './Listings';
 
-export { WhpptPage, EditorMenu, RichText, LinkSidebar, EContent, PlainText, Carousel, LinkGroup, atdw };
+export { WhpptPage, EditorMenu, RichText, LinkSidebar, EContent, PlainText, Carousel, LinkGroup, atdw, Listings };
