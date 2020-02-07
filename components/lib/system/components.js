@@ -13,11 +13,11 @@ const components = [
     showOnMobile: true,
   },
   {
-    key: 'Gap',
-    value: 'Gap',
-    editorType: 'wGap',
-    displayType: 'wGap',
-    height: 10,
+    key: 'Listings',
+    value: 'Listings',
+    editorType: 'wListings',
+    displayType: 'wListings',
+    categories: [],
   },
   {
     key: 'Carousel',
@@ -50,7 +50,12 @@ const components = [
     value: 'Container',
     editorType: 'wContainer',
     displayType: 'wContainer',
+    contents: [],
   },
 ];
+
+components.forEach(c => {
+  c.marginTop = '5';
+});
 
 export { components };
