@@ -99,7 +99,8 @@ export default {
     },
   }),
   mounted() {
-    this.$axios.get(`http://localhost:3001/api/listing/findById?id=56b26d16d5f1565045dae8ca`).then(({ data }) => {
+    const baseAPIUrl = this.$whppt.baseAPIUrl || '';
+    this.$axios.get(`${baseAPIUrl}/api/listing/findById?id=56b26d16d5f1565045dae8ca`).then(({ data }) => {
       this.listing = data;
     });
   },
@@ -118,7 +119,8 @@ export default {
       this.propToReconnect = property;
     },
     saveListing() {
-      return this.$axios.post(`http://localhost:3001/api/listing/save`, { listing: this.listing });
+      const baseAPIUrl = this.$whppt.baseAPIUrl || '';
+      return this.$axios.post(`${baseAPIUrl}/api/listing/save`, { listing: this.listing });
     },
   },
 };
