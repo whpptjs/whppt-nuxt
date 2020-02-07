@@ -4,28 +4,20 @@
     <p>Categories</p>
     <div v-for="(category, index) in options" :key="index">
       <whppt-check-box
-        :value="categories.indexOf(category.key) !== -1"
+        :value="categories && categories.indexOf(category.key) !== -1"
         :label="category.namespace"
         @click="modifyFilters(category.key)"
       ></whppt-check-box>
     </div>
-    <whppt-text-input
-      type="number"
-      min="0"
-      v-model="$whppt.editData.marginTop"
-      placeholder="Height in px"
-      label="Margin Top"
-    />
   </div>
 </template>
 
 <script>
 import WhpptCheckBox from './CheckBox';
-import WhpptTextInput from './WhpptTextInput';
 
 export default {
   name: 'EditorListings',
-  components: { WhpptCheckBox, WhpptTextInput },
+  components: { WhpptCheckBox },
   data() {
     return {
       options: {
@@ -49,9 +41,13 @@ export default {
   },
   methods: {
     modifyFilters(category) {
-      const index = this.categories.indexOf(category);
-      if (index === -1) this.categories.push(category);
-      else this.categories.splice(index, 1);
+      if (!this.categories) {
+        this.$whppt.editData[this.$whppt.editDataProperty] = [category];
+        return;
+      }
+      const index = this.$whppt.editData[this.$whppt.editDataProperty].indexOf(category);
+      if (index === -1) this.$whppt.editData[this.$whppt.editDataProperty].push(category);
+      else this.$whppt.editData[this.$whppt.editDataProperty].splice(index, 1);
     },
   },
 };

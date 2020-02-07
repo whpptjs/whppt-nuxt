@@ -19,37 +19,43 @@
           <div
             v-if="content.displayType === 'wPlainText'"
             v-plain-text="{ data: content, property: 'text' }"
+            :style="{ 'margin-top': `${content.marginTop}px` }"
           >
             {{ content.text || 'Enter Text here' }}
           </div>
           <div
+            :style="{ 'margin-top': `${content.marginTop}px` }"
             v-if="content.displayType === 'wRichText'"
             v-rich-text="{ data: content, property: 'text' }"
           >
             {{ content.text || 'Enter rich text here' }}
           </div>
           <div
+            :style="{ 'margin-top': `${content.marginTop}px` }"
             v-if="content.displayType === 'wCarousel'"
             v-carousel="{ data: content, property: 'items' }"
           >
-            <!-- {{ content.text || 'Enter rich text here' }} -->
             Just a normal carousel
           </div>
           <div
             v-if="content.displayType === 'wCardCarousel'"
             v-carousel="{ data: content, property: 'items' }"
+            :style="{ 'margin-top': `${content.marginTop}px` }"
           >
-            <!-- {{ content.text || 'Enter rich text here' }} -->
             A super card carousel
           </div>
-          <div v-if="content.displayType === 'wLink'" v-link="content">
+          <div
+            v-if="content.displayType === 'wLink'"
+            v-link="content"
+            :style="{ 'margin-top': `${content.marginTop}px` }"
+          >
             {{ content.text || 'Enter link here' }}
           </div>
           {{ content.type }}
           <div
-            v-for="content in page.contents"
-            :key="content.key"
-            class="margin"
+            v-if="content.displayType === 'wLinkGroup'"
+            v-link-group="content.linkGroup"
+            :style="{ 'margin-top': `${content.marginTop}px` }"
           >
             <div
               v-if="content.displayType === 'wPlainText'"
@@ -89,6 +95,7 @@
             </div>
           </div>
           <div
+<<<<<<< HEAD
             v-if="content.displayType === 'wGap'"
             id="test123"
             v-gap="{ data: content, property: 'height' }"
@@ -126,6 +133,9 @@
             </div>
           </div>
           <div
+=======
+            :style="{ 'margin-top': `${content.marginTop}px` }"
+>>>>>>> 1a90ecbc2cd5a3612c1bffb5351d43e4cc4601a8
             v-if="content.displayType === 'wListings'"
             v-listings="{ data: content, property: 'categories' }"
           >
