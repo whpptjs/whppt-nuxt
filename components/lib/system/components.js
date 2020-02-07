@@ -13,6 +13,13 @@ const components = [
     showOnMobile: true,
   },
   {
+    key: 'Gap',
+    value: 'Gap',
+    editorType: 'wGap',
+    displayType: 'wGap',
+    height: 10,
+  },
+  {
     key: 'Carousel',
     value: 'Carousel',
     editorType: 'wCarousel',
@@ -26,26 +33,10 @@ const components = [
         description: '',
         ctaText: '',
         ctaIcon: undefined,
+        ctaLink: undefined,
         image: undefined,
       },
     ],
-  },
-  {
-    key: 'CardCarousel',
-    value: 'Card Carousel',
-    editorType: 'wCardCarousel',
-    displayType: 'wCardCarousel',
-    reversed: false,
-    title: '',
-    description: '',
-    items: [],
-  },
-  {
-    key: 'Listings',
-    value: 'Listings',
-    editorType: 'wListings',
-    displayType: 'wListings',
-    items: [],
   },
 ];
 

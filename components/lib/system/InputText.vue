@@ -2,13 +2,13 @@
   <div>
     <label class="whppt-inputText__label" :for="id">{{ label }}</label>
     <input
+      v-bind="$attrs"
       :id="id"
       class="whppt-inputText__input"
       :class="{ 'whppt-editor-disabled': disabled }"
-      type="text"
+      :type="$attrs.type || text"
       :placeholder="placeholder"
       :value="value"
-      v-bind="$attrs"
       :disabled="disabled"
       @input="$emit('input', $event.target.value)"
       @change="$emit('change', $event.target.value)"
