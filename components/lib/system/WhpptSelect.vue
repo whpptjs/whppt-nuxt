@@ -7,7 +7,7 @@
         {{ title }}
       </option>
       <option v-for="(item, index) in items" :key="index">
-        {{ item.title || item.label || `Item #${index}` }}
+        {{ item.title || item.label || `Item #${index + 1}` }}
       </option>
     </select>
   </div>
@@ -15,6 +15,9 @@
 <script>
 export default {
   name: 'WhpptSelect',
+  mounted() {
+    this.syncSelection(this.value);
+  },
   props: {
     items: {
       type: Array,
@@ -27,7 +30,7 @@ export default {
     label: { type: String, default: () => '' },
     value: {
       type: Number,
-      default: () => 0,
+      default: () => -1,
     },
   },
   data() {
@@ -37,17 +40,18 @@ export default {
   },
   watch: {
     value(val, old) {
-      if (val !== old) {
-        this.$nextTick(() => {
-          this.$refs.select.selectedIndex = val + 1;
-        });
-      }
+      if (val !== old) this.syncSelection(val);
     },
   },
   methods: {
     selectIndex(e) {
       this.selectedIndex = e.target.selectedIndex;
       this.$emit('input', this.selectedIndex - 1);
+    },
+    syncSelection(val) {
+      this.$nextTick(() => {
+        this.$refs.select.selectedIndex = val + 1;
+      });
     },
   },
 };

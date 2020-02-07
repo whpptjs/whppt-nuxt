@@ -1,74 +1,90 @@
 <template>
   <div class="whppt-full">
     <h1>Carousel</h1>
-    <whppt-input-text
-      v-model="editingCarousel.title"
-      class="whppt-textBox--margin-top-10"
-      placeholder="Enter text here"
-      label="Carousel Title"
-    />
-    <whppt-input-text
-      v-model="editingCarousel.description"
-      class="whppt-textBox--margin-top-10"
-      placeholder="Optional"
-      label="Carousel Description"
-    />
-    <whppt-check-box
-      :value="editingCarousel.reversed"
-      label="Reversed"
-      @click="editingCarousel.reversed = !editingCarousel.reversed"
-    ></whppt-check-box>
-    <whppt-select v-model="selectedIndex" :items="editingCarousel.items" label="Editing Item" />
-
-    <div class="whppt-carousel__actions">
-      <button class="whppt-carousel__actions-add" @click="add">Add New Item</button>
-      <button class="whppt-carousel__actions-remove" @click="remove" v-if="selectedIndex >= 0">
-        Remove Item
-      </button>
-    </div>
-
-    <whppt-tabs v-if="selectedIndex >= 0">
-      <whppt-tab title="Text" :selected="true">
-        <whppt-input-text
-          v-model="editingItem.title"
+    <whppt-tabs>
+      <whppt-tab title="General">
+        <whppt-text-input
+          v-model="editingCarousel.title"
           class="whppt-textBox--margin-top-10"
           placeholder="Enter text here"
-          label="Item Title"
+          label="Carousel Title"
         />
-        <whppt-input-text
-          v-model="editingItem.description"
+        <whppt-text-input
+          v-model="editingCarousel.description"
           class="whppt-textBox--margin-top-10"
-          placeholder="Enter text here"
-          label="Item Description"
+          placeholder="Optional"
+          label="Carousel Description"
         />
-        <whppt-input-text
-          v-model="editingItem.ctaText"
-          class="whppt-textBox--margin-top-10"
-          placeholder="Enter text here"
-          label="Button Text"
+        <whppt-text-input
+          type="number"
+          min="0"
+          v-model="$whppt.editData.marginTop"
+          placeholder="Height in px"
+          label="Margin Top"
         />
-        <whppt-input-text
-          v-model="editingItem.ctaIcon"
-          class="whppt-textBox--margin-top-10"
-          placeholder="Enter text here"
-          label="Button Icon"
-        />
-        <whppt-input-text
-          v-model="editingItem.ctaLink"
-          class="whppt-textBox--margin-top-10"
-          placeholder="Enter text here"
-          label="Button Link"
-        />
+        <whppt-check-box
+          :value="editingCarousel.reversed"
+          label="Reversed"
+          @click="editingCarousel.reversed = !editingCarousel.reversed"
+        ></whppt-check-box>
       </whppt-tab>
-      <whppt-tab title="Image">
-        Image cropper goes here
+      <whppt-tab title="Items">
+        <whppt-select v-model="selectedIndex" :items="editingCarousel.items" label="Editing Item" />
+
+        <div class="whppt-carousel__actions">
+          <button class="whppt-carousel__actions-add" @click="add">Add New Item</button>
+          <button class="whppt-carousel__actions-remove" @click="remove" v-if="selectedIndex >= 0">
+            Remove Item
+          </button>
+        </div>
+
+        <div class="whppt-carousel__item-details-container">
+          <div class="whppt-carousel__item-details-divider" />
+          <whppt-tabs v-if="selectedIndex >= 0" class="whppt-carousel__item-details">
+            <whppt-tab title="Text">
+              <whppt-text-input
+                v-model="editingItem.title"
+                class="whppt-textBox--margin-top-10"
+                placeholder="Enter text here"
+                label="Item Title"
+              />
+              <whppt-text-input
+                v-model="editingItem.description"
+                class="whppt-textBox--margin-top-10"
+                placeholder="Enter text here"
+                label="Item Description"
+              />
+              <whppt-text-input
+                v-model="editingItem.ctaText"
+                class="whppt-textBox--margin-top-10"
+                placeholder="Enter text here"
+                label="Button Text"
+              />
+              <whppt-text-input
+                v-model="editingItem.ctaIcon"
+                class="whppt-textBox--margin-top-10"
+                placeholder="Enter text here"
+                label="Button Icon"
+              />
+              <whppt-text-input
+                v-model="editingItem.ctaLink"
+                class="whppt-textBox--margin-top-10"
+                placeholder="Enter text here"
+                label="Button Link"
+              />
+            </whppt-tab>
+            <whppt-tab title="Image">
+              Image cropper goes here
+            </whppt-tab>
+          </whppt-tabs>
+        </div>
       </whppt-tab>
     </whppt-tabs>
   </div>
 </template>
 
 <script>
-import WhpptInputText from './WhpptTextInput';
+import WhpptTextInput from './WhpptTextInput';
 import WhpptSelect from './WhpptSelect';
 import WhpptTab from './WhpptTab';
 import WhpptTabs from './WhpptTabs';
@@ -76,7 +92,7 @@ import WhpptCheckBox from './CheckBox';
 
 export default {
   name: 'EditorCarousel',
-  components: { WhpptInputText, WhpptTab, WhpptTabs, WhpptSelect, WhpptCheckBox },
+  components: { WhpptTextInput, WhpptTab, WhpptTabs, WhpptSelect, WhpptCheckBox },
   data() {
     return {
       selectedIndex: -1,
@@ -106,8 +122,8 @@ export default {
       this.selectedIndex = this.selectedIndex + 1;
     },
     remove() {
-      this.editingCarouselItems.splice(this.selectedIndex, 1);
       if (window.confirm('Do you want to remove this card?')) {
+        this.editingCarouselItems.splice(this.selectedIndex, 1);
         if (this.selectedIndex > -1) this.selectedIndex = this.selectedIndex - 1;
       }
     },
@@ -141,5 +157,19 @@ export default {
 }
 .whppt-carousel__actions-remove:hover {
   color: red !important;
+}
+
+.whppt-carousel__item-details-container {
+  display: flex;
+}
+.whppt-carousel__item-details-divider {
+  border-right-width: 2px;
+  border-right-style: solid;
+  border-right-color: grey;
+  margin: 20px 20px 20px 0;
+}
+
+.whppt-carousel__item-details {
+  flex: 1;
 }
 </style>

@@ -13,13 +13,6 @@ const components = [
     showOnMobile: true,
   },
   {
-    key: 'Listings',
-    value: 'Listings',
-    editorType: 'wListings',
-    displayType: 'wListings',
-    categories: [],
-  },
-  {
     key: 'Carousel',
     value: 'Carousel',
     editorType: 'wCarousel',
@@ -37,6 +30,20 @@ const components = [
         image: undefined,
       },
     ],
+  },
+  {
+    key: 'Listings',
+    value: 'Listings',
+    editorType: 'wListings',
+    displayType: 'wListings',
+    categories: [],
+  },
+  {
+    key: 'Container',
+    value: 'Container',
+    editorType: 'wContainer',
+    displayType: 'wContainer',
+    contents: [],
   },
 ];
 

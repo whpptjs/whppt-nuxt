@@ -9,15 +9,23 @@
         @click="modifyFilters(category.key)"
       ></whppt-check-box>
     </div>
+    <whppt-text-input
+      type="number"
+      min="0"
+      v-model="$whppt.editData.marginTop"
+      placeholder="Height in px"
+      label="Margin Top"
+    />
   </div>
 </template>
 
 <script>
 import WhpptCheckBox from './CheckBox';
+import WhpptTextInput from './WhpptTextInput';
 
 export default {
   name: 'EditorListings',
-  components: { WhpptCheckBox },
+  components: { WhpptCheckBox, WhpptTextInput },
   data() {
     return {
       options: {

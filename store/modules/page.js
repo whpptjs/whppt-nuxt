@@ -16,7 +16,6 @@ export default options => ({
       });
     },
     loadPage({ commit }, { slug }) {
-      console.log('SAVEPAGEACTION');
       return this.$whppt.loadPage({ slug }).then(page => {
         commit('pageLoaded', page);
       });
@@ -25,7 +24,6 @@ export default options => ({
   mutations: {
     pageLoaded(state, page) {
       state.page = page;
-      console.log('STATE.PAGE', state.page);
     },
   },
   getters: {},
