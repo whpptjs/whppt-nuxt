@@ -2,8 +2,10 @@ import contentDirective from './directives/content';
 import richTextDirective from './directives/richText';
 import carouselDirective from './directives/carousel';
 import plainTextDirective from './directives/plainText';
+import gapDirective from './directives/gap';
 import linkDirective from './directives/link';
 import linkGroupDirective from './directives/linkGroup';
+import listingsDirective from './directives/listings';
 import SavePage from './helpers/SavePage';
 import SaveFooter from './helpers/SaveFooter';
 import LoadFooter from './helpers/LoadFooter';
@@ -50,8 +52,10 @@ export default (context, inject) => {
 
   contentDirective({ ...context, menuIsInState, MENUSTATES });
   plainTextDirective({ ...context, menuIsInState, MENUSTATES });
+  gapDirective({ ...context, menuIsInState, MENUSTATES });
   carouselDirective({ ...context, menuIsInState, MENUSTATES });
   richTextDirective({ ...context, menuIsInState, MENUSTATES });
   linkDirective({ ...context, menuIsInState, MENUSTATES });
   linkGroupDirective({ ...context, menuIsInState, MENUSTATES });
+  listingsDirective({ ...context, menuIsInState, MENUSTATES });
 };

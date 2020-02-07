@@ -25,11 +25,18 @@
             {{ content.text || 'Enter rich text here' }}
           </div>
           <div
+            v-if="content.displayType === 'wCarousel'"
+            v-carousel="{ data: content, property: 'items' }"
+          >
+            <!-- {{ content.text || 'Enter rich text here' }} -->
+            Just a normal carousel
+          </div>
+          <div
             v-if="content.displayType === 'wCardCarousel'"
             v-carousel="{ data: content, property: 'items' }"
           >
             <!-- {{ content.text || 'Enter rich text here' }} -->
-            Just a card carousel
+            A super card carousel
           </div>
           <div v-if="content.displayType === 'wLink'" v-link="content">
             {{ content.text || 'Enter link here' }}
@@ -40,6 +47,14 @@
             v-link-group="content.linkGroup"
           >
             {{ (content.linkgroup && content.linkgroup.text) || 'HEY' }}
+          </div>
+          <div
+            id="test123"
+            v-if="content.displayType === 'wGap'"
+            v-gap="{ data: content, property: 'height' }"
+            :style="`padding-bottom: ${content.height}px`"
+          >
+            I am a gap
           </div>
         </div>
       </div>

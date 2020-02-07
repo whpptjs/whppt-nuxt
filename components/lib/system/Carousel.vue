@@ -53,6 +53,12 @@
           placeholder="Enter text here"
           label="Button Icon"
         />
+        <whppt-input-text
+          v-model="editingItem.ctaLink"
+          class="whppt-textBox--margin-top-10"
+          placeholder="Enter text here"
+          label="Button Link"
+        />
       </whppt-tab>
       <whppt-tab title="Image">
         Image cropper goes here
@@ -94,6 +100,7 @@ export default {
         description: '',
         ctaText: '',
         ctaIcon: undefined,
+        ctaLink: '',
         image: undefined,
       });
       this.selectedIndex = this.selectedIndex + 1;
