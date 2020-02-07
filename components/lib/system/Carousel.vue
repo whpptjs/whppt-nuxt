@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import WhpptInputText from './InputText';
+import WhpptInputText from './WhpptTextInput';
 import WhpptSelect from './WhpptSelect';
 import WhpptTab from './WhpptTab';
 import WhpptTabs from './WhpptTabs';

@@ -48,14 +48,6 @@
           >
             {{ (content.linkgroup && content.linkgroup.text) || 'HEY' }}
           </div>
-          <div
-            id="test123"
-            v-if="content.displayType === 'wGap'"
-            v-gap="{ data: content, property: 'height' }"
-            :style="`padding-bottom: ${content.height}px`"
-          >
-            I am a gap
-          </div>
         </div>
       </div>
       <div v-else>

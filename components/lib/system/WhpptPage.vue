@@ -40,7 +40,7 @@ import { mapState, mapActions } from 'vuex';
 import slugify from 'slugify';
 import WhpptButton from '../../../components/lib/system/WhpptButton';
 import WhpptSelect from './WhpptSelect';
-import WhpptInputText from './InputText';
+import WhpptInputText from './WhpptTextInput';
 
 export default {
   name: 'WhpptPage',
