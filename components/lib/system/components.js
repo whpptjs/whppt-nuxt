@@ -38,6 +38,13 @@ const components = [
       },
     ],
   },
+  {
+    key: 'Listings',
+    value: 'Listings',
+    editorType: 'wListings',
+    displayType: 'wListings',
+    categories: [],
+  },
 ];
 
 export { components };
