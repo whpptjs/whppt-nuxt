@@ -7,18 +7,20 @@ export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
         $whppt.clearContents();
 
         if (menuIsInState(MENUSTATES.SELECT)) {
-          e.preventDefault();
-          $whppt.clearEditingElementFormatting();
+          e.stopPropagation();
+          // $whppt.clearSelected();
+          // $whppt.clearEditData();
+          // $whppt.clearEditingElementFormatting();
           $whppt.selectContents(el, binding.value);
         }
 
         if (menuIsInState(MENUSTATES.CONTENT)) {
-          // e.preventDefault();
           e.stopPropagation();
+          // e.preventDefault();
           $whppt.clearEditData();
           store.commit('whppt-nuxt/editor/editInSidebar', 'eContent');
           $whppt.select(el, binding.value);
-          $whppt.edit(el, { data: binding.value });
+          $whppt.editContent(el, binding.value);
         }
       });
       el.addEventListener('mouseover', function(e) {
