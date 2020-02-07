@@ -2,28 +2,8 @@
   <div class="whppt-page">
     <h2>Create a Page</h2>
     <form class="whppt-page__form" @submit.prevent>
-      <!-- <whppt-select v-model="newPage.template" :items="templates" label="Page Template: " /> -->
-
-      <!-- <fieldset class="whppt-fieldset">
-        <label for="template">Page Template: </label>
-        <select id="template" v-model="chosenTemplate">
-          <option class="whppt-page__form--black" value="" disabled>Select a Template</option>
-          <option
-            v-for="(template, index) in templates"
-            :key="index"
-            class="whppt-page__form--black"
-            :value="template.key"
-            >{{ template.label }}</option
-          >
-        </select>
-      </fieldset> -->
       <whppt-select v-model="chosenTemplate" :items="templates" label="Page Template:" />
 
-      <!-- <fieldset class="whppt-fieldset">
-        <label for="slug">Page Slug:</label>
-        <input class="whppt-page__form--black" id="slug" v-model="newPage.slug" @blur="formatSlug" />
-        <span class="whppt-page__hint">Enter any text and we'll turn it into a slug for you!</span>
-      </fieldset> -->
       <whppt-input-text
         v-model="newPage.slug"
         label="Page Slug:"

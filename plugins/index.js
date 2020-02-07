@@ -19,8 +19,6 @@ const options = JSON.parse(`<%= JSON.stringify(options) %>`);
 export default (context, inject) => {
   const { store } = context;
   const whppt = {
-    page: undefined,
-    footer: undefined,
     editData: undefined,
     createPage: CreatePage(context),
     savePage: SavePage(context),

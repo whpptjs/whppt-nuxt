@@ -9,7 +9,6 @@ export default context => ({ slug }) => {
   return $axios
     .get(`${baseAPIUrl}/api/page/load?slug=${slug}`)
     .then(response => {
-      $whppt.page = response.data;
       return response.data;
     })
     .catch(err => {

@@ -9,11 +9,10 @@ export default context => () => {
   return $axios
     .get(`${baseAPIUrl}/api/footer/load`)
     .then(response => {
-      $whppt.footer = response.data;
-      console.log('$WHPPT.FOOTER', $whppt.footer);
       return response.data;
     })
     .catch(err => {
+      console.log('ERR', err);
       if (err.response.status === 404) $whppt.footer = {};
       throw err;
     });
