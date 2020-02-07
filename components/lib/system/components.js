@@ -13,13 +13,6 @@ const components = [
     showOnMobile: true,
   },
   {
-    key: 'Listings',
-    value: 'Listings',
-    editorType: 'wListings',
-    displayType: 'wListings',
-    categories: [],
-  },
-  {
     key: 'Carousel',
     value: 'Carousel',
     editorType: 'wCarousel',
