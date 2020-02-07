@@ -11,7 +11,11 @@
     </div>
     <div v-content="page.contents">
       <div v-if="page.contents.length">
-        <div v-for="content in page.contents" :key="content.key" class="margin">
+        <div
+          v-for="(content, index) in page.contents"
+          :key="index"
+          class="margin"
+        >
           <div
             v-if="content.displayType === 'wPlainText'"
             v-plain-text="{ data: content, property: 'text' }"
