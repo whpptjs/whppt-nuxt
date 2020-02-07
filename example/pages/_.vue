@@ -89,6 +89,12 @@
               </div>
             </div>
           </div>
+          <div
+            v-if="content.displayType === 'wListings'"
+            v-listings="{ data: content, property: 'categories' }"
+          >
+            Listings!!
+          </div>
         </div>
       </div>
       <div v-else>

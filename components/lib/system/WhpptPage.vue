@@ -24,11 +24,11 @@
         <input class="whppt-page__form--black" id="slug" v-model="newPage.slug" @blur="formatSlug" />
         <span class="whppt-page__hint">Enter any text and we'll turn it into a slug for you!</span>
       </fieldset> -->
-      <whppt-input-text
+      <whppt-text-input
         v-model="newPage.slug"
         label="Page Slug:"
         info="Enter any text and we'll turn it into a slug for you!"
-      ></whppt-input-text>
+      ></whppt-text-input>
 
       <whppt-button @click="saveNewPage">Create Page</whppt-button>
     </form>
@@ -40,11 +40,11 @@ import { mapState, mapActions } from 'vuex';
 import slugify from 'slugify';
 import WhpptButton from '../../../components/lib/system/WhpptButton';
 import WhpptSelect from './WhpptSelect';
-import WhpptInputText from './WhpptTextInput';
+import WhpptTextInput from './WhpptTextInput';
 
 export default {
   name: 'WhpptPage',
-  components: { WhpptButton, WhpptSelect, WhpptInputText },
+  components: { WhpptButton, WhpptSelect, WhpptTextInput },
   data: () => ({
     chosenTemplate: undefined,
     newPage: {
