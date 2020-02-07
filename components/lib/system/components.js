@@ -31,6 +31,20 @@ const components = [
       },
     ],
   },
+  {
+    key: 'Listings',
+    value: 'Listings',
+    editorType: 'wListings',
+    displayType: 'wListings',
+    categories: [],
+  },
+  {
+    key: 'Container',
+    value: 'Container',
+    editorType: 'wContainer',
+    displayType: 'wContainer',
+    contents: [],
+  },
 ];
 
 components.forEach(c => {

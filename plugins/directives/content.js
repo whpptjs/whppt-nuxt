@@ -13,6 +13,8 @@ export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
         }
 
         if (menuIsInState(MENUSTATES.CONTENT)) {
+          // e.preventDefault();
+          e.stopPropagation();
           $whppt.clearEditData();
           store.commit('whppt-nuxt/editor/editInSidebar', 'eContent');
           $whppt.select(el, binding.value);
@@ -20,6 +22,7 @@ export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
         }
       });
       el.addEventListener('mouseover', function(e) {
+        e.preventDefault();
         if (!menuIsInState(MENUSTATES.SELECT) && !menuIsInState(MENUSTATES.CONTENT)) return;
         $whppt.mouseover(el);
       });

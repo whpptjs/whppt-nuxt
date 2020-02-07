@@ -11,7 +11,11 @@
     </div>
     <div v-content="page.contents">
       <div v-if="page.contents.length">
-        <div v-for="content in page.contents" :key="content.key" class="margin">
+        <div
+          v-for="(content, index) in page.contents"
+          :key="index"
+          class="margin"
+        >
           <div
             v-if="content.displayType === 'wPlainText'"
             v-plain-text="{ data: content, property: 'text' }"
@@ -47,6 +51,43 @@
             v-link-group="content.linkGroup"
           >
             {{ (content.linkgroup && content.linkgroup.text) || 'HEY' }}
+          </div>
+          <div
+            id="test123"
+            v-if="content.displayType === 'wGap'"
+            v-gap="{ data: content, property: 'height' }"
+            :style="`padding-bottom: ${content.height}px`"
+          >
+            I am a gap
+          </div>
+          <div
+            v-if="content.editorType === 'wContainer'"
+            v-container="{ data: content, property: 'container' }"
+          >
+            You are a Container.
+            <div
+              v-content="content.contents"
+              style="width: 400px; height: 300px; background-color: green"
+            >
+              <div
+                v-for="(ccontent, iindex) in content.contents"
+                :key="iindex"
+                class="margin"
+              >
+                <div
+                  v-if="ccontent.displayType === 'wPlainText'"
+                  v-plain-text="{ data: ccontent, property: 'text' }"
+                >
+                  {{ ccontent.text || 'Enter Text here' }}
+                </div>
+                <div
+                  v-if="ccontent.displayType === 'wRichText'"
+                  v-rich-text="{ data: ccontent, property: 'text' }"
+                >
+                  {{ ccontent.text || 'Enter rich text here' }}
+                </div>
+              </div>
+            </div>
           </div>
           <div
             v-if="content.displayType === 'wListings'"
