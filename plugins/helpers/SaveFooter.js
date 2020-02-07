@@ -6,5 +6,7 @@ export default context => footer => {
 
   const baseAPIUrl = $whppt.baseAPIUrl || '';
 
-  return $axios.post(`${baseAPIUrl}/api/footer/save`, { footer });
+  return $axios.post(`${baseAPIUrl}/api/footer/save`, { footer }).then(request => {
+    return request.data;
+  });
 };

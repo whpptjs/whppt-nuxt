@@ -12,6 +12,7 @@ export default options => ({
     },
     savePage({ state, commit }) {
       return this.$whppt.savePage(state.page).then(page => {
+        console.log('PAGE', page);
         commit('pageLoaded', page);
       });
     },

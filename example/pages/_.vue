@@ -95,7 +95,6 @@
             </div>
           </div>
           <div
-<<<<<<< HEAD
             v-if="content.displayType === 'wGap'"
             id="test123"
             v-gap="{ data: content, property: 'height' }"
@@ -133,9 +132,7 @@
             </div>
           </div>
           <div
-=======
             :style="{ 'margin-top': `${content.marginTop}px` }"
->>>>>>> 1a90ecbc2cd5a3612c1bffb5351d43e4cc4601a8
             v-if="content.displayType === 'wListings'"
             v-listings="{ data: content, property: 'categories' }"
           >

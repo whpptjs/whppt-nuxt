@@ -48,7 +48,7 @@ export default {
         action: 'moveDown',
       },
       { key: 'new-page', label: 'New Page', icon: 'w-new-page', group: 'page', action: 'newPage' },
-      { key: 'save', label: 'Save Page', icon: 'w-save', group: 'page', action: 'savePage' },
+      { key: 'save', label: 'Save Page', icon: 'w-save', group: 'page', action: 'save' },
       { key: 'publish', label: 'Publish', icon: 'w-publish', group: 'page' },
       { key: 'preview', label: 'Preview', icon: 'w-preview', group: 'page' },
       { key: 'page-settings', label: 'Page Settings', icon: 'w-settings', group: 'page' },
@@ -58,13 +58,15 @@ export default {
       // { key: 'redirects', label: 'Redirects', icon: 'w-redirect', group: 'site' },
       // { key: 'logout', label: 'Logout', icon: 'w-logout', group: 'security' },
       { key: 'atdw', label: 'ATDW', icon: 'w-globe', group: 'atdw', action: 'editATDW' },
-      { key: 'footer', label: 'Footer', icon: 'w-footer', group: 'footer', action: 'saveFooter' },
+      { key: 'footer', label: 'Footer', icon: 'w-footer', group: 'footer', action: 'savePageFooter' },
     ],
   }),
   computed: {
     ...mapState('whppt-nuxt/editor', ['selector']),
   },
   methods: {
+    ...mapActions('whppt-nuxt/site', ['saveFooter']),
+    ...mapActions('whppt-nuxt/page', ['savePage']),
     ...mapActions('whppt-nuxt/editor', ['selectComponent']),
     ...mapMutations('whppt-nuxt/page', ['loaded']),
     ...mapMutations('whppt-nuxt/editor', ['editInModal', 'editInSidebar']),
@@ -75,8 +77,8 @@ export default {
     selectSelector({ actionCommand }) {
       return this.selectComponent(actionCommand);
     },
-    savePage() {
-      return this.$whppt.savePage();
+    save() {
+      return this.savePage();
     },
     newPage() {
       return this.editInSidebar('WhpptPage');
@@ -90,8 +92,8 @@ export default {
     editATDW() {
       return this.editInModal('atdw');
     },
-    saveFooter() {
-      return this.$whppt.saveFooter();
+    savePageFooter() {
+      return this.saveFooter();
     },
   },
 };
