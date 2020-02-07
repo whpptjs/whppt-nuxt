@@ -13,10 +13,10 @@
       <div class="whppt-sidebar__inner">
         <component :is="editSidebarType"></component>
         <whppt-text-input
-          v-if="$whppt.editData"
+          v-if="editData"
           type="number"
           min="0"
-          v-model="$whppt.editData.marginTop"
+          v-model="editData.marginTop"
           placeholder="Height in px"
           label="Margin Top"
         />
@@ -38,7 +38,13 @@ import WhpptTextInput from '../system/WhpptTextInput';
 export default {
   name: 'WhpptEditorApp',
   components: { ...Editors, WhpptButton, Modal, WhpptTextInput },
-  computed: mapState('whppt-nuxt/editor', ['editInModal', 'editInModalType', 'editSidebar', 'editSidebarType']),
+  computed: mapState('whppt-nuxt/editor', [
+    'editInModal',
+    'editInModalType',
+    'editSidebar',
+    'editSidebarType',
+    'editData',
+  ]),
   methods: {
     ...mapActions('whppt-nuxt/editor', ['closeSidebar', 'closeModal']),
   },

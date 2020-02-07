@@ -1,5 +1,5 @@
 <template>
-  <div class="whppt-full">
+  <div class="whppt-full" v-if="editingCarousel">
     <h1>Carousel</h1>
     <whppt-tabs>
       <whppt-tab title="General">
@@ -18,7 +18,7 @@
         <whppt-text-input
           type="number"
           min="0"
-          v-model="$whppt.editData.marginTop"
+          v-model="editingCarousel.marginTop"
           placeholder="Height in px"
           label="Margin Top"
         />
@@ -84,6 +84,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import WhpptTextInput from './WhpptTextInput';
 import WhpptSelect from './WhpptSelect';
 import WhpptTab from './WhpptTab';
@@ -99,8 +100,9 @@ export default {
     };
   },
   computed: {
+    ...mapState('whppt-nuxt/editor', ['editData']),
     editingCarousel() {
-      return this.$whppt.editData;
+      return this.editData;
     },
     editingCarouselItems() {
       return this.editingCarousel[this.$whppt.editDataProperty];
