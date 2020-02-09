@@ -2,7 +2,7 @@
   <div class="whppt-full">
     <h1>Add Content</h1>
     <whppt-button
-      v-for="component in components"
+      v-for="component in componentList"
       :key="component.key"
       class="whppt-full whppt-content--margin"
       @click="addContent(component)"
@@ -13,6 +13,7 @@
 
 <script>
 // import { mapState } from 'vuex';
+import { filter, find } from 'lodash';
 import { components } from './components';
 import WhpptButton from './WhpptButton';
 
@@ -22,9 +23,19 @@ export default {
   data() {
     return { components };
   },
+  computed: {
+    componentList() {
+      const list = this.$whppt.components ? [...this.components, ...this.$whppt.components] : this.components;
+      console.log('THIS.$WHPPT', this.$whppt);
+      if (!this.$whppt.editComponentList) return list;
+      console.log('CONDITION PASSED');
+      const componentList = this.$whppt.editComponentList;
+      return filter(list, l => find(componentList, cl => cl === l.displayType));
+    },
+  },
   methods: {
     addContent(content) {
-      this.$whppt.editData.push(JSON.parse(JSON.stringify(content)));
+      this.$whppt.editData.push(JSON.parse(JSON.stringify({ ...content, marginTop: '5' })));
     },
   },
 };

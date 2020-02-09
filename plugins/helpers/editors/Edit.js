@@ -4,6 +4,7 @@ export default function($whppt) {
   $whppt.editData = undefined;
   $whppt.editDataProperty = undefined;
   $whppt.editingElement = undefined;
+  $whppt.editComponentList = undefined;
 
   const edit = (el, value) => {
     $whppt.editData = value.data;
@@ -12,10 +13,18 @@ export default function($whppt) {
     el.classList.add(className);
   };
 
+  const editContent = (el, value) => {
+    $whppt.editData = value.data;
+    $whppt.editComponentList = value.componentList;
+    $whppt.editingElement = el;
+    el.classList.add(className);
+  };
+
   const clearEditData = () => {
     clearEditingElementFormatting();
     $whppt.editData = undefined;
     $whppt.editingElement = undefined;
+    $whppt.editComponentList = undefined;
   };
 
   const clearEditingElementFormatting = () => {
@@ -28,6 +37,7 @@ export default function($whppt) {
 
   Object.assign($whppt, {
     edit,
+    editContent,
     formatEditingElement,
     clearEditingElementFormatting,
     clearEditData,

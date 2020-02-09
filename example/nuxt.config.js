@@ -22,7 +22,7 @@ export default {
   /*
    ** Customize the progress-bar color
    */
-  loading: { color: '#fff' },
+  loading: { color: '#ff9000' },
   /*
    ** Global CSS
    */
@@ -50,6 +50,26 @@ export default {
   whppt: {
     baseAPIUrl: process.env.BASE_API_URL,
     componentPrefix: 'W',
+    components: [
+      {
+        key: 'CardCarousel',
+        value: 'Card Carousel',
+        editorType: 'wCarousel',
+        displayType: 'wCardCarousel',
+        reversed: false,
+        title: '',
+        description: '',
+        items: [
+          {
+            title: '',
+            description: '',
+            ctaText: '',
+            ctaIcon: undefined,
+            image: undefined
+          }
+        ]
+      }
+    ],
     templates: [
       { key: 'home', label: 'Home' },
       { key: 'generic', label: 'Generic' },
@@ -66,6 +86,17 @@ export default {
   axios: {
     proxy: true,
     retry: { retries: 3 }
+  },
+  purgeCSS: {
+    whitelist: [],
+    whitelistPatterns: [
+      /^bg-\w+-\d00/,
+      /^text-\w+-\d00/,
+      /^border-\w+-\d00/,
+      /^hover:border-\w+-\d00/,
+      /^whppt-/
+    ],
+    whitelistPatternsChildren: []
   },
   /*
    ** Build configuration

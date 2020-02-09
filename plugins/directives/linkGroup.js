@@ -1,16 +1,16 @@
 import Vue from 'vue';
 
 export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
-  Vue.directive('cardCarousel', {
+  Vue.directive('linkGroup', {
     bind(el, binding) {
       el.addEventListener('click', function(e) {
         $whppt.clearEditData();
         $whppt.clearContents();
         $whppt.clearSelected();
         if (!menuIsInState(MENUSTATES.SELECT)) return;
-        store.commit('whppt-nuxt/editor/editInSidebar', 'cardCarousel');
+        store.commit('whppt-nuxt/editor/editInSidebar', 'linkGroup');
         $whppt.select(el, binding.value);
-        $whppt.edit(el, binding.value);
+        $whppt.edit(el, { data: binding.value });
       });
       el.addEventListener('mouseover', function(e) {
         if (!menuIsInState(MENUSTATES.SELECT)) return;

@@ -3,6 +3,7 @@ import AddCircle from './AddCircle';
 import ArrowUp from './ArrowUp';
 import Draggable from './Draggable';
 import Edit from './Edit';
+import Globe from './Globe';
 import NewPage from './NewPage';
 import Preview from './Preview';
 import Publish from './Publish';
@@ -11,6 +12,9 @@ import Settings from './Settings';
 import Remove from './Remove';
 import Warning from './Warning';
 import Pointer from './Pointer';
+import Check from './Check';
+import Circle from './Circle';
+import Footer from './Footer';
 
 export default {
   ArrowDown,
@@ -18,6 +22,7 @@ export default {
   AddCircle,
   Draggable,
   Edit,
+  Globe,
   NewPage,
   Preview,
   Publish,
@@ -26,4 +31,7 @@ export default {
   Remove,
   Warning,
   Pointer,
+  Circle,
+  Check,
+  Footer,
 };

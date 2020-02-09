@@ -1,4 +1,4 @@
-export default context => ({ slug }) => {
+export default context => () => {
   const {
     $axios,
     app: { $whppt },
@@ -7,12 +7,13 @@ export default context => ({ slug }) => {
   const baseAPIUrl = $whppt.baseAPIUrl || ``;
 
   return $axios
-    .get(`${baseAPIUrl}/api/page/load?slug=${slug}`)
+    .get(`${baseAPIUrl}/api/footer/load`)
     .then(response => {
       return response.data;
     })
     .catch(err => {
-      if (err.response.status === 404) $whppt.page = {};
+      console.log('ERR', err);
+      if (err.response.status === 404) $whppt.footer = {};
       throw err;
     });
 };

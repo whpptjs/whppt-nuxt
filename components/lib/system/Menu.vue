@@ -1,11 +1,11 @@
 <template>
   <!-- https://vuejsexamples.com/a-vue-component-that-create-moveable-and-resizable/ -->
-  <div class="whhpt-menu">
+  <div class="whppt-menu">
     <div
       v-for="(item, index) in menuItems"
       :key="index"
-      class="whhpt-menu__item"
-      :class="{ 'whhpt-menu__item--active': item.actionCommand && selector === item.actionCommand }"
+      class="whppt-menu__item"
+      :class="{ 'whppt-menu__item--active': item.actionCommand && selector === item.actionCommand }"
     >
       <button @click="callMethod(item.action, item)">
         <component :is="item.icon" />
@@ -48,7 +48,7 @@ export default {
         action: 'moveDown',
       },
       { key: 'new-page', label: 'New Page', icon: 'w-new-page', group: 'page', action: 'newPage' },
-      { key: 'save', label: 'Save Page', icon: 'w-save', group: 'page', action: 'savePage' },
+      { key: 'save', label: 'Save Page', icon: 'w-save', group: 'page', action: 'save' },
       { key: 'publish', label: 'Publish', icon: 'w-publish', group: 'page' },
       { key: 'preview', label: 'Preview', icon: 'w-preview', group: 'page' },
       { key: 'page-settings', label: 'Page Settings', icon: 'w-settings', group: 'page' },
@@ -57,40 +57,50 @@ export default {
       // { key: 'documents', label: 'Documents', icon: 'w-document', group: 'site' },
       // { key: 'redirects', label: 'Redirects', icon: 'w-redirect', group: 'site' },
       // { key: 'logout', label: 'Logout', icon: 'w-logout', group: 'security' },
+      { key: 'atdw', label: 'ATDW', icon: 'w-globe', group: 'atdw', action: 'editATDW' },
+      { key: 'footer', label: 'Footer', icon: 'w-footer', group: 'footer', action: 'savePageFooter' },
     ],
   }),
   computed: {
     ...mapState('whppt-nuxt/editor', ['selector']),
   },
   methods: {
+    ...mapActions('whppt-nuxt/site', ['saveFooter']),
+    ...mapActions('whppt-nuxt/page', ['savePage']),
     ...mapActions('whppt-nuxt/editor', ['selectComponent']),
     ...mapMutations('whppt-nuxt/page', ['loaded']),
-    ...mapMutations('whppt-nuxt/editor', ['editInSidebar']),
+    ...mapMutations('whppt-nuxt/editor', ['editInModal', 'editInSidebar']),
     callMethod(action, options) {
       if (!action) return;
       return this[action](options);
     },
     selectSelector({ actionCommand }) {
-      this.selectComponent(actionCommand);
+      return this.selectComponent(actionCommand);
     },
-    savePage() {
-      return this.$whppt.savePage();
+    save() {
+      return this.savePage();
     },
     newPage() {
       return this.editInSidebar('WhpptPage');
     },
     moveDown() {
-      this.$whppt.moveDown();
+      return this.$whppt.moveDown();
     },
     moveUp() {
-      this.$whppt.moveUp();
+      return this.$whppt.moveUp();
+    },
+    editATDW() {
+      return this.editInModal('atdw');
+    },
+    savePageFooter() {
+      return this.saveFooter();
     },
   },
 };
 </script>
 
 <style scoped>
-.whhpt-menu {
+.whppt-menu {
   background-color: rgba(0, 0, 0, 0.8);
   padding: 0 0.25rem;
   position: fixed;
@@ -100,15 +110,15 @@ export default {
   border-radius: 100px;
 }
 
-.whhpt-menu__item {
+.whppt-menu__item {
 }
 
-.whhpt-menu__item--active {
+.whppt-menu__item--active {
   border-radius: 100%;
   background-color: #262626;
 }
 
-.whhpt-menu__item button {
+.whppt-menu__item button {
   border: none;
   color: white;
   background-color: transparent;
@@ -119,28 +129,28 @@ export default {
   display: flex;
   justify-content: center;
 }
-.whhpt-menu__item:first-child {
+.whppt-menu__item:first-child {
   margin-top: 0.25rem;
 }
-.whhpt-menu__item:last-child {
+.whppt-menu__item:last-child {
   margin-bottom: 0.25rem;
 }
 
-.whhpt-menu__item--active button {
+.whppt-menu__item--active button {
   color: orangered;
 }
 
-.whhpt-menu__item--bordered {
+.whppt-menu__item--bordered {
   border-bottom: 1px solid rgba(255, 255, 255, 0.5);
 }
 
-.whhpt-menu__item:hover {
+.whppt-menu__item:hover {
   border-radius: 100%;
   background-color: #262626;
 }
 
-.whhpt-menu__item,
-.whhpt-menu__item--active svg {
+.whppt-menu__item,
+.whppt-menu__item--active svg {
   fill: currentColor;
 }
 </style>

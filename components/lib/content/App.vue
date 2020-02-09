@@ -1,12 +1,25 @@
 <template>
-  <div class="whppt-flex">
+  <div class="whppt-flex whppt-overflow-hidden">
     <editor-menu></editor-menu>
+    <modal :is-active="editInModal" @closeModal="closeModal">
+      <template v-slot:content>
+        <component :is="editInModalType" />
+      </template>
+    </modal>
     <div class="whppt-content">
       <slot></slot>
     </div>
     <div class="whppt-sidebar" :class="{ 'whppt-openEditor': editSidebar }">
       <div class="whppt-sidebar__inner">
         <component :is="editSidebarType"></component>
+        <whppt-text-input
+          v-if="editData"
+          type="number"
+          min="0"
+          v-model="editData.marginTop"
+          placeholder="Height in px"
+          label="Margin Top"
+        />
         <whppt-button class="whppt-button__close" @click="closeSidebar">
           Close
         </whppt-button>
@@ -18,14 +31,22 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import * as Editors from '../system';
+import Modal from '../system/Modal';
 import WhpptButton from '../system/WhpptButton';
+import WhpptTextInput from '../system/WhpptTextInput';
 
 export default {
   name: 'WhpptEditorApp',
-  components: { ...Editors, WhpptButton },
-  computed: mapState('whppt-nuxt/editor', ['editSidebar', 'editSidebarType']),
+  components: { ...Editors, WhpptButton, Modal, WhpptTextInput },
+  computed: mapState('whppt-nuxt/editor', [
+    'editInModal',
+    'editInModalType',
+    'editSidebar',
+    'editSidebarType',
+    'editData',
+  ]),
   methods: {
-    ...mapActions('whppt-nuxt/editor', ['closeSidebar']),
+    ...mapActions('whppt-nuxt/editor', ['closeSidebar', 'closeModal']),
   },
 };
 </script>
@@ -62,9 +83,17 @@ export default {
 }
 
 .whppt-flex {
-  height: 100%;
   display: flex;
+  height: 100%;
+}
+
+.whppt-overflow-hidden {
   overflow-x: hidden;
+}
+
+.whppt-flex-between {
+  display: flex;
+  justify-content: space-between;
 }
 
 .whppt-content {
@@ -91,5 +120,35 @@ export default {
 
 .whppt-component__edit--active {
   border: 2px solid red;
+}
+
+.whppt-header {
+  margin-bottom: 10px;
+}
+
+.whppt-fieldset {
+  border: 0;
+  padding: 0;
+  margin: 1rem 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.whppt-fieldset select {
+  height: 30px;
+  width: 100%;
+  margin-top: 10px;
+  color: black;
+}
+
+.whppt-icon-button {
+  padding: 0;
+  background-color: transparent;
+  color: white;
+  border: 0;
+  cursor: pointer;
+}
+:focus {
+  outline: none;
 }
 </style>

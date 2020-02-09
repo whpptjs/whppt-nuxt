@@ -1,4 +1,4 @@
-export default context => page => {
+export default context => footer => {
   const {
     $axios,
     app: { $whppt },
@@ -6,7 +6,7 @@ export default context => page => {
 
   const baseAPIUrl = $whppt.baseAPIUrl || '';
 
-  return $axios.post(`${baseAPIUrl}/api/page/save`, { page }).then(request => {
+  return $axios.post(`${baseAPIUrl}/api/footer/save`, { footer }).then(request => {
     return request.data;
   });
 };

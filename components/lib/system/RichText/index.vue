@@ -37,6 +37,13 @@
       </div>
     </editor-menu-bar>
     <editor-content class="whppt-rich-content" :editor="editor" />
+    <whppt-text-input
+      type="number"
+      min="0"
+      v-model="$whppt.editData.marginTop"
+      placeholder="Height in px"
+      label="Margin Top"
+    />
   </div>
 </template>
 
@@ -54,6 +61,7 @@ import {
 } from 'tiptap-extensions';
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap';
 import { mapState } from 'vuex';
+import WhpptTextInput from '../WhpptTextInput';
 import IBold from './icons/Bold';
 import IItalic from './icons/Italic';
 import IHeader1 from './icons/Header1';
@@ -72,6 +80,7 @@ const isEmptyValue = val => {
 export default {
   name: 'WhpptRichText',
   components: {
+    WhpptTextInput,
     EditorContent,
     EditorMenuBar,
     IBold,
@@ -183,7 +192,7 @@ export default {
   border: 1px solid white;
   min-height: 400px;
   padding: 1em;
-  height: 75vh;
+  height: 60vh;
 }
 
 .whppt-editor .ProseMirror-focused {
