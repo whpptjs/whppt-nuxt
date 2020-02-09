@@ -14,7 +14,7 @@
         <div
           v-for="(content, index) in page.contents"
           :key="index"
-          class="margin"
+          :style="{ 'margin-top': `${content.marginTop}px` }"
         >
           <div
             v-if="content.displayType === 'wPlainText'"
