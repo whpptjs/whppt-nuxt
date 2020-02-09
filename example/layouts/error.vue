@@ -9,11 +9,12 @@
 <script>
 export default {
   name: 'ErrorLayout',
+  layout: 'empty',
   props: {
     error: {
       type: Object,
-      required: true
-    }
-  }
-}
+      required: true,
+    },
+  },
+};
 </script>

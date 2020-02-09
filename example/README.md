@@ -1,6 +1,6 @@
-# example
+# nuxt-example
 
-> Example app built to showcase Whppt Nuxt.
+> Whppt Nuxt Example Project
 
 ## Build Setup
 
