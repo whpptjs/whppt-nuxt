@@ -1,10 +1,5 @@
-require('dotenv').config()
-
-export default {
+module.exports = {
   mode: 'universal',
-  /*
-   ** Headers of the page
-   */
   head: {
     title: process.env.npm_package_name || '',
     meta: [
@@ -13,40 +8,16 @@ export default {
       {
         hid: 'description',
         name: 'description',
-        content: process.env.npm_package_description || ''
-      }
+        content: process.env.npm_package_description || '',
+      },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
-  dev: false,
-  /*
-   ** Customize the progress-bar color
-   */
-  loading: { color: '#ff9000' },
-  /*
-   ** Global CSS
-   */
+  loading: { color: '#fff' },
   css: [],
-  /*
-   ** Plugins to load before mounting the App
-   */
   plugins: ['plugins/axios.js'],
-  /*
-   ** Nuxt.js dev-modules
-   */
-  buildModules: [
-    // Doc: https://github.com/nuxt-community/eslint-module
-    '@nuxtjs/eslint-module'
-  ],
-  /*
-   ** Nuxt.js modules
-   */
-  modules: [
-    '@nuxtjs/axios',
-    '@nuxtjs/pwa',
-    '@nuxtjs/dotenv',
-    ['../../module.js']
-  ],
+  buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/tailwindcss'],
+  modules: ['@nuxtjs/axios', '@nuxtjs/dotenv', ['../../module.js']],
   whppt: {
     baseAPIUrl: process.env.BASE_API_URL,
     componentPrefix: 'W',
@@ -65,46 +36,26 @@ export default {
             description: '',
             ctaText: '',
             ctaIcon: undefined,
-            image: undefined
-          }
-        ]
-      }
+            image: undefined,
+          },
+        ],
+      },
     ],
     templates: [
-      { key: 'home', label: 'Home' },
-      { key: 'generic', label: 'Generic' },
-      { key: 'category', label: 'Category' },
-      { key: 'chapters', label: 'Chapters' },
-      { key: 'listings', label: 'Listings' },
-      { key: 'listing', label: 'listing' }
-    ]
+      { key: 'home', label: 'Home', init: { contents: [] } },
+      { key: 'generic', label: 'Generic', init: { contents: [] } },
+    ],
   },
-  /*
-   ** Axios module configuration
-   ** See https://axios.nuxtjs.org/options
-   */
   axios: {
     proxy: true,
-    retry: { retries: 3 }
+    retry: { retries: 3 },
   },
   purgeCSS: {
     whitelist: [],
-    whitelistPatterns: [
-      /^bg-\w+-\d00/,
-      /^text-\w+-\d00/,
-      /^border-\w+-\d00/,
-      /^hover:border-\w+-\d00/,
-      /^whppt-/
-    ],
-    whitelistPatternsChildren: []
+    whitelistPatterns: [/^bg-\w+-\d00/, /^text-\w+-\d00/, /^border-\w+-\d00/, /^hover:border-\w+-\d00/, /^whppt-/],
+    whitelistPatternsChildren: [],
   },
-  /*
-   ** Build configuration
-   */
   build: {
-    /*
-     ** You can extend webpack config here
-     */
-    extend(config, ctx) {}
-  }
-}
+    extend(config, ctx) {},
+  },
+};

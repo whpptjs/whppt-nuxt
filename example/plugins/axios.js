@@ -1,5 +1,5 @@
 export default function({ $axios }) {
-  $axios.onRequest((config) => {
-    config.timeout = 6000
-  })
+  $axios.onRequest(config => {
+    config.timeout = 6000;
+  });
 }
