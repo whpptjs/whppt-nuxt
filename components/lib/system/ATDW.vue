@@ -18,6 +18,7 @@
     <div class="whppt-atdw__content">
       <div class="whppt-atdw__heading">
         <h1>Edit Listing</h1>
+        <button class="whppt-button" @click="saveListing">Save</button>
       </div>
       <form @submit.prevent>
         <fieldset>
