@@ -57,7 +57,14 @@ export default {
       // { key: 'documents', label: 'Documents', icon: 'w-document', group: 'site' },
       // { key: 'redirects', label: 'Redirects', icon: 'w-redirect', group: 'site' },
       // { key: 'logout', label: 'Logout', icon: 'w-logout', group: 'security' },
-      { key: 'atdw', label: 'ATDW', icon: 'w-globe', group: 'atdw', action: 'editATDW' },
+      {
+        key: 'atdw',
+        label: 'ATDW',
+        icon: 'w-globe',
+        group: 'atdw',
+        action: 'selectSelector',
+        actionCommand: 'listing',
+      },
       { key: 'footer', label: 'Footer', icon: 'w-footer', group: 'footer', action: 'saveFooter' },
     ],
   }),
@@ -67,7 +74,7 @@ export default {
   methods: {
     ...mapActions('whppt-nuxt/editor', ['selectComponent']),
     ...mapMutations('whppt-nuxt/page', ['loaded']),
-    ...mapMutations('whppt-nuxt/editor', ['editInModal', 'editInSidebar']),
+    ...mapMutations('whppt-nuxt/editor', ['editInSidebar']),
     callMethod(action, options) {
       if (!action) return;
       return this[action](options);
@@ -86,9 +93,6 @@ export default {
     },
     moveUp() {
       return this.$whppt.moveUp();
-    },
-    editATDW() {
-      return this.editInModal('atdw');
     },
     saveFooter() {
       return this.$whppt.saveFooter();

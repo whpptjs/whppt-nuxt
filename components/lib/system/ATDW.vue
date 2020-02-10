@@ -18,7 +18,6 @@
     <div class="whppt-atdw__content">
       <div class="whppt-atdw__heading">
         <h1>Edit Listing</h1>
-        <button class="whppt-button" @click="saveListing">Save</button>
       </div>
       <form @submit.prevent>
         <fieldset>
@@ -99,8 +98,10 @@ export default {
     },
   }),
   mounted() {
+    if (!this.$whppt.editData) return;
+
     const baseAPIUrl = this.$whppt.baseAPIUrl || '';
-    this.$axios.get(`${baseAPIUrl}/api/listing/findById?id=56b26d16d5f1565045dae8ca`).then(({ data }) => {
+    this.$axios.get(`${baseAPIUrl}/api/listing/findById?id=${this.$whppt.editData}`).then(({ data }) => {
       this.listing = data;
     });
   },
