@@ -51,7 +51,7 @@
       </div>
       <div v-if="data.type === 'anchor'">
         <div class="whppt-flex">
-          <whppt-input
+          <whppt-text-input
             v-model="data.href"
             class="whppt-input-half"
             placeholder="e.g. #museum"

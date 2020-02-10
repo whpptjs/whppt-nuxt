@@ -12,7 +12,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import WhpptTextInput from './WhpptTextInput';
+import WhpptTextInput from '../whpptComponents/WhpptTextInput';
 
 export default {
   name: 'EditorTextBox',

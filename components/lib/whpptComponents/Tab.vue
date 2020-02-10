@@ -7,7 +7,7 @@
 </template>
 <script>
 // hover:border-gray-200
-import WhpptButton from './WhpptButton';
+import WhpptButton from '../whpptComponents/WhpptButton';
 
 export default {
   name: 'EditorTab',

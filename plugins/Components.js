@@ -27,6 +27,7 @@ const Components = options => [
     reversed: false,
     title: '',
     description: '',
+    property: 'items',
     items: [
       {
         title: '',
@@ -43,6 +44,8 @@ const Components = options => [
     name: 'Listings',
     editorType: 'wListings',
     displayType: 'wListings',
+    property: 'categories',
+
     categories: [],
   },
   {
@@ -50,6 +53,7 @@ const Components = options => [
     name: 'Container',
     editorType: 'wContainer',
     displayType: 'wContainer',
+    property: 'contents',
     contents: [],
   },
   {

@@ -1,6 +1,7 @@
 const notifyContent = el => {
-  const contentEl = getClosest(el, '.contents');
+  const contentEl = getClosest(el, '.whppt-contents');
   if (!contentEl) return;
+
   const event = new CustomEvent('content-selected', { detail: contentEl });
   contentEl.dispatchEvent(event);
 };

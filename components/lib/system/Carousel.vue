@@ -78,11 +78,11 @@
 
 <script>
 import { mapState } from 'vuex';
-import WhpptTextInput from './WhpptTextInput';
-import WhpptSelect from './WhpptSelect';
-import WhpptTab from './WhpptTab';
-import WhpptTabs from './WhpptTabs';
-import WhpptCheckBox from './CheckBox';
+import WhpptTextInput from '../whpptComponents/WhpptTextInput';
+import WhpptSelect from '../whpptComponents/WhpptSelect';
+import WhpptTab from '../whpptComponents/WhpptTab';
+import WhpptTabs from '../whpptComponents/WhpptTabs';
+import WhpptCheckBox from '../whpptComponents/CheckBox';
 
 export default {
   name: 'EditorCarousel',
@@ -93,14 +93,12 @@ export default {
     };
   },
   computed: {
-    ...mapState('whppt-nuxt/editor', ['editData']),
+    ...mapState('whppt-nuxt/editor', ['selectedComponent']),
     editingCarousel() {
-      return this.editData.data;
+      return this.selectedComponent.value;
     },
     editingCarouselItems() {
-      console.log('TCL: editingCarouselItems -> this.editingCarousel', this.editingCarousel);
-      console.log('TCL: editingCarouselItems -> this.$whppt.editDataProperty', this.$whppt.editDataProperty);
-      return this.editingCarousel[this.$whppt.editDataProperty];
+      return this.editingCarousel[this.selectedComponent.property];
     },
     editingItem() {
       return this.editingCarouselItems[this.selectedIndex] || {};

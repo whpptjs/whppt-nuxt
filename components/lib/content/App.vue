@@ -34,18 +34,12 @@ import { mapState, mapActions } from 'vuex';
 import * as Editors from '../system';
 import Modal from '../system/Modal';
 import SiteSettings from '../system/SiteSettings';
-import WhpptButton from '../system/WhpptButton';
-import WhpptTextInput from '../system/WhpptTextInput';
+import WhpptTextInput from '../whpptComponents/WhpptTextInput';
+import WhpptButton from '../whpptComponents/WhpptButton';
 
 export default {
   name: 'WhpptEditorApp',
-  components: {
-    ...Editors,
-    Modal,
-    SiteSettings,
-    WhpptTextInput,
-    WhpptButton,
-  },
+  components: { ...Editors, WhpptButton, Modal, WhpptTextInput, SiteSettings },
   computed: mapState('whppt-nuxt/editor', [
     'editInModal',
     'editInModalType',
@@ -123,19 +117,19 @@ export default {
 }
 
 .whppt__component--active {
-  border: 2px solid palegreen;
+  outline: 2px solid palegreen;
 }
 
 .whppt__content--active {
-  border: 2px solid red;
+  outline: 2px solid orange;
 }
 
 .whppt__component--hover {
-  border: 2px solid blue;
+  outline: 2px solid blue;
 }
 
 .whppt__content--hover {
-  border: 2px solid orange;
+  outline: 2px solid red;
 }
 
 .whppt-header {
