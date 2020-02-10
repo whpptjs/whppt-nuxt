@@ -6,6 +6,7 @@ import linkDirective from './directives/link';
 import linkGroupDirective from './directives/linkGroup';
 import listingsDirective from './directives/listings';
 import listingDirective from './directives/listing';
+import containerDirective from './directives/container';
 import SavePage from './helpers/SavePage';
 import SaveFooter from './helpers/SaveFooter';
 import LoadFooter from './helpers/LoadFooter';
@@ -20,8 +21,6 @@ const options = JSON.parse(`<%= JSON.stringify(options) %>`);
 export default (context, inject) => {
   const { store } = context;
   const whppt = {
-    page: undefined,
-    footer: undefined,
     editData: undefined,
     createPage: CreatePage(context),
     savePage: SavePage(context),
@@ -59,4 +58,5 @@ export default (context, inject) => {
   linkGroupDirective({ ...context, menuIsInState, MENUSTATES });
   listingsDirective({ ...context, menuIsInState, MENUSTATES });
   listingDirective({ ...context, menuIsInState, MENUSTATES });
+  containerDirective({ ...context, menuIsInState, MENUSTATES });
 };

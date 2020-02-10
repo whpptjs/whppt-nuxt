@@ -6,8 +6,20 @@ import WhpptPage from './WhpptPage';
 import PlainText from './TextBox';
 import Carousel from './Carousel';
 import LinkGroup from './LinkGroup';
-import Gap from './Gap';
 import atdw from './ATDW';
 import Listings from './Listings';
+import Container from './Container';
 
-export { WhpptPage, EditorMenu, RichText, LinkSidebar, EContent, PlainText, Carousel, LinkGroup, atdw, Gap, Listings };
+export {
+  WhpptPage,
+  EditorMenu,
+  RichText,
+  LinkSidebar,
+  EContent,
+  PlainText,
+  Carousel,
+  LinkGroup,
+  atdw,
+  Listings,
+  Container,
+};

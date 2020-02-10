@@ -2,12 +2,12 @@
   <!-- v-model="selected"  -->
   <div class="whppt-select">
     <label for="template">{{ label }}</label>
-    <select ref="select" class="whppt-select__input" @change="selectIndex">
-      <option>
-        {{ title }}
+    <select ref="select" class="whppt-select__input" @change="select">
+      <option :value="-1">
+        {{ action }}
       </option>
-      <option v-for="(item, index) in items" :key="index">
-        {{ item.title || item.label || `Item #${index}` }}
+      <option v-for="(item, index) in items" :key="index" :value="index">
+        {{ item.title || item.label || `Item #${index + 1}` }}
       </option>
     </select>
   </div>
@@ -15,39 +15,34 @@
 <script>
 export default {
   name: 'WhpptSelect',
+  // mounted() {
+  //   this.syncSelection(this.value);
+  // },
   props: {
-    items: {
-      type: Array,
-      default: () => [],
-    },
-    title: {
-      type: String,
-      default: () => 'Please select ...',
-    },
+    items: { type: Array, default: () => [] },
+    action: { type: String, default: () => 'Please select ...' },
     label: { type: String, default: () => '' },
-    value: {
-      type: Number,
-      default: () => 0,
-    },
+    value: { type: Object, default: () => undefined },
   },
-  data() {
-    return {
-      selectedIndex: 0,
-    };
-  },
-  watch: {
-    value(val, old) {
-      if (val !== old) {
-        this.$nextTick(() => {
-          this.$refs.select.selectedIndex = val + 1;
-        });
-      }
-    },
-  },
+  // data() {
+  //   return {
+  //     selectedIndex: 0,
+  //   };
+  // },
+  // watch: {
+  //   value(val, old) {
+  //     if (val !== old) this.syncSelection(val);
+  //   },
+  // },
   methods: {
-    selectIndex(e) {
-      this.selectedIndex = e.target.selectedIndex;
-      this.$emit('input', this.selectedIndex - 1);
+    //   selectIndex(e) {
+    //     this.selectedIndex = e.target.selectedIndex;
+    //     this.$emit('input', this.selectedIndex - 1);
+    //   },
+    select(event) {
+      console.log('TCL: select -> event', event);
+      this.$emit('input', this.items[event.target.value]);
+      console.log('TCL: select -> this.items[event.target.value]', this.items[event.target.value]);
     },
   },
 };

@@ -48,7 +48,7 @@ export default {
         action: 'moveDown',
       },
       { key: 'new-page', label: 'New Page', icon: 'w-new-page', group: 'page', action: 'newPage' },
-      { key: 'save', label: 'Save Page', icon: 'w-save', group: 'page', action: 'savePage' },
+      { key: 'save', label: 'Save Page', icon: 'w-save', group: 'page', action: 'save' },
       { key: 'publish', label: 'Publish', icon: 'w-publish', group: 'page' },
       { key: 'preview', label: 'Preview', icon: 'w-preview', group: 'page' },
       { key: 'page-settings', label: 'Page Settings', icon: 'w-settings', group: 'page' },
@@ -72,6 +72,8 @@ export default {
     ...mapState('whppt-nuxt/editor', ['selector']),
   },
   methods: {
+    ...mapActions('whppt-nuxt/site', ['saveFooter']),
+    ...mapActions('whppt-nuxt/page', ['savePage']),
     ...mapActions('whppt-nuxt/editor', ['selectComponent']),
     ...mapMutations('whppt-nuxt/page', ['loaded']),
     ...mapMutations('whppt-nuxt/editor', ['editInSidebar']),
@@ -82,8 +84,8 @@ export default {
     selectSelector({ actionCommand }) {
       return this.selectComponent(actionCommand);
     },
-    savePage() {
-      return this.$whppt.savePage();
+    save() {
+      return this.savePage();
     },
     newPage() {
       return this.editInSidebar('WhpptPage');
@@ -96,6 +98,9 @@ export default {
     },
     saveFooter() {
       return this.$whppt.saveFooter();
+    },
+    savePageFooter() {
+      return this.saveFooter();
     },
   },
 };

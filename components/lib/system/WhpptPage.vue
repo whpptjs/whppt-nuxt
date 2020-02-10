@@ -2,33 +2,13 @@
   <div class="whppt-page">
     <h2>Create a Page</h2>
     <form class="whppt-page__form" @submit.prevent>
-      <!-- <whppt-select v-model="newPage.template" :items="templates" label="Page Template: " /> -->
+      <whppt-select v-model="template" :items="templates" label="Page Template:" />
 
-      <!-- <fieldset class="whppt-fieldset">
-        <label for="template">Page Template: </label>
-        <select id="template" v-model="chosenTemplate">
-          <option class="whppt-page__form--black" value="" disabled>Select a Template</option>
-          <option
-            v-for="(template, index) in templates"
-            :key="index"
-            class="whppt-page__form--black"
-            :value="template.key"
-            >{{ template.label }}</option
-          >
-        </select>
-      </fieldset> -->
-      <whppt-select v-model="chosenTemplate" :items="templates" label="Page Template:" />
-
-      <!-- <fieldset class="whppt-fieldset">
-        <label for="slug">Page Slug:</label>
-        <input class="whppt-page__form--black" id="slug" v-model="newPage.slug" @blur="formatSlug" />
-        <span class="whppt-page__hint">Enter any text and we'll turn it into a slug for you!</span>
-      </fieldset> -->
-      <whppt-input-text
-        v-model="newPage.slug"
+      <whppt-text-input
+        v-model="slug"
         label="Page Slug:"
         info="Enter any text and we'll turn it into a slug for you!"
-      ></whppt-input-text>
+      ></whppt-text-input>
 
       <whppt-button @click="saveNewPage">Create Page</whppt-button>
     </form>
@@ -40,21 +20,15 @@ import { mapState, mapActions } from 'vuex';
 import slugify from 'slugify';
 import WhpptButton from '../../../components/lib/system/WhpptButton';
 import WhpptSelect from './WhpptSelect';
-import WhpptInputText from './WhpptTextInput';
+import WhpptTextInput from './WhpptTextInput';
 
 export default {
   name: 'WhpptPage',
-  components: { WhpptButton, WhpptSelect, WhpptInputText },
+  components: { WhpptButton, WhpptSelect, WhpptTextInput },
   data: () => ({
-    chosenTemplate: undefined,
-    newPage: {
-      template: -1,
-      slug: '',
-      header: {},
-      contents: [],
-      link: { type: 'page' },
-      linkgroup: { type: 'page', links: [], showOnDesktop: true },
-    },
+    template: undefined,
+    slug: '',
+    title: '',
   }),
   computed: {
     ...mapState('whppt-nuxt/page', ['page']),
@@ -66,15 +40,18 @@ export default {
     ...mapActions('whppt-nuxt/editor', ['closeSidebar']),
     saveNewPage() {
       const vm = this;
-      const template = this.$whppt.templates[vm.chosenTemplate];
-      if (!vm.newPage.slug || !template) return;
-      vm.newPage = {
-        ...vm.newPage,
-        template: template.key,
-        ...template.initialData,
+      // TODO: Need to show a message on screen
+      if (!vm.slug || !vm.template) return;
+
+      const newPage = {
+        slug: vm.slug,
+        template: vm.template.key,
+        ...vm.template.init,
       };
-      return vm.$whppt.createPage(vm.newPage).then(({ data }) => {
-        const { slug } = data;
+
+      return vm.$whppt.createPage(newPage).then(page => {
+        console.log('TCL: saveNewPage -> page', page);
+        const { slug } = page;
         vm.closeSidebar();
         return vm.$router.push(`/${slug}` || '/');
       });

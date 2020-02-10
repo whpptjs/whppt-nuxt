@@ -2,11 +2,11 @@
   <div>
     <label class="whppt-inputText__label" :for="id">{{ label }}</label>
     <input
-      v-bind="$attrs"
       :id="id"
+      v-bind="$attrs"
       class="whppt-inputText__input"
       :class="{ 'whppt-editor-disabled': disabled }"
-      :type="$attrs.type || text"
+      :type="$attrs.type || 'text'"
       :placeholder="placeholder"
       :value="value"
       :disabled="disabled"

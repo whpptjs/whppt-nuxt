@@ -1,5 +1,4 @@
 export default {
-  state: () => ({
-    defaultState: 'someState'
-  })
-}
+  state: () => ({}),
+  strict: false,
+};

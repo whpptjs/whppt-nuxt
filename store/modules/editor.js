@@ -8,6 +8,7 @@ export default options => ({
     editSidebarType: undefined,
     editInModalType: undefined,
     richTextWatcher: 0,
+    editData: undefined,
   }),
   actions: {
     selectComponent({ commit }, type) {
@@ -27,6 +28,14 @@ export default options => ({
       this.$whppt.clearSelectedContentsFormatting();
       this.$whppt.clearEditingElementFormatting();
       commit('modalClosed');
+    },
+    clearEditData({ commit }) {
+      commit('editDataCleared');
+      this.$whppt.clearEditData();
+    },
+    edit({ state, commit }, { el, value }) {
+      commit('edited', value);
+      this.$whppt.edit(el, state.editData);
     },
   },
   mutations: {
@@ -54,6 +63,12 @@ export default options => ({
     modalClosed(state) {
       state.editInModal = false;
       state.editInModalType = undefined;
+    },
+    editDataCleared(state) {
+      state.editData = undefined;
+    },
+    edited(state, value) {
+      state.editData = value;
     },
   },
   getters: {},
