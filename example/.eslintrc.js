@@ -14,5 +14,6 @@ module.exports = {
     'vue/no-unused-components': 'warn',
     'vue/require-component-is': 'warn',
     'nuxt/no-cjs-in-config': 'off',
+    'vue/require-component-is': 'warn',
   },
 };

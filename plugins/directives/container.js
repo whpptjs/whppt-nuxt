@@ -4,14 +4,10 @@ export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
   Vue.directive('container', {
     bind(el, binding) {
       el.addEventListener('click', function(e) {
-        $whppt.clearEditData();
-        $whppt.clearContents();
-        $whppt.clearSelected();
-
+        store.dispatch('whppt-nuxt/editor/clearSelectedComponent');
+        store.dispatch('whppt-nuxt/editor/clearSelectedContent');
         if (!menuIsInState(MENUSTATES.SELECT)) return;
-        $whppt.select(el, binding.value.parent);
-        $whppt.formatSelectedContentsElement();
-        $whppt.edit(el, binding.value);
+        store.dispatch('whppt-nuxt/editor/selectComponent');
         store.commit('whppt-nuxt/editor/editInSidebar', 'Container');
       });
       el.addEventListener('mouseover', function(e) {

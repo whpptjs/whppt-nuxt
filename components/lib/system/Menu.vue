@@ -5,9 +5,9 @@
       v-for="(item, index) in menuItems"
       :key="index"
       class="whppt-menu__item"
-      :class="{ 'whppt-menu__item--active': item.actionCommand && selector === item.actionCommand }"
+      :class="{ 'whppt-menu__item--active': item.isActive && item.isActive() }"
     >
-      <button @click="callMethod(item.action, item)">
+      <button @click="item.action()">
         <component :is="item.icon" />
       </button>
     </div>
@@ -20,76 +20,67 @@ export default {
   name: 'WhpptMenu',
   data: () => ({
     currentAction: undefined,
-    menuItems: [
-      { key: 'draggable', label: '', icon: 'w-draggable', group: '' },
-      // { key: 'cursor', label: 'Cursor', icon: 'w-cursor', group: '' },
-      {
-        key: 'select',
-        label: 'Select',
-        icon: 'w-pointer',
-        group: '',
-        action: 'selectSelector',
-        actionCommand: 'select',
-      },
-      {
-        key: 'content',
-        label: 'Content',
-        icon: 'w-add-circle',
-        group: '',
-        action: 'selectSelector',
-        actionCommand: 'content',
-      },
-      {
-        key: 'remove',
-        label: 'Remove',
-        icon: 'w-trash',
-        group: '',
-        action: 'remove',
-      },
-      { key: 'up', label: 'Up', icon: 'w-arrow-up', group: '', action: 'moveUp' },
-      {
-        key: 'down',
-        label: 'Down',
-        icon: 'w-arrow-down',
-        group: '',
-        action: 'moveDown',
-      },
-      { key: 'new-page', label: 'New Page', icon: 'w-new-page', group: 'page', action: 'newPage' },
-      { key: 'save', label: 'Save Page', icon: 'w-save', group: 'page', action: 'save' },
-      { key: 'publish', label: 'Publish', icon: 'w-publish', group: 'page' },
-      { key: 'preview', label: 'Preview', icon: 'w-preview', group: 'page' },
-      { key: 'page-settings', label: 'Page Settings', icon: 'w-settings', group: 'page' },
-      // { key: 'seo', label: 'SEO', icon: 'w-seo', group: 'site' },
-      // { key: 'socials', label: 'Socials', icon: 'w-socials', group: 'site' },
-      // { key: 'documents', label: 'Documents', icon: 'w-document', group: 'site' },
-      // { key: 'redirects', label: 'Redirects', icon: 'w-redirect', group: 'site' },
-      // { key: 'logout', label: 'Logout', icon: 'w-logout', group: 'security' },
-      {
-        key: 'atdw',
-        label: 'ATDW',
-        icon: 'w-globe',
-        group: 'atdw',
-        action: 'selectSelector',
-        actionCommand: 'listing',
-      },
-      { key: 'footer', label: 'Footer', icon: 'w-footer', group: 'footer', action: 'saveFooter' },
-    ],
   }),
   computed: {
-    ...mapState('whppt-nuxt/editor', ['selector']),
+    ...mapState('whppt-nuxt/editor', ['activeMenuItem']),
+    menuItems() {
+      return [
+        { key: 'draggable', label: '', icon: 'w-draggable', group: '' },
+        // { key: 'cursor', label: 'Cursor', icon: 'w-cursor', group: '' },
+        {
+          key: 'select',
+          label: 'Select',
+          icon: 'w-pointer',
+          group: '',
+          action: () => this.selectMenuItem('select'),
+          isActive: () => this.activeMenuItem === 'select',
+        },
+        {
+          key: 'remove',
+          label: 'Remove',
+          icon: 'w-trash',
+          group: '',
+          action: 'remove',
+        },
+        // {
+        //   key: 'content',
+        //   label: 'Content',
+        //   icon: 'w-add-circle',
+        //   group: '',
+        //   action: () => this.selectMenuItem('content'),
+        // },
+        { key: 'up', label: 'Up', icon: 'w-arrow-up', group: '', action: 'moveUp' },
+        {
+          key: 'down',
+          label: 'Down',
+          icon: 'w-arrow-down',
+          group: '',
+          action: 'moveDown',
+        },
+        { key: 'new-page', label: 'New Page', icon: 'w-new-page', group: 'page', action: 'newPage' },
+        { key: 'save', label: 'Save Page', icon: 'w-save', group: 'page', action: 'save' },
+        { key: 'publish', label: 'Publish', icon: 'w-publish', group: 'page' },
+        { key: 'preview', label: 'Preview', icon: 'w-preview', group: 'page' },
+        { key: 'page-settings', label: 'Page Settings', icon: 'w-settings', group: 'page' },
+        // { key: 'seo', label: 'SEO', icon: 'w-seo', group: 'site' },
+        // { key: 'socials', label: 'Socials', icon: 'w-socials', group: 'site' },
+        // { key: 'documents', label: 'Documents', icon: 'w-document', group: 'site' },
+        // { key: 'redirects', label: 'Redirects', icon: 'w-redirect', group: 'site' },
+        // { key: 'logout', label: 'Logout', icon: 'w-logout', group: 'security' },
+        { key: 'atdw', label: 'ATDW', icon: 'w-globe', group: 'atdw', action: 'editATDW' },
+        { key: 'footer', label: 'Footer', icon: 'w-footer', group: 'footer', action: 'savePageFooter' },
+      ];
+    },
   },
   methods: {
     ...mapActions('whppt-nuxt/site', ['saveFooter']),
     ...mapActions('whppt-nuxt/page', ['savePage']),
-    ...mapActions('whppt-nuxt/editor', ['selectComponent']),
+    ...mapActions('whppt-nuxt/editor', ['selectMenuItem']),
     ...mapMutations('whppt-nuxt/page', ['loaded']),
-    ...mapMutations('whppt-nuxt/editor', ['editInSidebar']),
+    ...mapMutations('whppt-nuxt/editor', ['editInModal', 'editInSidebar']),
     callMethod(action, options) {
       if (!action) return;
       return this[action](options);
-    },
-    selectSelector({ actionCommand }) {
-      return this.selectComponent(actionCommand);
     },
     save() {
       return this.savePage();
@@ -106,8 +97,11 @@ export default {
     moveUp() {
       return this.$whppt.moveUp();
     },
-    saveFooter() {
-      return this.$whppt.saveFooter();
+    editATDW() {
+      return this.editInModal('atdw');
+    },
+    openSiteSettings() {
+      return this.editInModal('siteSettings');
     },
     savePageFooter() {
       return this.saveFooter();

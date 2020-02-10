@@ -2,50 +2,66 @@ export default options => ({
   namespaced: true,
   state: () => ({
     options,
-    selector: undefined,
+    activeMenuItem: undefined,
     editSidebar: false,
     editInModal: false,
     editSidebarType: undefined,
     editInModalType: undefined,
     richTextWatcher: 0,
-    editData: undefined,
+    selectedComponent: undefined,
+    selectedContent: undefined,
   }),
   actions: {
-    selectComponent({ commit }, type) {
-      this.$whppt.clearSelected();
-      this.$whppt.clearSelectedContentsFormatting();
-      this.$whppt.clearEditingElementFormatting();
-      commit('componentSelected', type);
+    selectMenuItem({ commit }, type) {
+      this.$whppt.clearSelectedComponent();
+      this.$whppt.clearSelectedContent();
+      commit('menuItemSelected', type);
     },
     closeSidebar({ commit }) {
-      this.$whppt.clearSelected();
-      this.$whppt.clearSelectedContentsFormatting();
-      this.$whppt.clearEditingElementFormatting();
+      this.$whppt.clearSelectedComponent();
+      this.$whppt.clearSelectedContent();
+      // this.$whppt.clearSelectedContentsFormatting();
+      // this.$whppt.clearEditingElementFormatting();
       commit('sidebarClosed');
     },
     closeModal({ commit }) {
-      this.$whppt.clearSelected();
-      this.$whppt.clearSelectedContentsFormatting();
-      this.$whppt.clearEditingElementFormatting();
+      this.$whppt.clearSelectedComponent();
+      this.$whppt.clearSelectedContent();
+      // this.$whppt.clearSelectedContentsFormatting();
+      // this.$whppt.clearEditingElementFormatting();
       commit('modalClosed');
     },
-    clearEditData({ commit }) {
-      commit('editDataCleared');
-      this.$whppt.clearEditData();
+    clearSelectedComponent({ commit }) {
+      commit('selectedComponentCleared');
+      this.$whppt.clearSelectedComponent();
     },
-    edit({ state, commit }, { el, value }) {
-      commit('edited', value);
-      this.$whppt.edit(el, state.editData);
+    selectComponent({ state, commit }, { el, value }) {
+      commit('componentSelected', value);
+      this.$whppt.selectComponent(el);
+    },
+    selectContent({ state, commit }, { el, value }) {
+      commit('contentSelected', value);
+      this.$whppt.selectContent(el);
+    },
+    clearSelectedContent({ commit }) {
+      commit('selectedContentCleared');
+      this.$whppt.clearSelectedContent();
+    },
+    moveComponentUp({ state, commit }) {
+      this.$whppt.moveUp({ component: state.selectedComponent, content: state.selectedContent });
+    },
+    moveComponentDown({ state, commit }) {
+      this.$whppt.moveDown({ component: state.selectedComponent, content: state.selectedContent });
     },
   },
   mutations: {
-    componentSelected(state, actionType) {
+    menuItemSelected(state, actionType) {
       state.editSidebar = false;
-      if (state.selector === actionType) {
-        state.selector = undefined;
+      if (state.activeMenuItem === actionType) {
+        state.activeMenuItem = undefined;
         return;
       }
-      state.selector = actionType;
+      state.activeMenuItem = actionType;
     },
     editInSidebar(state, type) {
       state.editSidebar = true;
@@ -64,11 +80,17 @@ export default options => ({
       state.editInModal = false;
       state.editInModalType = undefined;
     },
-    editDataCleared(state) {
-      state.editData = undefined;
+    selectedComponentCleared(state) {
+      state.selectedComponent = undefined;
     },
-    edited(state, value) {
-      state.editData = value;
+    componentSelected(state, value) {
+      state.selectedComponent = value;
+    },
+    contentSelected(state, value) {
+      state.selectedContent = value;
+    },
+    selectedContentCleared(state, value) {
+      state.selectedContent = undefined;
     },
   },
   getters: {},

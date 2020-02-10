@@ -1,5 +1,5 @@
 <template>
-  <div class="whppt-full" v-if="editingCarousel">
+  <div v-if="editingCarousel" class="whppt-full">
     <h1>Carousel</h1>
     <whppt-tabs>
       <whppt-tab title="General">
@@ -15,13 +15,6 @@
           placeholder="Optional"
           label="Carousel Description"
         />
-        <whppt-text-input
-          type="number"
-          min="0"
-          v-model="editingCarousel.marginTop"
-          placeholder="Height in px"
-          label="Margin Top"
-        />
         <whppt-check-box
           :value="editingCarousel.reversed"
           label="Reversed"
@@ -33,7 +26,7 @@
 
         <div class="whppt-carousel__actions">
           <button class="whppt-carousel__actions-add" @click="add">Add New Item</button>
-          <button class="whppt-carousel__actions-remove" @click="remove" v-if="selectedIndex >= 0">
+          <button v-if="selectedIndex >= 0" class="whppt-carousel__actions-remove" @click="remove">
             Remove Item
           </button>
         </div>
@@ -102,9 +95,11 @@ export default {
   computed: {
     ...mapState('whppt-nuxt/editor', ['editData']),
     editingCarousel() {
-      return this.editData;
+      return this.editData.data;
     },
     editingCarouselItems() {
+      console.log('TCL: editingCarouselItems -> this.editingCarousel', this.editingCarousel);
+      console.log('TCL: editingCarouselItems -> this.$whppt.editDataProperty', this.$whppt.editDataProperty);
       return this.editingCarousel[this.$whppt.editDataProperty];
     },
     editingItem() {
@@ -121,7 +116,7 @@ export default {
         ctaLink: '',
         image: undefined,
       });
-      this.selectedIndex = this.selectedIndex + 1;
+      this.selectedIndex = this.editingCarouselItems.length - 1;
     },
     remove() {
       if (window.confirm('Do you want to remove this card?')) {
@@ -133,6 +128,10 @@ export default {
 };
 </script>
 <style>
+.margin-top-input {
+  display: none;
+}
+
 .whppt-textBox--margin-top-10 {
   margin-top: 10px;
 }

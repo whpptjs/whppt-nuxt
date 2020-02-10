@@ -1,10 +1,15 @@
 <template>
   <div v-if="page" class="container">
-    <div v-plain-text="page">
+    <div v-link-group="page.linkgroup">
+      {{ (page.linkgroup && page.linkgroup.text) || 'HEY' }}
+    </div>
+    <div v-link="page.link">
+      {{ page.text || 'Enter link here' }}
+    </div>
+    <div v-plain-text="page" :style="{ 'margin-top': `${page.marginTop}px` }" data-property="title">
       {{ page.title || 'HEY' }}
     </div>
-<<<<<<< HEAD
-    <div v-content="{ data: page.contents }">
+    <div v-content="page.contents" data-components="wPlainText, wRichText">
       <div v-if="page.contents.length">
         <div v-for="(content, index) in page.contents" :key="index" :style="{ 'margin-top': `${content.marginTop}px` }">
           <div
@@ -15,16 +20,16 @@
             {{ content.text || 'Enter Text here' }}
           </div>
           <div
+            :style="{ 'margin-top': `${content.marginTop}px` }"
             v-if="content.displayType === 'wRichText'"
             v-rich-text="{ data: content, property: 'text' }"
-            :style="{ 'margin-top': `${content.marginTop}px` }"
           >
             {{ content.text || 'Enter rich text here' }}
           </div>
           <div
+            :style="{ 'margin-top': `${content.marginTop}px` }"
             v-if="content.displayType === 'wCarousel'"
             v-carousel="{ data: content, property: 'items' }"
-            :style="{ 'margin-top': `${content.marginTop}px` }"
           >
             Just a normal carousel
           </div>
@@ -55,9 +60,11 @@
               {{ content.text || 'Enter rich text here' }}
             </div>
             <div v-if="content.displayType === 'wCarousel'" v-carousel="{ data: content, property: 'items' }">
+              <!-- {{ content.text || 'Enter rich text here' }} -->
               Just a normal carousel
             </div>
             <div v-if="content.displayType === 'wCardCarousel'" v-carousel="{ data: content, property: 'items' }">
+              <!-- {{ content.text || 'Enter rich text here' }} -->
               A super card carousel
             </div>
             <div v-if="content.displayType === 'wLink'" v-link="content">
@@ -90,50 +97,26 @@
             </div>
           </div>
           <div
+            :style="{ 'margin-top': `${content.marginTop}px` }"
             v-if="content.displayType === 'wListings'"
             v-listings="{ data: content, property: 'categories' }"
-            :style="{ 'margin-top': `${content.marginTop}px` }"
           >
-            {{ content.displayType }}
-            <component :is="content.displayType"></component>
+            Listings!!
           </div>
         </div>
       </div>
       <div v-else>
-        Content here
-=======
-    <div v-content="page.contents" data-components="wPlainText, wRichText" class="contents">
-      <component
-        :is="content.displayType"
-        v-for="(content, index) in page.contents"
-        :key="index"
-        :value="content"
-      ></component>
-      <div v-if="!page.contents.length">
-        Hey Content 1
->>>>>>> a54602290bb5f5cf32cbc03063231b73bcb38061
+        Content hered
       </div>
     </div>
-    <div v-content="page.contents">Hey Content 2</div>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
-<<<<<<< HEAD
-import wListings from '../components/Listings';
+export default {
+  name: 'WildCardPage',
 
-export default {
-  name: 'WildCardPage',
-  components: {
-    wListings,
-  },
-=======
-import * as DisplayComponents from '~/components/Components';
-export default {
-  name: 'WildCardPage',
-  components: { ...DisplayComponents },
->>>>>>> a54602290bb5f5cf32cbc03063231b73bcb38061
   asyncData({ params, store, error, app: { $whppt } }) {
     return Promise.all([store.dispatch('whppt-nuxt/page/loadPage', { slug: params.pathMatch })]).catch(err => {
       error({

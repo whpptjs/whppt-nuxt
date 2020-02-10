@@ -21,10 +21,11 @@ module.exports = {
   whppt: {
     baseAPIUrl: process.env.BASE_API_URL,
     componentPrefix: 'W',
+    defaultMarginTop: '40',
     components: [
       {
         key: 'CardCarousel',
-        value: 'Card Carousel',
+        name: 'Card Carousel',
         editorType: 'wCarousel',
         displayType: 'wCardCarousel',
         reversed: false,

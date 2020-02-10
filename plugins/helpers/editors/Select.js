@@ -1,56 +1,67 @@
-const selectActiveClass = 'whppt-component__select--active';
-const contentActiveClass = 'whppt-component__content--active';
+const componentActiveClass = 'whppt__component--active';
+const contentActiveClass = 'whppt__content--active';
 
 export default function($whppt) {
-  $whppt.selected = undefined;
   $whppt.selectedElement = undefined;
-  $whppt.selectedContents = undefined;
   $whppt.selectedContentsElement = undefined;
 
-  const clearSelected = () => {
-    clearSelectedFormatting();
-    $whppt.selected = undefined;
+  const clearSelectedComponent = () => {
+    clearSelectedComponentFormatting();
     $whppt.selectedElement = undefined;
   };
-
-  const select = (el, value) => {
-    $whppt.selected = value;
-    $whppt.selectedElement = el;
-    $whppt.selectedElement.classList.add(selectActiveClass);
-  };
-
-  const selectContents = (el, value) => {
-    $whppt.selectedContents = value;
-    $whppt.selectedContentsElement = el;
-    formatSelectedContentsElement();
-  };
-  const clearContents = () => {
-    $whppt.selectedContents = undefined;
-    clearSelectedContentsFormatting();
-    $whppt.selectedContentsElement = undefined;
-  };
-
-  const clearSelectedContentsFormatting = () => {
-    if ($whppt.selectedContentsElement) {
-      $whppt.selectedContentsElement.classList.remove(selectActiveClass, contentActiveClass);
-    }
-  };
-
-  const clearSelectedFormatting = () => {
+  const clearSelectedComponentFormatting = () => {
     if (!$whppt.selectedElement) return;
-    $whppt.selectedElement.classList.remove(contentActiveClass, selectActiveClass);
+    $whppt.selectedElement.classList.remove(componentActiveClass);
+  };
+  const selectComponent = el => {
+    $whppt.selectedElement = el;
+    $whppt.selectedElement.classList.add(componentActiveClass);
+  };
+  const selectContent = el => {
+    $whppt.selectedContentElement = el;
+    formatSelectedContentElement();
   };
 
-  const formatSelectedElement = () => {
-    $whppt.selectedElement.classList.add(contentActiveClass);
+  const formatSelectedContentElement = () => {
+    if ($whppt.selectedContentElement) {
+      $whppt.selectedContentElement.classList.add(contentActiveClass);
+      $whppt.selectedContentElement.classList.remove(componentActiveClass);
+    }
   };
-  const formatSelectedContentsElement = () => {
-    if ($whppt.selectedContentsElement) {
-      $whppt.selectedContentsElement.classList.add(selectActiveClass);
-      $whppt.selectedContentsElement.classList.remove(contentActiveClass);
+  const clearSelectedContent = () => {
+    clearSelectedContentFormatting();
+    $whppt.selectedContentElement = undefined;
+  };
+  const clearSelectedContentFormatting = () => {
+    if ($whppt.selectedContentElement) {
+      $whppt.selectedContentElement.classList.remove(contentActiveClass);
     }
   };
 
+  const moveUp = (component, content) => {
+    const i = content.indexOf(component);
+    if (i <= 0) return;
+
+    const current = content[i];
+    const prev = content[i - 1];
+
+    clearSelectedComponentFormatting();
+    content[i] = prev;
+    content[i - 1] = current;
+    content.__ob__.dep.notify();
+  };
+
+  const moveDown = (component, content) => {
+    const i = content.indexOf(content);
+    if (content.length === i + 1 || i < 0) return;
+    const current = content[i];
+    const prev = content[i + 1];
+    clearSelectedComponentFormatting();
+
+    content[i] = prev;
+    content[i + 1] = current;
+    content.__ob__.dep.notify();
+  };
   const remove = () => {
     if (!$whppt.selectedContents || !$whppt.editData) return;
     const i = $whppt.selectedContents.data.indexOf($whppt.editData);
@@ -60,46 +71,16 @@ export default function($whppt) {
     clearSelected();
   };
 
-  const moveUp = () => {
-    if (!$whppt.selectedContents || !$whppt.editData) return;
-    const i = $whppt.selectedContents.data.indexOf($whppt.editData);
-    if (i <= 0) return;
-
-    const current = $whppt.selectedContents.data[i];
-    const prev = $whppt.selectedContents.data[i - 1];
-
-    clearSelectedFormatting();
-    $whppt.selectedContents.data[i] = prev;
-    $whppt.selectedContents.data[i - 1] = current;
-    $whppt.selectedContents.data.__ob__.dep.notify();
-    // formatSelectedElement();
-  };
-
-  const moveDown = () => {
-    if (!$whppt.selectedContents || !$whppt.editData) return;
-    const i = $whppt.selectedContents.data.indexOf($whppt.editData);
-    if ($whppt.selectedContents.data.length === i + 1 || i < 0) return;
-    const current = $whppt.selectedContents.data[i];
-    const prev = $whppt.selectedContents.data[i + 1];
-    clearSelectedFormatting();
-
-    $whppt.selectedContents.data[i] = prev;
-    $whppt.selectedContents.data[i + 1] = current;
-    $whppt.selectedContents.data.__ob__.dep.notify();
-    // formatSelectedElement();
-  };
-
   Object.assign($whppt, {
-    clearSelected,
-    clearSelectedFormatting,
-    select,
-    selectContents,
-    formatSelectedElement,
-    moveUp,
+    clearSelectedComponent,
+    clearSelectedComponentFormatting,
+    selectComponent,
+    selectContent,
+    formatSelectedContentElement,
+    clearSelectedContent,
+    clearSelectedContentFormatting,
     moveDown,
+    moveUp,
     remove,
-    clearSelectedContentsFormatting,
-    clearContents,
-    formatSelectedContentsElement,
   });
 }
