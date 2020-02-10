@@ -1,6 +1,6 @@
 <template>
   <div
-    v-image="value"
+    v-imagee="value"
     :data-property="value.property"
     :style="{ 'margin-top': `${value.marginTop || $whppt.defaultMarginTop}px` }"
     class="img"

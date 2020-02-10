@@ -10,13 +10,10 @@
 
 <script>
 import { mapState } from 'vuex';
-import WhpptTabs from './WhpptTabs';
-import WhpptTab from './WhpptTab';
-import WhpptTextInput from './WhpptTextInput';
 
 export default {
   name: 'EditorImageEdit',
-  components: { WhpptTextInput, WhpptTabs, WhpptTab },
+  // components: { WhpptTextInput, WhpptTabs, WhpptTab },
   computed: mapState('whppt-nuxt/editor', ['selectedComponent']),
 };
 </script>
