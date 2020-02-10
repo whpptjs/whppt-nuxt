@@ -196,6 +196,11 @@ export default {
   height: 4rem;
 }
 
+.whppt-atdw__heading h1 {
+  font-size: 1.6rem;
+  font-weight: bold;
+}
+
 .whppt-atdw__content form {
   display: flex;
   flex-direction: column;
