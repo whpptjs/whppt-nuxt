@@ -58,21 +58,14 @@ export default {
       { key: 'save', label: 'Save Page', icon: 'w-save', group: 'page', action: 'save' },
       { key: 'publish', label: 'Publish', icon: 'w-publish', group: 'page' },
       { key: 'preview', label: 'Preview', icon: 'w-preview', group: 'page' },
-      { key: 'page-settings', label: 'Page Settings', icon: 'w-settings', group: 'page' },
+      { key: 'site-settings', label: 'Site Settings', icon: 'w-settings', group: 'page', action: 'openSiteSettings' },
       // { key: 'seo', label: 'SEO', icon: 'w-seo', group: 'site' },
       // { key: 'socials', label: 'Socials', icon: 'w-socials', group: 'site' },
       // { key: 'documents', label: 'Documents', icon: 'w-document', group: 'site' },
       // { key: 'redirects', label: 'Redirects', icon: 'w-redirect', group: 'site' },
       // { key: 'logout', label: 'Logout', icon: 'w-logout', group: 'security' },
-      {
-        key: 'atdw',
-        label: 'ATDW',
-        icon: 'w-globe',
-        group: 'atdw',
-        action: 'selectSelector',
-        actionCommand: 'listing',
-      },
-      { key: 'footer', label: 'Footer', icon: 'w-footer', group: 'footer', action: 'saveFooter' },
+      { key: 'atdw', label: 'ATDW', icon: 'w-globe', group: 'atdw', action: 'editATDW' },
+      { key: 'footer', label: 'Footer', icon: 'w-footer', group: 'footer', action: 'savePageFooter' },
     ],
   }),
   computed: {
@@ -83,7 +76,7 @@ export default {
     ...mapActions('whppt-nuxt/page', ['savePage']),
     ...mapActions('whppt-nuxt/editor', ['selectComponent']),
     ...mapMutations('whppt-nuxt/page', ['loaded']),
-    ...mapMutations('whppt-nuxt/editor', ['editInSidebar']),
+    ...mapMutations('whppt-nuxt/editor', ['editInModal', 'editInSidebar']),
     callMethod(action, options) {
       if (!action) return;
       return this[action](options);
@@ -106,8 +99,11 @@ export default {
     moveUp() {
       return this.$whppt.moveUp();
     },
-    saveFooter() {
-      return this.$whppt.saveFooter();
+    editATDW() {
+      return this.editInModal('atdw');
+    },
+    openSiteSettings() {
+      return this.editInModal('siteSettings');
     },
     savePageFooter() {
       return this.saveFooter();
