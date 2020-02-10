@@ -37,13 +37,6 @@
       </div>
     </editor-menu-bar>
     <editor-content class="whppt-rich-content" :editor="editor" />
-    <whppt-text-input
-      type="number"
-      min="0"
-      v-model="$whppt.editData.marginTop"
-      placeholder="Height in px"
-      label="Margin Top"
-    />
   </div>
 </template>
 
@@ -61,7 +54,6 @@ import {
 } from 'tiptap-extensions';
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap';
 import { mapState } from 'vuex';
-import WhpptTextInput from '../WhpptTextInput';
 import IBold from './icons/Bold';
 import IItalic from './icons/Italic';
 import IHeader1 from './icons/Header1';
@@ -80,7 +72,6 @@ const isEmptyValue = val => {
 export default {
   name: 'WhpptRichText',
   components: {
-    WhpptTextInput,
     EditorContent,
     EditorMenuBar,
     IBold,
@@ -100,22 +91,22 @@ export default {
       internal: undefined,
     };
   },
-  computed: mapState('whppt-nuxt/editor', ['richTextWatcher']),
+  computed: mapState('whppt-nuxt/editor', ['richTextWatcher', 'selectedComponent']),
   watch: {
     richTextWatcher(val) {
-      if (this.internal !== this.$whppt.editData[this.$whppt.editDataProperty]) {
-        this.internal = this.$whppt.editData[this.$whppt.editDataProperty];
+      if (this.internal !== this.selectedComponent.value[this.selectedComponent.property]) {
+        this.internal = this.selectedComponent.value[this.selectedComponent.property];
         this.editor.setContent(
-          isEmptyValue(this.$whppt.editData[this.$whppt.editDataProperty])
+          isEmptyValue(this.selectedComponent.value[this.selectedComponent.property])
             ? 'Start typing here '
-            : this.$whppt.editData[this.$whppt.editDataProperty]
+            : this.selectedComponent.value[this.selectedComponent.property]
         );
       }
     },
   },
   mounted() {
     const vm = this;
-    this.internal = this.$whppt.editData[this.$whppt.editDataProperty];
+    this.internal = this.selectedComponent.value[this.selectedComponent.property];
 
     this.editor = new Editor({
       extensions: [
@@ -129,12 +120,12 @@ export default {
         new Link(),
         new HardBreak(),
       ],
-      content: isEmptyValue(this.$whppt.editData[this.$whppt.editDataProperty])
+      content: isEmptyValue(this.selectedComponent.value[this.selectedComponent.property])
         ? 'Start typing here '
-        : this.$whppt.editData[this.$whppt.editDataProperty],
+        : this.selectedComponent.value[this.selectedComponent.property],
       onUpdate({ getHTML }) {
         vm.internal = getHTML();
-        vm.$whppt.editData[vm.$whppt.editDataProperty] = getHTML();
+        vm.selectedComponent.value[vm.selectedComponent.property] = getHTML();
       },
     });
   },

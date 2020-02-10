@@ -14,7 +14,7 @@
 <script>
 import { mapState } from 'vuex';
 import { filter, includes } from 'lodash';
-import WhpptButton from './WhpptButton';
+import WhpptButton from '../whpptComponents/WhpptButton';
 
 export default {
   name: 'WhpptContent',

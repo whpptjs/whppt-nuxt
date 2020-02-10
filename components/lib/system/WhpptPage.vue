@@ -18,9 +18,9 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import slugify from 'slugify';
-import WhpptButton from '../../../components/lib/system/WhpptButton';
-import WhpptSelect from './WhpptSelect';
-import WhpptTextInput from './WhpptTextInput';
+import WhpptButton from '../../../components/lib/whpptComponents/WhpptButton';
+import WhpptTextInput from '../whpptComponents/WhpptTextInput';
+import WhpptSelect from '../whpptComponents/WhpptSelect';
 
 export default {
   name: 'WhpptPage',

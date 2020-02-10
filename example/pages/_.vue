@@ -3,7 +3,7 @@
     <div v-plain-text="page">
       {{ page.title || 'HEY' }}
     </div>
-    <div v-content="page.contents" data-components="wPlainText, wRichText" class="contents">
+    <div v-content="page.contents" data-components="wPlainText, wRichText" class="whppt-contents">
       <component
         :is="content.displayType"
         v-for="(content, index) in page.contents"

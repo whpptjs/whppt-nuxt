@@ -34,11 +34,12 @@ import { mapState, mapActions } from 'vuex';
 import * as Editors from '../system';
 import Modal from '../system/Modal';
 import SiteSettings from '../system/SiteSettings';
-import WhpptButton from '../system/WhpptButton';
+import WhpptTextInput from '../whpptComponents/WhpptTextInput';
+import WhpptButton from '../whpptComponents/WhpptButton';
 
 export default {
   name: 'WhpptEditorApp',
-  components: { ...Editors, WhpptButton, Modal, SiteSettings },
+  components: { ...Editors, WhpptButton, Modal, WhpptTextInput, SiteSettings },
   computed: mapState('whppt-nuxt/editor', [
     'editInModal',
     'editInModalType',
