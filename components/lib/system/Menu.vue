@@ -39,6 +39,13 @@ export default {
         action: 'selectSelector',
         actionCommand: 'content',
       },
+      {
+        key: 'remove',
+        label: 'Remove',
+        icon: 'w-trash',
+        group: '',
+        action: 'remove',
+      },
       { key: 'up', label: 'Up', icon: 'w-arrow-up', group: '', action: 'moveUp' },
       {
         key: 'down',
@@ -89,6 +96,9 @@ export default {
     },
     newPage() {
       return this.editInSidebar('WhpptPage');
+    },
+    remove() {
+      return this.$whppt.remove();
     },
     moveDown() {
       return this.$whppt.moveDown();
