@@ -56,6 +56,13 @@ const Components = options => [
     property: 'contents',
     contents: [],
   },
+  {
+    key: 'Image',
+    name: 'Test Image',
+    editorType: 'wImage',
+    displayType: 'wImage',
+    data: undefined,
+  },
   ...options.components,
 ];
 

@@ -114,7 +114,7 @@ export default {
         ctaLink: '',
         image: undefined,
       });
-      this.selectedIndex = this.selectedIndex + 1;
+      this.selectedIndex = this.editingCarouselItems.length - 1;
     },
     remove() {
       if (window.confirm('Do you want to remove this card?')) {

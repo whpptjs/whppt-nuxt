@@ -21,7 +21,7 @@
         <button class="whppt-button" @click="saveListing">Save</button>
       </div>
       <form @submit.prevent>
-        <fieldset>
+        <fieldset :disabled="listing.name.path">
           <label for="name">Name</label>
           <input id="name" v-model="listing.name.value" />
           <div class="whppt-atdw__form-controls">
@@ -40,6 +40,17 @@
             <div>
               <button v-if="listing.description.path" @click="disconnect(listing.description)">disconnect</button>
               <button v-if="!listing.description.path" @click="openReconnectMenu('description')">reconnect</button>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <label for="status">Status</label>
+          <input id="status" v-model="listing.status.value" />
+          <div class="whppt-atdw__form-controls">
+            <span>Linked To: {{ listing.status.path }}</span>
+            <div>
+              <button v-if="listing.status.path" @click="disconnect(listing.status)">disconnect</button>
+              <button v-if="!listing.status.path" @click="openReconnectMenu('status')">reconnect</button>
             </div>
           </div>
         </fieldset>
@@ -80,8 +91,8 @@ export default {
     atdwFields: {
       productName: stringFromPath,
       productDescription: stringFromPath,
-      // Category: stringFromPath,
       status: stringFromPath,
+      // Category: stringFromPath,
       email(product) {
         return find(product.communication, comm => comm.attributeIdCommunication === 'CAEMENQUIR');
       },
@@ -104,12 +115,13 @@ export default {
 
     const baseAPIUrl = this.$whppt.baseAPIUrl || '';
     this.$axios.get(`${baseAPIUrl}/api/listing/findById?id=${this.$whppt.editData}`).then(({ data }) => {
-      this.listing = data;
+      this.listing = data.listing;
     });
   },
   methods: {
     reconnect(field, key) {
       this.listing[this.propToReconnect].path = key;
+      // this.listing.atdw should probably be dynamic, what if bookeasy?
       this.listing[this.propToReconnect].value = field(this.listing.atdw, key);
       this.showReconnect = false;
     },
@@ -142,6 +154,7 @@ export default {
 
 .whppt-linker {
   display: flex;
+  align-items: center;
   margin: 0.4rem 1rem;
 }
 
@@ -182,7 +195,12 @@ export default {
 
 .whppt-atdw__modal--inner {
   margin: 1rem auto;
-  /*width: 33.33%;*/
+  width: 80%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
 
 .whppt-atdw__heading {
