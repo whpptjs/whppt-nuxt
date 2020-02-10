@@ -1,3 +1,4 @@
+import { Components } from './Components';
 import contentDirective from './directives/content';
 import richTextDirective from './directives/richText';
 import carouselDirective from './directives/carousel';
@@ -13,7 +14,6 @@ import LoadFooter from './helpers/LoadFooter';
 import CreatePage from './helpers/CreatePage';
 import LoadPage from './helpers/LoadPage';
 import Select from './helpers/editors/Select';
-import Edit from './helpers/editors/Edit';
 import Hover from './helpers/editors/Hover';
 
 const options = JSON.parse(`<%= JSON.stringify(options) %>`);
@@ -28,13 +28,14 @@ export default (context, inject) => {
     loadFooter: LoadFooter(context),
     saveFooter: SaveFooter(context),
     templates: options.templates,
-    components: options.components,
     baseAPIUrl: options.baseAPIUrl,
+    components: Components(options),
+    defaultMarginTop: options.defaultMarginTop,
   };
 
   const menuIsInState = type => {
     const editorState = store.state[`whppt-nuxt/editor`];
-    return editorState.selector === type;
+    return editorState.activeMenuItem === type;
   };
 
   const MENUSTATES = {
@@ -43,7 +44,6 @@ export default (context, inject) => {
   };
 
   Select(whppt);
-  Edit(whppt);
   Hover(whppt);
 
   context.app.$whppt = whppt;

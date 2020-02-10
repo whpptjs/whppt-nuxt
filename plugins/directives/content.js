@@ -3,33 +3,27 @@ import Vue from 'vue';
 export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
   Vue.directive('content', {
     bind(el, binding) {
+      el.addEventListener('content-selected', function(e) {
+        store.dispatch('whppt-nuxt/editor/clearSelectedContent');
+        store.dispatch('whppt-nuxt/editor/selectContent', { el, value: binding.value });
+      });
+
       el.addEventListener('click', function(e) {
-        $whppt.clearContents();
-
-        if (menuIsInState(MENUSTATES.SELECT)) {
-          e.stopPropagation();
-          // $whppt.clearSelected();
-          // $whppt.clearEditData();
-          // $whppt.clearEditingElementFormatting();
-          $whppt.selectContents(el, binding.value);
-        }
-
-        if (menuIsInState(MENUSTATES.CONTENT)) {
-          e.stopPropagation();
-          // e.preventDefault();
-          $whppt.clearEditData();
-          store.commit('whppt-nuxt/editor/editInSidebar', 'eContent');
-          $whppt.select(el, binding.value);
-          $whppt.editContent(el, binding.value);
-        }
+        if (!menuIsInState(MENUSTATES.SELECT)) return;
+        e.stopPropagation();
+        store.dispatch('whppt-nuxt/editor/clearSelectedContent');
+        store.dispatch('whppt-nuxt/editor/clearSelectedComponent');
+        const filter = el.getAttribute('data-components');
+        // const filter = _filter && _filter.split(',').trim();
+        store.dispatch('whppt-nuxt/editor/selectComponent', { el, value: { value: binding.value, filter } });
+        store.commit('whppt-nuxt/editor/editInSidebar', 'eContent');
       });
       el.addEventListener('mouseover', function(e) {
         e.preventDefault();
-        if (!menuIsInState(MENUSTATES.SELECT) && !menuIsInState(MENUSTATES.CONTENT)) return;
-        $whppt.mouseover(el);
+        if (menuIsInState(MENUSTATES.SELECT)) $whppt.mouseoverContent(el);
       });
       el.addEventListener('mouseout', function(e) {
-        $whppt.mouseout(el);
+        $whppt.mouseoutContent(el);
       });
     },
   });

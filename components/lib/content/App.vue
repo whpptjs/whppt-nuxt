@@ -13,10 +13,10 @@
       <div class="whppt-sidebar__inner">
         <component :is="editSidebarType"></component>
         <whppt-text-input
-          v-if="editData"
+          v-if="selectedContent"
+          v-model="selectedComponent.value.marginTop"
           type="number"
           min="0"
-          v-model="editData.marginTop"
           placeholder="Height in px"
           label="Margin Top"
         />
@@ -44,7 +44,10 @@ export default {
     'editSidebar',
     'editSidebarType',
     'editData',
+    'selectedComponent',
+    'selectedContent',
   ]),
+
   methods: {
     ...mapActions('whppt-nuxt/editor', ['closeSidebar', 'closeModal']),
   },
@@ -106,20 +109,20 @@ export default {
   width: 100%;
 }
 
-.whppt-component__content--active {
+.whppt__component--active {
   border: 2px solid palegreen;
 }
 
-.whppt-component__select--active {
-  border: 2px solid orange;
+.whppt__content--active {
+  border: 2px solid red;
 }
 
-.whppt-component__select--hover {
+.whppt__component--hover {
   border: 2px solid blue;
 }
 
-.whppt-component__edit--active {
-  border: 2px solid red;
+.whppt__content--hover {
+  border: 2px solid orange;
 }
 
 .whppt-header {

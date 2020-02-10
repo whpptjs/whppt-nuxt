@@ -1,5 +1,5 @@
 <template>
-  <div class="whppt-full" v-if="editingCarousel">
+  <div v-if="editingCarousel" class="whppt-full">
     <h1>Carousel</h1>
     <whppt-tabs>
       <whppt-tab title="General">
@@ -15,13 +15,6 @@
           placeholder="Optional"
           label="Carousel Description"
         />
-        <whppt-text-input
-          type="number"
-          min="0"
-          v-model="editingCarousel.marginTop"
-          placeholder="Height in px"
-          label="Margin Top"
-        />
         <whppt-check-box
           :value="editingCarousel.reversed"
           label="Reversed"
@@ -33,7 +26,7 @@
 
         <div class="whppt-carousel__actions">
           <button class="whppt-carousel__actions-add" @click="add">Add New Item</button>
-          <button class="whppt-carousel__actions-remove" @click="remove" v-if="selectedIndex >= 0">
+          <button v-if="selectedIndex >= 0" class="whppt-carousel__actions-remove" @click="remove">
             Remove Item
           </button>
         </div>

@@ -1,9 +1,16 @@
-const components = [
-  { key: 'Text', value: 'Text', editorType: 'wPlainText', displayType: 'wPlainText', text: 'test' },
-  { key: 'RichText', value: 'Rich Text', editorType: 'wRichText', displayType: 'wRichText', text: '' },
+const Components = options => [
+  { key: 'Text', name: 'Text', editorType: 'wPlainText', displayType: 'wPlainText', text: 'test' },
+  {
+    key: 'RichText',
+    name: 'Rich Text',
+    editorType: 'wRichText',
+    displayType: 'wRichText',
+    text: '',
+    property: 'text',
+  },
   {
     key: 'LinkGroup',
-    value: 'Link Group',
+    name: 'Link Group',
     editorType: 'wLinkGroup',
     displayType: 'wLinkGroup',
     type: 'page',
@@ -14,7 +21,7 @@ const components = [
   },
   {
     key: 'Carousel',
-    value: 'Carousel',
+    name: 'Carousel',
     editorType: 'wCarousel',
     displayType: 'wCarousel',
     reversed: false,
@@ -33,22 +40,19 @@ const components = [
   },
   {
     key: 'Listings',
-    value: 'Listings',
+    name: 'Listings',
     editorType: 'wListings',
     displayType: 'wListings',
     categories: [],
   },
   {
     key: 'Container',
-    value: 'Container',
+    name: 'Container',
     editorType: 'wContainer',
     displayType: 'wContainer',
     contents: [],
   },
+  ...options.components,
 ];
 
-components.forEach(c => {
-  c.marginTop = '5';
-});
-
-export { components };
+export { Components };
