@@ -22,7 +22,7 @@ export default {
     items: { type: Array, default: () => [] },
     action: { type: String, default: () => 'Please select ...' },
     label: { type: String, default: () => '' },
-    value: { type: Object, default: () => undefined },
+    value: { type: Number, default: () => -1 },
   },
   // data() {
   //   return {
@@ -41,7 +41,7 @@ export default {
     //   },
     select(event) {
       console.log('TCL: select -> event', event);
-      this.$emit('input', this.items[event.target.value]);
+      this.$emit('input', event.target.selectedIndex - 1);
       console.log('TCL: select -> this.items[event.target.value]', this.items[event.target.value]);
     },
   },

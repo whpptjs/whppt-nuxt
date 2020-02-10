@@ -35,6 +35,13 @@ export default {
           action: () => this.selectMenuItem('select'),
           isActive: () => this.activeMenuItem === 'select',
         },
+        {
+          key: 'remove',
+          label: 'Remove',
+          icon: 'w-trash',
+          group: '',
+          action: 'remove',
+        },
         // {
         //   key: 'content',
         //   label: 'Content',
@@ -81,6 +88,9 @@ export default {
     newPage() {
       return this.editInSidebar('WhpptPage');
     },
+    remove() {
+      return this.$whppt.remove();
+    },
     moveDown() {
       return this.$whppt.moveDown();
     },
@@ -89,6 +99,9 @@ export default {
     },
     editATDW() {
       return this.editInModal('atdw');
+    },
+    openSiteSettings() {
+      return this.editInModal('siteSettings');
     },
     savePageFooter() {
       return this.saveFooter();

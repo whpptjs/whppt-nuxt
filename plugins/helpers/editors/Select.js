@@ -62,6 +62,14 @@ export default function($whppt) {
     content[i + 1] = current;
     content.__ob__.dep.notify();
   };
+  const remove = () => {
+    if (!$whppt.selectedContents || !$whppt.editData) return;
+    const i = $whppt.selectedContents.data.indexOf($whppt.editData);
+    if (i < 0) return;
+    $whppt.selectedContents.data.splice(i, 1);
+
+    clearSelected();
+  };
 
   Object.assign($whppt, {
     clearSelectedComponent,
@@ -73,5 +81,6 @@ export default function($whppt) {
     clearSelectedContentFormatting,
     moveDown,
     moveUp,
+    remove,
   });
 }

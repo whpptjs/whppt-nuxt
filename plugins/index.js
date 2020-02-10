@@ -6,8 +6,8 @@ import plainTextDirective from './directives/plainText';
 import linkDirective from './directives/link';
 import linkGroupDirective from './directives/linkGroup';
 import listingsDirective from './directives/listings';
+import listingDirective from './directives/listing';
 import containerDirective from './directives/container';
-
 import SavePage from './helpers/SavePage';
 import SaveFooter from './helpers/SaveFooter';
 import LoadFooter from './helpers/LoadFooter';
@@ -41,6 +41,7 @@ export default (context, inject) => {
   const MENUSTATES = {
     SELECT: 'select',
     CONTENT: 'content',
+    LISTING: 'listing',
   };
 
   Select(whppt);
@@ -56,5 +57,6 @@ export default (context, inject) => {
   linkDirective({ ...context, menuIsInState, MENUSTATES });
   linkGroupDirective({ ...context, menuIsInState, MENUSTATES });
   listingsDirective({ ...context, menuIsInState, MENUSTATES });
+  listingDirective({ ...context, menuIsInState, MENUSTATES });
   containerDirective({ ...context, menuIsInState, MENUSTATES });
 };

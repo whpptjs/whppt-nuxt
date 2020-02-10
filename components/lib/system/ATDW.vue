@@ -81,6 +81,7 @@ export default {
       productName: stringFromPath,
       productDescription: stringFromPath,
       // Category: stringFromPath,
+      status: stringFromPath,
       email(product) {
         return find(product.communication, comm => comm.attributeIdCommunication === 'CAEMENQUIR');
       },
@@ -99,8 +100,10 @@ export default {
     },
   }),
   mounted() {
+    if (!this.$whppt.editData) return;
+
     const baseAPIUrl = this.$whppt.baseAPIUrl || '';
-    this.$axios.get(`${baseAPIUrl}/api/listing/findById?id=56b26d16d5f1565045dae8ca`).then(({ data }) => {
+    this.$axios.get(`${baseAPIUrl}/api/listing/findById?id=${this.$whppt.editData}`).then(({ data }) => {
       this.listing = data;
     });
   },
@@ -192,6 +195,11 @@ export default {
   padding: 0.5rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.5);
   height: 4rem;
+}
+
+.whppt-atdw__heading h1 {
+  font-size: 1.6rem;
+  font-weight: bold;
 }
 
 .whppt-atdw__content form {

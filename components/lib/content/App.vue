@@ -19,6 +19,7 @@
           min="0"
           placeholder="Height in px"
           label="Margin Top"
+          class="marin-top-input"
         />
         <whppt-button class="whppt-button__close" @click="closeSidebar">
           Close
@@ -32,12 +33,12 @@
 import { mapState, mapActions } from 'vuex';
 import * as Editors from '../system';
 import Modal from '../system/Modal';
+import SiteSettings from '../system/SiteSettings';
 import WhpptButton from '../system/WhpptButton';
-import WhpptTextInput from '../system/WhpptTextInput';
 
 export default {
   name: 'WhpptEditorApp',
-  components: { ...Editors, WhpptButton, Modal, WhpptTextInput },
+  components: { ...Editors, WhpptButton, Modal, SiteSettings },
   computed: mapState('whppt-nuxt/editor', [
     'editInModal',
     'editInModalType',
@@ -76,6 +77,11 @@ export default {
   z-index: 51;
   min-height: 400px;
 }
+.whppt-sidebar__inner {
+  width: 365px;
+  position: fixed;
+}
+
 .whppt-sidebar__inner {
   width: 365px;
   position: fixed;
