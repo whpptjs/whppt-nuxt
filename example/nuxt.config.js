@@ -37,6 +37,7 @@ module.exports = {
             description: '',
             ctaText: '',
             ctaIcon: undefined,
+            ctaLink: '',
             image: undefined,
           },
         ],

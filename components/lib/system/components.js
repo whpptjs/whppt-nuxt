@@ -1,16 +1,9 @@
-const Components = options => [
-  { key: 'Text', name: 'Text', editorType: 'wPlainText', displayType: 'wPlainText', text: 'test' },
-  {
-    key: 'RichText',
-    name: 'Rich Text',
-    editorType: 'wRichText',
-    displayType: 'wRichText',
-    text: '',
-    property: 'text',
-  },
+const components = [
+  { key: 'Text', value: 'Text', editorType: 'wPlainText', displayType: 'wPlainText', text: 'test' },
+  { key: 'RichText', value: 'Rich Text', editorType: 'wRichText', displayType: 'wRichText', text: '' },
   {
     key: 'LinkGroup',
-    name: 'Link Group',
+    value: 'Link Group',
     editorType: 'wLinkGroup',
     displayType: 'wLinkGroup',
     type: 'page',
@@ -21,7 +14,7 @@ const Components = options => [
   },
   {
     key: 'Carousel',
-    name: 'Carousel',
+    value: 'Carousel',
     editorType: 'wCarousel',
     displayType: 'wCarousel',
     reversed: false,
@@ -40,26 +33,29 @@ const Components = options => [
   },
   {
     key: 'Listings',
-    name: 'Listings',
+    value: 'Listings',
     editorType: 'wListings',
     displayType: 'wListings',
     categories: [],
   },
   {
     key: 'Container',
-    name: 'Container',
+    value: 'Container',
     editorType: 'wContainer',
     displayType: 'wContainer',
     contents: [],
   },
   {
-    key: 'Image',
-    name: 'Test Image',
-    editorType: 'wImage',
-    displayType: 'wImage',
-    data: {},
+    key: 'Imagee',
+    name: 'Test Imagee',
+    editorType: 'wImagee',
+    displayType: 'wImagee',
+    data: undefined,
   },
-  ...options.components,
 ];
 
-export { Components };
+components.forEach(c => {
+  c.marginTop = '5';
+});
+
+export { components };

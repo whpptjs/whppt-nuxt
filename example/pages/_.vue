@@ -3,10 +3,10 @@
     <div v-plain-text="page">
       {{ page.title || 'HEY' }}
     </div>
-    <div v-content="page.contents" data-components="wPlainText, wRichText" class="contents">
+    <div v-content="page.contents" data-components="wPlainText, wRichText, wImagee" class="contents">
       <component
-        :is="content.displayType"
         v-for="(content, index) in page.contents"
+        :is="content.displayType"
         :key="index"
         :value="content"
       ></component>
@@ -24,6 +24,10 @@ import * as DisplayComponents from '~/components/Components';
 export default {
   name: 'WildCardPage',
   components: { ...DisplayComponents },
+  computed: {
+    ...mapState('whppt-nuxt/page', ['page']),
+    ...mapState('whppt-nuxt/site', ['footer']),
+  },
   asyncData({ params, store, error, app: { $whppt } }) {
     return Promise.all([store.dispatch('whppt-nuxt/page/loadPage', { slug: params.pathMatch })]).catch(err => {
       error({
@@ -32,10 +36,6 @@ export default {
         stack: err.stack,
       });
     });
-  },
-  computed: {
-    ...mapState('whppt-nuxt/page', ['page']),
-    ...mapState('whppt-nuxt/site', ['footer']),
   },
 };
 </script>

@@ -1,3 +1,4 @@
 import WPlainText from './PlainText';
+import WImagee from './Imagee';
 
-export { WPlainText };
+export { WPlainText, WImagee };
