@@ -22,45 +22,45 @@
         ></whppt-check-box>
       </whppt-tab>
       <whppt-tab title="Items">
-        <whppt-select v-model="selectedIndex" :items="editingCarousel.items" label="Editing Item" />
+        <whppt-select v-model="editingCarouselItem" :items="editingCarousel.items" label="Editing Item" />
 
         <div class="whppt-carousel__actions">
           <button class="whppt-carousel__actions-add" @click="add">Add New Item</button>
-          <button v-if="selectedIndex >= 0" class="whppt-carousel__actions-remove" @click="remove">
+          <button v-if="editingCarouselItem" class="whppt-carousel__actions-remove" @click="remove">
             Remove Item
           </button>
         </div>
 
         <div class="whppt-carousel__item-details-container">
           <div class="whppt-carousel__item-details-divider" />
-          <whppt-tabs v-if="selectedIndex >= 0" class="whppt-carousel__item-details">
+          <whppt-tabs v-if="editingCarouselItem" class="whppt-carousel__item-details">
             <whppt-tab title="Text">
               <whppt-text-input
-                v-model="editingItem.title"
+                v-model="editingCarouselItem.title"
                 class="whppt-textBox--margin-top-10"
                 placeholder="Enter text here"
                 label="Item Title"
               />
               <whppt-text-input
-                v-model="editingItem.description"
+                v-model="editingCarouselItem.description"
                 class="whppt-textBox--margin-top-10"
                 placeholder="Enter text here"
                 label="Item Description"
               />
               <whppt-text-input
-                v-model="editingItem.ctaText"
+                v-model="editingCarouselItem.ctaText"
                 class="whppt-textBox--margin-top-10"
                 placeholder="Enter text here"
                 label="Button Text"
               />
               <whppt-text-input
-                v-model="editingItem.ctaIcon"
+                v-model="editingCarouselItem.ctaIcon"
                 class="whppt-textBox--margin-top-10"
                 placeholder="Enter text here"
                 label="Button Icon"
               />
               <whppt-text-input
-                v-model="editingItem.ctaLink"
+                v-model="editingCarouselItem.ctaLink"
                 class="whppt-textBox--margin-top-10"
                 placeholder="Enter text here"
                 label="Button Link"
@@ -89,7 +89,8 @@ export default {
   components: { WhpptTextInput, WhpptTab, WhpptTabs, WhpptSelect, WhpptCheckBox },
   data() {
     return {
-      selectedIndex: -1,
+      // selectedIndex: -1,
+      editingCarouselItem: undefined,
     };
   },
   computed: {
@@ -100,13 +101,11 @@ export default {
     editingCarouselItems() {
       return this.editingCarousel[this.selectedComponent.property];
     },
-    editingItem() {
-      return this.editingCarouselItems[this.selectedIndex] || {};
-    },
   },
   methods: {
     add() {
-      this.editingCarouselItems.splice(this.selectedIndex + 1, 0, {
+      const index = this.editingCarouselItems.indexOf(this.editingCarouselItem);
+      this.editingCarouselItems.splice(index + 1, 0, {
         title: '',
         description: '',
         ctaText: '',
@@ -114,12 +113,11 @@ export default {
         ctaLink: '',
         image: undefined,
       });
-      this.selectedIndex = this.editingCarouselItems.length - 1;
     },
     remove() {
+      const index = this.editingCarouselItems.indexOf(this.editingCarouselItem);
       if (window.confirm('Do you want to remove this card?')) {
-        this.editingCarouselItems.splice(this.selectedIndex, 1);
-        if (this.selectedIndex > -1) this.selectedIndex = this.selectedIndex - 1;
+        this.editingCarouselItems.splice(index, 1);
       }
     },
   },

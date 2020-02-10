@@ -9,7 +9,7 @@ import LinkGroup from './LinkGroup';
 import atdw from './ATDW';
 import Listings from './Listings';
 import Container from './Container';
-import Imagee from './Imagee';
+import EditImage from './EditImage';
 
 export {
   WhpptPage,
@@ -23,5 +23,5 @@ export {
   atdw,
   Listings,
   Container,
-  Imagee,
+  EditImage,
 };

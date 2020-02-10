@@ -2,7 +2,7 @@ import Vue from 'vue';
 import notifyContent from './_notifyContent';
 
 export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
-  Vue.directive('imagee', {
+  Vue.directive('editImage', {
     bind(el, binding) {
       el.addEventListener('click', function(e) {
         if (!menuIsInState(MENUSTATES.SELECT)) return;
@@ -10,10 +10,11 @@ export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
 
         store.dispatch('whppt-nuxt/editor/clearSelectedComponent');
         store.dispatch('whppt-nuxt/editor/clearSelectedContent');
-        const property = el.getAttribute('data-property');
-        store.dispatch('whppt-nuxt/editor/selectComponent', { el, value: { value: binding.value, property } });
+        const _sizes = el.getAttribute('data-sizes');
+        const sizes = _sizes ? JSON.parse(_sizes) : {};
+        store.dispatch('whppt-nuxt/editor/selectComponent', { el, value: { value: binding.value, sizes } });
         notifyContent(el);
-        store.commit('whppt-nuxt/editor/editInSidebar', 'imagee');
+        store.commit('whppt-nuxt/editor/editInSidebar', 'editImage');
       });
       el.addEventListener('mouseover', function(e) {
         if (!menuIsInState(MENUSTATES.SELECT)) return;

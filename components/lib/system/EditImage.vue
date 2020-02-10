@@ -1,20 +1,28 @@
 <template>
   <div class="whppt-full">
-    <h1>HAHA</h1>
-    <!-- <whppt-tabs>
+    <h1>Image</h1>
+    <whppt-tabs>
       <whppt-tab> </whppt-tab>
       <whppt-tab> </whppt-tab>
-    </whppt-tabs> -->
+    </whppt-tabs>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
+import WhpptTab from '../whpptComponents/WhpptTab';
+import WhpptTabs from '../whpptComponents/WhpptTabs';
+import WhpptTextInput from '../whpptComponents/WhpptTextInput';
 
 export default {
   name: 'EditorImageEdit',
-  // components: { WhpptTextInput, WhpptTabs, WhpptTab },
-  computed: mapState('whppt-nuxt/editor', ['selectedComponent']),
+  components: { WhpptTextInput, WhpptTabs, WhpptTab },
+  computed: {
+    ...mapState('whppt-nuxt/editor', ['selectedComponent']),
+    sizes() {
+      return this.selectedComponent.sizes;
+    },
+  },
 };
 </script>
 <style scoped>

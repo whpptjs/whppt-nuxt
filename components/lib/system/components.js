@@ -46,10 +46,10 @@ const components = [
     contents: [],
   },
   {
-    key: 'Imagee',
-    name: 'Test Imagee',
-    editorType: 'wImagee',
-    displayType: 'wImagee',
+    key: 'EditImage',
+    name: 'Edit Image',
+    editorType: 'wEditImage',
+    displayType: 'wEditImage',
     data: undefined,
   },
 ];
