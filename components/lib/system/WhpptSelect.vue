@@ -15,9 +15,9 @@
 <script>
 export default {
   name: 'WhpptSelect',
-  // mounted() {
-  //   this.syncSelection(this.value);
-  // },
+  mounted() {
+    this.syncSelection(this.value);
+  },
   props: {
     items: { type: Array, default: () => [] },
     action: { type: String, default: () => 'Please select ...' },
@@ -29,20 +29,21 @@ export default {
   //     selectedIndex: 0,
   //   };
   // },
-  // watch: {
-  //   value(val, old) {
-  //     if (val !== old) this.syncSelection(val);
-  //   },
-  // },
+  watch: {
+    value(val, old) {
+      console.log('TCL: value -> old', old);
+      console.log('TCL: value -> val', val);
+      if (val !== old) this.syncSelection(val);
+    },
+  },
   methods: {
-    //   selectIndex(e) {
-    //     this.selectedIndex = e.target.selectedIndex;
-    //     this.$emit('input', this.selectedIndex - 1);
-    //   },
     select(event) {
-      console.log('TCL: select -> event', event);
       this.$emit('input', event.target.selectedIndex - 1);
-      console.log('TCL: select -> this.items[event.target.value]', this.items[event.target.value]);
+    },
+    syncSelection(val) {
+      this.$nextTick(() => {
+        this.$refs.select.selectedIndex = val + 1;
+      });
     },
   },
 };
