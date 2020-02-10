@@ -51,30 +51,41 @@ export default function($whppt) {
     }
   };
 
+  const remove = () => {
+    if (!$whppt.selectedContents || !$whppt.editData) return;
+    const i = $whppt.selectedContents.data.indexOf($whppt.editData);
+    if (i < 0) return;
+    $whppt.selectedContents.data.splice(i, 1);
+
+    clearSelected();
+  };
+
   const moveUp = () => {
-    const i = $whppt.selectedContents.indexOf($whppt.selected);
+    if (!$whppt.selectedContents || !$whppt.editData) return;
+    const i = $whppt.selectedContents.data.indexOf($whppt.editData);
     if (i <= 0) return;
 
-    const current = $whppt.selectedContents[i];
-    const prev = $whppt.selectedContents[i - 1];
+    const current = $whppt.selectedContents.data[i];
+    const prev = $whppt.selectedContents.data[i - 1];
 
     clearSelectedFormatting();
-    $whppt.selectedContents[i] = prev;
-    $whppt.selectedContents[i - 1] = current;
-    $whppt.selectedContents.__ob__.dep.notify();
+    $whppt.selectedContents.data[i] = prev;
+    $whppt.selectedContents.data[i - 1] = current;
+    $whppt.selectedContents.data.__ob__.dep.notify();
     // formatSelectedElement();
   };
 
   const moveDown = () => {
-    const i = $whppt.selectedContents.indexOf($whppt.selected);
-    if ($whppt.selectedContents.length === i + 1 || i < 0) return;
-    const current = $whppt.selectedContents[i];
-    const prev = $whppt.selectedContents[i + 1];
+    if (!$whppt.selectedContents || !$whppt.editData) return;
+    const i = $whppt.selectedContents.data.indexOf($whppt.editData);
+    if ($whppt.selectedContents.data.length === i + 1 || i < 0) return;
+    const current = $whppt.selectedContents.data[i];
+    const prev = $whppt.selectedContents.data[i + 1];
     clearSelectedFormatting();
 
-    $whppt.selectedContents[i] = prev;
-    $whppt.selectedContents[i + 1] = current;
-    $whppt.selectedContents.__ob__.dep.notify();
+    $whppt.selectedContents.data[i] = prev;
+    $whppt.selectedContents.data[i + 1] = current;
+    $whppt.selectedContents.data.__ob__.dep.notify();
     // formatSelectedElement();
   };
 
@@ -86,6 +97,7 @@ export default function($whppt) {
     formatSelectedElement,
     moveUp,
     moveDown,
+    remove,
     clearSelectedContentsFormatting,
     clearContents,
     formatSelectedContentsElement,
