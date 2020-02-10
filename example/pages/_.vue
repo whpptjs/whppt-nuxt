@@ -75,13 +75,8 @@
               {{ (content.linkgroup && content.linkgroup.text) || 'HEY' }}
             </div>
           </div>
-          <div
-            v-if="content.displayType === 'wGap'"
-            id="test123"
-            v-gap="{ data: content, property: 'height' }"
-            :style="`padding-bottom: ${content.height}px`"
-          >
-            I am a gap
+          <div v-if="content.displayType === 'wImage'" v-image="{ data: content, property: 'data' }">
+            I am an image
           </div>
           <div v-if="content.editorType === 'wContainer'" v-container="{ data: content, property: 'container' }">
             You are a Container.
