@@ -1,5 +1,5 @@
 <template>
-  <div class="whppt-full" v-if="editingCarousel">
+  <div v-if="editingCarousel" class="whppt-full">
     <h1>Carousel</h1>
     <whppt-tabs>
       <whppt-tab title="General">
@@ -15,13 +15,6 @@
           placeholder="Optional"
           label="Carousel Description"
         />
-        <whppt-text-input
-          type="number"
-          min="0"
-          v-model="editingCarousel.marginTop"
-          placeholder="Height in px"
-          label="Margin Top"
-        />
         <whppt-check-box
           :value="editingCarousel.reversed"
           label="Reversed"
@@ -29,45 +22,45 @@
         ></whppt-check-box>
       </whppt-tab>
       <whppt-tab title="Items">
-        <whppt-select v-model="selectedIndex" :items="editingCarousel.items" label="Editing Item" />
+        <whppt-select v-model="editingCarouselItem" :items="editingCarousel.items" label="Editing Item" />
 
         <div class="whppt-carousel__actions">
           <button class="whppt-carousel__actions-add" @click="add">Add New Item</button>
-          <button class="whppt-carousel__actions-remove" @click="remove" v-if="selectedIndex >= 0">
+          <button v-if="editingCarouselItem" class="whppt-carousel__actions-remove" @click="remove">
             Remove Item
           </button>
         </div>
 
         <div class="whppt-carousel__item-details-container">
           <div class="whppt-carousel__item-details-divider" />
-          <whppt-tabs v-if="selectedIndex >= 0" class="whppt-carousel__item-details">
+          <whppt-tabs v-if="editingCarouselItem" class="whppt-carousel__item-details">
             <whppt-tab title="Text">
               <whppt-text-input
-                v-model="editingItem.title"
+                v-model="editingCarouselItem.title"
                 class="whppt-textBox--margin-top-10"
                 placeholder="Enter text here"
                 label="Item Title"
               />
               <whppt-text-input
-                v-model="editingItem.description"
+                v-model="editingCarouselItem.description"
                 class="whppt-textBox--margin-top-10"
                 placeholder="Enter text here"
                 label="Item Description"
               />
               <whppt-text-input
-                v-model="editingItem.ctaText"
+                v-model="editingCarouselItem.ctaText"
                 class="whppt-textBox--margin-top-10"
                 placeholder="Enter text here"
                 label="Button Text"
               />
               <whppt-text-input
-                v-model="editingItem.ctaIcon"
+                v-model="editingCarouselItem.ctaIcon"
                 class="whppt-textBox--margin-top-10"
                 placeholder="Enter text here"
                 label="Button Icon"
               />
               <whppt-text-input
-                v-model="editingItem.ctaLink"
+                v-model="editingCarouselItem.ctaLink"
                 class="whppt-textBox--margin-top-10"
                 placeholder="Enter text here"
                 label="Button Link"
@@ -85,35 +78,34 @@
 
 <script>
 import { mapState } from 'vuex';
-import WhpptTextInput from './WhpptTextInput';
-import WhpptSelect from './WhpptSelect';
-import WhpptTab from './WhpptTab';
-import WhpptTabs from './WhpptTabs';
-import WhpptCheckBox from './CheckBox';
+import WhpptTextInput from '../whpptComponents/WhpptTextInput';
+import WhpptSelect from '../whpptComponents/WhpptSelect';
+import WhpptTab from '../whpptComponents/WhpptTab';
+import WhpptTabs from '../whpptComponents/WhpptTabs';
+import WhpptCheckBox from '../whpptComponents/CheckBox';
 
 export default {
   name: 'EditorCarousel',
   components: { WhpptTextInput, WhpptTab, WhpptTabs, WhpptSelect, WhpptCheckBox },
   data() {
     return {
-      selectedIndex: -1,
+      // selectedIndex: -1,
+      editingCarouselItem: undefined,
     };
   },
   computed: {
-    ...mapState('whppt-nuxt/editor', ['editData']),
+    ...mapState('whppt-nuxt/editor', ['selectedComponent']),
     editingCarousel() {
-      return this.editData;
+      return this.selectedComponent.value;
     },
     editingCarouselItems() {
-      return this.editingCarousel[this.$whppt.editDataProperty];
-    },
-    editingItem() {
-      return this.editingCarouselItems[this.selectedIndex] || {};
+      return this.editingCarousel[this.selectedComponent.property];
     },
   },
   methods: {
     add() {
-      this.editingCarouselItems.splice(this.selectedIndex + 1, 0, {
+      const index = this.editingCarouselItems.indexOf(this.editingCarouselItem);
+      this.editingCarouselItems.splice(index + 1, 0, {
         title: '',
         description: '',
         ctaText: '',
@@ -121,18 +113,21 @@ export default {
         ctaLink: '',
         image: undefined,
       });
-      this.selectedIndex = this.selectedIndex + 1;
     },
     remove() {
+      const index = this.editingCarouselItems.indexOf(this.editingCarouselItem);
       if (window.confirm('Do you want to remove this card?')) {
-        this.editingCarouselItems.splice(this.selectedIndex, 1);
-        if (this.selectedIndex > -1) this.selectedIndex = this.selectedIndex - 1;
+        this.editingCarouselItems.splice(index, 1);
       }
     },
   },
 };
 </script>
 <style>
+.margin-top-input {
+  display: none;
+}
+
 .whppt-textBox--margin-top-10 {
   margin-top: 10px;
 }

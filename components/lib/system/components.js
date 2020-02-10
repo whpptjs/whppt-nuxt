@@ -45,6 +45,13 @@ const components = [
     displayType: 'wContainer',
     contents: [],
   },
+  {
+    key: 'EditImage',
+    name: 'Edit Image',
+    editorType: 'wEditImage',
+    displayType: 'wEditImage',
+    data: undefined,
+  },
 ];
 
 components.forEach(c => {

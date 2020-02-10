@@ -13,7 +13,8 @@
 </template>
 
 <script>
-import WhpptCheckBox from './CheckBox';
+import { mapState } from 'vuex';
+import WhpptCheckBox from '../whpptComponents/CheckBox';
 
 export default {
   name: 'EditorListings',
@@ -35,19 +36,20 @@ export default {
     };
   },
   computed: {
+    ...mapState('whppt-nuxt/editor', ['selectedComponent']),
     categories() {
-      return this.$whppt.editData[this.$whppt.editDataProperty];
+      return this.selectedComponent.value[this.selectedComponent.property];
     },
   },
   methods: {
     modifyFilters(category) {
       if (!this.categories) {
-        this.$whppt.editData[this.$whppt.editDataProperty] = [category];
+        this.selectedComponent.value[this.selectedComponent.property] = [category];
         return;
       }
-      const index = this.$whppt.editData[this.$whppt.editDataProperty].indexOf(category);
-      if (index === -1) this.$whppt.editData[this.$whppt.editDataProperty].push(category);
-      else this.$whppt.editData[this.$whppt.editDataProperty].splice(index, 1);
+      const index = this.selectedComponent.value[this.selectedComponent.property].indexOf(category);
+      if (index === -1) this.selectedComponent.value[this.selectedComponent.property].push(category);
+      else this.selectedComponent.value[this.selectedComponent.property].splice(index, 1);
     },
   },
 };

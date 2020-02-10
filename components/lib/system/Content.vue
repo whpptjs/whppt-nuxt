@@ -6,36 +6,37 @@
       :key="component.key"
       class="whppt-full whppt-content--margin"
       @click="addContent(component)"
-      >{{ component.value }}</whppt-button
+      >{{ component.name }}</whppt-button
     >
   </div>
 </template>
 
 <script>
-// import { mapState } from 'vuex';
-import { filter, find } from 'lodash';
-import { components } from './components';
-import WhpptButton from './WhpptButton';
+import { mapState } from 'vuex';
+import { filter, includes } from 'lodash';
+import WhpptButton from '../whpptComponents/WhpptButton';
 
 export default {
   name: 'WhpptContent',
   components: { WhpptButton },
-  data() {
-    return { components };
-  },
   computed: {
+    ...mapState('whppt-nuxt/editor', ['selectedComponent']),
+    contents() {
+      return this.selectedComponent && this.selectedComponent.value;
+    },
+    filterList() {
+      return this.selectedComponent && this.selectedComponent.filter;
+    },
     componentList() {
-      const list = this.$whppt.components ? [...this.components, ...this.$whppt.components] : this.components;
-      console.log('THIS.$WHPPT', this.$whppt);
-      if (!this.$whppt.editComponentList) return list;
-      console.log('CONDITION PASSED');
-      const componentList = this.$whppt.editComponentList;
-      return filter(list, l => find(componentList, cl => cl === l.displayType));
+      if (this.filterList) {
+        return filter(this.$whppt.components, c => includes(this.filterList, c.displayType));
+      }
+      return this.$whppt.components;
     },
   },
   methods: {
     addContent(content) {
-      this.$whppt.editData.push(JSON.parse(JSON.stringify({ ...content, marginTop: '5' })));
+      this.contents.push(JSON.parse(JSON.stringify({ ...content, marginTop: '' })));
     },
   },
 };

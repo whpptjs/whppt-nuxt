@@ -6,5 +6,7 @@ export default context => page => {
 
   const baseAPIUrl = $whppt.baseAPIUrl || ``;
 
-  return $axios.post(`${baseAPIUrl}/api/page/save`, { page });
+  return $axios.post(`${baseAPIUrl}/api/page/save`, { page }).then(request => {
+    return request.data;
+  });
 };

@@ -10,6 +10,7 @@ import Publish from './Publish';
 import Save from './Save';
 import Settings from './Settings';
 import Remove from './Remove';
+import Trash from './Trash';
 import Warning from './Warning';
 import Pointer from './Pointer';
 import Check from './Check';
@@ -29,6 +30,7 @@ export default {
   Save,
   Settings,
   Remove,
+  Trash,
   Warning,
   Pointer,
   Circle,

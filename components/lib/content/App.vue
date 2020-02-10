@@ -13,12 +13,13 @@
       <div class="whppt-sidebar__inner">
         <component :is="editSidebarType"></component>
         <whppt-text-input
-          v-if="editData"
+          v-if="selectedContent"
+          v-model="selectedComponent.value.marginTop"
           type="number"
           min="0"
-          v-model="editData.marginTop"
           placeholder="Height in px"
           label="Margin Top"
+          class="marin-top-input"
         />
         <whppt-button class="whppt-button__close" @click="closeSidebar">
           Close
@@ -32,19 +33,23 @@
 import { mapState, mapActions } from 'vuex';
 import * as Editors from '../system';
 import Modal from '../system/Modal';
-import WhpptButton from '../system/WhpptButton';
-import WhpptTextInput from '../system/WhpptTextInput';
+import SiteSettings from '../system/SiteSettings';
+import WhpptTextInput from '../whpptComponents/WhpptTextInput';
+import WhpptButton from '../whpptComponents/WhpptButton';
 
 export default {
   name: 'WhpptEditorApp',
-  components: { ...Editors, WhpptButton, Modal, WhpptTextInput },
+  components: { ...Editors, WhpptButton, Modal, WhpptTextInput, SiteSettings },
   computed: mapState('whppt-nuxt/editor', [
     'editInModal',
     'editInModalType',
     'editSidebar',
     'editSidebarType',
     'editData',
+    'selectedComponent',
+    'selectedContent',
   ]),
+
   methods: {
     ...mapActions('whppt-nuxt/editor', ['closeSidebar', 'closeModal']),
   },
@@ -78,6 +83,11 @@ export default {
   position: fixed;
 }
 
+.whppt-sidebar__inner {
+  width: 365px;
+  position: fixed;
+}
+
 .whppt-openEditor {
   margin-right: 0;
 }
@@ -106,20 +116,20 @@ export default {
   width: 100%;
 }
 
-.whppt-component__content--active {
-  border: 2px solid palegreen;
+.whppt__component--active {
+  outline: 2px solid palegreen;
 }
 
-.whppt-component__select--active {
-  border: 2px solid orange;
+.whppt__content--active {
+  outline: 2px solid orange;
 }
 
-.whppt-component__select--hover {
-  border: 2px solid blue;
+.whppt__component--hover {
+  outline: 2px solid blue;
 }
 
-.whppt-component__edit--active {
-  border: 2px solid red;
+.whppt__content--hover {
+  outline: 2px solid red;
 }
 
 .whppt-header {

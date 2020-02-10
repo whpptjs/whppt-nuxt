@@ -4,21 +4,21 @@
     <div class="whppt-link-group__border">
       <h3 class="whppt-header">Header of group</h3>
       <whppt-check-box
-        :value="$whppt.editData.showOnDesktop"
+        :value="selectedComponent.value.showOnDesktop"
         label="Show on desktop"
-        @click="$whppt.editData.showOnDesktop = !$whppt.editData.showOnDesktop"
+        @click="selectedComponent.value.showOnDesktop = !selectedComponent.value.showOnDesktop"
       ></whppt-check-box>
       <whppt-check-box
-        :value="$whppt.editData.showOnTablet"
+        :value="selectedComponent.value.showOnTablet"
         label="Show on tablet"
-        @click="$whppt.editData.showOnTablet = !$whppt.editData.showOnTablet"
+        @click="selectedComponent.value.showOnTablet = !selectedComponent.value.showOnTablet"
       ></whppt-check-box>
       <whppt-check-box
-        :value="$whppt.editData.showOnMobile"
+        :value="selectedComponent.value.showOnMobile"
         label="Show on phone"
-        @click="$whppt.editData.showOnMobile = !$whppt.editData.showOnMobile"
+        @click="selectedComponent.value.showOnMobile = !selectedComponent.value.showOnMobile"
       ></whppt-check-box>
-      <e-link :data="$whppt.editData"></e-link>
+      <e-link :data="selectedComponent.value"></e-link>
     </div>
     <div class="whppt-flex-between">
       <label for="groupLink">Link in group: </label>
@@ -26,8 +26,8 @@
         <w-add-circle></w-add-circle>
       </button>
     </div>
-    <whppt-select v-model="selectKey" :items="$whppt.editData.links" />
-    <div v-if="$whppt.editData.links && $whppt.editData.links[selectKey]">
+    <whppt-select v-model="selectKey" :items="selectedComponent.value.links" />
+    <div v-if="selectedComponent.value.links && selectedComponent.value.links[selectKey]">
       <div class="whppt-flex-between">
         <h3 class="whppt-header">Edit link #{{ selectKey + 1 }}</h3>
         <button class="whppt-icon-button" @click="removeLink">
@@ -35,16 +35,17 @@
         </button>
       </div>
 
-      <e-link :data="$whppt.editData.links[selectKey]"></e-link>
+      <e-link :data="selectedComponent.value.links[selectKey]"></e-link>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import { without } from 'lodash';
-import ELink from './Link';
-import WhpptCheckBox from './CheckBox';
-import WhpptSelect from './WhpptSelect';
+import WhpptCheckBox from '../whpptComponents/CheckBox';
+import WhpptSelect from '../whpptComponents/WhpptSelect';
+import ELink from '../whpptComponents/Link';
 
 export default {
   name: 'EditorLink',
@@ -54,18 +55,21 @@ export default {
       selectKey: -1,
     };
   },
+  computed: {
+    ...mapState('whppt-nuxt/editor', ['selectedComponent']),
+  },
   methods: {
     changeCheck(value) {
       value = !value;
     },
     addLink() {
-      this.$whppt.editData.links = this.$whppt.editData.links || [];
-      this.$whppt.editData.links.push({ type: 'page' });
+      this.selectedComponent.value.links = this.selectedComponent.value.links || [];
+      this.selectedComponent.value.links.push({ type: 'page' });
     },
     removeLink(link) {
-      this.$whppt.editData.links.splice(this.selectKey, 1);
+      this.selectedComponent.value.links.splice(this.selectKey, 1);
       if (window.confirm('Are you sure?')) {
-        this.$whppt.editData.links = without(this.$whppt.editData.links, link);
+        this.selectedComponent.value.links = without(this.selectedComponent.value.links, link);
         // if (this.selectKey > -1) this.selectKey = this.selectKey - 1;
       }
     },

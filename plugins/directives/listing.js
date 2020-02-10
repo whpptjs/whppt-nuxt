@@ -1,20 +1,23 @@
 import Vue from 'vue';
 
 export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
-  Vue.directive('link', {
+  Vue.directive('listing', {
     bind(el, binding) {
       el.addEventListener('click', function(e) {
-        console.log('BINDING.VALUE ', binding.value);
+        if (!menuIsInState(MENUSTATES.LISTING)) return;
+
         $whppt.clearEditData();
         $whppt.clearContents();
         $whppt.clearSelected();
-        if (!menuIsInState(MENUSTATES.SELECT)) return;
-        store.commit('whppt-nuxt/editor/editInSidebar', 'linkSidebar');
-        $whppt.select(el, binding.value);
-        $whppt.edit(el, { data: binding.value });
+
+        $whppt.select(el, binding.value.parent);
+        $whppt.formatSelectedContentsElement();
+        $whppt.edit(el, binding.value);
+
+        store.commit('whppt-nuxt/editor/editInModal', 'atdw');
       });
       el.addEventListener('mouseover', function(e) {
-        if (!menuIsInState(MENUSTATES.SELECT)) return;
+        if (!menuIsInState(MENUSTATES.LISTING)) return;
         $whppt.mouseover(el);
       });
       el.addEventListener('mouseout', function(e) {

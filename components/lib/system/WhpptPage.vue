@@ -2,10 +2,10 @@
   <div class="whppt-page">
     <h2>Create a Page</h2>
     <form class="whppt-page__form" @submit.prevent>
-      <whppt-select v-model="chosenTemplate" :items="templates" label="Page Template:" />
+      <whppt-select v-model="template" :items="templates" label="Page Template:" />
 
       <whppt-text-input
-        v-model="newPage.slug"
+        v-model="slug"
         label="Page Slug:"
         info="Enter any text and we'll turn it into a slug for you!"
       ></whppt-text-input>
@@ -18,23 +18,17 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import slugify from 'slugify';
-import WhpptButton from '../../../components/lib/system/WhpptButton';
-import WhpptSelect from './WhpptSelect';
-import WhpptTextInput from './WhpptTextInput';
+import WhpptButton from '../../../components/lib/whpptComponents/WhpptButton';
+import WhpptTextInput from '../whpptComponents/WhpptTextInput';
+import WhpptSelect from '../whpptComponents/WhpptSelect';
 
 export default {
   name: 'WhpptPage',
   components: { WhpptButton, WhpptSelect, WhpptTextInput },
   data: () => ({
-    chosenTemplate: undefined,
-    newPage: {
-      template: -1,
-      slug: '',
-      header: {},
-      contents: [],
-      link: { type: 'page' },
-      linkgroup: { type: 'page', links: [], showOnDesktop: true },
-    },
+    template: undefined,
+    slug: '',
+    title: '',
   }),
   computed: {
     ...mapState('whppt-nuxt/page', ['page']),
@@ -46,15 +40,18 @@ export default {
     ...mapActions('whppt-nuxt/editor', ['closeSidebar']),
     saveNewPage() {
       const vm = this;
-      const template = this.$whppt.templates[vm.chosenTemplate];
-      if (!vm.newPage.slug || !template) return;
-      vm.newPage = {
-        ...vm.newPage,
-        template: template.key,
-        ...template.initialData,
+      // TODO: Need to show a message on screen
+      if (!vm.slug || !vm.template) return;
+
+      const newPage = {
+        slug: vm.slug,
+        template: vm.template.key,
+        ...vm.template.init,
       };
-      return vm.$whppt.createPage(vm.newPage).then(({ data }) => {
-        const { slug } = data;
+
+      return vm.$whppt.createPage(newPage).then(page => {
+        console.log('TCL: saveNewPage -> page', page);
+        const { slug } = page;
         vm.closeSidebar();
         return vm.$router.push(`/${slug}` || '/');
       });

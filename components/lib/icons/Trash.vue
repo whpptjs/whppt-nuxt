@@ -1,0 +1,10 @@
+<template>
+  <svg viewBox="0 0 20 20" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+    <path
+      style="fill: currentColor;"
+      d="M2 2h16v2H2V2zm6-2h4l2 2H6l2-2zM3 6h14l-1 14H4L3 6zm5 2h1v10H8V8zm3 0h1v10h-1V8z"
+      fill="none"
+      fill-rule="evenodd"
+    />
+  </svg>
+</template>
