@@ -15,6 +15,12 @@
           placeholder="Optional"
           label="Carousel Description"
         />
+
+        <whppt-check-box
+          :value="editingCarousel.reversed"
+          label="Reversed"
+          @click="editingCarousel.reversed = !editingCarousel.reversed"
+        ></whppt-check-box>
         <whppt-text-input
           type="number"
           min="0"
@@ -22,11 +28,6 @@
           placeholder="Height in px"
           label="Margin Top"
         />
-        <whppt-check-box
-          :value="editingCarousel.reversed"
-          label="Reversed"
-          @click="editingCarousel.reversed = !editingCarousel.reversed"
-        ></whppt-check-box>
       </whppt-tab>
       <whppt-tab title="Items">
         <whppt-select v-model="selectedIndex" :items="editingCarousel.items" label="Editing Item" />
@@ -135,6 +136,10 @@ export default {
 };
 </script>
 <style>
+.margin-top-input {
+  display: none;
+}
+
 .whppt-textBox--margin-top-10 {
   margin-top: 10px;
 }

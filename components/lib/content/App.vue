@@ -13,12 +13,13 @@
       <div class="whppt-sidebar__inner">
         <component :is="editSidebarType"></component>
         <whppt-text-input
-          v-if="editData"
+          v-if="editData && editData.data && editData.data.editorType !== 'wCarousel'"
           type="number"
           min="0"
           v-model="editData.marginTop"
           placeholder="Height in px"
           label="Margin Top"
+          class="marin-top-input"
         />
         <whppt-button class="whppt-button__close" @click="closeSidebar">
           Close
@@ -73,6 +74,11 @@ export default {
   z-index: 51;
   min-height: 400px;
 }
+.whppt-sidebar__inner {
+  width: 365px;
+  position: fixed;
+}
+
 .whppt-sidebar__inner {
   width: 365px;
   position: fixed;
