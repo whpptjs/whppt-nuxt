@@ -102,9 +102,11 @@ export default {
   computed: {
     ...mapState('whppt-nuxt/editor', ['editData']),
     editingCarousel() {
-      return this.editData;
+      return this.editData.data;
     },
     editingCarouselItems() {
+      console.log('TCL: editingCarouselItems -> this.editingCarousel', this.editingCarousel);
+      console.log('TCL: editingCarouselItems -> this.$whppt.editDataProperty', this.$whppt.editDataProperty);
       return this.editingCarousel[this.$whppt.editDataProperty];
     },
     editingItem() {
