@@ -11,6 +11,8 @@ module.exports = {
   plugins: ['prettier'],
   // add your custom rules here
   rules: {
+    'vue/no-unused-components': 'warn',
+    'vue/require-component-is': 'warn',
     'nuxt/no-cjs-in-config': 'off',
   },
 };

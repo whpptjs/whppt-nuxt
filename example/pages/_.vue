@@ -20,16 +20,16 @@
             {{ content.text || 'Enter Text here' }}
           </div>
           <div
-            :style="{ 'margin-top': `${content.marginTop}px` }"
             v-if="content.displayType === 'wRichText'"
             v-rich-text="{ data: content, property: 'text' }"
+            :style="{ 'margin-top': `${content.marginTop}px` }"
           >
             {{ content.text || 'Enter rich text here' }}
           </div>
           <div
-            :style="{ 'margin-top': `${content.marginTop}px` }"
             v-if="content.displayType === 'wCarousel'"
             v-carousel="{ data: content, property: 'items' }"
+            :style="{ 'margin-top': `${content.marginTop}px` }"
           >
             Just a normal carousel
           </div>
@@ -60,11 +60,9 @@
               {{ content.text || 'Enter rich text here' }}
             </div>
             <div v-if="content.displayType === 'wCarousel'" v-carousel="{ data: content, property: 'items' }">
-              <!-- {{ content.text || 'Enter rich text here' }} -->
               Just a normal carousel
             </div>
             <div v-if="content.displayType === 'wCardCarousel'" v-carousel="{ data: content, property: 'items' }">
-              <!-- {{ content.text || 'Enter rich text here' }} -->
               A super card carousel
             </div>
             <div v-if="content.displayType === 'wLink'" v-link="content">
@@ -97,16 +95,17 @@
             </div>
           </div>
           <div
-            :style="{ 'margin-top': `${content.marginTop}px` }"
             v-if="content.displayType === 'wListings'"
             v-listings="{ data: content, property: 'categories' }"
+            :style="{ 'margin-top': `${content.marginTop}px` }"
           >
-            Listings!!
+            {{ content.displayType }}
+            <component :is="content.displayType"></component>
           </div>
         </div>
       </div>
       <div v-else>
-        Content hered
+        Content here
       </div>
     </div>
   </div>
@@ -114,9 +113,13 @@
 
 <script>
 import { mapState } from 'vuex';
+import wListings from '../components/Listings';
+
 export default {
   name: 'WildCardPage',
-
+  components: {
+    wListings,
+  },
   asyncData({ params, store, error, app: { $whppt } }) {
     return Promise.all([store.dispatch('whppt-nuxt/page/loadPage', { slug: params.pathMatch })]).catch(err => {
       error({

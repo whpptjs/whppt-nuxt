@@ -107,19 +107,19 @@ export default {
 }
 
 .whppt-component__content--active {
-  outline: 2px solid palegreen;
+  outline: 1px solid palegreen;
 }
 
 .whppt-component__select--active {
-  outline: 2px solid orange;
+  outline: 1px solid orange;
 }
 
 .whppt-component__select--hover {
-  outline: 2px solid blue;
+  outline: 1px solid blue;
 }
 
 .whppt-component__edit--active {
-  outline: 2px solid red;
+  outline: 1px solid red;
 }
 
 .whppt-header {
