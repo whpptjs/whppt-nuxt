@@ -81,6 +81,7 @@ export default {
       productName: stringFromPath,
       productDescription: stringFromPath,
       // Category: stringFromPath,
+      status: stringFromPath,
       email(product) {
         return find(product.communication, comm => comm.attributeIdCommunication === 'CAEMENQUIR');
       },
