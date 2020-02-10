@@ -1,16 +1,27 @@
-const className = 'whppt-component__select--hover';
+// const className = 'whppt__component--hover';
+const componentHoverClass = 'whppt__component--hover';
+const contentHoverClass = 'whppt__content--hover';
 
 export default function($whppt) {
-  const mouseout = el => {
-    el.classList.remove(className);
+  const mouseoutContent = el => {
+    el.classList.remove(contentHoverClass);
   };
 
-  const mouseover = el => {
-    el.classList.add(className);
+  const mouseoverContent = el => {
+    el.classList.add(contentHoverClass);
+  };
+  const mouseoutComponent = el => {
+    el.classList.remove(componentHoverClass);
+  };
+
+  const mouseoverComponent = el => {
+    el.classList.add(componentHoverClass);
   };
 
   Object.assign($whppt, {
-    mouseout,
-    mouseover,
+    mouseoutContent,
+    mouseoverContent,
+    mouseoutComponent,
+    mouseoverComponent,
   });
 }
