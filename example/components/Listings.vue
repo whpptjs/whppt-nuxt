@@ -1,5 +1,5 @@
 <template>
-  <div v-listings="{ data: content, property: 'categories' }">
+  <div v-listings="content" data-property="'categories'">
     <div class="py-16 lg:p-16 mx-6">
       <div v-if="!detailsOpen" class="flex my-4">
         <span class="ml-auto text-sm" v-text="items.length ? `${totalItems} Results` : 'No Listings found.'" />
@@ -7,12 +7,7 @@
       <div v-if="items.length" class="flex flex-wrap -mx-2">
         <div>
           <div v-if="items.length" class="flex flex-wrap -mx-2">
-            <div
-              v-for="(item, index) in items"
-              :key="`item-${index}`"
-              v-listing="{ data: item._id }"
-              class="w-1/2 py-2 px-2"
-            >
+            <div v-for="(item, index) in items" :key="`item-${index}`" v-listing="item._id" class="w-1/2 py-2 px-2">
               <!--              <nuxt-link :to="'/'" @click.stop>-->
               <div class="flex flex-col lg:flex-row bg-white h-full">
                 <div class="bg-red-700 w-full lg:w-1/2"></div>
