@@ -75,6 +75,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import { get, find } from 'lodash';
 const URI = require('uri-js');
 
@@ -110,14 +111,18 @@ export default {
       },
     },
   }),
+  computed: {
+    ...mapState('whppt-nuxt/editor', ['selectedComponent']),
+  },
   mounted() {
-    if (!this.$whppt.editData) return;
+    if (!this.selectedComponent || !this.selectedComponent.value) return;
 
     const baseAPIUrl = this.$whppt.baseAPIUrl || '';
-    this.$axios.get(`${baseAPIUrl}/api/listing/findById?id=${this.$whppt.editData}`).then(({ data }) => {
+    this.$axios.get(`${baseAPIUrl}/api/listing/findById?id=${this.selectedComponent.value}`).then(({ data }) => {
       this.listing = data.listing;
     });
   },
+
   methods: {
     reconnect(field, key) {
       this.listing[this.propToReconnect].path = key;
