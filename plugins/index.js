@@ -28,6 +28,7 @@ export default (context, inject) => {
     loadFooter: LoadFooter(context),
     saveFooter: SaveFooter(context),
     templates: options.templates,
+    marginTop: options.marginTop,
     baseAPIUrl: options.baseAPIUrl,
     components: Components(options),
     defaultMarginTop: options.defaultMarginTop,

@@ -17,7 +17,7 @@
           v-model="selectedComponent.value.marginTop"
           type="number"
           min="0"
-          placeholder="Height in px"
+          :placeholder="$whppt.defaultMarginTop"
           label="Margin Top"
           class="marin-top-input"
         />
