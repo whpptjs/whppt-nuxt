@@ -1,12 +1,17 @@
 <template>
   <div class="whppt-gallery-container">
     <div class="whppt-gallery-item-container">
-      <div class="whppt-gallery__add">
-        <span class="whppt-gallery__plus-button">+</span>
+      <div class="whppt-gallery__add" @click="$refs.fileInput.click()">
+        <input type="file" :accept="'image/*'" style="display: none;" ref="fileInput" />
+        <span>+</span>
       </div>
     </div>
-    <div v-for="image in examples" :key="image.id" class="whppt-gallery-item-container">
-      <div class="whppt-gallery-item" />
+    <div v-for="image in images" :key="image.id" class="whppt-gallery-item-container">
+      <div
+        class="whppt-gallery-item"
+        @click="$emit('input', image)"
+        :style="{ 'background-image': `url('${image.url}')` }"
+      />
     </div>
   </div>
 </template>
@@ -16,18 +21,31 @@ import { mapState } from 'vuex';
 
 export default {
   name: 'EditorGallery',
+  props: {
+    value: {
+      type: Object,
+      default: () => undefined,
+    },
+  },
   computed: {
     ...mapState('whppt-nuxt/editor', ['selectedComponent']),
   },
+  mounted() {
+    this.baseAPIUrl = this.$whppt.baseAPIUrl || '';
+    this.$axios
+      .get(`${this.baseAPIUrl}/api/image/fetch`, { limit: this.limit, currentPage: this.currentPage })
+      .then(({ data: { images, total } }) => {
+        console.log('TCL: mounted -> images', images);
+        this.images = images;
+        this.total = total;
+      });
+  },
   data() {
     return {
-      examples: [
-        { id: 1, url: '' },
-        { id: 2, url: '' },
-        { id: 3, url: '' },
-        { id: 4, url: '' },
-        { id: 5, url: '' },
-      ],
+      images: [],
+      total: 0,
+      limit: 9,
+      currentPage: 1,
     };
   },
 };
@@ -49,9 +67,16 @@ export default {
   font-size: 40px;
   cursor: pointer;
 }
+.whppt-gallery__add:hover {
+  background: white;
+  color: black;
+}
 .whppt-gallery-item-container {
   flex-basis: 50%;
   padding: 5px;
+}
+.whppt-gallery-item-container div:hover {
+  filter: brightness(1.1);
 }
 .whppt-gallery-item {
   background: tomato;

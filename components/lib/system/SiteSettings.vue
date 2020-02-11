@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { get, map } from 'lodash';
+import { map } from 'lodash';
 import slugify from 'slugify';
 
 export default {

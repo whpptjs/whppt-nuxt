@@ -1,12 +1,12 @@
 <template>
   <div class="whppt-full">
     <h1>Image</h1>
-    <whppt-tabs>
+    <whppt-tabs ref="imageTabs">
       <whppt-tab title="Cropping">
-        <cropping />
+        <cropping :value="selectedImage" />
       </whppt-tab>
       <whppt-tab title="Gallery">
-        <gallery />
+        <gallery v-model="selectedImage" />
       </whppt-tab>
     </whppt-tabs>
   </div>
@@ -23,10 +23,22 @@ import Cropping from './Cropping';
 export default {
   name: 'EditorImageEdit',
   components: { WhpptTextInput, WhpptTabs, WhpptTab, Gallery, Cropping },
+  data() {
+    return {
+      selectedImage: undefined,
+    };
+  },
   computed: {
     ...mapState('whppt-nuxt/editor', ['selectedComponent']),
     sizes() {
       return this.selectedComponent.sizes;
+    },
+  },
+  watch: {
+    'selectedImage.id'(val) {
+      if (val) {
+        this.$refs.imageTabs.selectTab(this.$refs.imageTabs.tabs[0]);
+      }
     },
   },
 };
