@@ -3,22 +3,46 @@
     <div class="whppt-settings__content">
       <div class="whppt-settings__heading">
         <h1>Site Settings</h1>
-        <button class="whppt-button" @click="saveCategories">Save</button>
+        <button class="whppt-settings-button" @click="saveCategories">Save</button>
       </div>
       <form @submit.prevent>
         <div class="whppt-settings__column">
           <fieldset>
             <div class="whppt-flex-between">
               <label for="name">Listing Categories</label>
-              <button class="whppt-icon-button" @click="addCategory">
+              <button class="whppt-icon" @click="addCategory">
                 <w-add-circle></w-add-circle>
               </button>
             </div>
-            <div v-for="(category, index) in categories" :key="index" class="whppt-flex-between">
-              <div>{{ category.namespace }}</div>
-              <button class="whppt-icon-button" @click="removeCategory(index)">
-                <w-remove></w-remove>
-              </button>
+            <div v-for="(category, index) in categories" :key="index">
+              <div class="whppt-flex-between whppt-align-center">
+                <div>
+                  <label for="name">Category</label>
+                  <whppt-text-input v-model="category.name" placeholder="Enter category name" label="Name" />
+                </div>
+                <div>
+                  <button class="whppt-icon" @click="addOrFilter(index)">
+                    <w-add-circle></w-add-circle>
+                  </button>
+                  <button class="whppt-icon" @click="removeCategory(index)">
+                    <w-remove></w-remove>
+                  </button>
+                </div>
+              </div>
+
+              <div
+                v-for="(filter, filterIndex) in category.filters"
+                :key="filterIndex"
+                class="whppt-flex-between whppt-align-center"
+              >
+                <div>
+                  <label for="filter">Filter</label>
+                  <whppt-text-input v-model="filter.value" placeholder="Enter categories to filter by" label="Filter" />
+                </div>
+                <button class="whppt-icon" @click="removeFilter(index, filterIndex)">
+                  <w-remove></w-remove>
+                </button>
+              </div>
             </div>
           </fieldset>
         </div>
@@ -29,12 +53,14 @@
 
 <script>
 import { map } from 'lodash';
-import slugify from 'slugify';
+import WhpptTextInput from '../whpptComponents/WhpptTextInput';
 
 export default {
   name: 'WhpptSiteSettings',
+  components: { WhpptTextInput },
   data() {
     return {
+      loadedCategories: [],
       categories: [],
       baseAPIUrl: '',
     };
@@ -42,26 +68,47 @@ export default {
   mounted() {
     this.baseAPIUrl = this.$whppt.baseAPIUrl || '';
     this.$axios.get(`${this.baseAPIUrl}/api/siteSettings/loadCategories`).then(({ data }) => {
-      this.categories = data;
+      this.loadedCategories = data;
+      this.formatCategories();
     });
   },
   methods: {
+    formatCategories() {
+      this.categories = map(this.loadedCategories, category => {
+        return {
+          name: category.name,
+          id: category.id,
+          filters: map(category.filters, filter => {
+            return {
+              value: filter.join(','),
+            };
+          }),
+        };
+      });
+    },
     addCategory() {
-      this.categories.push({ namespace: `New Category ${this.categories.length + 1}`, key: '' });
+      this.categories.push({ name: `New Category ${this.categories.length + 1}`, filters: [{ value: '' }] });
+    },
+    addOrFilter(index) {
+      this.categories[index].filters.push({ value: '' });
     },
     removeCategory(index) {
       this.categories.splice(index, 1);
     },
+    removeFilter(index, filterIndex) {
+      this.categories[index].filters.splice(filterIndex, 1);
+    },
     saveCategories() {
-      map(this.categories, c => {
+      const formattedCategories = map(this.categories, category => {
         return {
-          namespace: c,
-          key: slugify(c, { remove: '^[a-z](-?[a-z])*$', lower: true }),
+          name: category.name,
+          id: category.id,
+          filters: map(category.filters, filter => {
+            return filter.value.split(',');
+          }),
         };
       });
-      console.log('TCL: saveCategories -> this.categories', this.categories);
-
-      // this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveCategories`, {categories: this.categories})
+      this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveCategories`, { categories: formattedCategories });
     },
   },
 };
@@ -169,12 +216,17 @@ export default {
   resize: vertical;
 }
 
-.whppt-settings button {
+.whppt-settings-button {
   margin-left: auto;
   padding: 0.8rem 2rem;
   display: inline-block;
   color: white;
   background-color: black;
   border-radius: 25px;
+}
+.whppt-icon {
+  margin-left: auto;
+  display: inline-block;
+  color: black;
 }
 </style>

@@ -44,9 +44,9 @@ const Components = options => [
     name: 'Listings',
     editorType: 'wListings',
     displayType: 'wListings',
-    property: 'categories',
+    property: 'categoryFilter',
 
-    categories: [],
+    categoryFilter: {},
   },
   {
     key: 'Container',

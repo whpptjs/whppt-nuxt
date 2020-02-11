@@ -1,56 +1,30 @@
 <template>
   <div class="whppt-full ">
     <h1>Listings</h1>
-    <p>Categories</p>
-    <div v-for="(category, index) in options" :key="index">
-      <whppt-check-box
-        :value="categories && categories.indexOf(category.key) !== -1"
-        :label="category.namespace"
-        @click="modifyFilters(category.key)"
-      ></whppt-check-box>
-    </div>
+    <p>Filter</p>
+    <whppt-select v-model="$whppt.editData[$whppt.editDataProperty]" :items="filters" label="Category Filter" />
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import WhpptCheckBox from '../whpptComponents/CheckBox';
+import { map } from 'lodash';
+import WhpptSelect from '../whpptComponents/WhpptSelect';
 
 export default {
   name: 'EditorListings',
-  components: { WhpptCheckBox },
+  components: { WhpptSelect },
   data() {
     return {
-      options: {
-        ACCOMM: { key: 'ACCOMM', namespace: 'stay' },
-        TOUR: { key: 'TOUR', namespace: 'tours' },
-        EVENT: { key: 'EVENT', namespace: 'events' },
-        ATTRACTION: { key: 'ATTRACTION', namespace: 'attractions' },
-        RESTAURANT: { key: 'RESTAURANT', namespace: 'food' },
-        HIRE: { key: 'HIRE', namespace: 'hire' },
-        TRANSPORT: { key: 'TRANSPORT', namespace: 'transport' },
-        DESTINFO: { key: 'DESTINFO', namespace: 'destinations' },
-        GENSERVICE: { key: 'GENSERVICE', namespace: 'services' },
-        INFO: { key: 'INFO', namespace: 'info' },
-      },
+      filters: [],
     };
   },
-  computed: {
-    ...mapState('whppt-nuxt/editor', ['selectedComponent']),
-    categories() {
-      return this.selectedComponent.value[this.selectedComponent.property];
-    },
-  },
-  methods: {
-    modifyFilters(category) {
-      if (!this.categories) {
-        this.selectedComponent.value[this.selectedComponent.property] = [category];
-        return;
-      }
-      const index = this.selectedComponent.value[this.selectedComponent.property].indexOf(category);
-      if (index === -1) this.selectedComponent.value[this.selectedComponent.property].push(category);
-      else this.selectedComponent.value[this.selectedComponent.property].splice(index, 1);
-    },
+  mounted() {
+    this.baseAPIUrl = this.$whppt.baseAPIUrl || '';
+    this.$axios.get(`${this.baseAPIUrl}/api/siteSettings/loadCategories`).then(({ data }) => {
+      this.filters = map(data, d => {
+        return { title: d.name, id: d.id };
+      });
+    });
   },
 };
 </script>

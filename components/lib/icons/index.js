@@ -15,6 +15,7 @@ import Warning from './Warning';
 import Pointer from './Pointer';
 import Check from './Check';
 import Circle from './Circle';
+import Close from './Close';
 import Footer from './Footer';
 
 export default {
@@ -35,5 +36,6 @@ export default {
   Pointer,
   Circle,
   Check,
+  Close,
   Footer,
 };
