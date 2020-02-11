@@ -38,7 +38,7 @@ export default {
     ...mapState('whppt-nuxt/editor', ['selectedComponent']),
     croppaImage() {
       const img = new Image();
-      img.src = this.value.url;
+      img.src = this.value ? this.value.url : '';
       return img;
     },
   },
