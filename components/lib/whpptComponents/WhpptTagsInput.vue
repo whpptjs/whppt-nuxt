@@ -1,14 +1,11 @@
 <template>
-  <div>
-    <span class="whppt-tags__error">{{ error }}</span>
-    <div class="whppt-tags">
-      <input v-model="newTag" placeholder="Add New Tag" @keydown.enter="addTag" />
-      <div class="whppt-tags__container">
-        <span class="whppt-tags__spacer">:</span>
-        <span v-for="(tag, index) in tags" :key="index" class="whppt-tags__tag">
-          <button class="" @click="deleteTag(tag)"><i-close /></button>{{ tag }}
-        </span>
-      </div>
+  <div class="whppt-tags">
+    <input v-model="newTag" placeholder="Add New Tag" @keydown.enter="addTag" />
+    <div class="whppt-tags__container">
+      <span class="whppt-tags__spacer">:</span>
+      <span v-for="(tag, index) in tags" :key="index" class="whppt-tags__tag">
+        <button class="" @click="deleteTag(tag)"><i-close /></button>{{ tag }}
+      </span>
     </div>
   </div>
 </template>

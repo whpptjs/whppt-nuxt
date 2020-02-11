@@ -54,8 +54,4 @@ const components = [
   },
 ];
 
-components.forEach(c => {
-  c.marginTop = '5';
-});
-
 export { components };
