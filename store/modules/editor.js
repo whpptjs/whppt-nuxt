@@ -20,15 +20,11 @@ export default options => ({
     closeSidebar({ commit }) {
       this.$whppt.clearSelectedComponent();
       this.$whppt.clearSelectedContent();
-      // this.$whppt.clearSelectedContentsFormatting();
-      // this.$whppt.clearEditingElementFormatting();
       commit('sidebarClosed');
     },
     closeModal({ commit }) {
       this.$whppt.clearSelectedComponent();
       this.$whppt.clearSelectedContent();
-      // this.$whppt.clearSelectedContentsFormatting();
-      // this.$whppt.clearEditingElementFormatting();
       commit('modalClosed');
     },
     clearSelectedComponent({ commit }) {
@@ -46,6 +42,11 @@ export default options => ({
     clearSelectedContent({ commit }) {
       commit('selectedContentCleared');
       this.$whppt.clearSelectedContent();
+    },
+    removeComponent({ state, commit }) {
+      if (!state.selectedContent || !state.selectedComponent) return;
+      this.$whppt.clearSelectedComponentFormatting();
+      commit('removedComponent');
     },
     moveComponentUp({ state, commit }) {
       if (!state.selectedContent || !state.selectedComponent) return;
@@ -104,8 +105,10 @@ export default options => ({
       if (!state.selectedContent || !state.selectedComponent) return;
       const i = state.selectedContent.indexOf(state.selectedComponent.value);
       if (i < 0) return;
-      state.selectedContent.splice(i, 1);
-      state.selectedContent = undefined;
+      state.editSidebar = false;
+      state.editSidebarType = undefined;
+      state.selectedComponent = undefined;
+      state.selectedContent = state.selectedContent.splice(i, 1);
     },
     movedComponentDown(state) {
       const i = state.selectedContent.indexOf(state.selectedComponent.value);

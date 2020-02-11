@@ -7,7 +7,7 @@ export default context => () => {
   const baseAPIUrl = $whppt.baseAPIUrl || ``;
 
   return $axios
-    .get(`${baseAPIUrl}/api/footer/load`)
+    .get(`${baseAPIUrl}/api/site/loadFooter`)
     .then(response => {
       return response.data;
     })

@@ -76,9 +76,16 @@ export default {
   methods: {
     ...mapActions('whppt-nuxt/site', ['saveFooter']),
     ...mapActions('whppt-nuxt/page', ['savePage']),
-    ...mapActions('whppt-nuxt/editor', ['selectMenuItem', 'moveComponentUp', 'moveComponentDown']),
+    ...mapActions('whppt-nuxt/editor', [
+      'selectMenuItem',
+      'moveComponentUp',
+      'moveComponentDown',
+      'removeComponent',
+      'clearSelectedComponent',
+      'clearSelectedContent',
+    ]),
     ...mapMutations('whppt-nuxt/page', ['loaded']),
-    ...mapMutations('whppt-nuxt/editor', ['editInModal', 'editInSidebar', 'removedComponent']),
+    ...mapMutations('whppt-nuxt/editor', ['editInModal', 'editInSidebar']),
     callMethod(action, options) {
       if (!action) return;
       return this[action](options);
@@ -87,12 +94,14 @@ export default {
       return this.savePage();
     },
     newPage() {
+      this.clearSelectedContent();
+      this.clearSelectedComponent();
       return this.editInSidebar('WhpptPage');
     },
     removeLink() {
       if (!this.selectedContent || !this.selectedComponent) return;
       if (window.confirm('Are you sure?')) {
-        this.removedComponent();
+        this.removeComponent();
       }
     },
     editATDW() {
