@@ -15,9 +15,11 @@ export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
         store.dispatch('whppt-nuxt/editor/clearSelectedComponent');
         store.dispatch('whppt-nuxt/editor/clearSelectedContent');
         const property = el.getAttribute('data-property');
+        const filter = el.getAttribute('data-components');
+
         store.dispatch('whppt-nuxt/editor/selectComponent', {
           el,
-          value: { value: binding.value[property], property },
+          value: { value: binding.value[property], property, filter },
         });
         notifyContent(el);
         store.commit('whppt-nuxt/editor/editInSidebar', 'eContent');

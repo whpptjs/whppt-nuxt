@@ -1,5 +1,4 @@
 <template>
-  <!-- data-sizes="{ "desktop" :{"w":1920,"h":450,"scale":3}}" -->
   <div
     v-edit-image="value"
     data-sizes=""
