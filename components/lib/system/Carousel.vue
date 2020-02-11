@@ -22,7 +22,7 @@
         ></whppt-check-box>
       </whppt-tab>
       <whppt-tab title="Items">
-        <whppt-select v-model="editingCarouselItem" :items="editingCarousel.items" label="Editing Item" />
+        <whppt-select v-model="editingCarouselItem" :items="editingCarouselItems" label="Editing Item" />
 
         <div class="whppt-carousel__actions">
           <button class="whppt-carousel__actions-add" @click="add">Add New Item</button>
@@ -89,7 +89,6 @@ export default {
   components: { WhpptTextInput, WhpptTab, WhpptTabs, WhpptSelect, WhpptCheckBox },
   data() {
     return {
-      // selectedIndex: -1,
       editingCarouselItem: undefined,
     };
   },
@@ -113,11 +112,13 @@ export default {
         ctaLink: '',
         image: undefined,
       });
+      this.$nextTick(() => (this.editingCarouselItem = this.editingCarouselItems[index + 1])); // I know this sucks
     },
     remove() {
       const index = this.editingCarouselItems.indexOf(this.editingCarouselItem);
-      if (window.confirm('Do you want to remove this card?')) {
+      if (window.confirm('Do you want to remove this item?')) {
         this.editingCarouselItems.splice(index, 1);
+        if (index > 0) this.editingCarouselItem = this.editingCarouselItems[index - 1];
       }
     },
   },
