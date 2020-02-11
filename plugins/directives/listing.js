@@ -4,7 +4,7 @@ export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
   Vue.directive('listing', {
     bind(el, binding) {
       el.addEventListener('click', function(e) {
-        if (!menuIsInState(MENUSTATES.LISTING)) return;
+        if (!menuIsInState(MENUSTATES.SELECT)) return;
 
         $whppt.clearEditData();
         $whppt.clearContents();
@@ -18,10 +18,10 @@ export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
       });
       el.addEventListener('mouseover', function(e) {
         if (!menuIsInState(MENUSTATES.LISTING)) return;
-        $whppt.mouseover(el);
+        $whppt.mouseoverComponent(el);
       });
       el.addEventListener('mouseout', function(e) {
-        $whppt.mouseout(el);
+        $whppt.mouseoutComponent(el);
       });
     },
   });

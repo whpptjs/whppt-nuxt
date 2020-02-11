@@ -27,15 +27,15 @@
       </button>
     </div>
     <whppt-select v-model="selectKey" :items="selectedComponent.value.links" />
-    <div v-if="selectedComponent.value.links && selectedComponent.value.links[selectKey]">
+    <div v-if="selectKey">
       <div class="whppt-flex-between">
-        <h3 class="whppt-header">Edit link #{{ selectKey + 1 }}</h3>
-        <button class="whppt-icon-button" @click="removeLink">
+        <h3 class="whppt-header">Edit link - {{ selectKey.text }}</h3>
+        <button class="whppt-icon-button" @click="removeLink(selectKey)">
           <w-remove></w-remove>
         </button>
       </div>
 
-      <e-link :data="selectedComponent.value.links[selectKey]"></e-link>
+      <e-link :data="selectKey"></e-link>
     </div>
   </div>
 </template>
@@ -52,7 +52,7 @@ export default {
   components: { ELink, WhpptCheckBox, WhpptSelect },
   data() {
     return {
-      selectKey: -1,
+      selectKey: undefined,
     };
   },
   computed: {
@@ -64,13 +64,13 @@ export default {
     },
     addLink() {
       this.selectedComponent.value.links = this.selectedComponent.value.links || [];
-      this.selectedComponent.value.links.push({ type: 'page' });
+      const newLink = { type: 'page' };
+      this.selectedComponent.value.links.push(newLink);
     },
     removeLink(link) {
-      this.selectedComponent.value.links.splice(this.selectKey, 1);
       if (window.confirm('Are you sure?')) {
         this.selectedComponent.value.links = without(this.selectedComponent.value.links, link);
-        // if (this.selectKey > -1) this.selectKey = this.selectKey - 1;
+        this.selectKey = undefined;
       }
     },
   },
