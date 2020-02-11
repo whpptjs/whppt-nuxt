@@ -48,10 +48,18 @@ export default options => ({
       this.$whppt.clearSelectedContent();
     },
     moveComponentUp({ state, commit }) {
-      this.$whppt.moveUp({ component: state.selectedComponent, content: state.selectedContent });
+      if (!state.selectedContent || !state.selectedComponent) return;
+      const i = state.selectedContent.indexOf(state.selectedComponent.value);
+      if (i <= 0) return;
+      this.$whppt.clearSelectedComponentFormatting();
+      commit('movedComponentUp');
     },
     moveComponentDown({ state, commit }) {
-      this.$whppt.moveDown({ component: state.selectedComponent, content: state.selectedContent });
+      if (!state.selectedContent || !state.selectedComponent) return;
+      const i = state.selectedContent.indexOf(state.selectedComponent.value);
+      if (state.selectedContent.length === i + 1 || i < 0) return;
+      this.$whppt.clearSelectedComponentFormatting();
+      commit('movedComponentDown');
     },
   },
   mutations: {
@@ -91,6 +99,34 @@ export default options => ({
     },
     selectedContentCleared(state, value) {
       state.selectedContent = undefined;
+    },
+    removedComponent(state) {
+      if (!state.selectedContent || !state.selectedComponent) return;
+      const i = state.selectedContent.indexOf(state.selectedComponent.value);
+      if (i < 0) return;
+      state.selectedContent.splice(i, 1);
+      state.selectedContent = undefined;
+    },
+    movedComponentDown(state) {
+      const i = state.selectedContent.indexOf(state.selectedComponent.value);
+      if (state.selectedContent.length === i + 1 || i < 0) return;
+      const current = state.selectedContent[i];
+      const prev = state.selectedContent[i + 1];
+
+      state.selectedContent[i] = prev;
+      state.selectedContent[i + 1] = current;
+      state.selectedContent.__ob__.dep.notify();
+    },
+    movedComponentUp(state) {
+      const i = state.selectedContent.indexOf(state.selectedComponent.value);
+      if (i <= 0) return;
+
+      const current = state.selectedContent[i];
+      const prev = state.selectedContent[i - 1];
+
+      state.selectedContent[i] = prev;
+      state.selectedContent[i - 1] = current;
+      state.selectedContent.__ob__.dep.notify();
     },
   },
   getters: {},
