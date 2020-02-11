@@ -125,9 +125,6 @@ export default {
   border-radius: 100px;
 }
 
-.whppt-menu__item {
-}
-
 .whppt-menu__item--active {
   border-radius: 100%;
   background-color: #262626;

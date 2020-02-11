@@ -1,5 +1,9 @@
 <template>
-  <div v-listings="content" data-property="'categories'">
+  <div
+    v-listings="content"
+    data-property="'categories'"
+    :style="{ 'margin-top': `${content.marginTop || $whppt.defaultMarginTop}px` }"
+  >
     <div class="py-16 lg:p-16 mx-6">
       <div v-if="!detailsOpen" class="flex my-4">
         <span class="ml-auto text-sm" v-text="items.length ? `${totalItems} Results` : 'No Listings found.'" />

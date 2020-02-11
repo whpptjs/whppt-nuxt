@@ -2,21 +2,27 @@
   <div class="whppt-full">
     <h1>Image</h1>
     <whppt-tabs>
-      <whppt-tab> </whppt-tab>
-      <whppt-tab> </whppt-tab>
+      <whppt-tab title="Cropping">
+        <cropping />
+      </whppt-tab>
+      <whppt-tab title="Gallery">
+        <gallery />
+      </whppt-tab>
     </whppt-tabs>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
-import WhpptTab from '../whpptComponents/WhpptTab';
-import WhpptTabs from '../whpptComponents/WhpptTabs';
-import WhpptTextInput from '../whpptComponents/WhpptTextInput';
+import WhpptTab from '../../whpptComponents/WhpptTab';
+import WhpptTabs from '../../whpptComponents/WhpptTabs';
+import WhpptTextInput from '../../whpptComponents/WhpptTextInput';
+import Gallery from './Gallery';
+import Cropping from './Cropping';
 
 export default {
   name: 'EditorImageEdit',
-  components: { WhpptTextInput, WhpptTabs, WhpptTab },
+  components: { WhpptTextInput, WhpptTabs, WhpptTab, Gallery, Cropping },
   computed: {
     ...mapState('whppt-nuxt/editor', ['selectedComponent']),
     sizes() {
