@@ -37,9 +37,9 @@ export default {
     this.selectedTab.active = true;
   },
   methods: {
-    selectTab(selectedTab) {
-      this.tabs.forEach(tab => (tab.active = tab.title === selectedTab.title));
-      this.selectedTab = selectedTab;
+    selectTab(t) {
+      this.tabs.forEach(tab => (tab.active = tab.title === t.title));
+      this.selectedTab = t;
     },
   },
 };
