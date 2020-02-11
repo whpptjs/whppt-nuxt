@@ -73,7 +73,6 @@ export default {
         // { key: 'documents', label: 'Documents', icon: 'w-document', group: 'site' },
         // { key: 'redirects', label: 'Redirects', icon: 'w-redirect', group: 'site' },
         // { key: 'logout', label: 'Logout', icon: 'w-logout', group: 'security' },
-        { key: 'atdw', label: 'ATDW', icon: 'w-globe', group: 'atdw', action: 'editATDW' },
         { key: 'footer', label: 'Footer', icon: 'w-footer', group: 'footer', action: 'savePageFooter' },
       ];
     },
