@@ -5,7 +5,6 @@ export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
   Vue.directive('container', {
     bind(el, binding) {
       el.addEventListener('content-selected', function(e) {
-        console.log('CONTENT-SELECTED');
         store.dispatch('whppt-nuxt/editor/clearSelectedContent');
         store.dispatch('whppt-nuxt/editor/selectContent', { el, value: binding.value });
       });
@@ -25,10 +24,11 @@ export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
       });
       el.addEventListener('mouseover', function(e) {
         if (!menuIsInState(MENUSTATES.SELECT)) return;
-        $whppt.mouseoverComponent(el);
+        e.stopPropagation();
+        $whppt.mouseoverContent(el);
       });
       el.addEventListener('mouseout', function(e) {
-        $whppt.mouseoutComponent(el);
+        $whppt.mouseoutContent(el);
       });
     },
   });

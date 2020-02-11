@@ -38,37 +38,6 @@ export default function($whppt) {
     }
   };
 
-  const moveUp = (component, content) => {
-    const i = content.indexOf(component);
-    if (i <= 0) return;
-
-    const current = content[i];
-    const prev = content[i - 1];
-
-    clearSelectedComponentFormatting();
-    content[i] = prev;
-    content[i - 1] = current;
-    content.__ob__.dep.notify();
-  };
-
-  const moveDown = (component, content) => {
-    const i = content.indexOf(content);
-    if (content.length === i + 1 || i < 0) return;
-    const current = content[i];
-    const prev = content[i + 1];
-    clearSelectedComponentFormatting();
-
-    content[i] = prev;
-    content[i + 1] = current;
-    content.__ob__.dep.notify();
-  };
-  const remove = () => {
-    if (!$whppt.selectedContents || !$whppt.editData) return;
-    const i = $whppt.selectedContents.data.indexOf($whppt.editData);
-    if (i < 0) return;
-    $whppt.selectedContents.data.splice(i, 1);
-  };
-
   Object.assign($whppt, {
     clearSelectedComponent,
     clearSelectedComponentFormatting,
@@ -77,8 +46,5 @@ export default function($whppt) {
     formatSelectedContentElement,
     clearSelectedContent,
     clearSelectedContentFormatting,
-    moveDown,
-    moveUp,
-    remove,
   });
 }

@@ -1,7 +1,8 @@
 <template>
+  <!-- data-sizes="{ "desktop" :{"w":1920,"h":450,"scale":3}}" -->
   <div
     v-edit-image="value"
-    data-sizes="{ desktop: { w: 1920, h:450, scale: 3 } }"
+    data-sizes=""
     :style="{ 'margin-top': `${value.marginTop || $whppt.defaultMarginTop}px` }"
     class="img"
   ></div>

@@ -1,5 +1,5 @@
 const Components = options => [
-  { key: 'Text', name: 'Text', editorType: 'wPlainText', displayType: 'wPlainText', text: 'test' },
+  { key: 'Text', name: 'Text', editorType: 'wPlainText', displayType: 'wPlainText', text: '', property: 'text' },
   {
     key: 'RichText',
     name: 'Rich Text',

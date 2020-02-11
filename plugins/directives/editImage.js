@@ -1,21 +1,14 @@
 import Vue from 'vue';
-import notifyContent from './_notifyContent';
+import SimpleComponentClickHandler from './_simpleComponentClickHandler';
 
 export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
   Vue.directive('editImage', {
     bind(el, binding) {
-      el.addEventListener('click', function(e) {
-        if (!menuIsInState(MENUSTATES.SELECT)) return;
-        e.stopPropagation();
-
-        store.dispatch('whppt-nuxt/editor/clearSelectedComponent');
-        store.dispatch('whppt-nuxt/editor/clearSelectedContent');
-        const _sizes = el.getAttribute('data-sizes');
-        const sizes = _sizes ? JSON.parse(_sizes) : {};
-        store.dispatch('whppt-nuxt/editor/selectComponent', { el, value: { value: binding.value, sizes } });
-        notifyContent(el);
-        store.commit('whppt-nuxt/editor/editInSidebar', 'editImage');
-      });
+      const _sizes = el.getAttribute('data-sizes');
+      const sizes = _sizes ? JSON.parse(_sizes) : {};
+      const value = { value: binding.value, sizes };
+      el.whppthandler = SimpleComponentClickHandler({ store, menuIsInState, MENUSTATES, name: 'editImage', el, value });
+      el.addEventListener('click', el.whppthandler);
       el.addEventListener('mouseover', function(e) {
         if (!menuIsInState(MENUSTATES.SELECT)) return;
         $whppt.mouseoverComponent(el);
@@ -23,6 +16,18 @@ export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
       el.addEventListener('mouseout', function(e) {
         $whppt.mouseoutComponent(el);
       });
+    },
+    unbind(el, binding) {
+      el.removeEventListener('click', el.whppthandler);
+      delete el.whppthandler;
+    },
+    update(el, binding) {
+      el.removeEventListener('click', el.whppthandler);
+      const _sizes = el.getAttribute('data-sizes');
+      const sizes = _sizes ? JSON.parse(_sizes) : {};
+      const value = { value: binding.value, sizes };
+      el.whppthandler = SimpleComponentClickHandler({ store, menuIsInState, MENUSTATES, name: 'editImage', el, value });
+      el.addEventListener('click', el.whppthandler);
     },
   });
 };

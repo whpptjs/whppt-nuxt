@@ -13,11 +13,11 @@
       <div class="whppt-sidebar__inner">
         <component :is="editSidebarType"></component>
         <whppt-text-input
-          v-if="selectedContent"
+          v-if="selectedComponent && selectedComponent.value"
           v-model="selectedComponent.value.marginTop"
           type="number"
           min="0"
-          placeholder="Height in px"
+          :placeholder="$whppt.defaultMarginTop"
           label="Margin Top"
           class="marin-top-input"
         />
