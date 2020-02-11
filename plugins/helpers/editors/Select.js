@@ -67,8 +67,6 @@ export default function($whppt) {
     const i = $whppt.selectedContents.data.indexOf($whppt.editData);
     if (i < 0) return;
     $whppt.selectedContents.data.splice(i, 1);
-
-    clearSelected();
   };
 
   Object.assign($whppt, {
