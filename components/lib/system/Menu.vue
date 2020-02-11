@@ -63,7 +63,13 @@ export default {
         { key: 'save', label: 'Save Page', icon: 'w-save', group: 'page', action: () => this.savePage() },
         { key: 'publish', label: 'Publish', icon: 'w-publish', group: 'page' },
         { key: 'preview', label: 'Preview', icon: 'w-preview', group: 'page' },
-        { key: 'site-settings', label: 'Site Settings', icon: 'w-settings', group: 'site', action: 'openSiteSettings' },
+        {
+          key: 'site-settings',
+          label: 'Site Settings',
+          icon: 'w-settings',
+          group: 'site',
+          action: () => this.editInModal('siteSettings'),
+        },
         // { key: 'seo', label: 'SEO', icon: 'w-seo', group: 'site' },
         // { key: 'socials', label: 'Socials', icon: 'w-socials', group: 'site' },
         // { key: 'documents', label: 'Documents', icon: 'w-document', group: 'site' },
@@ -106,9 +112,6 @@ export default {
     },
     editATDW() {
       return this.editInModal('atdw');
-    },
-    openSiteSettings() {
-      return this.editInModal('siteSettings');
     },
   },
 };
