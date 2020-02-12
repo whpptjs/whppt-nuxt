@@ -1,10 +1,7 @@
 export default context => nav => {
-  const {
-    $axios,
-    app: { $whppt },
-  } = context;
+  const { $axios, store } = context;
 
-  const baseAPIUrl = $whppt.baseAPIUrl || '';
+  const baseAPIUrl = store.state['whppt-nuxt/editor'].baseAPIUrl;
 
   return $axios.post(`${baseAPIUrl}/api/site/saveNav`, { nav }).then(request => {
     return request.data;

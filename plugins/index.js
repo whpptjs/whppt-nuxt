@@ -34,7 +34,6 @@ export default (context, inject) => {
     saveNav: SaveNav(context),
     templates: options.templates,
     marginTop: options.marginTop,
-    baseAPIUrl: options.baseAPIUrl,
     components: Components(options),
     defaultMarginTop: options.defaultMarginTop,
     spacing:

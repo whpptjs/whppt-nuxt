@@ -43,6 +43,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   name: 'ListingsComponent',
   components: {
@@ -61,6 +63,7 @@ export default {
     page: false,
   }),
   computed: {
+    ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
     canLoadMore() {
       return this.items && this.items.length && this.currentPage * this.limit < this.totalItems;
     },
@@ -73,7 +76,7 @@ export default {
       this.filterItems();
     },
     'content.categories'() {
-      const apiUrl = this.$whppt.baseAPIUrl;
+      const apiUrl = this.baseAPIUrl;
 
       return this.$axios
         .post(`${apiUrl}/api/listing/fetch`, { categories: this.content.categories })
@@ -84,7 +87,7 @@ export default {
     },
   },
   mounted() {
-    const apiUrl = this.$whppt.baseAPIUrl;
+    const apiUrl = this.baseAPIUrl;
     return this.$axios.post(`${apiUrl}/api/listing/fetch`, { categories: this.content.categories }).then(({ data }) => {
       this.items = data.listings;
       this.totalItems = data.totalListings;
@@ -93,7 +96,7 @@ export default {
   methods: {
     filterItems() {
       const filters = { from: this.from || undefined, to: this.to || undefined };
-      const apiUrl = this.$whppt.baseAPIUrl;
+      const apiUrl = this.baseAPIUrl;
 
       this.$axios
         .post(`${apiUrl}/api/listing/fetch`, { filters, limit: this.limit, currentPage: this.currentPage })
@@ -108,7 +111,7 @@ export default {
       const filters = { from: this.from || undefined, to: this.to || undefined };
       this.currentPage = this.currentPage + 1;
 
-      const apiUrl = this.$whppt.baseAPIUrl;
+      const apiUrl = this.baseAPIUrl;
 
       this.$axios
         .post(`${apiUrl}/api/listing/fetch`, { filters, limit: this.limit, currentPage: this.currentPage })

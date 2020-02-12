@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import { map } from 'lodash';
 import WhpptSelect from '../whpptComponents/WhpptSelect';
 
@@ -18,8 +19,10 @@ export default {
       filters: [],
     };
   },
+  computed: {
+    ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
+  },
   mounted() {
-    this.baseAPIUrl = this.$whppt.baseAPIUrl || '';
     this.$axios.get(`${this.baseAPIUrl}/api/siteSettings/loadCategories`).then(({ data }) => {
       this.filters = map(data, d => {
         return { title: d.name, id: d.id };

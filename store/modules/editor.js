@@ -2,6 +2,7 @@ export default options => ({
   namespaced: true,
   state: () => ({
     options,
+    baseAPIUrl: process.env.BASE_API_URL,
     activeMenuItem: undefined,
     editSidebar: false,
     editInModal: false,

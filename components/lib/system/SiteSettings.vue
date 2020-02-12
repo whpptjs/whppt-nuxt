@@ -52,6 +52,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import { map } from 'lodash';
 import WhpptTextInput from '../whpptComponents/WhpptTextInput';
 
@@ -65,8 +66,10 @@ export default {
       baseAPIUrl: '',
     };
   },
+  computed: {
+    ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
+  },
   mounted() {
-    this.baseAPIUrl = this.$whppt.baseAPIUrl || '';
     this.$axios.get(`${this.baseAPIUrl}/api/siteSettings/loadCategories`).then(({ data }) => {
       this.loadedCategories = data;
       this.formatCategories();
