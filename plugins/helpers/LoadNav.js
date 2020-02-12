@@ -1,10 +1,7 @@
 export default context => () => {
-  const {
-    $axios,
-    app: { $whppt },
-  } = context;
+  const { $axios, store } = context;
 
-  const baseAPIUrl = $whppt.baseAPIUrl || ``;
+  const baseAPIUrl = store.state['whppt-nuxt/editor'].baseAPIUrl;
 
   return $axios
     .get(`${baseAPIUrl}/api/site/loadNav`)

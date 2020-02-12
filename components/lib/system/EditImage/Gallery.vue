@@ -28,10 +28,9 @@ export default {
     },
   },
   computed: {
-    ...mapState('whppt-nuxt/editor', ['selectedComponent']),
+    ...mapState('whppt-nuxt/editor', ['selectedComponent', 'baseAPIUrl']),
   },
   mounted() {
-    this.baseAPIUrl = this.$whppt.baseAPIUrl || '';
     this.$axios
       .get(`${this.baseAPIUrl}/api/image/fetch`, { limit: this.limit, currentPage: this.currentPage })
       .then(({ data: { images, total } }) => {

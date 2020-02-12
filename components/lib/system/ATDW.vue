@@ -190,7 +190,7 @@ export default {
     },
   }),
   computed: {
-    ...mapState('whppt-nuxt/editor', ['selectedComponent']),
+    ...mapState('whppt-nuxt/editor', ['selectedComponent', 'baseAPIUrl']),
     taggedCategories() {
       return [...this.listing.atdwCategories.value, this.listing.customCategories.value];
     },
@@ -198,8 +198,7 @@ export default {
   mounted() {
     if (!this.selectedComponent || !this.selectedComponent.value) return;
 
-    const baseAPIUrl = this.$whppt.baseAPIUrl || '';
-    this.$axios.get(`${baseAPIUrl}/api/listing/findById?id=${this.selectedComponent.value}`).then(({ data }) => {
+    this.$axios.get(`${this.baseAPIUrl}/api/listing/findById?id=${this.selectedComponent.value}`).then(({ data }) => {
       this.listing = data.listing;
     });
   },
@@ -219,8 +218,7 @@ export default {
       this.propToReconnect = property;
     },
     saveListing() {
-      const baseAPIUrl = this.$whppt.baseAPIUrl || '';
-      return this.$axios.post(`${baseAPIUrl}/api/listing/save`, { listing: this.listing });
+      return this.$axios.post(`${this.baseAPIUrl}/api/listing/save`, { listing: this.listing });
     },
   },
 };
