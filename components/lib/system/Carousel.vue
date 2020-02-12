@@ -53,12 +53,12 @@
                 placeholder="Enter text here"
                 label="Button Text"
               />
-              <whppt-text-input
+              <!-- <whppt-text-input
                 v-model="editingCarouselItem.ctaIcon"
                 class="whppt-textBox--margin-top-10"
                 placeholder="Enter text here"
                 label="Button Icon"
-              />
+              /> -->
               <whppt-text-input
                 v-model="editingCarouselItem.ctaLink"
                 class="whppt-textBox--margin-top-10"
