@@ -188,7 +188,6 @@ export default {
       this.listing = data.listing;
     });
   },
-
   methods: {
     reconnect(field, key) {
       this.listing[this.propToReconnect].path = key;
