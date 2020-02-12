@@ -132,7 +132,6 @@ export default {
       loadedCategories: [],
       categories: [],
       allCategories: [],
-      baseAPIUrl: '',
       showWarning: false,
       selectedCat: undefined,
       usedListings: [],

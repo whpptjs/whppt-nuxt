@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { find } from 'lodash';
+import { find, toUpper } from 'lodash';
 import iClose from '../icons/Close';
 
 export default {
@@ -45,7 +45,7 @@ export default {
       if (!this.newTag) return;
       if (find(this.tags, tag => tag === this.newTag)) return;
 
-      this.tags.push(this.newTag);
+      this.tags.push(toUpper(this.newTag));
       this.newTag = '';
     },
     deleteTag(tag) {

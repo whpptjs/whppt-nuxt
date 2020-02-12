@@ -18,6 +18,7 @@ import CreatePage from './helpers/CreatePage';
 import LoadPage from './helpers/LoadPage';
 import Select from './helpers/editors/Select';
 import Hover from './helpers/editors/Hover';
+import Image from './helpers/Image';
 
 const options = JSON.parse(`<%= JSON.stringify(options) %>`);
 
@@ -74,6 +75,7 @@ export default (context, inject) => {
   };
 
   Select(whppt);
+  Image(whppt, store.state[`whppt-nuxt/editor`].baseImageUrl);
   Hover(whppt);
 
   context.app.$whppt = whppt;
