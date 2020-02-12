@@ -110,7 +110,6 @@ export default {
     return {
       loadedCategories: [],
       categories: [],
-      baseAPIUrl: '',
       showWarning: false,
       usedListings: [],
       warningId: undefined,
