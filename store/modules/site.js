@@ -7,22 +7,22 @@ export default options => ({
   }),
   actions: {
     saveFooter({ state, commit }) {
-      this.$whppt.saveFooter(state.footer).then(footer => {
+      return this.$whppt.saveFooter(state.footer).then(footer => {
         commit('footerLoaded', footer);
       });
     },
     loadFooter({ commit }) {
-      this.$whppt.loadFooter().then(footer => {
+      return this.$whppt.loadFooter().then(footer => {
         commit('footerLoaded', footer);
       });
     },
     saveNav({ state, commit }) {
-      this.$whppt.saveNav(state.nav).then(nav => {
+      return this.$whppt.saveNav(state.nav).then(nav => {
         commit('navLoaded', nav);
       });
     },
     loadNav({ commit }) {
-      this.$whppt.loadNav().then(nav => {
+      return this.$whppt.loadNav().then(nav => {
         commit('navLoaded', nav);
       });
     },

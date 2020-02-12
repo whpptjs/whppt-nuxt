@@ -6,7 +6,8 @@ export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
     bind(el, binding) {
       el.addEventListener('content-selected', function(e) {
         store.dispatch('whppt-nuxt/editor/clearSelectedContent');
-        store.dispatch('whppt-nuxt/editor/selectContent', { el, value: binding.value });
+        const property = el.getAttribute('data-property');
+        store.dispatch('whppt-nuxt/editor/selectContent', { el, value: binding.value[property] });
       });
       el.addEventListener('click', function(e) {
         if (!menuIsInState(MENUSTATES.SELECT)) return;

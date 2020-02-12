@@ -1,18 +1,21 @@
 <template>
-  <div>
-    <nuxt-link v-if="isLinkActive && type === 'page'" :event="isLinkActive ? '' : 'click'" to="/">
+  <span>
+    <nuxt-link v-if="isLinkActive && to.href && !to.type" :to="to.href">
       <slot></slot>
     </nuxt-link>
-    <a v-if="isLinkActive && type === 'external'" :href="to" target="_blank">
+    <nuxt-link v-if="isLinkActive && to.href && to.type === 'page'" :to="to.href">
+      <slot></slot>
+    </nuxt-link>
+    <a v-if="isLinkActive && to.href && to.type === 'external'" :href="to.href" target="_blank">
       <slot></slot>
     </a>
-    <a v-if="isLinkActive && type === 'anchor'" :href="to">
+    <a v-if="isLinkActive && to.href && to.type === 'anchor'" :href="to.href">
       <slot></slot>
     </a>
     <span v-if="!isLinkActive">
       <slot></slot>
     </span>
-  </div>
+  </span>
 </template>
 
 <script>
@@ -21,13 +24,9 @@ import { mapState } from 'vuex';
 export default {
   name: 'WhpptLink',
   props: {
-    type: {
-      type: String,
-      default: () => 'page',
-    },
     to: {
-      type: String,
-      default: () => '',
+      type: Object,
+      default: () => {},
     },
   },
   computed: {

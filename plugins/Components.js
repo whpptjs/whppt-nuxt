@@ -71,7 +71,10 @@ const Components = options => [
     name: 'Edit Image',
     editorType: 'wEditImage',
     displayType: 'wEditImage',
-    data: {},
+    property: 'data',
+    data: {
+      imageId: '',
+    },
   },
   ...options.components,
 ];
