@@ -1,5 +1,18 @@
 <template>
-  <nuxt-link :event="activeMenuItem || disabled ? '' : 'click'" :to="to">{{ activeMenuItem || 'CLICKABLE' }}</nuxt-link>
+  <div>
+    <nuxt-link v-if="isLinkActive && type === 'page'" :event="isLinkActive ? '' : 'click'" to="/">
+      <slot></slot>
+    </nuxt-link>
+    <a v-if="isLinkActive && type === 'external'" :href="to" target="_blank">
+      <slot></slot>
+    </a>
+    <a v-if="isLinkActive && type === 'anchor'" :href="to">
+      <slot></slot>
+    </a>
+    <span v-if="!isLinkActive">
+      <slot></slot>
+    </span>
+  </div>
 </template>
 
 <script>
@@ -12,10 +25,6 @@ export default {
       type: String,
       default: () => 'page',
     },
-    disabled: {
-      type: Boolean,
-      default: () => false,
-    },
     to: {
       type: String,
       default: () => '',
@@ -23,6 +32,9 @@ export default {
   },
   computed: {
     ...mapState('whppt-nuxt/editor', ['activeMenuItem']),
+    isLinkActive() {
+      return !this.activeMenuItem;
+    },
   },
 };
 </script>

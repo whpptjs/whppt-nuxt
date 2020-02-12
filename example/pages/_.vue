@@ -4,8 +4,7 @@
       {{ page.title || 'HEY' }}
     </div>
     <div v-content="page.contents" data-components="wPlainText, wRichText, wEditImage" class="whppt-contents">
-      <whppt-link></whppt-link>
-      {{ page.contents.length }}
+      <whppt-link type="page" to="/">Go Somewhere</whppt-link>
       <component
         v-for="(content, index) in page.contents"
         :is="content.displayType"
