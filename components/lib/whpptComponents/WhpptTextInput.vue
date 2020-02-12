@@ -1,6 +1,6 @@
 <template>
   <div>
-    <label class="whppt-inputText__label" :for="id">{{ label }}</label>
+    <label v-if="label" class="whppt-inputText__label" :for="id">{{ label }}</label>
     <input
       :id="id"
       v-bind="$attrs"
@@ -15,7 +15,7 @@
       @blur="$emit('blur', $event.target.value)"
     />
     <!-- v-on="$listeners" -->
-    <p class="whppt-inputText__info">{{ info }}&nbsp;</p>
+    <p v-if="info" class="whppt-inputText__info">{{ info }}&nbsp;</p>
   </div>
 </template>
 

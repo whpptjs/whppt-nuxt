@@ -1,58 +1,104 @@
 <template>
-  <div class="whppt-settings">
-    <div class="whppt-settings__content">
-      <div class="whppt-settings__heading">
-        <h1>Site Settings</h1>
-        <button class="whppt-settings-button" @click="saveCategories">Save</button>
-      </div>
-      <form @submit.prevent>
-        <div class="whppt-settings__column">
-          <fieldset>
-            <div class="whppt-flex-between">
-              <label for="name">Listing Categories</label>
-              <button class="whppt-icon" @click="addCategory">
-                <w-add-circle></w-add-circle>
-              </button>
-            </div>
-            <div v-for="(category, index) in categories" :key="index">
-              <div class="whppt-flex-between whppt-align-center">
-                <div>
-                  <label for="name">Category</label>
-                  <whppt-text-input v-model="category.name" placeholder="Enter category name" label="Name" />
-                </div>
-                <div>
-                  <button class="whppt-icon" @click="addOrFilter(index)">
-                    <w-add-circle></w-add-circle>
-                  </button>
-                  <button class="whppt-icon" @click="removeCategory(index)">
-                    <w-remove></w-remove>
-                  </button>
-                </div>
-              </div>
-
-              <div
-                v-for="(filter, filterIndex) in category.filters"
-                :key="filterIndex"
-                class="whppt-flex-between whppt-align-center"
-              >
-                <div>
-                  <label for="filter">Filter</label>
-                  <whppt-text-input v-model="filter.value" placeholder="Enter categories to filter by" label="Filter" />
-                </div>
-                <button class="whppt-icon" @click="removeFilter(index, filterIndex)">
-                  <w-remove></w-remove>
-                </button>
-              </div>
-            </div>
-          </fieldset>
+  <div class=" w-3/4">
+    <div class="whppt-settings">
+      <div v-if="!showWarning" class="whppt-settings__content">
+        <div class="whppt-settings__heading">
+          <h1>Site Settings</h1>
+          <button class="whppt-settings-button" @click="saveCategories">Save</button>
         </div>
-      </form>
+        <form @submit.prevent>
+          <div>
+            <fieldset>
+              <div class="whppt-flex-between whppt-align-center">
+                <label for="name">Listing Categories</label>
+                <!-- <button class="whppt-icon" @click="addCategory">
+                <w-add-circle></w-add-circle>
+              </button> -->
+                <button class="whppt-settings-button" @click="addCategory">Add New Category</button>
+              </div>
+              <div v-for="(category, index) in categories" :key="index" class="whppt-category">
+                <div>
+                  <label for="name">Category: </label>
+                  <div class="whppt-flex-between whppt-align-center">
+                    <whppt-text-input v-model="category.name" placeholder="Enter category name" label="Name" />
+                    <button class="whppt-icon ml-auto" @click="openWarning(category.id, index)">
+                      <w-remove></w-remove>
+                    </button>
+                  </div>
+
+                  <label>Filters: </label>
+                  <div class="whppt-flex-start whppt-align-center flex-wrap">
+                    <div v-for="(filter, filterIndex) in category.filters" :key="filterIndex">
+                      <div class="whppt-flex-start whppt-align-center ">
+                        <div>
+                          <button
+                            class="whppt-icon ml-auto"
+                            :class="category.filters.length <= 1 ? 'cursor-default' : ''"
+                            @click="category.filters.length > 1 ? removeFilter(index, filterIndex) : ''"
+                          >
+                            <w-remove :class="category.filters.length <= 1 ? 'text-gray-500' : ''"></w-remove>
+                          </button>
+                          <whppt-text-input
+                            v-model="filter.value"
+                            placeholder="Enter categories to filter by"
+                            info="event, restaurant, etc."
+                          />
+                        </div>
+                        <label v-if="filterIndex < category.filters.length - 1" class="text-gray-500 mr-4 ml-4">{{
+                          '(AND)'
+                        }}</label>
+                      </div>
+                    </div>
+                    <button class="whppt-icon ml-4" @click="addOrFilter(index)">
+                      <w-add-circle></w-add-circle>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </form>
+      </div>
+      <div v-if="showWarning" class="whppt-settings__content">
+        <div class="whppt-settings__heading">
+          <h1>Site Settings</h1>
+        </div>
+        <div v-if="usedListings && usedListings.length" class="text-center">
+          <p>
+            WARNING
+          </p>
+          <p>This category is currently being used on {{ usedListings && usedListings.length }} page(s)</p>
+          <p>
+            You will need to remove this category from use to delete it
+          </p>
+          <p class="text-gray-700 italic pt-8">
+            These pages are:
+          </p>
+
+          <div v-for="(page, index) in usedListings" :key="index" class="text-gray-700 italic">
+            {{ page }}
+          </div>
+          <button class="whppt-warning-button mt-8" @click="closeWarning()">Ok</button>
+        </div>
+        <div v-else class="text-center">
+          <p>
+            WARNING
+          </p>
+          <p>
+            This action will delete this category permanently, are you sure?
+          </p>
+          <div class="align-center">
+            <button class="whppt-warning-button mt-8 mr-4" @click="removeCategory()">Yes</button>
+            <button class="whppt-warning-button mt-8 ml-4" @click="closeWarning()">No</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { map } from 'lodash';
+import { map, remove } from 'lodash';
 import WhpptTextInput from '../whpptComponents/WhpptTextInput';
 
 export default {
@@ -63,6 +109,9 @@ export default {
       loadedCategories: [],
       categories: [],
       baseAPIUrl: '',
+      showWarning: false,
+      usedListings: [],
+      warningId: undefined,
     };
   },
   mounted() {
@@ -92,11 +141,35 @@ export default {
     addOrFilter(index) {
       this.categories[index].filters.push({ value: '' });
     },
-    removeCategory(index) {
+    removeFromList(index) {
       this.categories.splice(index, 1);
     },
     removeFilter(index, filterIndex) {
       this.categories[index].filters.splice(filterIndex, 1);
+    },
+    closeWarning() {
+      this.showWarning = false;
+      this.usedListings = [];
+      this.warningId = undefined;
+    },
+    openWarning(id, index) {
+      this.warningId = id;
+      if (!this.warningId) {
+        this.removeFromList(index);
+      } else {
+        return this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/getWarningInfo`, { id }).then(({ data }) => {
+          console.log('TCL: openWarning -> data', data);
+          this.usedListings = data;
+          this.showWarning = true;
+        });
+      }
+    },
+    removeCategory() {
+      return this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/deleteCategory`, { id: this.warningId }).then(() => {
+        this.categories = remove(this.categories, c => c.id !== this.warningId);
+        this.showWarning = false;
+        this.warningId = undefined;
+      });
     },
     saveCategories() {
       const formattedCategories = map(this.categories, category => {
@@ -123,6 +196,22 @@ export default {
   height: 80vh;
   margin: 1.5rem;
   position: relative;
+}
+
+.whppt-warning {
+  color: black;
+  display: flex;
+  z-index: 53;
+  width: 100%;
+  height: 80vh;
+  margin: 1.5rem;
+  position: relative;
+}
+
+.whppt-category {
+  border: 1px solid gray;
+  margin: 10px;
+  padding: 10px;
 }
 
 .whppt-settings__column {
@@ -175,6 +264,8 @@ export default {
 }
 
 .whppt-settings__heading {
+  align-items: center;
+  font-weight: bold;
   position: sticky;
   background-color: white;
   top: 0;
@@ -224,8 +315,16 @@ export default {
   background-color: black;
   border-radius: 25px;
 }
+
+.whppt-warning-button {
+  padding: 0.8rem 2rem;
+  display: inline-block;
+  color: white;
+  background-color: black;
+  border-radius: 25px;
+}
+
 .whppt-icon {
-  margin-left: auto;
   display: inline-block;
   color: black;
 }
