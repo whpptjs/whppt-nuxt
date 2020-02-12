@@ -23,7 +23,6 @@
 <script>
 import { mapState } from 'vuex';
 import { map } from 'lodash';
-import { mapState } from 'vuex';
 import WhpptSelect from '../whpptComponents/WhpptSelect';
 
 export default {
