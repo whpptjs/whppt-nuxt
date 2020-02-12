@@ -198,10 +198,12 @@ export default {
       }
     },
     removeCategory() {
-      return this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/deleteCategory`, { id: this.warningId }).then(() => {
-        this.categories = remove(this.categories, c => c.id !== this.warningId);
-        this.showWarning = false;
-        this.warningId = undefined;
+      const vm = this;
+      return vm.$axios.post(`${vm.baseAPIUrl}/api/siteSettings/deleteCategory`, { id: vm.warningId }).then(() => {
+        vm.categories = remove(vm.categories, c => c.id !== vm.warningId);
+        vm.showWarning = false;
+        vm.warningId = undefined;
+        vm.selectedCat = undefined;
       });
     },
     saveCategories() {
