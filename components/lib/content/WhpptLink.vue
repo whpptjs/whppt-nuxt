@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nuxt-link v-if="isLinkActive && type === 'page'" :event="isLinkActive ? '' : 'click'" to="/">
+    <nuxt-link v-if="isLinkActive && type === 'page'" :to="to">
       <slot></slot>
     </nuxt-link>
     <a v-if="isLinkActive && type === 'external'" :href="to" target="_blank">
