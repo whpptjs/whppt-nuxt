@@ -63,7 +63,6 @@ export default {
     return {
       loadedCategories: [],
       categories: [],
-      baseAPIUrl: '',
     };
   },
   computed: {
