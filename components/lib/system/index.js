@@ -6,6 +6,7 @@ import WhpptPage from './WhpptPage';
 import PlainText from './TextBox';
 import Carousel from './Carousel';
 import LinkGroup from './LinkGroup';
+import WLink from './Link';
 import atdw from './ATDW';
 import Listings from './Listings';
 import Container from './Container';
@@ -24,4 +25,5 @@ export {
   Listings,
   Container,
   EditImage,
+  WLink,
 };

@@ -50,7 +50,6 @@ export default {
       };
 
       return vm.$whppt.createPage(newPage).then(page => {
-        console.log('TCL: saveNewPage -> page', page);
         const { slug } = page;
         vm.closeSidebar();
         return vm.$router.push(`/${slug}` || '/');

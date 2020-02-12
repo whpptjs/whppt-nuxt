@@ -4,12 +4,13 @@ export default context => () => {
   const baseAPIUrl = store.state['whppt-nuxt/editor'].baseAPIUrl;
 
   return $axios
-    .get(`${baseAPIUrl}/api/site/loadFooter`)
+    .get(`${baseAPIUrl}/api/site/loadNav`)
     .then(response => {
       return response.data;
     })
     .catch(err => {
       console.log('ERR', err);
+
       throw err;
     });
 };
