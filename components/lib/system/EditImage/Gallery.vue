@@ -2,15 +2,15 @@
   <div class="whppt-gallery-container">
     <div class="whppt-gallery-item-container">
       <div class="whppt-gallery__add" @click="$refs.fileInput.click()">
-        <input type="file" :accept="'image/*'" style="display: none;" ref="fileInput" />
+        <input type="file" :accept="'image/*'" style="display: none;" ref="fileInput" @input="upload" />
         <span>+</span>
       </div>
     </div>
     <div v-for="image in images" :key="image.id" class="whppt-gallery-item-container">
       <div
         class="whppt-gallery-item"
-        @click="$emit('input', image)"
-        :style="{ 'background-image': `url('${image.url}')` }"
+        @click="$emit('input', image.id)"
+        :style="{ 'background-image': `url('${image.src}')` }"
       />
     </div>
   </div>
@@ -23,8 +23,8 @@ export default {
   name: 'EditorGallery',
   props: {
     value: {
-      type: Object,
-      default: () => undefined,
+      type: String,
+      default: () => '',
     },
   },
   computed: {
@@ -47,6 +47,13 @@ export default {
       limit: 9,
       currentPage: 1,
     };
+  },
+  methods: {
+    upload(file) {
+      const type = file.name.split('.')[1];
+      const baseAPIUrl = this.$whppt.baseAPIUrl || '';
+      return this.$axios.$post(`${baseAPIUrl}/api/image/save`, { data: this.chosenFile, type });
+    },
   },
 };
 </script>
