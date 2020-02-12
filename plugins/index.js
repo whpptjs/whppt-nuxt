@@ -11,6 +11,8 @@ import editImageDirective from './directives/editImage';
 import SavePage from './helpers/SavePage';
 import SaveFooter from './helpers/SaveFooter';
 import LoadFooter from './helpers/LoadFooter';
+import SaveNav from './helpers/SaveNav';
+import LoadNav from './helpers/LoadNav';
 import CreatePage from './helpers/CreatePage';
 import LoadPage from './helpers/LoadPage';
 import Select from './helpers/editors/Select';
@@ -27,6 +29,8 @@ export default (context, inject) => {
     loadPage: LoadPage(context),
     loadFooter: LoadFooter(context),
     saveFooter: SaveFooter(context),
+    loadNav: LoadNav(context),
+    saveNav: SaveNav(context),
     templates: options.templates,
     marginTop: options.marginTop,
     baseAPIUrl: options.baseAPIUrl,
