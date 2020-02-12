@@ -17,7 +17,7 @@ export default options => ({
       });
     },
     saveNav({ state, commit }) {
-      this.$whppt.saveNav(state.footer).then(nav => {
+      this.$whppt.saveNav(state.nav).then(nav => {
         commit('navLoaded', nav);
       });
     },
