@@ -6,5 +6,6 @@ import WLinkGroup from './LinkGroup';
 import WListings from './Listings';
 import WEditImage from './EditImage';
 import WContainer from './Container';
+import WLink from './Link';
 
-export { WPlainText, WRichText, WCarousel, WLinkGroup, WListings, WContainer, WEditImage };
+export { WPlainText, WRichText, WCarousel, WLinkGroup, WListings, WContainer, WEditImage, WLink };

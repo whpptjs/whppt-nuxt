@@ -3,6 +3,7 @@ export default options => ({
   state: () => ({
     options,
     footer: undefined,
+    nav: undefined,
   }),
   actions: {
     saveFooter({ state, commit }) {
@@ -15,10 +16,23 @@ export default options => ({
         commit('footerLoaded', footer);
       });
     },
+    saveNav({ state, commit }) {
+      this.$whppt.saveNav(state.nav).then(nav => {
+        commit('navLoaded', nav);
+      });
+    },
+    loadNav({ commit }) {
+      this.$whppt.loadNav().then(nav => {
+        commit('navLoaded', nav);
+      });
+    },
   },
   mutations: {
     footerLoaded(state, footer) {
       state.footer = footer;
+    },
+    navLoaded(state, nav) {
+      state.nav = nav;
     },
   },
   getters: {},

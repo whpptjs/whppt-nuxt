@@ -28,7 +28,7 @@ export default {
     ...mapState('whppt-nuxt/editor', ['activeMenuItem', 'selectedContent', 'selectedComponent']),
     menuItems() {
       return [
-        { key: 'draggable', label: '', icon: 'w-draggable', group: '' },
+        // { key: 'draggable', label: '', icon: 'w-draggable', group: '' },
         // { key: 'cursor', label: 'Cursor', icon: 'w-cursor', group: '' },
         {
           key: 'select',
@@ -61,8 +61,8 @@ export default {
           action: () => this.newPage(),
         },
         { key: 'save', label: 'Save Page', icon: 'w-save', group: 'page', action: () => this.savePage() },
-        { key: 'publish', label: 'Publish', icon: 'w-publish', group: 'page' },
-        { key: 'preview', label: 'Preview', icon: 'w-preview', group: 'page' },
+        // { key: 'publish', label: 'Publish', icon: 'w-publish', group: 'page' },
+        // { key: 'preview', label: 'Preview', icon: 'w-preview', group: 'page' },
         {
           key: 'site-settings',
           label: 'Site Settings',
@@ -75,12 +75,13 @@ export default {
         // { key: 'documents', label: 'Documents', icon: 'w-document', group: 'site' },
         // { key: 'redirects', label: 'Redirects', icon: 'w-redirect', group: 'site' },
         // { key: 'logout', label: 'Logout', icon: 'w-logout', group: 'security' },
+        { key: 'nav', label: 'Nav', icon: 'w-nav', group: 'nav', action: () => this.saveNav() },
         { key: 'footer', label: 'Footer', icon: 'w-footer', group: 'footer', action: () => this.saveFooter() },
       ];
     },
   },
   methods: {
-    ...mapActions('whppt-nuxt/site', ['saveFooter']),
+    ...mapActions('whppt-nuxt/site', ['saveFooter', 'saveNav']),
     ...mapActions('whppt-nuxt/page', ['savePage']),
     ...mapActions('whppt-nuxt/editor', [
       'selectMenuItem',

@@ -4,6 +4,7 @@ import richTextDirective from './directives/richText';
 import carouselDirective from './directives/carousel';
 import plainTextDirective from './directives/plainText';
 import linkGroupDirective from './directives/linkGroup';
+import linkDirective from './directives/link';
 import listingsDirective from './directives/listings';
 import listingDirective from './directives/listing';
 import containerDirective from './directives/container';
@@ -11,6 +12,8 @@ import editImageDirective from './directives/editImage';
 import SavePage from './helpers/SavePage';
 import SaveFooter from './helpers/SaveFooter';
 import LoadFooter from './helpers/LoadFooter';
+import SaveNav from './helpers/SaveNav';
+import LoadNav from './helpers/LoadNav';
 import CreatePage from './helpers/CreatePage';
 import LoadPage from './helpers/LoadPage';
 import Select from './helpers/editors/Select';
@@ -27,6 +30,8 @@ export default (context, inject) => {
     loadPage: LoadPage(context),
     loadFooter: LoadFooter(context),
     saveFooter: SaveFooter(context),
+    loadNav: LoadNav(context),
+    saveNav: SaveNav(context),
     templates: options.templates,
     marginTop: options.marginTop,
     baseAPIUrl: options.baseAPIUrl,
@@ -80,6 +85,7 @@ export default (context, inject) => {
   carouselDirective({ ...context, menuIsInState, MENUSTATES });
   richTextDirective({ ...context, menuIsInState, MENUSTATES });
   linkGroupDirective({ ...context, menuIsInState, MENUSTATES });
+  linkDirective({ ...context, menuIsInState, MENUSTATES });
   listingsDirective({ ...context, menuIsInState, MENUSTATES });
   listingDirective({ ...context, menuIsInState, MENUSTATES });
   containerDirective({ ...context, menuIsInState, MENUSTATES });
