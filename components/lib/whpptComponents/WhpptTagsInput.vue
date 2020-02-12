@@ -1,11 +1,14 @@
 <template>
-  <div class="whppt-tags">
-    <input v-model="newTag" placeholder="Add New Tag" @keydown.enter="addTag" />
-    <div class="whppt-tags__container">
-      <span class="whppt-tags__spacer">:</span>
-      <span v-for="(tag, index) in tags" :key="index" class="whppt-tags__tag">
-        <button class="" @click="deleteTag(tag)"><i-close /></button>{{ tag }}
-      </span>
+  <div>
+    <label class="whppt-tags__label">{{ label }}</label>
+    <div class="whppt-tags" :class="{ 'whppt-tags__display-only': displayOnly }">
+      <input v-if="!displayOnly" v-model="newTag" placeholder="Add New Tag" @keydown.enter="addTag" />
+      <div class="whppt-tags__container">
+        <span class="whppt-tags__spacer">:</span>
+        <span v-for="(tag, index) in tags" :key="index" class="whppt-tags__tag">
+          <button v-if="!displayOnly" @click="deleteTag(tag)"><i-close /></button>{{ tag }}
+        </span>
+      </div>
     </div>
   </div>
 </template>
@@ -23,6 +26,14 @@ export default {
     tags: {
       type: Array,
       default: () => ({}),
+    },
+    displayOnly: {
+      type: Boolean,
+      default: () => false,
+    },
+    label: {
+      type: String,
+      default: () => 'Tags/Categories',
     },
   },
   data: () => ({
@@ -50,6 +61,17 @@ export default {
   border-radius: 3px;
   width: 100%;
   padding-bottom: 0.5rem;
+}
+
+.whppt-tags__label {
+  margin-bottom: 0.25rem;
+  display: block;
+}
+
+.whppt-tags__display-only {
+  padding-top: 0.5rem;
+  cursor: not-allowed;
+  background-color: #f1f1f1;
 }
 
 .whppt-tags input {
