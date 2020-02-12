@@ -106,7 +106,12 @@ export default {
   justify-content: space-between;
 }
 
-.whppt-align-between {
+.whppt-flex-start {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.whppt-align-center {
   align-items: center;
 }
 

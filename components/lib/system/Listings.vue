@@ -2,13 +2,28 @@
   <div class="whppt-full ">
     <h1>Listings</h1>
     <p>Filter</p>
-    <whppt-select v-model="$whppt.editData[$whppt.editDataProperty]" :items="filters" label="Category Filter" />
+    <whppt-select
+      v-model="selectedComponent.value[selectedComponent.property]"
+      :items="filters"
+      label="Category Filter"
+      :value="selectedComponent.value[selectedComponent.property]"
+      class="mb-0"
+    />
+    <p class=" text-gray-700 italic mb-4">
+      Currently set to:
+      {{
+        selectedComponent.value[selectedComponent.property]
+          ? selectedComponent.value[selectedComponent.property].title
+          : 'None'
+      }}
+    </p>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
 import { map } from 'lodash';
+import { mapState } from 'vuex';
 import WhpptSelect from '../whpptComponents/WhpptSelect';
 
 export default {
@@ -17,16 +32,18 @@ export default {
   data() {
     return {
       filters: [],
+      selected: undefined,
     };
   },
   computed: {
-    ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
+    ...mapState('whppt-nuxt/editor', ['baseAPIUrl', 'selectedComponent']),
   },
   mounted() {
     this.$axios.get(`${this.baseAPIUrl}/api/siteSettings/loadCategories`).then(({ data }) => {
       this.filters = map(data, d => {
         return { title: d.name, id: d.id };
       });
+      this.filters.push({ title: 'None', id: 'none' });
     });
   },
 };
