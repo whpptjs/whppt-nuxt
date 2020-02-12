@@ -184,7 +184,7 @@ export default {
     if (!this.selectedComponent || !this.selectedComponent.value) return;
 
     const baseAPIUrl = this.$whppt.baseAPIUrl || '';
-    this.$axios.get(`${baseAPIUrl}/api/listing/findById?id=${this.selectedComponent.value.data}`).then(({ data }) => {
+    this.$axios.get(`${baseAPIUrl}/api/listing/findById?id=${this.selectedComponent.value}`).then(({ data }) => {
       this.listing = data.listing;
     });
   },
