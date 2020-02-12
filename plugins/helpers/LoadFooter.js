@@ -12,7 +12,6 @@ export default context => () => {
       return response.data;
     })
     .catch(err => {
-      console.log('ERR', err);
       if (err.response.status === 404) $whppt.footer = {};
       throw err;
     });

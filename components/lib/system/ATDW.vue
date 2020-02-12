@@ -4,14 +4,14 @@
       <div class="whppt-atdw__content whppt-atdw__modal--inner">
         <div class="whppt-atdw__heading">
           <h1>ATDW</h1>
-          <button @click="showReconnect = !showReconnect">Close</button>
+          <button class="whppt-atdw__form-button" @click="showReconnect = !showReconnect">Close</button>
         </div>
         <div v-for="(field, key) in atdwFields" :key="key" class="whppt-linker">
           <div class="whppt-linker__labels">
             <span class="whppt__bold">{{ key }}</span>
             <div>{{ field(listing.atdw, key) }}</div>
           </div>
-          <button @click="reconnect(field, key)">Link</button>
+          <button class="whppt-atdw__form-button" @click="reconnect(field, key)">Link</button>
         </div>
       </div>
     </div>
@@ -131,6 +131,7 @@
           </div>
         </fieldset>
         <fieldset>
+          <label>Tagged Categories</label>
           <whppt-tags-input :tags="listing.taggedCategories.value" />
         </fieldset>
       </div>
@@ -141,7 +142,7 @@
 <script>
 import { mapState } from 'vuex';
 import { get, find } from 'lodash';
-import URI from 'uri-js';
+import { parse } from 'uri-js';
 import WhpptTagsInput from '../whpptComponents/WhpptTagsInput';
 
 const stringFromPath = function(product, path) {
@@ -159,7 +160,6 @@ export default {
       productName: stringFromPath,
       productDescription: stringFromPath,
       status: stringFromPath,
-      // Category: stringFromPath,
       email(product) {
         return find(product.communication, comm => comm.attributeIdCommunication === 'CAEMENQUIR');
       },
@@ -172,7 +172,7 @@ export default {
         return address && `${address.address_line} ${address.city}`;
       },
       image(product) {
-        const { scheme, host, path } = URI.parse(product.productImage);
+        const { scheme, host, path } = parse(product.productImage);
         return `${scheme}://${host}${path}`;
       },
     },
@@ -184,7 +184,7 @@ export default {
     if (!this.selectedComponent || !this.selectedComponent.value) return;
 
     const baseAPIUrl = this.$whppt.baseAPIUrl || '';
-    this.$axios.get(`${baseAPIUrl}/api/listing/findById?id=${this.selectedComponent.value}`).then(({ data }) => {
+    this.$axios.get(`${baseAPIUrl}/api/listing/findById?id=${this.selectedComponent.value.data}`).then(({ data }) => {
       this.listing = data.listing;
     });
   },

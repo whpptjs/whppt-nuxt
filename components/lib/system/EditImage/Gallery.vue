@@ -35,7 +35,6 @@ export default {
     this.$axios
       .get(`${this.baseAPIUrl}/api/image/fetch`, { limit: this.limit, currentPage: this.currentPage })
       .then(({ data: { images, total } }) => {
-        console.log('TCL: mounted -> images', images);
         this.images = images;
         this.total = total;
       });
