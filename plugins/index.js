@@ -4,6 +4,7 @@ import richTextDirective from './directives/richText';
 import carouselDirective from './directives/carousel';
 import plainTextDirective from './directives/plainText';
 import linkGroupDirective from './directives/linkGroup';
+import linkDirective from './directives/link';
 import listingsDirective from './directives/listings';
 import listingDirective from './directives/listing';
 import containerDirective from './directives/container';
@@ -84,6 +85,7 @@ export default (context, inject) => {
   carouselDirective({ ...context, menuIsInState, MENUSTATES });
   richTextDirective({ ...context, menuIsInState, MENUSTATES });
   linkGroupDirective({ ...context, menuIsInState, MENUSTATES });
+  linkDirective({ ...context, menuIsInState, MENUSTATES });
   listingsDirective({ ...context, menuIsInState, MENUSTATES });
   listingDirective({ ...context, menuIsInState, MENUSTATES });
   containerDirective({ ...context, menuIsInState, MENUSTATES });

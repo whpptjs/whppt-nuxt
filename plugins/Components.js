@@ -9,6 +9,16 @@ const Components = options => [
     property: 'text',
   },
   {
+    key: 'Link',
+    name: 'Link',
+    editorType: 'wLink',
+    displayType: 'wLink',
+    type: 'page',
+    showOnDesktop: true,
+    showOnTablet: true,
+    showOnMobile: true,
+  },
+  {
     key: 'LinkGroup',
     name: 'Link Group',
     editorType: 'wLinkGroup',
