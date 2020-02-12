@@ -136,9 +136,9 @@
         <fieldset>
           <whppt-tags-input label="Custom Categories" :tags="listing.customCategories.value" />
         </fieldset>
-        <fieldset>
+        <!-- <fieldset>
           <whppt-tags-input label="Tagged Categories" :display-only="true" :tags="listing.taggedCategories.value" />
-        </fieldset>
+        </fieldset> -->
       </div>
     </div>
   </div>
