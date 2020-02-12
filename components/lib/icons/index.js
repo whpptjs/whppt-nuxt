@@ -17,6 +17,7 @@ import Check from './Check';
 import Circle from './Circle';
 import Close from './Close';
 import Footer from './Footer';
+import Nav from './Nav';
 
 export default {
   ArrowDown,
@@ -38,4 +39,5 @@ export default {
   Check,
   Close,
   Footer,
+  Nav,
 };

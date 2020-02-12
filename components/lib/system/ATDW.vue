@@ -4,14 +4,14 @@
       <div class="whppt-atdw__content whppt-atdw__modal--inner">
         <div class="whppt-atdw__heading">
           <h1>ATDW</h1>
-          <button @click="showReconnect = !showReconnect">Close</button>
+          <button class="whppt-atdw__form-button" @click="showReconnect = !showReconnect">Close</button>
         </div>
         <div v-for="(field, key) in atdwFields" :key="key" class="whppt-linker">
           <div class="whppt-linker__labels">
             <span class="whppt__bold">{{ key }}</span>
             <div>{{ field(listing.atdw, key) }}</div>
           </div>
-          <button @click="reconnect(field, key)">Link</button>
+          <button class="whppt-atdw__form-button" @click="reconnect(field, key)">Link</button>
         </div>
       </div>
     </div>
@@ -131,7 +131,13 @@
           </div>
         </fieldset>
         <fieldset>
-          <whppt-tags-input :tags="listing.taggedCategories.value" />
+          <whppt-tags-input label="ATDW Categories" :display-only="true" :tags="listing.atdwCategories.value" />
+        </fieldset>
+        <fieldset>
+          <whppt-tags-input label="Custom Categories" :tags="listing.customCategories.value" />
+        </fieldset>
+        <fieldset>
+          <whppt-tags-input label="Tagged Categories" :display-only="true" :tags="listing.taggedCategories.value" />
         </fieldset>
       </div>
     </div>
@@ -140,8 +146,8 @@
 
 <script>
 import { mapState } from 'vuex';
-import { get, find } from 'lodash';
-import URI from 'uri-js';
+import { map, get, find } from 'lodash';
+import { parse } from 'uri-js';
 import WhpptTagsInput from '../whpptComponents/WhpptTagsInput';
 
 const stringFromPath = function(product, path) {
@@ -155,40 +161,47 @@ export default {
     listing: undefined,
     showReconnect: false,
     propToReconnect: '',
+    // TODO: work out a way of sharing atdwFields with api/nuxt
     atdwFields: {
-      productName: stringFromPath,
-      productDescription: stringFromPath,
-      status: stringFromPath,
-      // Category: stringFromPath,
+      name: stringFromPath,
+      description: stringFromPath,
+      activeStatus: stringFromPath,
       email(product) {
         return find(product.communication, comm => comm.attributeIdCommunication === 'CAEMENQUIR');
       },
       physicalAddress(product) {
-        const address = find(product.addresses, address => address.address_type === 'PHYSICAL');
-        return address && `${address.address_line} ${address.city}`;
+        return find(product.addresses, address => address.address_type === 'PHYSICAL');
       },
       postalAddress(product) {
-        const address = find(product.addresses, address => address.address_type === 'POSTAL');
-        return address && `${address.address_line} ${address.city}`;
+        return find(product.addresses, address => address.address_type === 'POSTAL');
       },
       image(product) {
-        const { scheme, host, path } = URI.parse(product.productImage);
+        if (!product.productImage) return;
+
+        const { scheme, host, path } = parse(product.productImage);
         return `${scheme}://${host}${path}`;
       },
+      atdwCategories(product) {
+        const tags = map(product.verticalClassifications, category => category.productTypeId);
+        tags.push(product.productCategoryId);
+        return tags;
+      },
+      customCategories(product) {},
     },
   }),
   computed: {
-    ...mapState('whppt-nuxt/editor', ['selectedComponent']),
+    ...mapState('whppt-nuxt/editor', ['selectedComponent', 'baseAPIUrl']),
+    taggedCategories() {
+      return [...this.listing.atdwCategories.value, this.listing.customCategories.value];
+    },
   },
   mounted() {
     if (!this.selectedComponent || !this.selectedComponent.value) return;
 
-    const baseAPIUrl = this.$whppt.baseAPIUrl || '';
-    this.$axios.get(`${baseAPIUrl}/api/listing/findById?id=${this.selectedComponent.value}`).then(({ data }) => {
+    this.$axios.get(`${this.baseAPIUrl}/api/listing/findById?id=${this.selectedComponent.value}`).then(({ data }) => {
       this.listing = data.listing;
     });
   },
-
   methods: {
     reconnect(field, key) {
       this.listing[this.propToReconnect].path = key;
@@ -205,8 +218,7 @@ export default {
       this.propToReconnect = property;
     },
     saveListing() {
-      const baseAPIUrl = this.$whppt.baseAPIUrl || '';
-      return this.$axios.post(`${baseAPIUrl}/api/listing/save`, { listing: this.listing });
+      return this.$axios.post(`${this.baseAPIUrl}/api/listing/save`, { listing: this.listing });
     },
   },
 };

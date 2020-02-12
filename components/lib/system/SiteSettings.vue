@@ -99,6 +99,8 @@
 
 <script>
 import { map, remove } from 'lodash';
+import { mapState } from 'vuex';
+
 import WhpptTextInput from '../whpptComponents/WhpptTextInput';
 
 export default {
@@ -114,8 +116,10 @@ export default {
       warningId: undefined,
     };
   },
+  computed: {
+    ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
+  },
   mounted() {
-    this.baseAPIUrl = this.$whppt.baseAPIUrl || '';
     this.$axios.get(`${this.baseAPIUrl}/api/siteSettings/loadCategories`).then(({ data }) => {
       this.loadedCategories = data;
       this.formatCategories();

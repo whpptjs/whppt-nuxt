@@ -3,7 +3,7 @@
     v-container="value"
     :data-property="value.property"
     class="whppt-contents"
-    :style="{ 'margin-top': `${value.marginTop || $whppt.defaultMarginTop}px` }"
+    :style="{ 'margin-top': `${$whppt.spacing(value.marginTop || $whppt.defaultMarginTop)}rem` }"
   >
     <component
       :is="content.displayType"
