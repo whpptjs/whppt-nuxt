@@ -131,8 +131,13 @@
           </div>
         </fieldset>
         <fieldset>
-          <label>Tagged Categories</label>
-          <whppt-tags-input :tags="listing.taggedCategories.value" />
+          <whppt-tags-input label="ATDW Categories" :display-only="true" :tags="listing.atdwCategories.value" />
+        </fieldset>
+        <fieldset>
+          <whppt-tags-input label="Custom Categories" :tags="listing.customCategories.value" />
+        </fieldset>
+        <fieldset>
+          <whppt-tags-input label="Tagged Categories" :display-only="true" :tags="listing.taggedCategories.value" />
         </fieldset>
       </div>
     </div>
@@ -141,7 +146,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import { get, find } from 'lodash';
+import { map, get, find } from 'lodash';
 import { parse } from 'uri-js';
 import WhpptTagsInput from '../whpptComponents/WhpptTagsInput';
 
@@ -156,29 +161,39 @@ export default {
     listing: undefined,
     showReconnect: false,
     propToReconnect: '',
+    // TODO: work out a way of sharing atdwFields with api/nuxt
     atdwFields: {
-      productName: stringFromPath,
-      productDescription: stringFromPath,
-      status: stringFromPath,
+      name: stringFromPath,
+      description: stringFromPath,
+      activeStatus: stringFromPath,
       email(product) {
         return find(product.communication, comm => comm.attributeIdCommunication === 'CAEMENQUIR');
       },
       physicalAddress(product) {
-        const address = find(product.addresses, address => address.address_type === 'PHYSICAL');
-        return address && `${address.address_line} ${address.city}`;
+        return find(product.addresses, address => address.address_type === 'PHYSICAL');
       },
       postalAddress(product) {
-        const address = find(product.addresses, address => address.address_type === 'POSTAL');
-        return address && `${address.address_line} ${address.city}`;
+        return find(product.addresses, address => address.address_type === 'POSTAL');
       },
       image(product) {
+        if (!product.productImage) return;
+
         const { scheme, host, path } = parse(product.productImage);
         return `${scheme}://${host}${path}`;
       },
+      atdwCategories(product) {
+        const tags = map(product.verticalClassifications, category => category.productTypeId);
+        tags.push(product.productCategoryId);
+        return tags;
+      },
+      customCategories(product) {},
     },
   }),
   computed: {
     ...mapState('whppt-nuxt/editor', ['selectedComponent']),
+    taggedCategories() {
+      return [...this.listing.atdwCategories.value, this.listing.customCategories.value];
+    },
   },
   mounted() {
     if (!this.selectedComponent || !this.selectedComponent.value) return;
