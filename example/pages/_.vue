@@ -4,6 +4,7 @@
       {{ page.title || 'HEY' }}
     </div>
     <div v-content="page.contents" data-components="wPlainText, wRichText, wEditImage" class="whppt-contents">
+      <whppt-link></whppt-link>
       {{ page.contents.length }}
       <component
         v-for="(content, index) in page.contents"
@@ -22,6 +23,7 @@
 <script>
 import { mapState } from 'vuex';
 import * as DisplayComponents from '~/components/Components';
+
 export default {
   name: 'WildCardPage',
   components: { ...DisplayComponents },
