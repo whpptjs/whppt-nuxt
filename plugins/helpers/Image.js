@@ -1,7 +1,7 @@
-export default function($whppt) {
+export default function($whppt, baseImageUrl) {
   const originalImageUrl = imageId => {
     if (!imageId) return '';
-    // return `${$whppt.baseImageUrl}/getImage/${imageId}`;
+    // return `${baseImageUrl}/getImage/${imageId}`;
     return `./${imageId}.png`;
   };
 

@@ -19,8 +19,6 @@ module.exports = {
   buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/tailwindcss'],
   modules: ['@nuxtjs/axios', '@nuxtjs/dotenv', ['../../module.js']],
   whppt: {
-    baseAPIUrl: process.env.BASE_API_URL,
-    baseImageUrl: process.env.BASE_API_URL,
     componentPrefix: 'W',
     defaultMarginTop: '40',
     components: [
