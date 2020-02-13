@@ -14,11 +14,13 @@
         <component :is="editSidebarType"></component>
         <div v-if="selectedComponent && selectedComponent.value && selectedContent">
           <whppt-check-box
+            v-if="ifExsists(selectedComponent.value.inContainer)"
             :value="selectedComponent.value.inContainer"
             label="Put in a container"
             @click="selectedComponent.value.inContainer = !selectedComponent.value.inContainer"
           ></whppt-check-box>
           <whppt-text-input
+            v-if="ifExsists(selectedComponent.value.marginTop)"
             v-model="selectedComponent.value.marginTop"
             type="number"
             min="0"
@@ -59,6 +61,9 @@ export default {
 
   methods: {
     ...mapActions('whppt-nuxt/editor', ['closeSidebar', 'closeModal']),
+    ifExsists(value) {
+      return typeof value !== 'undefined';
+    },
   },
 };
 </script>

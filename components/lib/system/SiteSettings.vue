@@ -19,7 +19,7 @@
               <div class="flex w-full">
                 <div v-if="!selectedCat" class="flex-1">
                   <div v-for="(category, index) in categories" :key="index" class="whppt-category flex-1">
-                    <div class="mb-2" @click="selectedCat = category">
+                    <div class="mb-2" @click="selectCat(category, index)">
                       {{ category.name }}
                     </div>
                   </div>
@@ -33,7 +33,7 @@
                     <label for="name">Category: </label>
                     <div class="whppt-flex-between whppt-align-center">
                       <whppt-text-input v-model="selectedCat.name" placeholder="Enter category name" label="Name" />
-                      <button class="whppt-icon ml-auto" @click="openWarning(selectedCat.id, index)">
+                      <button class="whppt-icon ml-auto" @click="openWarning()">
                         <w-remove></w-remove>
                       </button>
                     </div>
@@ -134,6 +134,7 @@ export default {
       allCategories: [],
       showWarning: false,
       selectedCat: undefined,
+      selectedIndex: undefined,
       usedListings: [],
       warningId: undefined,
     };
@@ -145,16 +146,23 @@ export default {
     },
   },
   mounted() {
-    return Promise.all([
-      this.$axios.get(`${this.baseAPIUrl}/api/siteSettings/loadCategories`),
-      this.$axios.get(`${this.baseAPIUrl}/api/listing/fetchCategories`),
-    ]).then(([{ data }, { data: categories }]) => {
-      this.allCategories = categories;
-      this.loadedCategories = data;
-      this.formatCategories();
-    });
+    this.queryCategories();
   },
   methods: {
+    queryCategories() {
+      return Promise.all([
+        this.$axios.get(`${this.baseAPIUrl}/api/siteSettings/loadCategories`),
+        this.$axios.get(`${this.baseAPIUrl}/api/listing/fetchCategories`),
+      ]).then(([{ data }, { data: categories }]) => {
+        this.allCategories = categories;
+        this.loadedCategories = data;
+        this.formatCategories();
+      });
+    },
+    selectCat(category, index) {
+      this.selectedCat = category;
+      this.selectedIndex = index;
+    },
     formatCategories() {
       this.categories = map(this.loadedCategories, category => {
         return {
@@ -183,27 +191,29 @@ export default {
     closeWarning() {
       this.showWarning = false;
       this.usedListings = [];
-      this.warningId = undefined;
     },
-    openWarning(id, index) {
-      this.warningId = id;
-      if (!this.warningId) {
-        this.removeFromList(index);
+    openWarning() {
+      if (!this.selectedCat.id) {
+        this.removeFromList(this.selectedIndex);
+        this.selectedCat = undefined;
+        this.selectedIndex = undefined;
       } else {
-        return this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/getWarningInfo`, { id }).then(({ data }) => {
-          console.log('TCL: openWarning -> data', data);
-          this.usedListings = data;
-          this.showWarning = true;
-        });
+        return this.$axios
+          .post(`${this.baseAPIUrl}/api/siteSettings/getWarningInfo`, { id: this.selectedCat.id })
+          .then(({ data }) => {
+            console.log('TCL: openWarning -> data', data);
+            this.usedListings = data;
+            this.showWarning = true;
+          });
       }
     },
     removeCategory() {
       const vm = this;
-      return vm.$axios.post(`${vm.baseAPIUrl}/api/siteSettings/deleteCategory`, { id: vm.warningId }).then(() => {
-        vm.categories = remove(vm.categories, c => c.id !== vm.warningId);
+      return vm.$axios.post(`${vm.baseAPIUrl}/api/siteSettings/deleteCategory`, { id: vm.selectedCat.id }).then(() => {
+        vm.categories = remove(vm.categories, c => c.id !== vm.selectedCat.id);
         vm.showWarning = false;
-        vm.warningId = undefined;
         vm.selectedCat = undefined;
+        vm.selectedIndex = undefined;
       });
     },
     saveCategories() {
@@ -216,7 +226,11 @@ export default {
           }),
         };
       });
-      this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveCategories`, { categories: formattedCategories });
+      this.$axios
+        .post(`${this.baseAPIUrl}/api/siteSettings/saveCategories`, { categories: formattedCategories })
+        .then(() => {
+          this.queryCategories();
+        });
     },
   },
 };
