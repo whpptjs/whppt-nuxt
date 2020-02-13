@@ -55,16 +55,7 @@ const Components = options => [
     editorType: 'wListings',
     displayType: 'wListings',
     property: 'categoryFilter',
-
     categoryFilter: {},
-  },
-  {
-    key: 'Container',
-    name: 'Container',
-    editorType: 'wContainer',
-    displayType: 'wContainer',
-    property: 'contents',
-    contents: [],
   },
   {
     key: 'EditImage',

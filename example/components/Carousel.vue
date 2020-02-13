@@ -2,7 +2,7 @@
   <div
     v-carousel="value"
     :data-property="value.property"
-    :style="{ 'margin-top': `${value.marginTop || $whppt.defaultMarginTop}px` }"
+    :style="{ 'margin-top': `${value.marginTop || $whppt.defaultMarginTop}px`, container: value.inContainer }"
   >
     {{ value || 'Just a normal carousel' }}
   </div>

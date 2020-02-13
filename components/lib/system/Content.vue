@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     addContent(content) {
-      this.contents.push(JSON.parse(JSON.stringify({ ...content, marginTop: '' })));
+      this.contents.push(JSON.parse(JSON.stringify({ ...content, marginTop: '', inContainer: false })));
     },
   },
 };
