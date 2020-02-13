@@ -1,16 +1,19 @@
 <template>
-  <div v-if="page" class="container">
+  <div v-if="page" class="h-screen wContainer">
     <div v-plain-text="page">
       {{ page.title || 'HEY' }}
     </div>
     <div v-content="page.contents" data-components="wPlainText, wRichText, wEditImage" class="whppt-contents">
       <whppt-link type="page" to="/">Go Somewhere</whppt-link>
       <component
-        v-for="(content, index) in page.contents"
         :is="content.displayType"
+        v-for="(content, index) in page.contents"
         :key="index"
         :value="content"
+        :class="{ container: content.inContainer }"
+        :style="{ 'margin-top': `${content.marginTop || $whppt.defaultMarginTop}px` }"
       ></component>
+      <div v-for="(content, index) in page.contents" :key="index">{{ content }} -=-=</div>
       <div v-if="!page.contents.length">
         Hey Content 1
       </div>
@@ -43,7 +46,7 @@ export default {
 </script>
 
 <style>
-.container {
+.wContainer {
   margin: 0 auto;
   min-height: 100vh;
   justify-content: center;

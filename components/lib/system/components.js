@@ -38,13 +38,7 @@ const components = [
     displayType: 'wListings',
     categories: [],
   },
-  {
-    key: 'Container',
-    value: 'Container',
-    editorType: 'wContainer',
-    displayType: 'wContainer',
-    contents: [],
-  },
+
   {
     key: 'EditImage',
     name: 'Edit Image',
