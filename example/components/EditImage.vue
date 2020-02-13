@@ -16,32 +16,43 @@ export default {
   name: 'ImageDisplay',
   props: ['value'],
   mounted() {
-    return Jimp.read(`./${this.value[this.value.property].imageId}.png`)
-      .then(imgJimp => {
-        const {
-          scale: s,
-          // orientation: o,
-          startX: x,
-          startY: y,
-        } = this.value[this.value.property].image.desktop;
-        const scale = Number(s);
-        // const orientation = Number(o);
-        const startX = Number(x);
-        const startY = Number(y);
-        return (
-          imgJimp
-            // .resize(100, 4000)
-            .scale(scale)
-            .crop(-startX, -startY, 400, 400)
-            .getBase64Async(Jimp.AUTO)
-        );
-      })
-      .then(img => (this.img = img));
+    this.renderImage();
   },
   data() {
     return {
       img: '',
     };
+  },
+  methods: {
+    renderImage() {
+      return Jimp.read(`./${this.value[this.value.property].imageId}.png`)
+        .then(imgJimp => {
+          const {
+            scale: s,
+            // orientation: o, // Deal with later
+            startX: x,
+            startY: y,
+          } = this.value[this.value.property].image.desktop;
+          const scale = Number(s);
+          // const orientation = Number(o);
+          const startX = Number(x);
+          const startY = Number(y);
+          return imgJimp
+            .scale(scale)
+            .crop(-startX, -startY, 400, 400)
+            .getBase64Async(Jimp.AUTO);
+        })
+        .then(img => (this.img = img));
+    },
+  },
+  watch: {
+    value: {
+      handler() {
+        console.log('TCL: handler -> this');
+        this.renderImage();
+      },
+      deep: true,
+    },
   },
 };
 </script>
