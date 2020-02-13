@@ -7,16 +7,30 @@
       placeholder="Enter text here"
       label="Text"
     />
+    <whppt-select
+      v-model="selectedComponent.value.alignment"
+      :value="selectedComponent.value.alignment"
+      label="Text Align"
+      :items="items"
+    ></whppt-select>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
 import WhpptTextInput from '../whpptComponents/WhpptTextInput';
+import WhpptSelect from '../whpptComponents/WhpptSelect';
 
 export default {
   name: 'EditorTextBox',
-  components: { WhpptTextInput },
+  components: { WhpptSelect, WhpptTextInput },
+  data: () => ({
+    items: [
+      { label: 'Left', value: 'left' },
+      { label: 'Center', value: 'Center' },
+      { label: 'Right', value: 'right' },
+    ],
+  }),
   computed: mapState('whppt-nuxt/editor', ['selectedComponent']),
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="whppt-select">
-    <label for="template">{{ label }}</label>
+    <label>{{ label }}</label>
     <select ref="select" class="whppt-select__input" @change="select" :value="selectedIndex">
       <option :value="-1">
         {{ action }}

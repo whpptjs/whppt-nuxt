@@ -1,5 +1,13 @@
 const Components = options => [
-  { key: 'Text', name: 'Text', editorType: 'wPlainText', displayType: 'wPlainText', text: '', property: 'text' },
+  {
+    key: 'Text',
+    name: 'Text',
+    editorType: 'wPlainText',
+    displayType: 'wPlainText',
+    text: '',
+    property: 'fuck',
+    alignment: { label: 'Left', value: 'left' },
+  },
   {
     key: 'RichText',
     name: 'Rich Text',

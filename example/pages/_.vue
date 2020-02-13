@@ -1,7 +1,8 @@
 <template>
   <div v-if="page" class="container">
     <div v-plain-text="page">
-      {{ page.title || 'HEY' }}
+      alignment: {{ page.alignment }}
+      {{ page.title || 'PLAIN TEXT' }}
     </div>
     <div v-content="page.contents" data-components="wPlainText, wRichText, wEditImage" class="whppt-contents">
       <whppt-link type="page" to="/">Go Somewhere</whppt-link>
@@ -15,7 +16,10 @@
         Hey Content 1
       </div>
     </div>
-    <div v-content="page.contents">Hey Content 2</div>
+    <div v-content="page.contents">
+      Content 2
+      {{ page.contents }}
+    </div>
   </div>
 </template>
 
