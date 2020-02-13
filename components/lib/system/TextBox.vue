@@ -27,7 +27,7 @@ export default {
   data: () => ({
     items: [
       { label: 'Left', value: 'left' },
-      { label: 'Center', value: 'Center' },
+      { label: 'Center', value: 'center' },
       { label: 'Right', value: 'right' },
     ],
   }),
