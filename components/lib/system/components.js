@@ -27,7 +27,12 @@ const components = [
         ctaText: '',
         ctaIcon: undefined,
         ctaLink: undefined,
-        image: undefined,
+        carouselImage: {
+          value: {
+            imageId: undefined,
+          },
+          sizes: {},
+        },
       },
     ],
   },

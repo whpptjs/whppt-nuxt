@@ -45,7 +45,12 @@ const Components = options => [
         ctaText: '',
         ctaIcon: undefined,
         ctaLink: undefined,
-        image: undefined,
+        carouselImage: {
+          value: {
+            imageId: undefined,
+          },
+          sizes: {},
+        },
       },
     ],
   },
