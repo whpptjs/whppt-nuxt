@@ -7,7 +7,6 @@ import linkGroupDirective from './directives/linkGroup';
 import linkDirective from './directives/link';
 import listingsDirective from './directives/listings';
 import listingDirective from './directives/listing';
-import containerDirective from './directives/container';
 import editImageDirective from './directives/editImage';
 import SavePage from './helpers/SavePage';
 import SaveFooter from './helpers/SaveFooter';
@@ -89,6 +88,5 @@ export default (context, inject) => {
   linkDirective({ ...context, menuIsInState, MENUSTATES });
   listingsDirective({ ...context, menuIsInState, MENUSTATES });
   listingDirective({ ...context, menuIsInState, MENUSTATES });
-  containerDirective({ ...context, menuIsInState, MENUSTATES });
   editImageDirective({ ...context, menuIsInState, MENUSTATES });
 };

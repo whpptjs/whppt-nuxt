@@ -9,7 +9,6 @@ import LinkGroup from './LinkGroup';
 import WLink from './Link';
 import atdw from './ATDW';
 import Listings from './Listings';
-import Container from './Container';
 import EditImage from './EditImage';
 
 export {
@@ -23,7 +22,6 @@ export {
   LinkGroup,
   atdw,
   Listings,
-  Container,
   EditImage,
   WLink,
 };
