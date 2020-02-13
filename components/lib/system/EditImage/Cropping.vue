@@ -7,7 +7,7 @@
         <croppa
           :key="canvas.name"
           :disable-drag-and-drop="true"
-          :disable-click-to-choose="false"
+          :disable-click-to-choose="true"
           :width="canvas.width / canvas.quality"
           :height="canvas.height / canvas.quality"
           v-model="canvas.croppa"
@@ -15,10 +15,12 @@
           :placeholder="'Choose an image'"
           :accept="'image/*'"
           :file-size-limit="0"
+          :prevent-white-space="true"
+          @initial-image-loaded="applyManipulation"
           @draw="change(canvas)"
         />
       </div>
-      <whppt-button @click="applyChanges">Apply Change</whppt-button>
+      <whppt-button @click="applyChanges" class="whppt-cropper__apply-change">Apply Change</whppt-button>
     </div>
   </div>
 </template>
@@ -54,17 +56,10 @@ export default {
     this.imageOptions.value.image = this.imageOptions.value.image || {};
     each(this.imageOptions.sizes, (size, key) => {
       size.name = key;
-      // size.options = this.imageOptions.value.image[key] || {};
       size.imageId = this.imageOptions.value.imageId;
       size.croppa = {};
-      // size.croppa.applyMetadata(size.options);
     });
     console.log('Created', this.imageOptions);
-  },
-  mounted() {
-    each(this.imageOptions.sizes, (size, key) => {
-      size.croppa.applyMetadata(this.imageOptions.value.image[key] || {});
-    });
   },
   computed: {
     selectedImage() {
@@ -77,18 +72,18 @@ export default {
     },
   },
   methods: {
+    applyManipulation() {
+      each(this.imageOptions.sizes, (size, key) => {
+        size.croppa.applyMetadata(this.imageOptions.value.image[key] || {});
+      });
+    },
     applyChanges() {},
     change(canvas) {
       const meta = {
         ...pick(canvas.croppa.imgData, ['startX', 'startY']),
-        ...pick(canvas.croppa, ['orientation', 'scaleRatio']),
+        ...pick(canvas.croppa, ['orientation']),
+        scale: canvas.croppa.scaleRatio,
       };
-      // try {
-      //   console.log('TCL: change -> canvas.croppa', JSON.stringify(canvas.croppa, null, 2));
-      //   console.log('TCL: change -> meta', JSON.stringify(meta, null, 2));
-      // } catch (err) {
-      //   console.log(err);
-      // }
       this.imageOptions.value.image[canvas.name] = meta;
     },
   },
@@ -115,5 +110,9 @@ export default {
   font-size: 0.75rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
+}
+
+.whppt-cropper__apply-change {
+  margin: 10px 0;
 }
 </style>
