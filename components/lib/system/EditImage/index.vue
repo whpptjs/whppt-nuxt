@@ -34,7 +34,6 @@ export default {
   methods: {
     changeTab(id) {
       this.selectedComponent.value.imageId = id;
-
       this.$refs.imageTabs.selectTab(this.$refs.imageTabs.tabs[0]);
     },
   },
