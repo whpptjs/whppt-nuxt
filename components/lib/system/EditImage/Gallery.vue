@@ -11,16 +11,22 @@
         class="whppt-gallery-item"
         @click="$emit('input', image.id)"
         :style="{ 'background-image': `url('${image.src}')` }"
-      />
+      >
+        <div class="whppt-gallery-item__remove" @click.stop="remove(image.id)">
+          <trash class="whppt-gallery-item__remove-icon" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
+import icons from '../../icons';
 
 export default {
   name: 'EditorGallery',
+  components: { Trash: icons.Trash },
   props: {
     value: {
       type: String,
@@ -52,6 +58,7 @@ export default {
       const baseAPIUrl = this.$whppt.baseAPIUrl || '';
       return this.$axios.$post(`${baseAPIUrl}/api/image/save`, { data: this.chosenFile, type });
     },
+    remove(imageId) {},
   },
 };
 </script>
@@ -83,9 +90,32 @@ export default {
 .whppt-gallery-item-container div:hover {
   filter: brightness(1.1);
 }
+.whppt-gallery-item-container div:hover .whppt-gallery-item__remove {
+  display: inline-flex;
+}
 .whppt-gallery-item {
   background: tomato;
   height: 100px;
   cursor: pointer;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  color: purple;
+}
+.whppt-gallery-item__remove {
+  background: black;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  position: relative;
+  left: 5%;
+  top: 5%;
+}
+.whppt-gallery-item__remove-icon {
+  width: 12px;
 }
 </style>
