@@ -57,30 +57,34 @@ export default {
     },
   },
   created() {
+    console.log('created!');
     this.imageOptions.value = this.imageOptions.value || { image: {} };
     this.imageOptions.value.image = this.imageOptions.value.image || {};
     each(this.imageOptions.sizes, (size, key) => {
       size.name = key;
       size.imageId = this.imageOptions.value.imageId;
-      size.croppa = {};
+      size.croppa = size.croppa || {};
     });
     this.imageOptionsCopy = cloneDeep(this.imageOptions);
   },
   computed: {
-    selectedImage() {
-      const img = new Image();
-      img.src = this.image.src;
-      return img;
-    },
+    // selectedImage() {
+    //   const img = new Image();
+    //   img.src = this.image.src;
+    //   return img;
+    // },
     isSizesEmpty() {
       return !Object.keys(this.imageOptionsCopy.sizes).length;
     },
   },
   methods: {
     applyManipulation() {
-      each(this.imageOptionsCopy.sizes, (size, key) => {
-        size.croppa.applyMetadata(this.imageOptionsCopy.value.image[key] || {});
-      });
+      this.$nextTick(() =>
+        each(this.imageOptionsCopy.sizes, (size, key) => {
+          console.log('TCL: applyManipulation -> key', key);
+          size.croppa.applyMetadata(this.imageOptionsCopy.value.image[key] || {});
+        })
+      );
     },
     change(canvas) {
       const meta = {

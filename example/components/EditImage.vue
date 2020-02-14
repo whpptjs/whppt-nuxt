@@ -6,7 +6,8 @@
       data-sizes='{"desktop":{"width":400,"height":400,"quality":2}}'
       :style="{ 'margin-top': `${value.marginTop || $whppt.defaultMarginTop}px` }"
     >
-      <img :src="img" class="img" />
+      <img :src="img" v-if="img" class="img" />
+      <div v-else>Loading Image</div>
     </div>
   </div>
 </template>
@@ -25,6 +26,7 @@ export default {
   },
   methods: {
     renderImage() {
+      // Move to API
       return Jimp.read(`./${this.value[this.value.property].imageId}.png`)
         .then(imgJimp => {
           const {
@@ -48,7 +50,6 @@ export default {
   watch: {
     value: {
       handler() {
-        console.log('TCL: handler -> this');
         this.renderImage();
       },
       deep: true,
