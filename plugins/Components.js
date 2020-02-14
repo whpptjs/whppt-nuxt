@@ -5,7 +5,7 @@ const Components = options => [
     editorType: 'wPlainText',
     displayType: 'wPlainText',
     text: '',
-    property: 'fuck',
+    property: 'text',
     alignment: { label: 'Left', value: 'left' },
   },
   {
