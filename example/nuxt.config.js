@@ -46,6 +46,12 @@ module.exports = {
           },
         ],
       },
+      {
+        key: 'FeatureBlock',
+        name: 'Feature Block',
+        displayType: 'FeatureBlock',
+        editorType: 'wCarousel',
+      },
     ],
     templates: [
       { key: 'home', label: 'Home', init: { contents: [] } },
