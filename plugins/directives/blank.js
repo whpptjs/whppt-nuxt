@@ -2,10 +2,10 @@ import Vue from 'vue';
 import SimpleComponentClickHandler from './_simpleComponentClickHandler';
 
 export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
-  Vue.directive('component', {
+  Vue.directive('blank', {
     bind(el, binding) {
       const value = { value: binding.value };
-      el.whppthandler = SimpleComponentClickHandler({ store, menuIsInState, MENUSTATES, name: 'carousel', el, value });
+      el.whppthandler = SimpleComponentClickHandler({ store, menuIsInState, MENUSTATES, name: 'blank', el, value });
       el.addEventListener('click', el.whppthandler);
       el.addEventListener('mouseover', function(e) {
         if (!menuIsInState(MENUSTATES.SELECT)) return;
@@ -22,7 +22,7 @@ export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
     update(el, binding) {
       el.removeEventListener('click', el.whppthandler);
       const value = { value: binding.value };
-      el.whppthandler = SimpleComponentClickHandler({ store, menuIsInState, MENUSTATES, name: 'carousel', el, value });
+      el.whppthandler = SimpleComponentClickHandler({ store, menuIsInState, MENUSTATES, name: 'blank', el, value });
       el.addEventListener('click', el.whppthandler);
     },
   });

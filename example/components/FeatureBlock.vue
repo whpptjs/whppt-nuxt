@@ -1,5 +1,5 @@
 <template>
-  <section v-carousel="content" class="lg:flex flex-row-reverse bg-black text-white">
+  <section v-blank="content" class="lg:flex flex-row-reverse bg-black text-white">
     <div
       class="w-full lg:w-1/4 bg-cover bg-top bg-no-repeat aspect-ratio-21/9"
       :style="`background-image: url(${content.image})`"

@@ -50,12 +50,12 @@ module.exports = {
         key: 'FeatureBlock',
         name: 'Feature Block',
         displayType: 'FeatureBlock',
-        editorType: 'wCarousel',
+        editorType: 'wComponent',
       },
     ],
     templates: [
-      { key: 'home', label: 'Home', init: { contents: [] } },
-      { key: 'generic', label: 'Generic', init: { contents: [] } },
+      { key: 'generic', label: 'Generic', init: { header: { title: '' }, contents: [] } },
+      { key: 'home', label: 'Home', init: { header: { title: '', link: { type: 'anchor' } }, contents: [] } },
     ],
   },
   axios: {

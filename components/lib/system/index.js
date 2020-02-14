@@ -5,6 +5,7 @@ import EContent from './Content';
 import WhpptPage from './WhpptPage';
 import PlainText from './TextBox';
 import Carousel from './Carousel';
+import Blank from './Blank';
 import LinkGroup from './LinkGroup';
 import WLink from './Link';
 import atdw from './ATDW';
@@ -19,6 +20,7 @@ export {
   EContent,
   PlainText,
   Carousel,
+  Blank,
   LinkGroup,
   atdw,
   Listings,
