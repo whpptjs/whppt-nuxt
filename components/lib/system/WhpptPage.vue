@@ -63,7 +63,6 @@ export default {
       return vm.$whppt.checkSlug({ slug: newPage.slug }).then(result => {
         if (result) {
           vm.showError = true;
-          return;
         } else {
           return vm.$whppt.createPage(newPage).then(page => {
             const { slug } = page;

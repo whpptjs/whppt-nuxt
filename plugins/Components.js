@@ -54,9 +54,8 @@ const Components = options => [
         ctaIcon: undefined,
         ctaLink: undefined,
         carouselImage: {
-          value: {
-            imageId: undefined,
-          },
+          imageId: undefined,
+          crop: {},
           sizes: {},
         },
       },
@@ -78,6 +77,38 @@ const Components = options => [
     property: 'data',
     data: {
       imageId: '',
+      crop: {},
+      sizes: {},
+    },
+  },
+  {
+    key: 'CtaButton',
+    name: 'Button',
+    editorType: 'wCtaButton',
+    displayType: 'wCtaButton',
+    property: 'data',
+    data: {
+      ctaText: '',
+      ctaLink: '',
+    },
+  },
+  {
+    key: 'SplitContent',
+    name: 'Split Content',
+    editorType: 'wSplitContent',
+    displayType: 'wSplitContent',
+    property: 'data',
+    data: {
+      reversed: false,
+      title: '',
+      subtitle: '',
+      description: '',
+      ctaText: '',
+      ctaLink: undefined,
+      image: {
+        imageId: '',
+        sizes: {},
+      },
     },
   },
   ...options.components,

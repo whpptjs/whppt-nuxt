@@ -2,7 +2,7 @@
   <div class="component-container">
     <div
       class="image-container"
-      v-edit-image="value[value.property]"
+      v-edit-image="value"
       data-sizes='{"desktop":{"width":400,"height":400,"quality":2}}'
       :style="{ 'margin-top': `${value.marginTop || $whppt.defaultMarginTop}px` }"
     >
@@ -41,6 +41,7 @@ export default {
           const startY = Number(y);
           return imgJimp
             .scale(scale)
+            .crop(-startX, -startY, 400, 400)
             .crop(-startX, -startY, 400, 400)
             .getBase64Async(Jimp.AUTO);
         })
