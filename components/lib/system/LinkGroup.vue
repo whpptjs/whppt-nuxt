@@ -66,6 +66,7 @@ export default {
       this.selectedComponent.value.links = this.selectedComponent.value.links || [];
       const newLink = { type: 'page' };
       this.selectedComponent.value.links.push(newLink);
+      this.selectKey = newLink;
     },
     removeLink(link) {
       if (window.confirm('Are you sure?')) {
