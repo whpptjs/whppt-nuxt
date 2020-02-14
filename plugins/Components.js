@@ -1,5 +1,13 @@
 const Components = options => [
-  { key: 'Text', name: 'Text', editorType: 'wPlainText', displayType: 'wPlainText', text: '', property: 'text' },
+  {
+    key: 'Text',
+    name: 'Text',
+    editorType: 'wPlainText',
+    displayType: 'wPlainText',
+    text: '',
+    property: 'text',
+    alignment: { label: 'Left', value: 'left' },
+  },
   {
     key: 'RichText',
     name: 'Rich Text',
@@ -45,7 +53,12 @@ const Components = options => [
         ctaText: '',
         ctaIcon: undefined,
         ctaLink: undefined,
-        image: undefined,
+        carouselImage: {
+          value: {
+            imageId: undefined,
+          },
+          sizes: {},
+        },
       },
     ],
   },

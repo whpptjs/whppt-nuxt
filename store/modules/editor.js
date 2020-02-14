@@ -12,6 +12,7 @@ export default options => ({
     richTextWatcher: 0,
     selectedComponent: undefined,
     selectedContent: undefined,
+    selectedContentFilter: undefined,
   }),
   actions: {
     selectMenuItem({ commit }, type) {
@@ -37,8 +38,8 @@ export default options => ({
       commit('componentSelected', value);
       this.$whppt.selectComponent(el);
     },
-    selectContent({ state, commit }, { el, value }) {
-      commit('contentSelected', value);
+    selectContent({ state, commit }, { el, value, filter }) {
+      commit('contentSelected', { value, filter });
       this.$whppt.selectContent(el);
     },
     clearSelectedContent({ commit }) {
@@ -97,11 +98,13 @@ export default options => ({
     componentSelected(state, value) {
       state.selectedComponent = value;
     },
-    contentSelected(state, value) {
+    contentSelected(state, { value, filter }) {
       state.selectedContent = value;
+      state.selectedContentFilter = filter;
     },
     selectedContentCleared(state, value) {
       state.selectedContent = undefined;
+      state.selectedContentFilter = undefined;
     },
     removedComponent(state) {
       if (!state.selectedContent || !state.selectedComponent) return;

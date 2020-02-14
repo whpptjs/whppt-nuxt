@@ -11,24 +11,31 @@
     </div>
     <div class="whppt-sidebar" :class="{ 'whppt-openEditor': editSidebar }">
       <div class="whppt-sidebar__inner">
-        <component :is="editSidebarType"></component>
-        <div v-if="selectedComponent && selectedComponent.value && selectedContent">
-          <whppt-check-box
-            v-if="ifExsists(selectedComponent.value.inContainer)"
-            :value="selectedComponent.value.inContainer"
-            label="Put in a container"
-            @click="selectedComponent.value.inContainer = !selectedComponent.value.inContainer"
-          ></whppt-check-box>
-          <whppt-text-input
-            v-if="ifExsists(selectedComponent.value.marginTop)"
-            v-model="selectedComponent.value.marginTop"
-            type="number"
-            min="0"
-            :placeholder="$whppt.defaultMarginTop"
-            label="Margin Top"
-            class="marin-top-input"
-          />
-        </div>
+        <whppt-tabs>
+          <whppt-tab title="Selected Component">
+            <component :is="editSidebarType"></component>
+            <div v-if="selectedComponent && selectedComponent.value && selectedContent">
+              <whppt-check-box
+                v-if="ifExsists(selectedComponent.value.inContainer)"
+                :value="selectedComponent.value.inContainer"
+                label="Put in a container"
+                @click="selectedComponent.value.inContainer = !selectedComponent.value.inContainer"
+              ></whppt-check-box>
+              <whppt-text-input
+                v-if="ifExsists(selectedComponent.value.marginTop)"
+                v-model="selectedComponent.value.marginTop"
+                type="number"
+                min="0"
+                :placeholder="$whppt.defaultMarginTop"
+                label="Margin Top"
+                class="marin-top-input"
+              />
+            </div>
+          </whppt-tab>
+          <whppt-tab v-if="selectedContent" title="Contents Tree">
+            <contents-tree></contents-tree>
+          </whppt-tab>
+        </whppt-tabs>
         <whppt-button class="whppt-button__close" @click="closeSidebar">
           Close
         </whppt-button>
@@ -45,10 +52,22 @@ import SiteSettings from '../system/SiteSettings';
 import WhpptTextInput from '../whpptComponents/WhpptTextInput';
 import WhpptButton from '../whpptComponents/WhpptButton';
 import WhpptCheckBox from '../whpptComponents/CheckBox';
-
+import ContentsTree from '../whpptComponents/ContentsTree';
+import WhpptTab from '../whpptComponents/WhpptTab';
+import WhpptTabs from '../whpptComponents/WhpptTabs';
 export default {
   name: 'WhpptEditorApp',
-  components: { ...Editors, WhpptButton, Modal, WhpptTextInput, SiteSettings, WhpptCheckBox },
+  components: {
+    ...Editors,
+    WhpptButton,
+    Modal,
+    WhpptTextInput,
+    SiteSettings,
+    WhpptCheckBox,
+    ContentsTree,
+    WhpptTab,
+    WhpptTabs,
+  },
   computed: mapState('whppt-nuxt/editor', [
     'editInModal',
     'editInModalType',
