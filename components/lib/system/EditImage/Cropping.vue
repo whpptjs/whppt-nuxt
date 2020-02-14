@@ -67,11 +67,11 @@ export default {
     this.imageOptionsCopy = cloneDeep(this.imageOptions);
   },
   computed: {
-    selectedImage() {
-      const img = new Image();
-      img.src = this.image.src;
-      return img;
-    },
+    // selectedImage() {
+    //   const img = new Image();
+    //   img.src = this.image.src;
+    //   return img;
+    // },
     isSizesEmpty() {
       return !Object.keys(this.imageOptionsCopy.sizes).length;
     },
