@@ -15,6 +15,7 @@ import SaveNav from './helpers/SaveNav';
 import LoadNav from './helpers/LoadNav';
 import CreatePage from './helpers/CreatePage';
 import LoadPage from './helpers/LoadPage';
+import CheckSlug from './helpers/CheckSlug';
 import Select from './helpers/editors/Select';
 import Hover from './helpers/editors/Hover';
 import Image from './helpers/Image';
@@ -28,6 +29,7 @@ export default (context, inject) => {
     createPage: CreatePage(context),
     savePage: SavePage(context),
     loadPage: LoadPage(context),
+    checkSlug: CheckSlug(context),
     loadFooter: LoadFooter(context),
     saveFooter: SaveFooter(context),
     loadNav: LoadNav(context),

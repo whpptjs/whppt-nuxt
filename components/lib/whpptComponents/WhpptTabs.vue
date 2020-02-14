@@ -21,6 +21,7 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex';
 export default {
   name: 'WhpptTabs',
   data() {
@@ -28,6 +29,13 @@ export default {
       tabs: [],
       selectedTab: undefined,
     };
+  },
+  computed: mapState('whppt-nuxt/editor', ['editSidebarType']),
+  watch: {
+    editSidebarType() {
+      console.log('here');
+      this.selectTab(this.tabs[0]);
+    },
   },
   created() {
     this.tabs = this.$children;
