@@ -1,13 +1,16 @@
 import { Components } from './Components';
+
 import contentDirective from './directives/content';
 import richTextDirective from './directives/richText';
 import carouselDirective from './directives/carousel';
+import blankDirective from './directives/blank';
 import plainTextDirective from './directives/plainText';
 import linkGroupDirective from './directives/linkGroup';
 import linkDirective from './directives/link';
 import listingsDirective from './directives/listings';
 import listingDirective from './directives/listing';
 import editImageDirective from './directives/editImage';
+
 import SavePage from './helpers/SavePage';
 import SaveFooter from './helpers/SaveFooter';
 import LoadFooter from './helpers/LoadFooter';
@@ -85,6 +88,7 @@ export default (context, inject) => {
   contentDirective({ ...context, menuIsInState, MENUSTATES });
   plainTextDirective({ ...context, menuIsInState, MENUSTATES });
   carouselDirective({ ...context, menuIsInState, MENUSTATES });
+  blankDirective({ ...context, menuIsInState, MENUSTATES });
   richTextDirective({ ...context, menuIsInState, MENUSTATES });
   linkGroupDirective({ ...context, menuIsInState, MENUSTATES });
   linkDirective({ ...context, menuIsInState, MENUSTATES });

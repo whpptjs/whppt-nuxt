@@ -1,27 +1,19 @@
 <template>
   <div v-if="page" class="h-screen wContainer">
     <div v-plain-text="page">
-      alignment: {{ page.alignment }}
-      {{ page.title || 'PLAIN TEXT' }}
+      {{ page.title || 'Plain Text' }}
     </div>
-    <div v-content="page.contents" data-components="wPlainText, wRichText, wEditImage" class="whppt-contents">
-      <whppt-link type="page" to="/">Go Somewhere</whppt-link>
+    <whppt-link :to="{ href: '/' }">Whppt Link</whppt-link>
+    <div v-content="page.contents">
+      Content Block 2
       <component
         :is="content.displayType"
-        v-for="(content, index) in page.contents"
-        :key="index"
-        :value="content"
-        :class="{ container: content.inContainer }"
+        v-for="(content, contentKey) in page.contents"
+        :key="`content-${contentKey}`"
+        :content="content"
+        :class="{ container: content.inContainer, 'mx-auto': content.inContainer }"
         :style="{ 'margin-top': `${content.marginTop || $whppt.defaultMarginTop}px` }"
       ></component>
-      <div v-for="(content, index) in page.contents" :key="index">{{ content }} -=-=</div>
-      <div v-if="!page.contents.length">
-        Hey Content 1
-      </div>
-    </div>
-    <div v-content="page.contents">
-      Content 2
-      {{ page.contents }}
     </div>
   </div>
 </template>
@@ -61,3 +53,20 @@ export default {
   margin: 20px 0;
 }
 </style>
+
+<!--
+    <div v-content="page.contents" data-components="wPlainText, wRichText, wEditImage" class="whppt-contents">
+      <component
+        :is="content.displayType"
+        v-for="(content, index) in page.contents"
+        :key="index"
+        :value="content"
+        :class="{ container: content.inContainer }"
+        :style="{ 'margin-top': `${content.marginTop || $whppt.defaultMarginTop}px` }"
+      ></component>
+      <div v-for="(content, index) in page.contents" :key="index">{{ content }}</div>
+      <div v-if="!page.contents">
+        Content Block (Limited)
+      </div>
+    </div>
+-->
