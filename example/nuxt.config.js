@@ -52,6 +52,12 @@ module.exports = {
         displayType: 'FeatureBlock',
         editorType: 'wComponent',
       },
+      {
+        key: 'SplitContent',
+        name: 'Split Content',
+        displayType: 'SplitContent',
+        editorType: 'wComponent',
+      },
     ],
     templates: [
       { key: 'generic', label: 'Generic', init: { header: { title: '' }, contents: [] } },

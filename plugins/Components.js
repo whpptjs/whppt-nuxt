@@ -79,6 +79,18 @@ const Components = options => [
       // crop: {},
     },
   },
+  {
+    key: 'CtaButton',
+    name: 'Button',
+    editorType: 'wCtaButton',
+    displayType: 'wCtaButton',
+    property: 'data',
+    data: {
+      text: 'Button Text',
+      link: '',
+      icon: '',
+    },
+  },
   ...options.components,
 ];
 
