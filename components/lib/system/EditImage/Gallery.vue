@@ -34,11 +34,11 @@ export default {
     },
   },
   computed: {
-    ...mapState('whppt-nuxt/editor', ['selectedComponent', 'baseAPIUrl']),
+    ...mapState('whppt-nuxt/editor', ['selectedComponent', 'baseImageUrl']),
   },
   mounted() {
     this.$axios
-      .get(`${this.baseAPIUrl}/api/image/fetch`, { limit: this.limit, currentPage: this.currentPage })
+      .get(`${this.baseImageUrl}/loadGallery`, { limit: this.limit, currentPage: this.currentPage })
       .then(({ data: { images, total } }) => {
         this.images = images;
         this.total = total;
@@ -53,10 +53,16 @@ export default {
     };
   },
   methods: {
-    upload(file) {
-      const type = file.name.split('.')[1];
-      const baseAPIUrl = this.$whppt.baseAPIUrl || '';
-      return this.$axios.post(`${baseAPIUrl}/api/image/save`, { data: this.chosenFile, type });
+    upload(e) {
+      const file = e.target.files[0];
+      const formData = new FormData();
+      formData.append('file', file);
+      // const filename = file.name;
+      return this.$axios.post(`${this.baseImageUrl}/upload`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
     },
     remove(imageId) {},
   },

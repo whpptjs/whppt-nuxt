@@ -6,7 +6,8 @@
       data-sizes='{"desktop":{"width":400,"height":400,"quality":2}}'
     >
       <!-- :style="{ 'margin-top': `${value.marginTop || $whppt.defaultMarginTop}px` }" -->
-      <img :src="img" v-if="img" class="img" />
+      <img :src="img(400, 400)" v-if="img" class="img lg:visible" />
+      <img :src="img(200, 200)" v-if="img" class="img xs:visible lg:hidden" />
       <div v-else>Loading Image</div>
     </div>
   </div>
@@ -18,13 +19,13 @@ export default {
   props: ['value'],
   computed: {
     ...mapState('whppt-nuxt/editor', ['baseImageUrl']),
-    img() {
-      const { scale, orientation, startX, startY } = this.value[this.value.property].crop.desktop;
-      const format = `x~${startX}|y~${startY}|s~${scale}|o~${orientation}|w~400|h~400`;
-      return `${this.baseImageUrl}/${format}/${this.value[this.value.property].imageId}`;
-    },
   },
   methods: {
+    img(w, h) {
+      const { scale, orientation, startX, startY } = this.value[this.value.property].crop.desktop;
+      const format = `x_${startX}|y_${startY}|s_${scale}|o_${orientation}|w_${w}|h_${h}`;
+      return `${this.baseImageUrl}/${format}/${this.value[this.value.property].imageId}`;
+    },
     // loadImage() {
     //   const { scale, orientation, startX, startY } = this.value[this.value.property].crop.desktop;
     //   return this.$axios
