@@ -3,7 +3,7 @@
     <div v-plain-text="page">
       {{ page.title || 'Plain Text' }}
     </div>
-    <whppt-link :to="{ href: '/' }">Whppt Link</whppt-link>
+    <whppt-link :to="{ href: '/', type: 'anchor' }">Whppt Link</whppt-link>
     <div v-content="page.contents">
       Content Block 2
       <component
