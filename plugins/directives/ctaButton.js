@@ -1,13 +1,13 @@
 import Vue from 'vue';
 import SimpleComponentClickHandler from './_simpleComponentClickHandler';
+// export default ({ store }, whppt) => {
 
 export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
-  Vue.directive('editImage', {
+  Vue.directive('ctaButton', {
     bind(el, binding) {
-      const _sizes = el.getAttribute('data-sizes');
-      const sizes = _sizes ? JSON.parse(_sizes) : {};
-      const value = { value: { ...binding.value, sizes } };
-      el.whppthandler = SimpleComponentClickHandler({ store, menuIsInState, MENUSTATES, name: 'editImage', el, value });
+      const property = el.getAttribute('data-property');
+      const value = { value: binding.value, property };
+      el.whppthandler = SimpleComponentClickHandler({ store, menuIsInState, MENUSTATES, name: 'ctaButton', el, value });
       el.addEventListener('click', el.whppthandler);
       el.addEventListener('mouseover', function(e) {
         if (!menuIsInState(MENUSTATES.SELECT)) return;
@@ -23,10 +23,9 @@ export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
     },
     update(el, binding) {
       el.removeEventListener('click', el.whppthandler);
-      const _sizes = el.getAttribute('data-sizes');
-      const sizes = _sizes ? JSON.parse(_sizes) : {};
-      const value = { value: { ...binding.value, sizes } };
-      el.whppthandler = SimpleComponentClickHandler({ store, menuIsInState, MENUSTATES, name: 'editImage', el, value });
+      const property = el.getAttribute('data-property');
+      const value = { value: binding.value, property };
+      el.whppthandler = SimpleComponentClickHandler({ store, menuIsInState, MENUSTATES, name: 'ctaButton', el, value });
       el.addEventListener('click', el.whppthandler);
     },
   });

@@ -11,6 +11,7 @@ import WLink from './Link';
 import atdw from './ATDW';
 import Listings from './Listings';
 import EditImage from './EditImage';
+import CtaButton from './CTAButton';
 
 export {
   WhpptPage,
@@ -26,4 +27,5 @@ export {
   Listings,
   EditImage,
   WLink,
+  CtaButton,
 };

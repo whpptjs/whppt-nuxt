@@ -54,10 +54,8 @@ const Components = options => [
         ctaIcon: undefined,
         ctaLink: undefined,
         carouselImage: {
-          value: {
-            imageId: undefined,
-          },
-          sizes: {},
+          imageId: '',
+          // crop: {},
         },
       },
     ],
@@ -78,6 +76,19 @@ const Components = options => [
     property: 'data',
     data: {
       imageId: '',
+      // crop: {},
+    },
+  },
+  {
+    key: 'CtaButton',
+    name: 'Button',
+    editorType: 'wCtaButton',
+    displayType: 'wCtaButton',
+    property: 'data',
+    data: {
+      text: 'Button Text',
+      link: '',
+      icon: '',
     },
   },
   ...options.components,
