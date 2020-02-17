@@ -2,10 +2,10 @@
   <div class="component-container">
     <div
       class="image-container"
-      v-edit-image="value"
+      v-edit-image="value[value.property]"
       data-sizes='{"desktop":{"width":400,"height":400,"quality":2}}'
-      :style="{ 'margin-top': `${value.marginTop || $whppt.defaultMarginTop}px` }"
     >
+      <!-- :style="{ 'margin-top': `${value.marginTop || $whppt.defaultMarginTop}px` }" -->
       <img :src="img" v-if="img" class="img" />
       <div v-else>Loading Image</div>
     </div>
@@ -34,7 +34,7 @@ export default {
             // orientation: o, // Deal with later
             startX: x,
             startY: y,
-          } = this.value[this.value.property].image.desktop;
+          } = this.value[this.value.property].crop.desktop;
           const scale = Number(s);
           // const orientation = Number(o);
           const startX = Number(x);
@@ -42,14 +42,16 @@ export default {
           return imgJimp
             .scale(scale)
             .crop(-startX, -startY, 400, 400)
-            .crop(-startX, -startY, 400, 400)
             .getBase64Async(Jimp.AUTO);
         })
         .then(img => (this.img = img));
     },
   },
   watch: {
-    value: {
+    // 'value.data.crop.desktop.scale'() {
+    //   this.renderImage();
+    // },
+    'value.data': {
       handler() {
         this.renderImage();
       },

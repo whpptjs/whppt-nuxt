@@ -6,8 +6,7 @@ export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
     bind(el, binding) {
       const _sizes = el.getAttribute('data-sizes');
       const sizes = _sizes ? JSON.parse(_sizes) : {};
-      const value = { value: binding.value, sizes };
-      console.log('TCL: bind -> binding.value', binding.value);
+      const value = { value: { ...binding.value, sizes } };
       el.whppthandler = SimpleComponentClickHandler({ store, menuIsInState, MENUSTATES, name: 'editImage', el, value });
       el.addEventListener('click', el.whppthandler);
       el.addEventListener('mouseover', function(e) {
@@ -26,7 +25,7 @@ export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
       el.removeEventListener('click', el.whppthandler);
       const _sizes = el.getAttribute('data-sizes');
       const sizes = _sizes ? JSON.parse(_sizes) : {};
-      const value = { value: binding.value, sizes };
+      const value = { value: { ...binding.value, sizes } };
       el.whppthandler = SimpleComponentClickHandler({ store, menuIsInState, MENUSTATES, name: 'editImage', el, value });
       el.addEventListener('click', el.whppthandler);
     },
