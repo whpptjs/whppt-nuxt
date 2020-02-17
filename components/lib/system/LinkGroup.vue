@@ -40,7 +40,7 @@
         v-if="selectKey"
         :value="selectKey.featured"
         label="Feature this link (if applicable)"
-        @click="selectKey.featured = !selectedComponent.featured"
+        @click="selectKey.featured = !selectKey.featured"
       ></whppt-check-box>
     </div>
   </div>
