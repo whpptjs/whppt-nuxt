@@ -51,6 +51,7 @@ module.exports = {
         name: 'Feature Block',
         displayType: 'FeatureBlock',
         editorType: 'wComponent',
+        reversed: false,
       },
       {
         key: 'SplitContent',
