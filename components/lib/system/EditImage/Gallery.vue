@@ -56,7 +56,7 @@ export default {
     upload(file) {
       const type = file.name.split('.')[1];
       const baseAPIUrl = this.$whppt.baseAPIUrl || '';
-      return this.$axios.$post(`${baseAPIUrl}/api/image/save`, { data: this.chosenFile, type });
+      return this.$axios.post(`${baseAPIUrl}/api/image/save`, { data: this.chosenFile, type });
     },
     remove(imageId) {},
   },
