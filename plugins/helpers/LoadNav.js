@@ -1,9 +1,9 @@
-export default context => ({ slug }) => {
+export default context => () => {
   const { $axios, store } = context;
 
   const baseAPIUrl = store.state['whppt-nuxt/editor'].baseAPIUrl;
 
-  return $axios.get(`${baseAPIUrl}/api/page/load?slug=${slug}`).then(response => {
+  return $axios.get(`${baseAPIUrl}/api/site/loadNav`).then(response => {
     return response.data;
   });
 };

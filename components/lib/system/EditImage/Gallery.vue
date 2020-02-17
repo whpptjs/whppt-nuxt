@@ -2,40 +2,44 @@
   <div class="whppt-gallery-container">
     <div class="whppt-gallery-item-container">
       <div class="whppt-gallery__add" @click="$refs.fileInput.click()">
-        <input type="file" :accept="'image/*'" style="display: none;" ref="fileInput" />
+        <input type="file" :accept="'image/*'" style="display: none;" ref="fileInput" @input="upload" />
         <span>+</span>
       </div>
     </div>
     <div v-for="image in images" :key="image.id" class="whppt-gallery-item-container">
       <div
         class="whppt-gallery-item"
-        @click="$emit('input', image)"
-        :style="{ 'background-image': `url('${image.url}')` }"
-      />
+        @click="$emit('input', image.id)"
+        :style="{ 'background-image': `url('${image.src}')` }"
+      >
+        <div class="whppt-gallery-item__remove" @click.stop="remove(image.id)">
+          <trash class="whppt-gallery-item__remove-icon" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
+import icons from '../../icons';
 
 export default {
   name: 'EditorGallery',
+  components: { Trash: icons.Trash },
   props: {
     value: {
-      type: Object,
-      default: () => undefined,
+      type: String,
+      default: () => '',
     },
   },
   computed: {
-    ...mapState('whppt-nuxt/editor', ['selectedComponent']),
+    ...mapState('whppt-nuxt/editor', ['selectedComponent', 'baseAPIUrl']),
   },
   mounted() {
-    this.baseAPIUrl = this.$whppt.baseAPIUrl || '';
     this.$axios
       .get(`${this.baseAPIUrl}/api/image/fetch`, { limit: this.limit, currentPage: this.currentPage })
       .then(({ data: { images, total } }) => {
-        console.log('TCL: mounted -> images', images);
         this.images = images;
         this.total = total;
       });
@@ -47,6 +51,14 @@ export default {
       limit: 9,
       currentPage: 1,
     };
+  },
+  methods: {
+    upload(file) {
+      const type = file.name.split('.')[1];
+      const baseAPIUrl = this.$whppt.baseAPIUrl || '';
+      return this.$axios.$post(`${baseAPIUrl}/api/image/save`, { data: this.chosenFile, type });
+    },
+    remove(imageId) {},
   },
 };
 </script>
@@ -78,9 +90,32 @@ export default {
 .whppt-gallery-item-container div:hover {
   filter: brightness(1.1);
 }
+.whppt-gallery-item-container div:hover .whppt-gallery-item__remove {
+  display: inline-flex;
+}
 .whppt-gallery-item {
   background: tomato;
   height: 100px;
   cursor: pointer;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  color: purple;
+}
+.whppt-gallery-item__remove {
+  background: black;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  position: relative;
+  left: 5%;
+  top: 5%;
+}
+.whppt-gallery-item__remove-icon {
+  width: 12px;
 }
 </style>

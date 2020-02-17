@@ -3,10 +3,10 @@
     <h1>Image</h1>
     <whppt-tabs ref="imageTabs">
       <whppt-tab title="Cropping">
-        <cropping :value="selectedImage" />
+        <cropping :imageOptions="selectedComponent" />
       </whppt-tab>
       <whppt-tab title="Gallery">
-        <gallery v-model="selectedImage" />
+        <gallery :value="selectedComponent.value.imageId" @input="changeTab" />
       </whppt-tab>
     </whppt-tabs>
   </div>
@@ -30,17 +30,19 @@ export default {
   },
   computed: {
     ...mapState('whppt-nuxt/editor', ['selectedComponent']),
-    sizes() {
-      return this.selectedComponent.sizes;
+  },
+  methods: {
+    changeTab(id) {
+      this.selectedComponent.value.imageId = id;
+      this.$refs.imageTabs.selectTab(this.$refs.imageTabs.tabs[0]);
     },
   },
-  watch: {
-    'selectedImage.id'(val) {
-      if (val) {
-        this.$refs.imageTabs.selectTab(this.$refs.imageTabs.tabs[0]);
-      }
-    },
-  },
+  // watch: {
+  //   'selectedComponent.value'(val) {
+  //     if (val) {
+  //     }
+  //   },
+  // },
 };
 </script>
 <style scoped>

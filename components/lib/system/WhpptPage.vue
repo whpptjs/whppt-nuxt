@@ -9,6 +9,7 @@
         label="Page Slug:"
         info="Enter any text and we'll turn it into a slug for you!"
       ></whppt-text-input>
+      <div v-if="showError">A page with that slug already exists, please select another.</div>
 
       <whppt-button @click="saveNewPage">Create Page</whppt-button>
     </form>
@@ -29,36 +30,55 @@ export default {
     template: undefined,
     slug: '',
     title: '',
+    showError: false,
   }),
   computed: {
     ...mapState('whppt-nuxt/page', ['page']),
     templates() {
       return this.$whppt.templates;
     },
+    testSlug() {
+      let test = this.slug;
+      if (!test) return '';
+      if (test.startsWith('/')) test = test.replace(/^(\/*)/, '');
+      test = test.replace(/\/{2,}/g, '/');
+      test = slugify(test, { remove: /[*+~.()'"!:@]/g, lower: true });
+      return test;
+    },
   },
   methods: {
     ...mapActions('whppt-nuxt/editor', ['closeSidebar']),
     saveNewPage() {
       const vm = this;
+      vm.showError = false;
       // TODO: Need to show a message on screen
       if (!vm.slug || !vm.template) return;
 
       const newPage = {
-        slug: vm.slug,
+        slug: this.formatSlug(vm.slug),
         template: vm.template.key,
         ...vm.template.init,
       };
 
-      return vm.$whppt.createPage(newPage).then(page => {
-        console.log('TCL: saveNewPage -> page', page);
-        const { slug } = page;
-        vm.closeSidebar();
-        return vm.$router.push(`/${slug}` || '/');
+      return vm.$whppt.checkSlug({ slug: newPage.slug }).then(result => {
+        if (result) {
+          vm.showError = true;
+          return;
+        } else {
+          return vm.$whppt.createPage(newPage).then(page => {
+            const { slug } = page;
+            vm.closeSidebar();
+            return vm.$router.push(`/${slug}` || '/');
+          });
+        }
       });
     },
-    formatSlug() {
-      if (this.newPage.slug.startsWith('/')) this.newPage.slug = this.newPage.slug.replace(/^(\/*)/, '');
-      this.newPage.slug = slugify(this.newPage.slug, { remove: '^[a-z](-?[a-z])*$', lower: true });
+    formatSlug(slug) {
+      if (slug.startsWith('/')) slug = slug.replace(/^(\/*)/, '');
+      slug = slug.replace(/\/{2,}/g, '/');
+
+      slug = slugify(slug, { remove: /[*+~.()'"!:@]/g, lower: true });
+      return slug;
     },
   },
 };

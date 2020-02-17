@@ -5,10 +5,11 @@ import EContent from './Content';
 import WhpptPage from './WhpptPage';
 import PlainText from './TextBox';
 import Carousel from './Carousel';
+import Blank from './Blank';
 import LinkGroup from './LinkGroup';
+import WLink from './Link';
 import atdw from './ATDW';
 import Listings from './Listings';
-import Container from './Container';
 import EditImage from './EditImage';
 
 export {
@@ -19,9 +20,10 @@ export {
   EContent,
   PlainText,
   Carousel,
+  Blank,
   LinkGroup,
   atdw,
   Listings,
-  Container,
   EditImage,
+  WLink,
 };

@@ -19,26 +19,8 @@ module.exports = {
   buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/tailwindcss'],
   modules: ['@nuxtjs/axios', '@nuxtjs/dotenv', ['../../module.js']],
   whppt: {
-    baseAPIUrl: process.env.BASE_API_URL,
     componentPrefix: 'W',
     defaultMarginTop: '40',
-    defaultImageSizes: {
-      desktop: {
-        w: 1920,
-        h: 1440,
-        scale: 3,
-      },
-      tablet: {
-        w: 800,
-        h: 600,
-        scale: 3,
-      },
-      phone: {
-        w: 400,
-        h: 300,
-        scale: 2,
-      },
-    },
     components: [
       {
         key: 'CardCarousel',
@@ -55,14 +37,25 @@ module.exports = {
             ctaText: '',
             ctaIcon: undefined,
             ctaLink: '',
-            image: undefined,
+            carouselImage: {
+              value: {
+                imageId: undefined,
+              },
+              sizes: {},
+            },
           },
         ],
       },
+      {
+        key: 'FeatureBlock',
+        name: 'Feature Block',
+        displayType: 'FeatureBlock',
+        editorType: 'wComponent',
+      },
     ],
     templates: [
-      { key: 'home', label: 'Home', init: { contents: [] } },
-      { key: 'generic', label: 'Generic', init: { contents: [] } },
+      { key: 'generic', label: 'Generic', init: { header: { title: '' }, contents: [] } },
+      { key: 'home', label: 'Home', init: { header: { title: '', link: { type: 'anchor' } }, contents: [] } },
     ],
   },
   axios: {

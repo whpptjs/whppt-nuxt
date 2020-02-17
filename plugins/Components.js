@@ -1,5 +1,13 @@
 const Components = options => [
-  { key: 'Text', name: 'Text', editorType: 'wPlainText', displayType: 'wPlainText', text: '', property: 'text' },
+  {
+    key: 'Text',
+    name: 'Text',
+    editorType: 'wPlainText',
+    displayType: 'wPlainText',
+    text: '',
+    property: 'text',
+    alignment: { label: 'Left', value: 'left' },
+  },
   {
     key: 'RichText',
     name: 'Rich Text',
@@ -7,6 +15,16 @@ const Components = options => [
     displayType: 'wRichText',
     text: '',
     property: 'text',
+  },
+  {
+    key: 'Link',
+    name: 'Link',
+    editorType: 'wLink',
+    displayType: 'wLink',
+    type: 'page',
+    showOnDesktop: true,
+    showOnTablet: true,
+    showOnMobile: true,
   },
   {
     key: 'LinkGroup',
@@ -35,7 +53,12 @@ const Components = options => [
         ctaText: '',
         ctaIcon: undefined,
         ctaLink: undefined,
-        image: undefined,
+        carouselImage: {
+          value: {
+            imageId: undefined,
+          },
+          sizes: {},
+        },
       },
     ],
   },
@@ -45,23 +68,17 @@ const Components = options => [
     editorType: 'wListings',
     displayType: 'wListings',
     property: 'categoryFilter',
-
     categoryFilter: {},
-  },
-  {
-    key: 'Container',
-    name: 'Container',
-    editorType: 'wContainer',
-    displayType: 'wContainer',
-    property: 'contents',
-    contents: [],
   },
   {
     key: 'EditImage',
     name: 'Edit Image',
     editorType: 'wEditImage',
     displayType: 'wEditImage',
-    data: {},
+    property: 'data',
+    data: {
+      imageId: '',
+    },
   },
   ...options.components,
 ];

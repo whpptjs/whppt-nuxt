@@ -5,6 +5,7 @@ import WCarousel from './Carousel';
 import WLinkGroup from './LinkGroup';
 import WListings from './Listings';
 import WEditImage from './EditImage';
-import WContainer from './Container';
+import WLink from './Link';
+import FeatureBlock from './FeatureBlock';
 
-export { WPlainText, WRichText, WCarousel, WLinkGroup, WListings, WContainer, WEditImage };
+export { FeatureBlock, WPlainText, WRichText, WCarousel, WLinkGroup, WListings, WEditImage, WLink };

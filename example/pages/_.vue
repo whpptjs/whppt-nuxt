@@ -1,27 +1,27 @@
 <template>
-  <div v-if="page" class="container">
+  <div v-if="page" class="h-screen wContainer">
     <div v-plain-text="page">
-      {{ page.title || 'HEY' }}
+      {{ page.title || 'Plain Text' }}
     </div>
-    <div v-content="page.contents" data-components="wPlainText, wRichText, wEditImage" class="whppt-contents">
-      {{ page.contents.length }}
+    <whppt-link :to="{ href: '/', type: 'anchor' }">Whppt Link</whppt-link>
+    <div v-content="page.contents">
+      Content Block 2
       <component
-        v-for="(content, index) in page.contents"
         :is="content.displayType"
-        :key="index"
-        :value="content"
+        v-for="(content, contentKey) in page.contents"
+        :key="`content-${contentKey}`"
+        :content="content"
+        :class="{ container: content.inContainer, 'mx-auto': content.inContainer }"
+        :style="{ 'margin-top': `${content.marginTop || $whppt.defaultMarginTop}px` }"
       ></component>
-      <div v-if="!page.contents.length">
-        Hey Content 1
-      </div>
     </div>
-    <div v-content="page.contents">Hey Content 2</div>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
 import * as DisplayComponents from '~/components/Components';
+
 export default {
   name: 'WildCardPage',
   components: { ...DisplayComponents },
@@ -42,7 +42,7 @@ export default {
 </script>
 
 <style>
-.container {
+.wContainer {
   margin: 0 auto;
   min-height: 100vh;
   justify-content: center;
@@ -53,3 +53,20 @@ export default {
   margin: 20px 0;
 }
 </style>
+
+<!--
+    <div v-content="page.contents" data-components="wPlainText, wRichText, wEditImage" class="whppt-contents">
+      <component
+        :is="content.displayType"
+        v-for="(content, index) in page.contents"
+        :key="index"
+        :value="content"
+        :class="{ container: content.inContainer }"
+        :style="{ 'margin-top': `${content.marginTop || $whppt.defaultMarginTop}px` }"
+      ></component>
+      <div v-for="(content, index) in page.contents" :key="index">{{ content }}</div>
+      <div v-if="!page.contents">
+        Content Block (Limited)
+      </div>
+    </div>
+-->

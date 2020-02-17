@@ -1,58 +1,127 @@
 <template>
-  <div class="whppt-settings">
-    <div class="whppt-settings__content">
-      <div class="whppt-settings__heading">
-        <h1>Site Settings</h1>
-        <button class="whppt-settings-button" @click="saveCategories">Save</button>
-      </div>
-      <form @submit.prevent>
-        <div class="whppt-settings__column">
-          <fieldset>
-            <div class="whppt-flex-between">
-              <label for="name">Listing Categories</label>
-              <button class="whppt-icon" @click="addCategory">
-                <w-add-circle></w-add-circle>
-              </button>
-            </div>
-            <div v-for="(category, index) in categories" :key="index">
-              <div class="whppt-flex-between whppt-align-center">
-                <div>
-                  <label for="name">Category</label>
-                  <whppt-text-input v-model="category.name" placeholder="Enter category name" label="Name" />
-                </div>
-                <div>
-                  <button class="whppt-icon" @click="addOrFilter(index)">
-                    <w-add-circle></w-add-circle>
-                  </button>
-                  <button class="whppt-icon" @click="removeCategory(index)">
-                    <w-remove></w-remove>
-                  </button>
-                </div>
-              </div>
-
-              <div
-                v-for="(filter, filterIndex) in category.filters"
-                :key="filterIndex"
-                class="whppt-flex-between whppt-align-center"
-              >
-                <div>
-                  <label for="filter">Filter</label>
-                  <whppt-text-input v-model="filter.value" placeholder="Enter categories to filter by" label="Filter" />
-                </div>
-                <button class="whppt-icon" @click="removeFilter(index, filterIndex)">
-                  <w-remove></w-remove>
-                </button>
-              </div>
-            </div>
-          </fieldset>
+  <div class=" w-3/4">
+    <div class="whppt-settings">
+      <div v-if="!showWarning" class="whppt-settings__content">
+        <div class="whppt-settings__heading">
+          <h1>Site Settings</h1>
+          <button class="whppt-settings-button" @click="saveCategories">Save</button>
         </div>
-      </form>
+        <form @submit.prevent>
+          <div>
+            <fieldset>
+              <div class="whppt-flex-between whppt-align-center">
+                <label for="name">Listing Categories</label>
+                <!-- <button class="whppt-icon" @click="addCategory">
+                <w-add-circle></w-add-circle>
+              </button> -->
+                <button class="whppt-settings-button" @click="addCategory">Add New Category</button>
+              </div>
+              <div class="flex w-full">
+                <div v-if="!selectedCat" class="flex-1">
+                  <div v-for="(category, index) in categories" :key="index" class="whppt-category flex-1">
+                    <div class="mb-2" @click="selectCat(category, index)">
+                      {{ category.name }}
+                    </div>
+                  </div>
+                </div>
+
+                <div v-if="selectedCat" class="whppt-category flex-1">
+                  <div @click="selectedCat = undefined">
+                    close
+                  </div>
+                  <div>
+                    <label for="name">Category: </label>
+                    <div class="whppt-flex-between whppt-align-center">
+                      <whppt-text-input v-model="selectedCat.name" placeholder="Enter category name" label="Name" />
+                      <button class="whppt-icon ml-auto" @click="openWarning()">
+                        <w-remove></w-remove>
+                      </button>
+                    </div>
+
+                    <label>Filters: </label>
+                    <div class="whppt-flex-start whppt-align-center flex-wrap">
+                      <div v-for="(filter, filterIndex) in selectedCat.filters" :key="filterIndex">
+                        <div class="whppt-flex-start whppt-align-center ">
+                          <div>
+                            <button
+                              class="whppt-icon ml-auto"
+                              :class="selectedCat.filters.length <= 1 ? 'cursor-default' : ''"
+                              @click="selectedCat.filters.length > 1 ? removeFilter(filterIndex) : ''"
+                            >
+                              <w-remove :class="selectedCat.filters.length <= 1 ? 'text-gray-500' : ''"></w-remove>
+                            </button>
+                            <whppt-text-input
+                              v-model="filter.value"
+                              placeholder="Enter categories to filter by"
+                              info="event, restaurant, etc."
+                            />
+                          </div>
+                          <label v-if="filterIndex < selectedCat.filters.length - 1" class="text-gray-500 mr-4 ml-4">{{
+                            '(AND)'
+                          }}</label>
+                        </div>
+                      </div>
+                      <button class="whppt-icon ml-4" @click="addOrFilter()">
+                        <w-add-circle></w-add-circle>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="whppt-category">
+                  <div class="font-bold ">
+                    Tag category fields
+                  </div>
+                  <div class="overflow-auto" style="max-height: 500px;">
+                    <div v-for="cat in orderedAllCats" :key="cat">{{ cat }}</div>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </form>
+      </div>
+      <div v-if="showWarning" class="whppt-settings__content">
+        <div class="whppt-settings__heading">
+          <h1>Site Settings</h1>
+        </div>
+        <div v-if="usedListings && usedListings.length" class="text-center">
+          <p>
+            WARNING
+          </p>
+          <p>This category is currently being used on {{ usedListings && usedListings.length }} page(s)</p>
+          <p>
+            You will need to remove this category from use to delete it
+          </p>
+          <p class="text-gray-700 italic pt-8">
+            These pages are:
+          </p>
+
+          <div v-for="(page, index) in usedListings" :key="index" class="text-gray-700 italic">
+            {{ page }}
+          </div>
+          <button class="whppt-warning-button mt-8" @click="closeWarning()">Ok</button>
+        </div>
+        <div v-else class="text-center">
+          <p>
+            WARNING
+          </p>
+          <p>
+            This action will delete this category permanently, are you sure?
+          </p>
+          <div class="align-center">
+            <button class="whppt-warning-button mt-8 mr-4" @click="removeCategory()">Yes</button>
+            <button class="whppt-warning-button mt-8 ml-4" @click="closeWarning()">No</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { map } from 'lodash';
+import { map, remove, orderBy } from 'lodash';
+import { mapState } from 'vuex';
+
 import WhpptTextInput from '../whpptComponents/WhpptTextInput';
 
 export default {
@@ -62,17 +131,38 @@ export default {
     return {
       loadedCategories: [],
       categories: [],
-      baseAPIUrl: '',
+      allCategories: [],
+      showWarning: false,
+      selectedCat: undefined,
+      selectedIndex: undefined,
+      usedListings: [],
+      warningId: undefined,
     };
   },
+  computed: {
+    ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
+    orderedAllCats() {
+      return orderBy(this.allCategories);
+    },
+  },
   mounted() {
-    this.baseAPIUrl = this.$whppt.baseAPIUrl || '';
-    this.$axios.get(`${this.baseAPIUrl}/api/siteSettings/loadCategories`).then(({ data }) => {
-      this.loadedCategories = data;
-      this.formatCategories();
-    });
+    this.queryCategories();
   },
   methods: {
+    queryCategories() {
+      return Promise.all([
+        this.$axios.get(`${this.baseAPIUrl}/api/siteSettings/loadCategories`),
+        this.$axios.get(`${this.baseAPIUrl}/api/listing/fetchCategories`),
+      ]).then(([{ data }, { data: categories }]) => {
+        this.allCategories = categories;
+        this.loadedCategories = data;
+        this.formatCategories();
+      });
+    },
+    selectCat(category, index) {
+      this.selectedCat = category;
+      this.selectedIndex = index;
+    },
     formatCategories() {
       this.categories = map(this.loadedCategories, category => {
         return {
@@ -89,14 +179,42 @@ export default {
     addCategory() {
       this.categories.push({ name: `New Category ${this.categories.length + 1}`, filters: [{ value: '' }] });
     },
-    addOrFilter(index) {
-      this.categories[index].filters.push({ value: '' });
+    addOrFilter() {
+      this.selectedCat.filters.push({ value: '' });
     },
-    removeCategory(index) {
+    removeFromList(index) {
       this.categories.splice(index, 1);
     },
-    removeFilter(index, filterIndex) {
-      this.categories[index].filters.splice(filterIndex, 1);
+    removeFilter(filterIndex) {
+      this.selectedCat.filters.splice(filterIndex, 1);
+    },
+    closeWarning() {
+      this.showWarning = false;
+      this.usedListings = [];
+    },
+    openWarning() {
+      if (!this.selectedCat.id) {
+        this.removeFromList(this.selectedIndex);
+        this.selectedCat = undefined;
+        this.selectedIndex = undefined;
+      } else {
+        return this.$axios
+          .post(`${this.baseAPIUrl}/api/siteSettings/getWarningInfo`, { id: this.selectedCat.id })
+          .then(({ data }) => {
+            console.log('TCL: openWarning -> data', data);
+            this.usedListings = data;
+            this.showWarning = true;
+          });
+      }
+    },
+    removeCategory() {
+      const vm = this;
+      return vm.$axios.post(`${vm.baseAPIUrl}/api/siteSettings/deleteCategory`, { id: vm.selectedCat.id }).then(() => {
+        vm.categories = remove(vm.categories, c => c.id !== vm.selectedCat.id);
+        vm.showWarning = false;
+        vm.selectedCat = undefined;
+        vm.selectedIndex = undefined;
+      });
     },
     saveCategories() {
       const formattedCategories = map(this.categories, category => {
@@ -108,7 +226,11 @@ export default {
           }),
         };
       });
-      this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveCategories`, { categories: formattedCategories });
+      this.$axios
+        .post(`${this.baseAPIUrl}/api/siteSettings/saveCategories`, { categories: formattedCategories })
+        .then(() => {
+          this.queryCategories();
+        });
     },
   },
 };
@@ -123,6 +245,22 @@ export default {
   height: 80vh;
   margin: 1.5rem;
   position: relative;
+}
+
+.whppt-warning {
+  color: black;
+  display: flex;
+  z-index: 53;
+  width: 100%;
+  height: 80vh;
+  margin: 1.5rem;
+  position: relative;
+}
+
+.whppt-category {
+  border: 1px solid gray;
+  margin: 10px;
+  padding: 10px;
 }
 
 .whppt-settings__column {
@@ -175,6 +313,8 @@ export default {
 }
 
 .whppt-settings__heading {
+  align-items: center;
+  font-weight: bold;
   position: sticky;
   background-color: white;
   top: 0;
@@ -224,8 +364,16 @@ export default {
   background-color: black;
   border-radius: 25px;
 }
+
+.whppt-warning-button {
+  padding: 0.8rem 2rem;
+  display: inline-block;
+  color: white;
+  background-color: black;
+  border-radius: 25px;
+}
+
 .whppt-icon {
-  margin-left: auto;
   display: inline-block;
   color: black;
 }

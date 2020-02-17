@@ -1,19 +1,9 @@
 export default context => () => {
-  const {
-    $axios,
-    app: { $whppt },
-  } = context;
+  const { $axios, store } = context;
 
-  const baseAPIUrl = $whppt.baseAPIUrl || ``;
+  const baseAPIUrl = store.state['whppt-nuxt/editor'].baseAPIUrl;
 
-  return $axios
-    .get(`${baseAPIUrl}/api/site/loadFooter`)
-    .then(response => {
-      return response.data;
-    })
-    .catch(err => {
-      console.log('ERR', err);
-      if (err.response.status === 404) $whppt.footer = {};
-      throw err;
-    });
+  return $axios.get(`${baseAPIUrl}/api/site/loadFooter`).then(response => {
+    return response.data;
+  });
 };

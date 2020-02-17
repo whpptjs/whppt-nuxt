@@ -20,12 +20,9 @@ export default {
   name: 'WhpptContent',
   components: { WhpptButton },
   computed: {
-    ...mapState('whppt-nuxt/editor', ['selectedComponent']),
-    contents() {
-      return this.selectedComponent && this.selectedComponent.value;
-    },
+    ...mapState('whppt-nuxt/editor', ['selectedContent', 'selectedComponent', 'selectedContentFilter']),
     filterList() {
-      return this.selectedComponent && this.selectedComponent.filter;
+      return this.selectedContent && this.selectedContentFilter;
     },
     componentList() {
       if (this.filterList) {
@@ -36,7 +33,12 @@ export default {
   },
   methods: {
     addContent(content) {
-      this.contents.push(JSON.parse(JSON.stringify({ ...content, marginTop: '', inContainer: false })));
+      const index = this.selectedIndex();
+      const item = JSON.parse(JSON.stringify({ ...content, marginTop: '', inContainer: false }));
+      this.selectedContent.splice(index + 1, 0, item);
+    },
+    selectedIndex() {
+      return this.selectedContent.indexOf(this.selectedComponent.value);
     },
   },
 };
