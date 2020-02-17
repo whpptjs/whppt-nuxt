@@ -36,6 +36,12 @@
       </div>
 
       <e-link :data="selectKey"></e-link>
+      <whppt-check-box
+        v-if="selectKey"
+        :value="selectKey.featured"
+        label="Feature this link (if applicable)"
+        @click="selectKey.featured = !selectedComponent.featured"
+      ></whppt-check-box>
     </div>
   </div>
 </template>
@@ -64,7 +70,7 @@ export default {
     },
     addLink() {
       this.selectedComponent.value.links = this.selectedComponent.value.links || [];
-      const newLink = { type: 'page' };
+      const newLink = { type: 'page', featured: false };
       this.selectedComponent.value.links.push(newLink);
       this.selectKey = newLink;
     },
