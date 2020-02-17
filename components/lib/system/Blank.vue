@@ -1,8 +1,6 @@
 <template>
   <div class="whppt-full">
     <h1>Component</h1>
-    {{ selectedComponent.value }}
-    {{ selectedComponent.value.hasOwnProperty('reversed') }}
     <whppt-check-box
       v-if="selectedComponent.value.hasOwnProperty('reversed')"
       :value="selectedComponent.value.reversed"
