@@ -17,16 +17,18 @@
         </div>
       </div>
     </div>
+    <whppt-pagination :currentPage="currentPage" :total="total" :pageAmount="Math.ceil(total / limit)" />
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
 import icons from '../../icons';
+import WhpptPagination from '../../whpptComponents/WhpptPagination';
 
 export default {
   name: 'EditorGallery',
-  components: { Trash: icons.Trash },
+  components: { Trash: icons.Trash, WhpptPagination },
   props: {
     value: {
       type: String,
