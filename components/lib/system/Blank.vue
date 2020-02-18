@@ -1,12 +1,6 @@
 <template>
   <div class="whppt-full">
     <h1>Component</h1>
-    <whppt-check-box
-      v-if="selectedComponent.value.hasOwnProperty('reversed')"
-      :value="selectedComponent.value.reversed"
-      label="Reversed"
-      @click="selectedComponent.value.reversed = !selectedComponent.value.reversed"
-    ></whppt-check-box>
     <whppt-select
       v-model="selectedComponent.value.backgroundColour"
       label="Background Colour"
@@ -17,6 +11,12 @@
       label="Font Colour"
       :items="availableTextColours"
     ></whppt-select>
+    <whppt-check-box
+      v-if="selectedComponent.value.hasOwnProperty('reversed')"
+      :value="selectedComponent.value.reversed"
+      label="Reversed"
+      @click="selectedComponent.value.reversed = !selectedComponent.value.reversed"
+    ></whppt-check-box>
   </div>
 </template>
 

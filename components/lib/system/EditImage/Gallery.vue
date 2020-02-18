@@ -2,22 +2,22 @@
   <div class="whppt-gallery-container">
     <div class="whppt-gallery-item-container">
       <div class="whppt-gallery__add" @click="$refs.fileInput.click()">
-        <input type="file" :accept="'image/*'" style="display: none;" ref="fileInput" @input="upload" />
+        <input ref="fileInput" type="file" :accept="'image/*'" style="display: none;" @input="upload" />
         <span>+</span>
       </div>
     </div>
-    <div v-for="image in images" :key="image.id" class="whppt-gallery-item-container">
+    <div v-for="image in images" :key="image._id" class="whppt-gallery-item-container">
       <div
         class="whppt-gallery-item"
-        @click="$emit('input', image.id)"
-        :style="{ 'background-image': `url('${img(image.id)}')` }"
+        :style="{ 'background-image': `url('${img(image._id)}')` }"
+        @click="$emit('input', image._id)"
       >
-        <div class="whppt-gallery-item__remove" @click.stop="remove(image.id)">
+        <div class="whppt-gallery-item__remove" @click.stop="remove(image._id)">
           <trash class="whppt-gallery-item__remove-icon" />
         </div>
       </div>
     </div>
-    <whppt-pagination :currentPage="currentPage" :total="total" :pageAmount="Math.ceil(total / limit)" />
+    <whppt-pagination :current-page="currentPage" :total="total" :page-amount="Math.ceil(total / limit)" />
   </div>
 </template>
 
