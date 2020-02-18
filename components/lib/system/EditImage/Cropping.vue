@@ -6,11 +6,11 @@
         <label class="whppt-cropper-label">{{ canvas.name }}</label>
         <croppa
           :key="canvas.name"
+          v-model="canvas.croppa"
           :disable-drag-and-drop="true"
           :disable-click-to-choose="true"
           :width="canvas.width / canvas.quality"
           :height="canvas.height / canvas.quality"
-          v-model="canvas.croppa"
           :initial-image="$whppt.originalImageUrl(imageOptionsCopy.imageId)"
           :placeholder="'Choose an image'"
           :accept="'image/*'"
@@ -20,13 +20,13 @@
           @draw="change(canvas)"
         />
       </div>
-      <whppt-button @click="applyChanges" class="whppt-cropper__apply-change">Apply Change</whppt-button>
+      <whppt-button class="whppt-cropper__apply-change" @click="applyChanges">Apply Change</whppt-button>
     </div>
   </div>
 </template>
 
 <script>
-import { each, cloneDeep } from 'lodash';
+import { forEach, cloneDeep } from 'lodash';
 import Croppa from 'vue-croppa';
 import 'vue-croppa/dist/vue-croppa.css';
 import WhpptButton from '../../whpptComponents/WhpptButton';
@@ -34,11 +34,6 @@ import WhpptButton from '../../whpptComponents/WhpptButton';
 export default {
   name: 'EditorImageCropping',
   components: { croppa: Croppa.component, WhpptButton },
-  data() {
-    return {
-      imageOptionsCopy: {},
-    };
-  },
   props: {
     imageOptions: {
       type: Object,
@@ -49,24 +44,30 @@ export default {
       required: true,
     },
   },
-  created() {
-    this.imageOptions.crop = this.imageOptions.crop || {};
-    console.log('sizes', this.sizes);
-    each(this.sizes, (size, key) => {
-      size.name = key;
-      size.croppa = size.croppa || {};
-    });
-    this.imageOptionsCopy = cloneDeep(this.imageOptions);
+  data() {
+    return {
+      imageOptionsCopy: {},
+    };
   },
   computed: {
     isSizesEmpty() {
       return !Object.keys(this.sizes).length;
     },
   },
+  created() {
+    this.imageOptions.crop = this.imageOptions.crop || {};
+
+    forEach(this.sizes, (size, key) => {
+      size.name = key;
+      size.croppa = size.croppa || {};
+    });
+
+    this.imageOptionsCopy = cloneDeep(this.imageOptions);
+  },
   methods: {
     applyManipulation() {
       this.$nextTick(() =>
-        each(this.sizes, (size, key) => {
+        forEach(this.sizes, (size, key) => {
           size.croppa.applyMetadata(this.imageOptions.crop[key] || {});
         })
       );
@@ -78,15 +79,16 @@ export default {
         orientation: canvas.croppa.orientation,
         scale: canvas.croppa.scaleRatio,
       };
+
       this.imageOptionsCopy.crop[canvas.name] = meta;
     },
     applyChanges() {
       this.imageOptions.crop = cloneDeep(this.imageOptionsCopy.crop);
-      this.imageOptions.imageId = this.imageOptionsCopy.imageId;
     },
   },
 };
 </script>
+
 <style scoped>
 .whppt-cropper-container {
   margin-bottom: 10px;
