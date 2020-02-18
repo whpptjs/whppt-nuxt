@@ -1,19 +1,19 @@
 <template>
   <div>
     <whppt-text-input
-      v-model="selectedComponent.text"
+      v-model="selectedComponent.value[selectedComponent.property].text"
       class="whppt-textBox--margin-top-10"
       placeholder="Enter text here"
       label="Button Text"
     />
     <whppt-text-input
-      v-model="selectedComponent.link"
+      v-model="selectedComponent.value[selectedComponent.property].link"
       class="whppt-textBox--margin-top-10"
       placeholder="Enter text here"
       label="Button Link"
     />
     <whppt-text-input
-      v-model="selectedComponent.icon"
+      v-model="selectedComponent.value[selectedComponent.property].icon"
       class="whppt-textBox--margin-top-10"
       placeholder="Enter text here"
       label="Button Icon"
