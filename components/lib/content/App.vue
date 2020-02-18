@@ -55,6 +55,7 @@ import WhpptCheckBox from '../whpptComponents/CheckBox';
 import ContentsTree from '../whpptComponents/ContentsTree';
 import WhpptTab from '../whpptComponents/WhpptTab';
 import WhpptTabs from '../whpptComponents/WhpptTabs';
+
 export default {
   name: 'WhpptEditorApp',
   components: {

@@ -1,5 +1,7 @@
 <template>
   <section v-blank="value" class="lg:flex bg-black text-white" :class="{ 'flex-row-reverse': value.reversed }">
+    {{ value.backgroundColour }}
+    {{ value.fontColour }}
     <div
       class="w-full lg:w-1/4 bg-cover bg-top bg-no-repeat aspect-ratio-21/9"
       :style="`background-image: url(${value.image})`"
