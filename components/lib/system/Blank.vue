@@ -10,7 +10,12 @@
     <whppt-select
       v-model="selectedComponent.value.backgroundColour"
       label="Background Colour"
-      :items="availableColours"
+      :items="availableBackgroundColours"
+    ></whppt-select>
+    <whppt-select
+      v-model="selectedComponent.value.fontColour"
+      label="Font Colour"
+      :items="availableTextColours"
     ></whppt-select>
   </div>
 </template>
@@ -26,9 +31,13 @@ export default {
   components: { WhpptSelect, WhpptCheckBox },
   computed: {
     ...mapState('whppt-nuxt/editor', ['selectedComponent', 'options']),
-    availableColours() {
+    availableBackgroundColours() {
       if (!this.options && this.options.colours) return [];
-      return map(this.options.colours, (colour, colourKey) => ({ label: colourKey, value: colour }));
+      return map(this.options.colours.background, (colour, colourKey) => ({ label: colourKey, value: colour }));
+    },
+    availableTextColours() {
+      if (!this.options && this.options.colours) return [];
+      return map(this.options.colours.text, (colour, colourKey) => ({ label: colourKey, value: colour }));
     },
   },
 };
