@@ -1,13 +1,12 @@
 <template>
   <div class="whppt-pagination-container">
     <div class="whppt-pagination-left-nav">
-      <div @click="goToPage(1)" :disabled="currentPage === 1">
-        ↤
-      </div>
-
-      <div @click="gotoPage(currentPage - 1)" :disabled="currentPage === 1">
+      <button @click="goToPage(1)" :disabled="currentPage === 1">
+        ⇤
+      </button>
+      <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1">
         ←
-      </div>
+      </button>
     </div>
 
     <button
@@ -15,22 +14,23 @@
       :key="index"
       @click="goToPage(page.name)"
       :disabled="page.isDisabled"
-      class=""
+      class="whppt-pagination-page-button"
+      :class="{ 'whppt-pagination-page-button__selected': currentPage === page.name }"
     >
       {{ page.name }}
     </button>
     <div class="whppt-pagination-right-nav">
-      <div
-        @click="gotoPage(currentPage + 1)"
+      <button
+        @click="goToPage(currentPage + 1)"
         :disabled="currentPage === pageAmount"
         class="whppt-pagination-right-buttons"
       >
         →
-      </div>
+      </button>
 
-      <div @click="goToPage(pageAmount)" :disabled="currentPage === pageAmount">
-        ↦
-      </div>
+      <button @click="goToPage(pageAmount)" :disabled="currentPage === pageAmount">
+        ⇥
+      </button>
     </div>
   </div>
 </template>
@@ -88,15 +88,23 @@ export default {
   width: 100%;
   justify-content: center;
   margin: 20px;
+  cursor: default;
 }
 
-.whppt-pagination-container button {
-  background: linen;
+.whppt-pagination-page-button {
   width: 25px;
   height: 25px;
   border-radius: 12.5px;
+  color: linen;
+  font: 12px !important;
+  margin: 0 5px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: linen;
+}
+.whppt-pagination-page-button__selected {
+  background: linen;
   color: black;
-  font: 14px;
 }
 
 .whppt-pagination-left-nav {
@@ -104,17 +112,24 @@ export default {
   margin-right: auto;
 }
 
-.whppt-pagination-left-nav > div:first-child {
+.whppt-pagination-left-nav > button:first-child {
   margin-right: 10px;
   font-weight: bold;
+  font-size: 16px;
 }
 
 .whppt-pagination-right-nav {
   display: flex;
   margin-left: auto;
 }
-.whppt-pagination-right-nav > div:last-child {
+.whppt-pagination-right-nav > button:last-child {
   margin-left: 10px;
   font-weight: bold;
+  font-size: 16px;
+}
+
+.whppt-pagination-left-nav button:disabled,
+.whppt-pagination-right-nav button:disabled {
+  opacity: 50%;
 }
 </style>

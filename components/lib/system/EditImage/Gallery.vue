@@ -2,22 +2,27 @@
   <div class="whppt-gallery-container">
     <div class="whppt-gallery-item-container">
       <div class="whppt-gallery__add" @click="$refs.fileInput.click()">
-        <input ref="fileInput" type="file" :accept="'image/*'" style="display: none;" @input="upload" />
+        <input type="file" :accept="'image/*'" style="display: none;" ref="fileInput" @input="upload" />
         <span>+</span>
       </div>
     </div>
-    <div v-for="image in images" :key="image._id" class="whppt-gallery-item-container">
+    <div v-for="image in images" :key="image.id" class="whppt-gallery-item-container">
       <div
         class="whppt-gallery-item"
-        :style="{ 'background-image': `url('${img(image._id)}')` }"
-        @click="$emit('input', image._id)"
+        @click="$emit('input', image.id)"
+        :style="{ 'background-image': `url('${img(image.id)}')` }"
       >
-        <div class="whppt-gallery-item__remove" @click.stop="remove(image._id)">
+        <div class="whppt-gallery-item__remove" @click.stop="remove(image.id)">
           <trash class="whppt-gallery-item__remove-icon" />
         </div>
       </div>
     </div>
-    <whppt-pagination :current-page="currentPage" :total="total" :page-amount="Math.ceil(total / limit)" />
+    <whppt-pagination
+      :currentPage="currentPage"
+      :total="total"
+      :pageAmount="Math.ceil(total / limit)"
+      @pageChanged="loadGallery"
+    />
   </div>
 </template>
 
@@ -39,12 +44,7 @@ export default {
     ...mapState('whppt-nuxt/editor', ['selectedComponent', 'baseImageUrl', 'baseAPIUrl']),
   },
   mounted() {
-    this.$axios
-      .get(`${this.baseAPIUrl}/api/image/loadGallery`, { limit: this.limit, currentPage: this.currentPage })
-      .then(({ data: { images, total } }) => {
-        this.images = images;
-        this.total = total;
-      });
+    this.loadGallery(this.currentPage);
   },
   data() {
     return {
@@ -55,6 +55,17 @@ export default {
     };
   },
   methods: {
+    loadGallery(currentPage) {
+      this.currentPage = currentPage;
+      this.$axios
+        .get(`${this.baseAPIUrl}/api/image/loadGallery`, {
+          params: { limit: this.limit, currentPage: this.currentPage },
+        })
+        .then(({ data: { images, total } }) => {
+          this.images = images;
+          this.total = total;
+        });
+    },
     img(id) {
       return `${this.baseImageUrl}/${id}`;
     },
