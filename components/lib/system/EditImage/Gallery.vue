@@ -80,7 +80,11 @@ export default {
         },
       });
     },
-    remove(imageId) {},
+    remove(id) {
+      return this.$axios
+        .post(`${this.baseAPIUrl}/api/image/remove`, { id })
+        .then(() => this.loadGallery(this.currentPage));
+    },
   },
 };
 </script>
