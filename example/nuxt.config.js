@@ -66,6 +66,10 @@ module.exports = {
         displayType: 'FeatureBlock',
         editorType: 'wComponent',
         reversed: false,
+        image: {
+          crop: {},
+          imageId: '',
+        },
       },
       {
         key: 'SplitContent',
