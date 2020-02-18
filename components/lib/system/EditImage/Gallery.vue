@@ -17,7 +17,12 @@
         </div>
       </div>
     </div>
-    <whppt-pagination :currentPage="currentPage" :total="total" :pageAmount="Math.ceil(total / limit)" />
+    <whppt-pagination
+      :currentPage="currentPage"
+      :total="total"
+      :pageAmount="Math.ceil(total / limit)"
+      @pageChanged="loadGallery"
+    />
   </div>
 </template>
 
@@ -39,12 +44,7 @@ export default {
     ...mapState('whppt-nuxt/editor', ['selectedComponent', 'baseImageUrl', 'baseAPIUrl']),
   },
   mounted() {
-    this.$axios
-      .get(`${this.baseAPIUrl}/api/image/loadGallery`, { limit: this.limit, currentPage: this.currentPage })
-      .then(({ data: { images, total } }) => {
-        this.images = images;
-        this.total = total;
-      });
+    this.loadGallery(this.currentPage);
   },
   data() {
     return {
@@ -55,6 +55,17 @@ export default {
     };
   },
   methods: {
+    loadGallery(currentPage) {
+      this.currentPage = currentPage;
+      this.$axios
+        .get(`${this.baseAPIUrl}/api/image/loadGallery`, {
+          params: { limit: this.limit, currentPage: this.currentPage },
+        })
+        .then(({ data: { images, total } }) => {
+          this.images = images;
+          this.total = total;
+        });
+    },
     img(id) {
       return `${this.baseImageUrl}/${id}`;
     },
