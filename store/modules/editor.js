@@ -3,7 +3,7 @@ export default options => ({
   state: () => ({
     options,
     baseAPIUrl: process.env.BASE_API_URL,
-    baseImageUrl: process.env.BASE_API_URL,
+    baseImageUrl: `${process.env.BASE_API_URL}/img`,
     activeMenuItem: undefined,
     editSidebar: false,
     editInModal: false,
