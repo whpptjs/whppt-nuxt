@@ -260,6 +260,25 @@
         </fieldset>
         <fieldset>
           <whppt-tags-input label="ATDW Categories" :display-only="true" :tags="listing.atdwCategories.value" />
+          <div class="whppt-atdw__form-controls">
+            <span>Linked To: {{ listing.atdwCategories.path }}</span>
+            <div>
+              <button
+                v-if="listing.atdwCategories.path"
+                class="whppt-atdw__form-button"
+                @click="disconnect(listing.atdwCategories)"
+              >
+                disconnect
+              </button>
+              <button
+                v-if="!listing.atdwCategories.path"
+                class="whppt-atdw__form-button"
+                @click="openReconnectMenu('atdwCategories')"
+              >
+                reconnect
+              </button>
+            </div>
+          </div>
         </fieldset>
         <fieldset>
           <whppt-tags-input label="Custom Categories" :tags="listing.customCategories.value" />
@@ -338,11 +357,11 @@ export default {
         const { scheme, host, path } = parse(product.productImage);
         return `${scheme}://${host}${path}`;
       },
-      // atdwCategories(product) {
-      //   const tags = map(product.verticalClassifications, category => category.productTypeId);
-      //   tags.push(product.productCategoryId);
-      //   return tags;
-      // },
+      atdwCategories(product) {
+        const tags = map(product.verticalClassifications, category => category.productTypeId);
+        tags.push(product.productCategoryId);
+        return tags;
+      },
     },
   }),
   computed: {
