@@ -1,11 +1,16 @@
 export default function($whppt, baseImageUrl) {
-  const originalImageUrl = imageId => {
+  function originalImageUrl(imageId) {
     if (!imageId) return '';
     return `${baseImageUrl}/${imageId}`;
-    // return `./${imageId}`;
-  };
+  }
 
-  Object.assign($whppt, {
-    originalImageUrl,
-  });
+  function getImage(content, w, h) {
+    const { scale, orientation, startX, startY } = content.image.crop.desktop;
+    const format = `x_${startX}|y_${startY}|s_${scale}|o_${orientation}|w_${w}|h_${h}`;
+
+    return `${baseImageUrl}/${format}/${content.image.imageId}`;
+  }
+
+  $whppt.originalImageUrl = originalImageUrl;
+  $whppt.getImage = getImage;
 }

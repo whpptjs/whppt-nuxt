@@ -55,7 +55,7 @@ const Components = options => [
         ctaLink: undefined,
         carouselImage: {
           imageId: '',
-          // crop: {},
+          crop: {},
         },
       },
     ],
