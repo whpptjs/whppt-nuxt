@@ -68,12 +68,12 @@ export default {
     // 'value.data.crop.desktop.scale'() {
     //   this.renderImage();
     // },
-    'value.data': {
-      handler() {
-        this.loadImage();
-      },
-      deep: true,
-    },
+    // 'value.data': {
+    //   handler() {
+    //     this.loadImage();
+    //   },
+    //   deep: true,
+    // },
   },
 };
 </script>
