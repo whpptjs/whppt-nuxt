@@ -21,6 +21,14 @@ module.exports = {
   whppt: {
     componentPrefix: 'W',
     defaultMarginTop: '40',
+    colours: {
+      'Red Lighter': '#E52F2F',
+      Red: '#981A31',
+      'Red Darker': '#761218',
+      'Red Darkest': '#4A131F',
+      White: 'white',
+      Grey: '#efefef',
+    },
     components: [
       {
         key: 'CardCarousel',
