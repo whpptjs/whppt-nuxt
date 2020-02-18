@@ -10,7 +10,7 @@
         :is="content.displayType"
         v-for="(content, contentKey) in page.contents"
         :key="`content-${contentKey}`"
-        :content="content"
+        :value="content"
         :class="{ container: content.inContainer, 'mx-auto': content.inContainer }"
         :style="{ 'margin-top': `${content.marginTop || $whppt.defaultMarginTop}px` }"
       ></component>

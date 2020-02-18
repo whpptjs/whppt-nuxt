@@ -73,7 +73,6 @@ export default {
       const file = e.target.files[0];
       const formData = new FormData();
       formData.append('file', file);
-      // const filename = file.name;
       return this.$axios.post(`${this.baseImageUrl}/upload`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',

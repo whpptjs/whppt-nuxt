@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { each, cloneDeep, assign } from 'lodash';
+import { each, cloneDeep } from 'lodash';
 import Croppa from 'vue-croppa';
 import 'vue-croppa/dist/vue-croppa.css';
 import WhpptButton from '../../whpptComponents/WhpptButton';
@@ -81,9 +81,7 @@ export default {
       this.imageOptionsCopy.crop[canvas.name] = meta;
     },
     applyChanges() {
-      console.log('this.imageOptions', this.imageOptions);
-      console.log('this.imageOptionsCopy', this.imageOptionsCopy);
-      assign(this.imageOptions.crop, this.imageOptionsCopy.crop);
+      this.imageOptions.crop = cloneDeep(this.imageOptionsCopy.crop);
       this.imageOptions.imageId = this.imageOptionsCopy.imageId;
     },
   },
