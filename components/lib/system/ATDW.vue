@@ -397,7 +397,6 @@ export default {
       return this.$axios.post(`${this.baseAPIUrl}/api/listing/save`, { listing: this.listing });
     },
     setStatus(value) {
-      console.log('TCL: setStatus -> value', value);
       this.listing.activeStatus.value = value;
     },
   },

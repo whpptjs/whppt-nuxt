@@ -1,8 +1,6 @@
 export default options => ({
   namespaced: true,
   state: () => {
-    console.log('process.env.BASE_IMAGE_URL', process.env.BASE_IMAGE_URL);
-
     return {
       options,
       baseAPIUrl: process.env.BASE_API_URL,
