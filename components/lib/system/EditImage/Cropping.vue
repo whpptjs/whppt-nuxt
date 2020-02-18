@@ -2,7 +2,7 @@
   <div>
     <div v-if="isSizesEmpty">Missing Image Sizes</div>
     <div v-if="!isSizesEmpty">
-      <div v-for="canvas in imageOptionsCopy.sizes" :key="canvas.name" class="whppt-cropper-container">
+      <div v-for="canvas in sizes" :key="canvas.name" class="whppt-cropper-container">
         <label class="whppt-cropper-label">{{ canvas.name }}</label>
         <croppa
           :key="canvas.name"
@@ -42,12 +42,17 @@ export default {
   props: {
     imageOptions: {
       type: Object,
-      default: () => {},
+      required: true,
+    },
+    sizes: {
+      type: Object,
+      required: true,
     },
   },
   created() {
     this.imageOptions.crop = this.imageOptions.crop || {};
-    each(this.imageOptions.sizes, (size, key) => {
+    console.log('sizes', this.sizes);
+    each(this.sizes, (size, key) => {
       size.name = key;
       size.croppa = size.croppa || {};
     });
@@ -55,13 +60,13 @@ export default {
   },
   computed: {
     isSizesEmpty() {
-      return !Object.keys(this.imageOptions.sizes).length;
+      return !Object.keys(this.sizes).length;
     },
   },
   methods: {
     applyManipulation() {
       this.$nextTick(() =>
-        each(this.imageOptionsCopy.sizes, (size, key) => {
+        each(this.sizes, (size, key) => {
           size.croppa.applyMetadata(this.imageOptions.crop[key] || {});
         })
       );
@@ -76,6 +81,8 @@ export default {
       this.imageOptionsCopy.crop[canvas.name] = meta;
     },
     applyChanges() {
+      console.log('this.imageOptions', this.imageOptions);
+      console.log('this.imageOptionsCopy', this.imageOptionsCopy);
       assign(this.imageOptions.crop, this.imageOptionsCopy.crop);
       this.imageOptions.imageId = this.imageOptionsCopy.imageId;
     },

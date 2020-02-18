@@ -3,7 +3,7 @@
     <h1>Image</h1>
     <whppt-tabs ref="imageTabs">
       <whppt-tab title="Cropping">
-        <cropping :imageOptions="selectedComponent.value" />
+        <cropping :image-options="selectedComponent.value" :sizes="selectedComponent.sizes" />
       </whppt-tab>
       <whppt-tab title="Gallery">
         <gallery :value="selectedComponent.value.imageId" @input="changeTab" />
@@ -16,13 +16,12 @@
 import { mapState } from 'vuex';
 import WhpptTab from '../../whpptComponents/WhpptTab';
 import WhpptTabs from '../../whpptComponents/WhpptTabs';
-import WhpptTextInput from '../../whpptComponents/WhpptTextInput';
 import Gallery from './Gallery';
 import Cropping from './Cropping';
 
 export default {
   name: 'EditorImageEdit',
-  components: { WhpptTextInput, WhpptTabs, WhpptTab, Gallery, Cropping },
+  components: { WhpptTabs, WhpptTab, Gallery, Cropping },
   computed: {
     ...mapState('whppt-nuxt/editor', ['selectedComponent']),
   },

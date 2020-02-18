@@ -10,23 +10,30 @@
       <div
         class="whppt-gallery-item"
         @click="$emit('input', image.id)"
-        :style="{ 'background-image': `url('${image.src}')` }"
+        :style="{ 'background-image': `url('${img(image.id)}')` }"
       >
         <div class="whppt-gallery-item__remove" @click.stop="remove(image.id)">
           <trash class="whppt-gallery-item__remove-icon" />
         </div>
       </div>
     </div>
+    <whppt-pagination
+      :currentPage="currentPage"
+      :total="total"
+      :pageAmount="Math.ceil(total / limit)"
+      @pageChanged="loadGallery"
+    />
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
 import icons from '../../icons';
+import WhpptPagination from '../../whpptComponents/WhpptPagination';
 
 export default {
   name: 'EditorGallery',
-  components: { Trash: icons.Trash },
+  components: { Trash: icons.Trash, WhpptPagination },
   props: {
     value: {
       type: String,
@@ -34,15 +41,10 @@ export default {
     },
   },
   computed: {
-    ...mapState('whppt-nuxt/editor', ['selectedComponent', 'baseAPIUrl']),
+    ...mapState('whppt-nuxt/editor', ['selectedComponent', 'baseImageUrl', 'baseAPIUrl']),
   },
   mounted() {
-    this.$axios
-      .get(`${this.baseAPIUrl}/api/image/fetch`, { limit: this.limit, currentPage: this.currentPage })
-      .then(({ data: { images, total } }) => {
-        this.images = images;
-        this.total = total;
-      });
+    this.loadGallery(this.currentPage);
   },
   data() {
     return {
@@ -53,12 +55,36 @@ export default {
     };
   },
   methods: {
-    upload(file) {
-      const type = file.name.split('.')[1];
-      const baseAPIUrl = this.$whppt.baseAPIUrl || '';
-      return this.$axios.$post(`${baseAPIUrl}/api/image/save`, { data: this.chosenFile, type });
+    loadGallery(currentPage) {
+      this.currentPage = currentPage;
+      this.$axios
+        .get(`${this.baseAPIUrl}/api/image/loadGallery`, {
+          params: { limit: this.limit, currentPage: this.currentPage },
+        })
+        .then(({ data: { images, total } }) => {
+          this.images = images;
+          this.total = total;
+        });
     },
-    remove(imageId) {},
+    img(id) {
+      return `${this.baseImageUrl}/${id}`;
+    },
+    upload(e) {
+      const file = e.target.files[0];
+      const formData = new FormData();
+      formData.append('file', file);
+      // const filename = file.name;
+      return this.$axios.post(`${this.baseImageUrl}/upload`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+    },
+    remove(id) {
+      return this.$axios
+        .post(`${this.baseAPIUrl}/api/image/remove`, { id })
+        .then(() => this.loadGallery(this.currentPage));
+    },
   },
 };
 </script>
