@@ -4,10 +4,8 @@
       v-edit-image="content.image"
       data-sizes='{ "desktop": { "width":400, "height":400, "quality":2 } }'
       class="w-full lg:w-1/4 bg-cover bg-top bg-no-repeat aspect-ratio-21/9"
-      :style="`background-image: url(${content})`"
-    >
-      {{ content }}
-    </div>
+      :style="`background-image: url('${img(400, 400)}')`"
+    ></div>
     <div class="w-full lg:w-3/4 text-center lg:text-left p-8 lg:p-24">
       <h3
         v-plain-text="content"
@@ -28,6 +26,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   name: 'FeatureBlock',
   props: {
@@ -36,8 +36,16 @@ export default {
       default: () => ({}),
     },
   },
-  mounted() {
-    this.content.image = this.content.image || {};
+  computed: {
+    ...mapState('whppt-nuxt/editor', ['baseImageUrl']),
+  },
+  methods: {
+    img(w, h) {
+      const { scale, orientation, startX, startY } = this.content.image.crop.desktop;
+      const format = `x_${startX}|y_${startY}|s_${scale}|o_${orientation}|w_${w}|h_${h}`;
+
+      return `${this.baseImageUrl}/${format}/${this.content.image.imageId}`;
+    },
   },
 };
 </script>

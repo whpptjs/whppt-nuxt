@@ -6,13 +6,13 @@
         <span>+</span>
       </div>
     </div>
-    <div v-for="image in images" :key="image.id" class="whppt-gallery-item-container">
+    <div v-for="image in images" :key="image._id" class="whppt-gallery-item-container">
       <div
         class="whppt-gallery-item"
-        @click="$emit('input', image.id)"
-        :style="{ 'background-image': `url('${img(image.id)}')` }"
+        @click="$emit('input', image._id)"
+        :style="{ 'background-image': `url('${img(image._id)}')` }"
       >
-        <div class="whppt-gallery-item__remove" @click.stop="remove(image.id)">
+        <div class="whppt-gallery-item__remove" @click.stop="remove(image._id)">
           <trash class="whppt-gallery-item__remove-icon" />
         </div>
       </div>
