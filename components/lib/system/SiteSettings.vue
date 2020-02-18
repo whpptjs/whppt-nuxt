@@ -201,7 +201,6 @@ export default {
         return this.$axios
           .post(`${this.baseAPIUrl}/api/siteSettings/getWarningInfo`, { id: this.selectedCat.id })
           .then(({ data }) => {
-            console.log('TCL: openWarning -> data', data);
             this.usedListings = data;
             this.showWarning = true;
           });
