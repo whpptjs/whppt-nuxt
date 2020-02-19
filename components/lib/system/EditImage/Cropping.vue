@@ -56,7 +56,8 @@ export default {
     },
   },
   created() {
-    this.imageOptions.crop = this.imageOptions.crop || {};
+    // Reset crop seting for each image
+    this.imageOptions.crop = {};
 
     forEach(this.sizes, (size, key) => {
       size.name = key;
