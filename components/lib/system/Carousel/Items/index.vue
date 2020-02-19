@@ -16,10 +16,10 @@
           <carousel-text :editingCarouselItem="editingCarouselItem" />
         </whppt-tab>
         <whppt-tab title="Gallery">
-          <gallery :value="editingCarouselItem.carouselImage.value.imageId" @input="changeTab" />
+          <gallery :value="editingCarouselItem.image.value.imageId" @input="changeTab" />
         </whppt-tab>
         <whppt-tab title="Cropping">
-          <cropping :imageOptions="editingCarouselItem.carouselImage" />
+          <cropping :imageOptions="editingCarouselItem.image" />
         </whppt-tab>
       </whppt-tabs>
     </div>
@@ -55,7 +55,7 @@ export default {
   },
   methods: {
     changeTab(id) {
-      this.editingCarouselItem.carouselImage.value.imageId = id;
+      this.editingCarouselItem.image.value.imageId = id;
       this.$refs.carouselImageTabs.selectTab(this.$refs.carouselImageTabs.tabs[2]);
     },
     add() {
@@ -66,11 +66,9 @@ export default {
         ctaText: '',
         ctaIcon: undefined,
         ctaLink: '',
-        carouselImage: {
-          value: {
-            imageId: undefined,
-          },
-          sizes: {},
+        image: {
+          imageId: undefined,
+          crop: {},
         },
       });
       this.$nextTick(() => (this.editingCarouselItem = this.editingCarouselItems[index + 1])); // I know this sucks

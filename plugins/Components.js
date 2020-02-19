@@ -48,12 +48,17 @@ const Components = options => [
     property: 'items',
     items: [
       {
-        title: '',
-        description: '',
-        ctaText: '',
-        ctaIcon: undefined,
-        ctaLink: undefined,
-        carouselImage: {
+        text: {
+          title: '',
+          description: '',
+        },
+        button: {
+          type: 'page',
+          text: '',
+          icon: undefined,
+          href: '',
+        },
+        image: {
           imageId: '',
           crop: {},
         },
