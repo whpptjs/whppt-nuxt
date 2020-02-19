@@ -11,6 +11,7 @@
           :disable-click-to-choose="true"
           :width="canvas.width / canvas.quality"
           :height="canvas.height / canvas.quality"
+          :quality="canvas.quality"
           :initial-image="$whppt.originalImageUrl(imageOptionsCopy.imageId)"
           :placeholder="'Choose an image'"
           :accept="'image/*'"
