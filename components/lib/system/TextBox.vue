@@ -5,7 +5,7 @@
       v-model="selectedComponent.value[selectedComponent.property]"
       class="whppt-textBox--margin-top-20"
       placeholder="Enter text here"
-      label="Text"
+      :label="selectedComponent.property || 'Text'"
     />
     <whppt-select
       v-model="selectedComponent.value.alignment"
