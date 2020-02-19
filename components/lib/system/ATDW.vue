@@ -6,12 +6,23 @@
           <h1>ATDW</h1>
           <button class="whppt-atdw__form-button" @click="showReconnect = !showReconnect">Close</button>
         </div>
-        <div v-for="(field, key) in atdwFields" :key="key" class="whppt-linker">
-          <div class="whppt-linker__labels">
-            <span class="whppt__bold">{{ key }}</span>
-            <div>{{ field(listing.atdw, key) }}</div>
+        <div v-if="listing.listingType === 'product'">
+          <div v-for="(field, key) in atdwFields" :key="key" class="whppt-linker">
+            <div class="whppt-linker__labels">
+              <span class="whppt__bold">{{ key }}</span>
+              <div>{{ field(listing.atdw, key) }}</div>
+            </div>
+            <button class="whppt-atdw__form-button" @click="reconnect(field, key)">Link</button>
           </div>
-          <button class="whppt-atdw__form-button" @click="reconnect(field, key)">Link</button>
+        </div>
+        <div v-if="listing.listingType === 'service'">
+          <div v-for="(field, key) in serviceAtdwFields" :key="key" class="whppt-linker">
+            <div class="whppt-linker__labels">
+              <span class="whppt__bold">{{ key }}</span>
+              <div>{{ field(listing.atdw, key) }}</div>
+            </div>
+            <button class="whppt-atdw__form-button" @click="reconnect(field, key)">Link</button>
+          </div>
         </div>
       </div>
     </div>
@@ -27,7 +38,7 @@
             id="name"
             v-model="listing.name.value"
             class="whppt-atdw__form-input"
-            :disabled="listing.name.path"
+            :disabled="!!listing.name.path"
             :class="{ 'whppt-atdw__input--disabled': listing.name.path }"
           />
           <div class="whppt-atdw__form-controls">
@@ -42,14 +53,14 @@
             </div>
           </div>
         </fieldset>
-        <fieldset>
+        <fieldset v-if="listing.listingType === 'product'">
           <label for="desc">Description</label>
           <textarea
             id="desc"
             v-model="listing.description.value"
             class="whppt-atdw__form-textarea"
             rows="5"
-            :disabled="listing.description.path"
+            :disabled="!!listing.description.path"
             :class="{ 'whppt-atdw__input--disabled': listing.description.path }"
           />
           <div class="whppt-atdw__form-controls">
@@ -74,13 +85,27 @@
         </fieldset>
         <fieldset>
           <label for="status">Active Status</label>
-          <input
+          <!-- <input
             id="status"
             v-model="listing.activeStatus.value"
             class="whppt-atdw__form-input"
-            :disabled="listing.activeStatus.path"
+            :disabled="!!listing.activeStatus.path"
             :class="{ 'whppt-atdw__input--disabled': listing.activeStatus.path }"
-          />
+          /> -->
+          <select
+            class="select__input border-1 border-black bg-white"
+            :value="listing.activeStatus.value"
+            v-model="listing.activeStatus.value"
+            :disabled="!!listing.activeStatus.path"
+            :class="{ 'whppt-atdw__input--disabled': listing.activeStatus.path }"
+          >
+            <option value="ACTIVE">
+              ACTIVE
+            </option>
+            <option value="INACTIVE">
+              INACTIVE
+            </option>
+          </select>
           <div class="whppt-atdw__form-controls">
             <span>Linked To: {{ listing.activeStatus.path }}</span>
             <div>
@@ -94,22 +119,62 @@
               <button
                 v-if="!listing.activeStatus.path"
                 class="whppt-atdw__form-button"
-                @click="openReconnectMenu('status')"
+                @click="openReconnectMenu('activeStatus')"
               >
                 reconnect
               </button>
             </div>
           </div>
         </fieldset>
-        <fieldset>
+        <fieldset v-if="listing.listingType === 'product'">
           <label for="address">Address</label>
           <input
             id="address"
             v-model="listing.physicalAddress.value"
             class="whppt-atdw__form-input"
-            :disabled="listing.physicalAddress.path"
+            :disabled="!!listing.physicalAddress.path"
             :class="{ 'whppt-atdw__input--disabled': listing.physicalAddress.path }"
           />
+          <!-- <label for="street">Street</label>
+          <input
+            id="street"
+            v-model="listing.physicalAddress.value.address_line"
+            class="whppt-atdw__form-input"
+            :disabled="!!listing.physicalAddress.path"
+            :class="{ 'whppt-atdw__input--disabled': listing.physicalAddress.path }"
+          />
+          <label for="city">City</label>
+          <input
+            id="city"
+            v-model="listing.physicalAddress.value.city"
+            class="whppt-atdw__form-input"
+            :disabled="!!listing.physicalAddress.path"
+            :class="{ 'whppt-atdw__input--disabled': listing.physicalAddress.path }"
+          />
+          <label for="state">State</label>
+          <input
+            id="state"
+            v-model="listing.physicalAddress.value.state"
+            class="whppt-atdw__form-input"
+            :disabled="!!listing.physicalAddress.path"
+            :class="{ 'whppt-atdw__input--disabled': listing.physicalAddress.path }"
+          />
+          <label for="postcode">Postcode</label>
+          <input
+            id="postcode"
+            v-model="listing.physicalAddress.value.postcode"
+            class="whppt-atdw__form-input"
+            :disabled="!!listing.physicalAddress.path"
+            :class="{ 'whppt-atdw__input--disabled': listing.physicalAddress.path }"
+          />
+          <label for="country">Country</label>
+          <input
+            id="country"
+            v-model="listing.physicalAddress.value.country"
+            class="whppt-atdw__form-input"
+            :disabled="!!listing.physicalAddress.path"
+            :class="{ 'whppt-atdw__input--disabled': listing.physicalAddress.path }"
+          /> -->
           <div class="whppt-atdw__form-controls">
             <span>Linked To: {{ listing.physicalAddress.path }}</span>
             <div>
@@ -130,8 +195,90 @@
             </div>
           </div>
         </fieldset>
+        <fieldset v-if="listing.listingType === 'product'">
+          <label for="phone">Phone</label>
+          <input
+            id="phone"
+            v-model="listing.phone.value"
+            class="whppt-atdw__form-input"
+            :disabled="!!listing.phone.path"
+            :class="{ 'whppt-atdw__input--disabled': listing.phone.path }"
+          />
+          <div class="whppt-atdw__form-controls">
+            <span>Linked To: {{ listing.phone.path }}</span>
+            <div>
+              <button v-if="listing.phone.path" class="whppt-atdw__form-button" @click="disconnect(listing.phone)">
+                disconnect
+              </button>
+              <button v-if="!listing.phone.path" class="whppt-atdw__form-button" @click="openReconnectMenu('phone')">
+                reconnect
+              </button>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset v-if="listing.listingType === 'product'">
+          <label for="email">Email</label>
+          <input
+            id="email"
+            v-model="listing.email.value"
+            class="whppt-atdw__form-input"
+            :disabled="!!listing.email.path"
+            :class="{ 'whppt-atdw__input--disabled': listing.email.path }"
+          />
+          <div class="whppt-atdw__form-controls">
+            <span>Linked To: {{ listing.email.path }}</span>
+            <div>
+              <button v-if="listing.email.path" class="whppt-atdw__form-button" @click="disconnect(listing.email)">
+                disconnect
+              </button>
+              <button v-if="!listing.email.path" class="whppt-atdw__form-button" @click="openReconnectMenu('email')">
+                reconnect
+              </button>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <label for="image">Image</label>
+          <input
+            id="image"
+            v-model="listing.image.value"
+            class="whppt-atdw__form-input"
+            :disabled="!!listing.image.path"
+            :class="{ 'whppt-atdw__input--disabled': listing.image.path }"
+          />
+          <div class="whppt-atdw__form-controls">
+            <span>Linked To: {{ listing.image.path }}</span>
+            <div>
+              <button v-if="listing.image.path" class="whppt-atdw__form-button" @click="disconnect(listing.image)">
+                disconnect
+              </button>
+              <button v-if="!listing.image.path" class="whppt-atdw__form-button" @click="openReconnectMenu('image')">
+                reconnect
+              </button>
+            </div>
+          </div>
+        </fieldset>
         <fieldset>
           <whppt-tags-input label="ATDW Categories" :display-only="true" :tags="listing.atdwCategories.value" />
+          <div class="whppt-atdw__form-controls">
+            <span>Linked To: {{ listing.atdwCategories.path }}</span>
+            <div>
+              <button
+                v-if="listing.atdwCategories.path"
+                class="whppt-atdw__form-button"
+                @click="disconnect(listing.atdwCategories)"
+              >
+                disconnect
+              </button>
+              <button
+                v-if="!listing.atdwCategories.path"
+                class="whppt-atdw__form-button"
+                @click="openReconnectMenu('atdwCategories')"
+              >
+                reconnect
+              </button>
+            </div>
+          </div>
         </fieldset>
         <fieldset>
           <whppt-tags-input label="Custom Categories" :tags="listing.customCategories.value" />
@@ -162,21 +309,50 @@ export default {
     showReconnect: false,
     propToReconnect: '',
     // TODO: work out a way of sharing atdwFields with api/nuxt
+    serviceAtdwFields: {
+      serviceName: stringFromPath,
+      status: stringFromPath,
+      image(product) {
+        const img = get(product, 'serviceMultimedia[0].serverPath');
+        if (!img) return '';
+
+        const { scheme, host, path } = parse(img);
+        return `${scheme}://${host}${path}`;
+        // const { scheme, host, path } = parse(serviceImage);
+        // return `${scheme}://${host}${path}`;
+      },
+      // atdwCategories(product) {
+      //   const tags = map(product.verticalClassifications, category => category.productTypeId);
+      //   tags.push(product.productCategoryId);
+      //   return tags;
+      // },
+    },
     atdwFields: {
-      name: stringFromPath,
-      description: stringFromPath,
-      activeStatus: stringFromPath,
+      productName: stringFromPath,
+      productDescription: stringFromPath,
+      status: stringFromPath,
       email(product) {
-        return find(product.communication, comm => comm.attributeIdCommunication === 'CAEMENQUIR');
+        const email = find(product.communication, comm => comm.attributeIdCommunication === 'CAEMENQUIR');
+        if (!email) return '';
+        return email.communicationDetail;
+      },
+      phone(product) {
+        const phone = find(product.communication, comm => comm.attributeIdCommunication === 'CAPHENQUIR');
+        if (!phone) return '';
+        return phone.communicationDetail;
       },
       physicalAddress(product) {
-        return find(product.addresses, address => address.address_type === 'PHYSICAL');
+        const address = find(product.addresses, address => address.attributeIdAddress === 'PHYSICAL');
+        if (!address) return '';
+        return `${address.addressLine1}, ${address.cityName}, ${address.stateName}, ${address.countryName}`;
+        // if(!address) return ''
+        // return `${address.address_line}, ${address.city}, ${address.state}, ${address.postcode}, ${address.country}`
       },
-      postalAddress(product) {
-        return find(product.addresses, address => address.address_type === 'POSTAL');
-      },
+      // postalAddress(product) {
+      //   return find(product.addresses, address => address.address_type === 'POSTAL');
+      // },
       image(product) {
-        if (!product.productImage) return;
+        if (!product.productImage) return '';
 
         const { scheme, host, path } = parse(product.productImage);
         return `${scheme}://${host}${path}`;
@@ -186,7 +362,6 @@ export default {
         tags.push(product.productCategoryId);
         return tags;
       },
-      customCategories(product) {},
     },
   }),
   computed: {
@@ -204,14 +379,15 @@ export default {
   },
   methods: {
     reconnect(field, key) {
-      this.listing[this.propToReconnect].path = key;
       // this.listing.atdw should probably be dynamic, what if bookeasy?
+      this.listing[this.propToReconnect].path = key;
       this.listing[this.propToReconnect].value = field(this.listing.atdw, key);
+      this.listing[this.propToReconnect].provider = 'atdw';
       this.showReconnect = false;
     },
     disconnect(property) {
-      property.provider = undefined;
-      property.path = undefined;
+      property.provider = '';
+      property.path = '';
     },
     openReconnectMenu(property) {
       this.showReconnect = !this.showReconnect;
@@ -219,6 +395,9 @@ export default {
     },
     saveListing() {
       return this.$axios.post(`${this.baseAPIUrl}/api/listing/save`, { listing: this.listing });
+    },
+    setStatus(value) {
+      this.listing.activeStatus.value = value;
     },
   },
 };
@@ -239,6 +418,13 @@ export default {
   display: flex;
   align-items: center;
   margin: 0.4rem 1rem;
+}
+
+.select__input {
+  width: 100%;
+  font-size: 16px;
+  margin: 5px 0;
+  height: 35px;
 }
 
 .whppt-linker__labels span {

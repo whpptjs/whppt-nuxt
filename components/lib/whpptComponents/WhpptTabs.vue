@@ -33,7 +33,6 @@ export default {
   computed: mapState('whppt-nuxt/editor', ['editSidebarType']),
   watch: {
     editSidebarType() {
-      console.log('here');
       this.selectTab(this.tabs[0]);
     },
   },

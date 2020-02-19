@@ -37,31 +37,29 @@ const Components = options => [
     showOnTablet: true,
     showOnMobile: true,
   },
-  {
-    key: 'Carousel',
-    name: 'Carousel',
-    editorType: 'wCarousel',
-    displayType: 'wCarousel',
-    reversed: false,
-    title: '',
-    description: '',
-    property: 'items',
-    items: [
-      {
-        title: '',
-        description: '',
-        ctaText: '',
-        ctaIcon: undefined,
-        ctaLink: undefined,
-        carouselImage: {
-          value: {
-            imageId: undefined,
-          },
-          sizes: {},
-        },
-      },
-    ],
-  },
+  // {
+  //   key: 'Carousel',
+  //   name: 'Carousel',
+  //   editorType: 'wCarousel',
+  //   displayType: 'wCarousel',
+  //   reversed: false,
+  //   title: '',
+  //   description: '',
+  //   property: 'items',
+  //   items: [
+  //     {
+  //       title: '',
+  //       description: '',
+  //       ctaText: '',
+  //       ctaIcon: undefined,
+  //       ctaLink: undefined,
+  //       carouselImage: {
+  //         imageId: '',
+  //         crop: {},
+  //       },
+  //     },
+  //   ],
+  // },
   {
     key: 'Listings',
     name: 'Listings',
@@ -78,6 +76,19 @@ const Components = options => [
     property: 'data',
     data: {
       imageId: '',
+      // crop: {},
+    },
+  },
+  {
+    key: 'CtaButton',
+    name: 'Button',
+    editorType: 'wCtaButton',
+    displayType: 'wCtaButton',
+    property: 'data',
+    data: {
+      text: 'Button Text',
+      link: '',
+      icon: '',
     },
   },
   ...options.components,

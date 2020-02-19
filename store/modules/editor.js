@@ -1,19 +1,21 @@
 export default options => ({
   namespaced: true,
-  state: () => ({
-    options,
-    baseAPIUrl: process.env.BASE_API_URL,
-    baseImageUrl: process.env.BASE_API_URL,
-    activeMenuItem: undefined,
-    editSidebar: false,
-    editInModal: false,
-    editSidebarType: undefined,
-    editInModalType: undefined,
-    richTextWatcher: 0,
-    selectedComponent: undefined,
-    selectedContent: undefined,
-    selectedContentFilter: undefined,
-  }),
+  state: () => {
+    return {
+      options,
+      baseAPIUrl: process.env.BASE_API_URL,
+      baseImageUrl: process.env.BASE_IMAGE_URL,
+      activeMenuItem: undefined,
+      editSidebar: false,
+      editInModal: false,
+      editSidebarType: undefined,
+      editInModalType: undefined,
+      richTextWatcher: 0,
+      selectedComponent: undefined,
+      selectedContent: undefined,
+      selectedContentFilter: undefined,
+    };
+  },
   actions: {
     selectMenuItem({ commit }, type) {
       this.$whppt.clearSelectedComponent();

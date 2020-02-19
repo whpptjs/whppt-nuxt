@@ -3,14 +3,14 @@
     <div v-plain-text="page">
       {{ page.title || 'Plain Text' }}
     </div>
-    <whppt-link :to="{ href: '/' }">Whppt Link</whppt-link>
+    <whppt-link :to="{ href: '/', type: 'anchor' }">Whppt Link</whppt-link>
     <div v-content="page.contents">
       Content Block 2
       <component
         :is="content.displayType"
         v-for="(content, contentKey) in page.contents"
         :key="`content-${contentKey}`"
-        :content="content"
+        :value="content"
         :class="{ container: content.inContainer, 'mx-auto': content.inContainer }"
         :style="{ 'margin-top': `${content.marginTop || $whppt.defaultMarginTop}px` }"
       ></component>

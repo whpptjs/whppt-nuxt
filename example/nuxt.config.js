@@ -21,6 +21,20 @@ module.exports = {
   whppt: {
     componentPrefix: 'W',
     defaultMarginTop: '40',
+    colours: {
+      background: {
+        'Red Lighter': '#E52F2F',
+        Red: '#981A31',
+        'Red Darker': '#761218',
+        'Red Darkest': '#4A131F',
+        White: 'white',
+        Grey: '#efefef',
+      },
+      text: {
+        Black: 'black',
+        White: 'white',
+      },
+    },
     components: [
       {
         key: 'CardCarousel',
@@ -51,6 +65,36 @@ module.exports = {
         name: 'Feature Block',
         displayType: 'FeatureBlock',
         editorType: 'wComponent',
+        reversed: false,
+        image: {
+          crop: {},
+          imageId: '',
+        },
+      },
+      {
+        key: 'SplitContent',
+        name: 'Split Content',
+        displayType: 'SplitContent',
+        editorType: 'wComponent',
+        property: 'data',
+        data: {
+          reversed: false,
+          image: {
+            sizes: {},
+            imageId: '',
+            crop: {},
+          },
+          text: {
+            title: 'Title',
+            subtitle: 'Subtitle',
+            description: 'Description',
+          },
+          button: {
+            text: 'Button Text',
+            icon: 'Button Icon',
+            link: 'Button Link',
+          },
+        },
       },
     ],
     templates: [

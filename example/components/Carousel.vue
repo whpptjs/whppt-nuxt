@@ -1,6 +1,6 @@
 <template>
   <div
-    v-carousel="value"
+    v-blank-contents="value"
     :data-property="value.property"
     :style="{ 'margin-top': `${value.marginTop || $whppt.defaultMarginTop}px`, container: value.inContainer }"
   >
