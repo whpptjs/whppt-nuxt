@@ -4,8 +4,8 @@
       v-edit-image="value.image"
       data-sizes='{ "desktop": { "width":400, "height":400, "quality":2 } }'
       class="w-full lg:w-1/4 bg-cover bg-top bg-no-repeat aspect-ratio-21/9"
+      :style="`background-image: url('${$whppt.getImage(value.image.imageId, 400, 400, value.image.crop.desktop)}')`"
     ></div>
-    <!-- :style="`background-image: url('${img(400, 400)}')`" -->
     <div class="w-full lg:w-3/4 text-center lg:text-left p-8 lg:p-24">
       <h3
         v-plain-text="value"
