@@ -11,7 +11,6 @@ import linkDirective from './directives/link';
 import listingsDirective from './directives/listings';
 import listingDirective from './directives/listing';
 import editImageDirective from './directives/editImage';
-import ctaButtonDirective from './directives/ctaButton';
 
 import SavePage from './helpers/SavePage';
 import SaveFooter from './helpers/SaveFooter';
@@ -98,5 +97,4 @@ export default (context, inject) => {
   listingsDirective({ ...context, menuIsInState, MENUSTATES });
   listingDirective({ ...context, menuIsInState, MENUSTATES });
   editImageDirective({ ...context, menuIsInState, MENUSTATES });
-  ctaButtonDirective({ ...context, menuIsInState, MENUSTATES });
 };

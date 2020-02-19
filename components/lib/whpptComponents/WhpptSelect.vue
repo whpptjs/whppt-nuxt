@@ -6,12 +6,13 @@
         {{ action }}
       </option>
       <option v-for="(item, index) in items" :key="index" :value="index">
-        {{ item.title || item.label || `Item #${index + 1}` }}
+        {{ getValue(item, valueProp) || `Item #${index + 1}` }}
       </option>
     </select>
   </div>
 </template>
 <script>
+import { get } from 'lodash';
 export default {
   name: 'WhpptSelect',
   props: {
@@ -19,6 +20,7 @@ export default {
     action: { type: String, default: () => 'Please select ...' },
     label: { type: String, default: () => '' },
     value: { type: Object, default: () => undefined },
+    valueProp: { type: String, default: () => null },
   },
   computed: {
     selectedIndex() {
@@ -28,6 +30,9 @@ export default {
   methods: {
     select(event) {
       this.$emit('input', this.items[event.target.value]);
+    },
+    getValue(obj, path) {
+      return get(obj, path);
     },
   },
 };

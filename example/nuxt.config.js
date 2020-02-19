@@ -51,11 +51,9 @@ module.exports = {
             ctaText: '',
             ctaIcon: undefined,
             ctaLink: '',
-            carouselImage: {
-              value: {
-                imageId: undefined,
-              },
-              sizes: {},
+            image: {
+              imageId: undefined,
+              crop: {},
             },
           },
         ],
