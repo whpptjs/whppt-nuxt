@@ -45,6 +45,11 @@ const Components = options => [
     reversed: false,
     title: '',
     description: '',
+    button: {
+      type: 'page',
+      text: '',
+      href: '',
+    },
     property: 'items',
     items: [
       {
@@ -82,18 +87,6 @@ const Components = options => [
     data: {
       imageId: '',
       // crop: {},
-    },
-  },
-  {
-    key: 'CtaButton',
-    name: 'Button',
-    editorType: 'wCtaButton',
-    displayType: 'wCtaButton',
-    property: 'data',
-    data: {
-      text: 'Button Text',
-      link: '',
-      icon: '',
     },
   },
   ...options.components,

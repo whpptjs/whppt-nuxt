@@ -67,6 +67,7 @@ export default {
           text: '',
           icon: undefined,
           href: '',
+          type: 'page',
         },
         image: {
           imageId: undefined,

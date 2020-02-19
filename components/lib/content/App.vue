@@ -14,11 +14,20 @@
         <whppt-tabs>
           <whppt-tab title="Selected Component">
             <component :is="editSidebarType"></component>
-            <div v-if="selectedComponent && selectedComponent.value && selectedContent">
+            <div
+              v-if="selectedComponent && selectedComponent.value && selectedContent"
+              class="whppt__default-container"
+            >
+              <whppt-check-box
+                v-if="selectedComponent.value.hasOwnProperty('reversed')"
+                :value="selectedComponent.value.reversed"
+                label="Reversed"
+                @click="selectedComponent.value.reversed = !selectedComponent.value.reversed"
+              ></whppt-check-box>
               <whppt-check-box
                 v-if="ifExsists(selectedComponent.value.inContainer)"
                 :value="selectedComponent.value.inContainer"
-                label="Put in a container"
+                label="Put in a Container"
                 @click="selectedComponent.value.inContainer = !selectedComponent.value.inContainer"
               ></whppt-check-box>
               <whppt-text-input
@@ -203,5 +212,9 @@ export default {
 }
 :focus {
   outline: none;
+}
+
+.whppt__default-container {
+  display: grid;
 }
 </style>
