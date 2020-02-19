@@ -1,6 +1,7 @@
 <template>
   <div>
-    <whppt-select v-model="editingCarouselItem" :items="editingCarouselItems" label="Editing Item" />
+    <h1>Carousel Items</h1>
+    <whppt-select v-model="editingCarouselItem" :items="editingCarouselItems" valueProp="text.title" />
 
     <div class="whppt-carousel__actions">
       <button class="whppt-carousel__actions-add" @click="add">Add New Item</button>
@@ -8,37 +9,17 @@
         Remove Item
       </button>
     </div>
-
-    <div class="whppt-carousel__item-details-container">
-      <div class="whppt-carousel__item-details-divider" />
-      <whppt-tabs v-if="editingCarouselItem" class="whppt-carousel__item-details" ref="carouselImageTabs">
-        <whppt-tab title="Text">
-          <carousel-text :editingCarouselItem="editingCarouselItem" />
-        </whppt-tab>
-        <whppt-tab title="Gallery">
-          <gallery :value="editingCarouselItem.image.imageId" @input="changeTab" />
-        </whppt-tab>
-        <whppt-tab title="Cropping">
-          <cropping :imageOptions="editingCarouselItem.image" />
-        </whppt-tab>
-      </whppt-tabs>
-    </div>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
-import WhpptTextInput from '../../../whpptComponents/WhpptSelect';
-import WhpptSelect from '../../../whpptComponents/WhpptSelect';
-import WhpptTab from '../../../whpptComponents/WhpptTab';
-import WhpptTabs from '../../../whpptComponents/WhpptTabs';
-import Gallery from '../../EditImage/Gallery';
-import Cropping from '../../EditImage/Cropping';
-import CarouselText from './CarouselText';
+import WhpptTextInput from '../whpptComponents/WhpptSelect';
+import WhpptSelect from '../whpptComponents/WhpptSelect';
 
 export default {
-  name: 'EditorCarouselItemsTab',
-  components: { WhpptTextInput, WhpptTab, WhpptTabs, WhpptSelect, CarouselText, Gallery, Cropping },
+  name: 'EditorCarousel',
+  components: { WhpptTextInput, WhpptSelect },
   data() {
     return {
       editingCarouselItem: undefined,
@@ -54,18 +35,19 @@ export default {
     },
   },
   methods: {
-    changeTab(id) {
-      this.editingCarouselItem.image.value.imageId = id;
-      this.$refs.carouselImageTabs.selectTab(this.$refs.carouselImageTabs.tabs[2]);
-    },
     add() {
       const index = this.editingCarouselItems.indexOf(this.editingCarouselItem);
       this.editingCarouselItems.splice(index + 1, 0, {
-        title: '',
-        description: '',
-        ctaText: '',
-        ctaIcon: undefined,
-        ctaLink: '',
+        text: {
+          title: '',
+          description: '',
+        },
+        button: {
+          text: '',
+          icon: undefined,
+          href: '',
+          type: 'page',
+        },
         image: {
           imageId: undefined,
           crop: {},
@@ -114,19 +96,5 @@ export default {
 }
 .whppt-carousel__actions-remove:hover {
   color: red !important;
-}
-
-.whppt-carousel__item-details-container {
-  display: flex;
-}
-.whppt-carousel__item-details-divider {
-  border-right-width: 2px;
-  border-right-style: solid;
-  border-right-color: grey;
-  margin: 20px 20px 0 0;
-}
-
-.whppt-carousel__item-details {
-  flex: 1;
 }
 </style>
