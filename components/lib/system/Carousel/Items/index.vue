@@ -16,7 +16,7 @@
           <carousel-text :editingCarouselItem="editingCarouselItem" />
         </whppt-tab>
         <whppt-tab title="Gallery">
-          <gallery :value="editingCarouselItem.image.value.imageId" @input="changeTab" />
+          <gallery :value="editingCarouselItem.image.imageId" @input="changeTab" />
         </whppt-tab>
         <whppt-tab title="Cropping">
           <cropping :imageOptions="editingCarouselItem.image" />

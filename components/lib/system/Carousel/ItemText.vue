@@ -1,19 +1,19 @@
 <template>
   <div>
     <whppt-text-input
-      v-model="editingCarouselItem.title"
+      v-model="editingCarouselItem.text.title"
       class="whppt-textBox--margin-top-10"
       placeholder="Enter text here"
       label="Item Title"
     />
     <whppt-text-input
-      v-model="editingCarouselItem.description"
+      v-model="editingCarouselItem.text.description"
       class="whppt-textBox--margin-top-10"
       placeholder="Enter text here"
       label="Item Description"
     />
     <whppt-text-input
-      v-model="editingCarouselItem.ctaText"
+      v-model="editingCarouselItem.button.text"
       class="whppt-textBox--margin-top-10"
       placeholder="Enter text here"
       label="Button Text"
@@ -25,7 +25,7 @@
                 label="Button Icon"
               /> -->
     <whppt-text-input
-      v-model="editingCarouselItem.ctaLink"
+      v-model="editingCarouselItem.button.href"
       class="whppt-textBox--margin-top-10"
       placeholder="Enter text here"
       label="Button Link"
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import WhpptTextInput from '../../../whpptComponents/WhpptTextInput';
+import WhpptTextInput from '../../whpptComponents/WhpptTextInput';
 
 export default {
   name: 'EditorCarouselItemsTab',
