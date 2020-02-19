@@ -27,7 +27,7 @@ import WhpptCheckBox from '../whpptComponents/CheckBox';
 import WhpptSelect from '../whpptComponents/WhpptSelect';
 
 export default {
-  name: 'EditorTextBox',
+  name: 'EditorBlank',
   components: { WhpptSelect, WhpptCheckBox },
   computed: {
     ...mapState('whppt-nuxt/editor', ['selectedComponent', 'options']),
