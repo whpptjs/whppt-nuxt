@@ -11,12 +11,6 @@
       label="Font Colour"
       :items="availableTextColours"
     ></whppt-select>
-    <whppt-check-box
-      v-if="selectedComponent.value.hasOwnProperty('reversed')"
-      :value="selectedComponent.value.reversed"
-      label="Reversed"
-      @click="selectedComponent.value.reversed = !selectedComponent.value.reversed"
-    ></whppt-check-box>
   </div>
 </template>
 

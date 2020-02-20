@@ -40,25 +40,18 @@ const Components = options => [
   {
     key: 'Carousel',
     name: 'Carousel',
-    editorType: 'wCarousel',
+    editorType: 'wList',
     displayType: 'wCarousel',
     reversed: false,
     title: '',
     description: '',
+    button: {
+      type: 'page',
+      text: '',
+      href: '',
+    },
     property: 'items',
-    items: [
-      {
-        title: '',
-        description: '',
-        ctaText: '',
-        ctaIcon: undefined,
-        ctaLink: undefined,
-        carouselImage: {
-          imageId: '',
-          crop: {},
-        },
-      },
-    ],
+    items: [],
   },
   {
     key: 'Listings',
@@ -77,18 +70,6 @@ const Components = options => [
     data: {
       imageId: '',
       // crop: {},
-    },
-  },
-  {
-    key: 'CtaButton',
-    name: 'Button',
-    editorType: 'wCtaButton',
-    displayType: 'wCtaButton',
-    property: 'data',
-    data: {
-      text: 'Button Text',
-      link: '',
-      icon: '',
     },
   },
   ...options.components,

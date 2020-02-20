@@ -2,15 +2,15 @@ import { Components } from './Components';
 
 import contentDirective from './directives/content';
 import richTextDirective from './directives/richText';
-import carouselDirective from './directives/carousel';
+// import carouselDirective from './directives/carousel';
 import blankDirective from './directives/blank';
+import listDirective from './directives/list';
 import plainTextDirective from './directives/plainText';
 import linkGroupDirective from './directives/linkGroup';
 import linkDirective from './directives/link';
 import listingsDirective from './directives/listings';
 import listingDirective from './directives/listing';
 import editImageDirective from './directives/editImage';
-import ctaButtonDirective from './directives/ctaButton';
 
 import SavePage from './helpers/SavePage';
 import SaveFooter from './helpers/SaveFooter';
@@ -88,13 +88,13 @@ export default (context, inject) => {
 
   contentDirective({ ...context, menuIsInState, MENUSTATES });
   plainTextDirective({ ...context, menuIsInState, MENUSTATES });
-  carouselDirective({ ...context, menuIsInState, MENUSTATES });
+  // carouselDirective({ ...context, menuIsInState, MENUSTATES });
   blankDirective({ ...context, menuIsInState, MENUSTATES });
+  listDirective({ ...context, menuIsInState, MENUSTATES });
   richTextDirective({ ...context, menuIsInState, MENUSTATES });
   linkGroupDirective({ ...context, menuIsInState, MENUSTATES });
   linkDirective({ ...context, menuIsInState, MENUSTATES });
   listingsDirective({ ...context, menuIsInState, MENUSTATES });
   listingDirective({ ...context, menuIsInState, MENUSTATES });
   editImageDirective({ ...context, menuIsInState, MENUSTATES });
-  ctaButtonDirective({ ...context, menuIsInState, MENUSTATES });
 };

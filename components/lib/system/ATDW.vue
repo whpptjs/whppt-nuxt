@@ -262,7 +262,7 @@
           <whppt-tags-input label="ATDW Categories" :display-only="true" :tags="listing.atdwCategories.value" />
           <div class="whppt-atdw__form-controls">
             <span>Linked To: {{ listing.atdwCategories.path }}</span>
-            <div>
+            <!-- <div>
               <button
                 v-if="listing.atdwCategories.path"
                 class="whppt-atdw__form-button"
@@ -277,7 +277,7 @@
               >
                 reconnect
               </button>
-            </div>
+            </div> -->
           </div>
         </fieldset>
         <fieldset>
@@ -357,11 +357,11 @@ export default {
         const { scheme, host, path } = parse(product.productImage);
         return `${scheme}://${host}${path}`;
       },
-      atdwCategories(product) {
-        const tags = map(product.verticalClassifications, category => category.productTypeId);
-        tags.push(product.productCategoryId);
-        return tags;
-      },
+      // atdwCategories(product) {
+      //   const tags = map(product.verticalClassifications, category => category.productTypeId);
+      //   tags.push(product.productCategoryId);
+      //   return tags;
+      // },
     },
   }),
   computed: {

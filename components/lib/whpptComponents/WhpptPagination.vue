@@ -22,13 +22,13 @@
     <div class="whppt-pagination-right-nav">
       <button
         @click="goToPage(currentPage + 1)"
-        :disabled="currentPage === pageAmount"
+        :disabled="currentPage === Math.max(pageAmount, 1)"
         class="whppt-pagination-right-buttons"
       >
         →
       </button>
 
-      <button @click="goToPage(pageAmount)" :disabled="currentPage === pageAmount">
+      <button @click="goToPage(Math.max(pageAmount, 1))" :disabled="currentPage === Math.max(pageAmount, 1)">
         ⇥
       </button>
     </div>

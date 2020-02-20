@@ -44,21 +44,7 @@ module.exports = {
         reversed: false,
         title: '',
         description: '',
-        items: [
-          {
-            title: '',
-            description: '',
-            ctaText: '',
-            ctaIcon: undefined,
-            ctaLink: '',
-            carouselImage: {
-              value: {
-                imageId: undefined,
-              },
-              sizes: {},
-            },
-          },
-        ],
+        items: [],
       },
       {
         key: 'FeatureBlock',
