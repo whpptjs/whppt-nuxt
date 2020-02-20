@@ -1,117 +1,115 @@
 <template>
-  <div class=" w-3/4">
-    <div class="whppt-settings">
-      <div v-if="!showWarning" class="whppt-settings__content">
-        <div class="whppt-settings__heading">
-          <h1>Site Settings</h1>
-          <button class="whppt-settings-button" @click="saveCategories">Save</button>
-        </div>
-        <form @submit.prevent>
-          <div>
-            <fieldset>
-              <div class="whppt-flex-between whppt-align-center">
-                <label for="name">Listing Categories</label>
-                <!-- <button class="whppt-icon" @click="addCategory">
+  <div class="whppt-settings">
+    <div v-if="!showWarning" class="whppt-settings__content">
+      <div class="whppt-settings__heading">
+        <h1>Site Settings</h1>
+        <button class="whppt-settings-button" @click="saveCategories">Save</button>
+      </div>
+      <form @submit.prevent>
+        <div>
+          <fieldset>
+            <div class="whppt-flex-between whppt-align-center">
+              <label for="name">Listing Categories</label>
+              <!-- <button class="whppt-icon" @click="addCategory">
                 <w-add-circle></w-add-circle>
               </button> -->
-                <button class="whppt-settings-button" @click="addCategory">Add New Category</button>
-              </div>
-              <div class="flex w-full">
-                <div v-if="!selectedCat" class="flex-1">
-                  <div v-for="(category, index) in categories" :key="index" class="whppt-category flex-1">
-                    <div class="mb-2" @click="selectCat(category, index)">
-                      {{ category.name }}
-                    </div>
+              <button class="whppt-settings-button" @click="addCategory">Add New Category</button>
+            </div>
+            <div class="whppt-flex whppt-w-full">
+              <div v-if="!selectedCat" class="whppt-flex-1">
+                <div v-for="(category, index) in categories" :key="index" class="whppt-category">
+                  <div class="mb-2" @click="selectCat(category, index)">
+                    {{ category.name }}
                   </div>
                 </div>
+              </div>
 
-                <div v-if="selectedCat" class="whppt-category flex-1">
-                  <div @click="selectedCat = undefined">
-                    close
+              <div v-if="selectedCat" class="whppt-category">
+                <div @click="selectedCat = undefined">
+                  close
+                </div>
+                <div>
+                  <label for="name">Category: </label>
+                  <div class="whppt-flex-between whppt-align-center">
+                    <whppt-text-input v-model="selectedCat.name" placeholder="Enter category name" label="Name" />
+                    <button class="whppt-icon ml-auto" @click="openWarning()">
+                      <w-remove></w-remove>
+                    </button>
                   </div>
-                  <div>
-                    <label for="name">Category: </label>
-                    <div class="whppt-flex-between whppt-align-center">
-                      <whppt-text-input v-model="selectedCat.name" placeholder="Enter category name" label="Name" />
-                      <button class="whppt-icon ml-auto" @click="openWarning()">
-                        <w-remove></w-remove>
-                      </button>
-                    </div>
 
-                    <label>Filters: </label>
-                    <div class="whppt-flex-start whppt-align-center flex-wrap">
-                      <div v-for="(filter, filterIndex) in selectedCat.filters" :key="filterIndex">
-                        <div class="whppt-flex-start whppt-align-center ">
-                          <div>
-                            <button
-                              class="whppt-icon ml-auto"
-                              :class="selectedCat.filters.length <= 1 ? 'cursor-default' : ''"
-                              @click="selectedCat.filters.length > 1 ? removeFilter(filterIndex) : ''"
-                            >
-                              <w-remove :class="selectedCat.filters.length <= 1 ? 'text-gray-500' : ''"></w-remove>
-                            </button>
-                            <whppt-text-input
-                              v-model="filter.value"
-                              placeholder="Enter categories to filter by"
-                              info="event, restaurant, etc."
-                            />
-                          </div>
-                          <label v-if="filterIndex < selectedCat.filters.length - 1" class="text-gray-500 mr-4 ml-4">{{
-                            '(AND)'
-                          }}</label>
+                  <label>Filters: </label>
+                  <div class="whppt-flex-start whppt-align-center whppt-flex-wrap">
+                    <div v-for="(filter, filterIndex) in selectedCat.filters" :key="filterIndex">
+                      <div class="whppt-flex-start whppt-align-center ">
+                        <div>
+                          <button
+                            class="whppt-icon ml-auto"
+                            :class="selectedCat.filters.length <= 1 ? 'cursor-default' : ''"
+                            @click="selectedCat.filters.length > 1 ? removeFilter(filterIndex) : ''"
+                          >
+                            <w-remove :class="selectedCat.filters.length <= 1 ? 'text-gray-500' : ''"></w-remove>
+                          </button>
+                          <whppt-text-input
+                            v-model="filter.value"
+                            placeholder="Enter categories to filter by"
+                            info="event, restaurant, etc."
+                          />
                         </div>
+                        <label v-if="filterIndex < selectedCat.filters.length - 1" class="text-gray-500 mr-4 ml-4">{{
+                          '(AND)'
+                        }}</label>
                       </div>
-                      <button class="whppt-icon ml-4" @click="addOrFilter()">
-                        <w-add-circle></w-add-circle>
-                      </button>
                     </div>
-                  </div>
-                </div>
-                <div class="whppt-category">
-                  <div class="font-bold ">
-                    Tag category fields
-                  </div>
-                  <div class="overflow-auto" style="max-height: 500px;">
-                    <div v-for="cat in orderedAllCats" :key="cat">{{ cat }}</div>
+                    <button class="whppt-icon ml-4" @click="addOrFilter()">
+                      <w-add-circle></w-add-circle>
+                    </button>
                   </div>
                 </div>
               </div>
-            </fieldset>
-          </div>
-        </form>
+              <div class="whppt-category">
+                <div class="font-bold ">
+                  Tag category fields
+                </div>
+                <div class="overflow-auto" style="max-height: 500px;">
+                  <div v-for="cat in orderedAllCats" :key="cat">{{ cat }}</div>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+      </form>
+    </div>
+    <div v-if="showWarning" class="whppt-settings__content">
+      <div class="whppt-settings__heading">
+        <h1>Site Settings</h1>
       </div>
-      <div v-if="showWarning" class="whppt-settings__content">
-        <div class="whppt-settings__heading">
-          <h1>Site Settings</h1>
-        </div>
-        <div v-if="usedListings && usedListings.length" class="text-center">
-          <p>
-            WARNING
-          </p>
-          <p>This category is currently being used on {{ usedListings && usedListings.length }} page(s)</p>
-          <p>
-            You will need to remove this category from use to delete it
-          </p>
-          <p class="text-gray-700 italic pt-8">
-            These pages are:
-          </p>
+      <div v-if="usedListings && usedListings.length" class="text-center">
+        <p>
+          WARNING
+        </p>
+        <p>This category is currently being used on {{ usedListings && usedListings.length }} page(s)</p>
+        <p>
+          You will need to remove this category from use to delete it
+        </p>
+        <p class="text-gray-700 italic pt-8">
+          These pages are:
+        </p>
 
-          <div v-for="(page, index) in usedListings" :key="index" class="text-gray-700 italic">
-            {{ page }}
-          </div>
-          <button class="whppt-warning-button mt-8" @click="closeWarning()">Ok</button>
+        <div v-for="(page, index) in usedListings" :key="index" class="text-gray-700 italic">
+          {{ page }}
         </div>
-        <div v-else class="text-center">
-          <p>
-            WARNING
-          </p>
-          <p>
-            This action will delete this category permanently, are you sure?
-          </p>
-          <div class="align-center">
-            <button class="whppt-warning-button mt-8 mr-4" @click="removeCategory()">Yes</button>
-            <button class="whppt-warning-button mt-8 ml-4" @click="closeWarning()">No</button>
-          </div>
+        <button class="whppt-warning-button mt-8" @click="closeWarning()">Ok</button>
+      </div>
+      <div v-else class="text-center">
+        <p>
+          WARNING
+        </p>
+        <p>
+          This action will delete this category permanently, are you sure?
+        </p>
+        <div class="whppt-align-center">
+          <button class="whppt-warning-button mt-8 mr-4" @click="removeCategory()">Yes</button>
+          <button class="whppt-warning-button mt-8 ml-4" @click="closeWarning()">No</button>
         </div>
       </div>
     </div>
@@ -240,7 +238,7 @@ export default {
   color: black;
   display: flex;
   z-index: 52;
-  width: 100%;
+  width: 75%;
   height: 80vh;
   margin: 1.5rem;
   position: relative;
@@ -260,6 +258,7 @@ export default {
   border: 1px solid gray;
   margin: 10px;
   padding: 10px;
+  flex: 1;
 }
 
 .whppt-settings__column {
@@ -375,5 +374,17 @@ export default {
 .whppt-icon {
   display: inline-block;
   color: black;
+}
+
+.whppt-flex-1 {
+  flex: 1;
+}
+
+.whppt-w-full {
+  width: 100%;
+}
+
+.whppt-flex-wrap {
+  flex-wrap: wrap;
 }
 </style>
