@@ -1,12 +1,19 @@
 <template>
-  <component
-    :is="linkType"
-    :to="linkType === 'nuxt-link' && isLinkActive && to.href"
-    :href="linkType === 'a' && to.href"
-    :target="linkType === 'a' && to.type === 'external' && '_blank'"
-  >
-    <slot></slot>
-  </component>
+  <div>
+    <div v-if="!isLinkActive">
+      <slot></slot>
+    </div>
+    <div v-else>
+      <component
+        :is="linkType"
+        :to="linkType === 'nuxt-link' && to.href"
+        :href="linkType === 'a' && to.href"
+        :target="linkType === 'a' && to.type === 'external' && '_blank'"
+      >
+        <slot></slot>
+      </component>
+    </div>
+  </div>
 </template>
 
 <script>
