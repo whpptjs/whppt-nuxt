@@ -13,7 +13,6 @@ export default function($whppt, baseImageUrl) {
 
     return `${baseImageUrl}/${format}/${imageId}`;
   }
-  console.log('TCL: getImage -> baseImageUrl', baseImageUrl);
 
   $whppt.originalImageUrl = originalImageUrl;
   $whppt.getImage = getImage;
