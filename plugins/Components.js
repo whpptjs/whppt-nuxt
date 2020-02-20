@@ -61,17 +61,17 @@ const Components = options => [
     property: 'categoryFilter',
     categoryFilter: {},
   },
-  {
-    key: 'EditImage',
-    name: 'Edit Image',
-    editorType: 'wEditImage',
-    displayType: 'wEditImage',
-    property: 'data',
-    data: {
-      imageId: '',
-      // crop: {},
-    },
-  },
+  // {
+  //   key: 'EditImage',
+  //   name: 'Edit Image',
+  //   editorType: 'wEditImage',
+  //   displayType: 'wEditImage',
+  //   property: 'data',
+  //   data: {
+  //     imageId: '',
+  //     // crop: {},
+  //   },
+  // },
   ...options.components,
 ];
 
