@@ -1,7 +1,6 @@
 <template>
   <div
-    v-blank-contents="value"
-    :data-property="value.property"
+    v-list="{ list: value[value.property], addNew }"
     :style="{ 'margin-top': `${value.marginTop || $whppt.defaultMarginTop}px`, container: value.inContainer }"
   >
     {{ value || 'Just a normal carousel' }}
@@ -11,5 +10,10 @@
 export default {
   name: 'CarouselDisplay',
   props: ['value'],
+  methods: {
+    addNew() {
+      this.value[this.value.property].push({ test: 'THIS IS A TEST' });
+    },
+  },
 };
 </script>

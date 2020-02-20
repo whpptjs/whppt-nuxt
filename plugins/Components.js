@@ -40,7 +40,7 @@ const Components = options => [
   {
     key: 'Carousel',
     name: 'Carousel',
-    editorType: 'wblankContents',
+    editorType: 'wList',
     displayType: 'wCarousel',
     reversed: false,
     title: '',
@@ -51,24 +51,7 @@ const Components = options => [
       href: '',
     },
     property: 'items',
-    items: [
-      {
-        text: {
-          title: '',
-          description: '',
-        },
-        button: {
-          type: 'page',
-          text: '',
-          icon: undefined,
-          href: '',
-        },
-        image: {
-          imageId: '',
-          crop: {},
-        },
-      },
-    ],
+    items: [],
   },
   {
     key: 'Listings',

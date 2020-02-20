@@ -2,12 +2,12 @@
   <div class="whppt-full">
     <h1>Component</h1>
     <div class="whppt-contents__actions my-8">
-      <button class="whppt-contents__actions-add" @click="addItem">Add New Item</button>
+      <button class="whppt-contents__actions-add" @click="selectedComponent.value.addNew">Add New Item</button>
     </div>
-    <div v-for="(item, key) in selectedComponent.value[selectedComponent.property]" :key="key">
+    <div v-for="(item, key) in selectedComponent.value.list" :key="key">
       <div class="flex  mb-2 w-full">
         <span class="mr-5 flex-1">
-          {{ item.text || `Item #${key}` }}
+          {{ item.title || `Item #${key}` }}
         </span>
         <div class="whppt-contents__actions flex-1">
           <button class="whppt-contents__actions-remove" @click="removeItem(item)">
@@ -31,15 +31,8 @@ export default {
   methods: {
     removeItem(link) {
       if (window.confirm('Are you sure?')) {
-        const componentValue = this.selectedComponent.value;
-        componentValue[this.selectedComponent.property] = without(
-          componentValue[this.selectedComponent.property],
-          link
-        );
+        this.selectedComponent.value.list = without(this.selectedComponent.value.list, link);
       }
-    },
-    addItem() {
-      this.selectedComponent.value[this.selectedComponent.property].push({ link: { type: 'anchor' } });
     },
   },
 };

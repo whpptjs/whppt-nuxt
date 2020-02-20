@@ -2,16 +2,15 @@ import Vue from 'vue';
 import SimpleComponentClickHandler from './_simpleComponentClickHandler';
 
 export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
-  Vue.directive('blankContents', {
+  Vue.directive('list', {
     bind(el, binding) {
-      const property = el.getAttribute('data-property');
-      const value = { value: binding.value, property };
+      const value = { value: binding.value };
 
       el.whppthandler = SimpleComponentClickHandler({
         store,
         menuIsInState,
         MENUSTATES,
-        name: 'blankContents',
+        name: 'list',
         el,
         value,
       });
@@ -30,13 +29,12 @@ export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
     },
     update(el, binding) {
       el.removeEventListener('click', el.whppthandler);
-      const property = el.getAttribute('data-property');
-      const value = { value: binding.value, property };
+      const value = { value: binding.value };
       el.whppthandler = SimpleComponentClickHandler({
         store,
         menuIsInState,
         MENUSTATES,
-        name: 'blankContents',
+        name: 'list',
         el,
         value,
       });

@@ -6,7 +6,7 @@ import WhpptPage from './WhpptPage';
 import PlainText from './TextBox';
 // import Carousel from './Carousel';
 import Blank from './Blank';
-import BlankContents from './BlankContents';
+import List from './List';
 import LinkGroup from './LinkGroup';
 import WLink from './Link';
 import atdw from './ATDW';
@@ -29,5 +29,5 @@ export {
   EditImage,
   WLink,
   CtaButton,
-  BlankContents,
+  List,
 };
