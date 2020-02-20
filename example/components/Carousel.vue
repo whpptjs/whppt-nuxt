@@ -1,6 +1,7 @@
 <template>
   <div
-    v-list="{ list: value[value.property], addNew }"
+    v-list="{ data: value, addNew }"
+    :data-property="value.property"
     :style="{ 'margin-top': `${value.marginTop || $whppt.defaultMarginTop}px`, container: value.inContainer }"
   >
     {{ value || 'Just a normal carousel' }}

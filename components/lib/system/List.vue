@@ -4,7 +4,7 @@
     <div class="whppt-contents__actions my-8">
       <button class="whppt-contents__actions-add" @click="selectedComponent.value.addNew">Add New Item</button>
     </div>
-    <div v-for="(item, key) in selectedComponent.value.list" :key="key">
+    <div v-for="(item, key) in selectedComponent.value.data[selectedComponent.property]" :key="key">
       <div class="flex  mb-2 w-full">
         <span class="mr-5 flex-1">
           {{ item.title || `Item #${key}` }}
@@ -31,7 +31,10 @@ export default {
   methods: {
     removeItem(link) {
       if (window.confirm('Are you sure?')) {
-        this.selectedComponent.value.list = without(this.selectedComponent.value.list, link);
+        this.selectedComponent.value.data[this.selectedComponent.property] = without(
+          this.selectedComponent.value.data[this.selectedComponent.property],
+          link
+        );
       }
     },
   },

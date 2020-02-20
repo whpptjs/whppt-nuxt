@@ -4,7 +4,8 @@ import SimpleComponentClickHandler from './_simpleComponentClickHandler';
 export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
   Vue.directive('list', {
     bind(el, binding) {
-      const value = { value: binding.value };
+      const property = el.getAttribute('data-property');
+      const value = { value: binding.value, property };
 
       el.whppthandler = SimpleComponentClickHandler({
         store,
@@ -28,8 +29,9 @@ export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
       delete el.whppthandler;
     },
     update(el, binding) {
+      const property = el.getAttribute('data-property');
       el.removeEventListener('click', el.whppthandler);
-      const value = { value: binding.value };
+      const value = { value: binding.value, property };
       el.whppthandler = SimpleComponentClickHandler({
         store,
         menuIsInState,
