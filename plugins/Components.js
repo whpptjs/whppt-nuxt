@@ -51,7 +51,24 @@ const Components = options => [
       href: '',
     },
     property: 'items',
-    items: [],
+    items: [
+      {
+        text: {
+          title: '',
+          description: '',
+        },
+        button: {
+          text: '',
+          icon: undefined,
+          href: '',
+          type: 'page',
+        },
+        image: {
+          imageId: undefined,
+          crop: {},
+        },
+      },
+    ],
   },
   {
     key: 'Listings',

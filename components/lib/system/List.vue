@@ -5,11 +5,11 @@
       <button class="whppt-contents__actions-add" @click="selectedComponent.addNew">Add New Item</button>
     </div>
     <div v-for="(item, key) in selectedComponent.value[selectedComponent.property]" :key="key">
-      <div class="flex  mb-2 w-full">
-        <span class="mr-5 flex-1">
-          {{ item.title || `Item #${key}` }}
+      <div class="flex justify-between items-center my-2 w-full">
+        <span>
+          {{ item.title || `Item #${key + 1}` }}
         </span>
-        <div class="whppt-contents__actions flex-1">
+        <div class="whppt-contents__actions">
           <button class="whppt-contents__actions-remove" @click="removeItem(item)">
             Remove Item
           </button>
@@ -24,7 +24,7 @@ import { mapState } from 'vuex';
 import { without } from 'lodash';
 
 export default {
-  name: 'EditorBlank',
+  name: 'EditorList',
   computed: {
     ...mapState('whppt-nuxt/editor', ['selectedComponent', 'options']),
   },
