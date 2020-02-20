@@ -32,6 +32,7 @@ export default {
       this.$emit('input', this.items[event.target.value]);
     },
     getValue(obj, path) {
+      if (!path) return obj.title || obj.label;
       return get(obj, path);
     },
   },
