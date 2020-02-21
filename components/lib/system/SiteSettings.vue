@@ -3,7 +3,7 @@
     <div v-if="!showWarning" class="whppt-settings__content">
       <div class="whppt-settings__heading">
         <h1>Site Settings</h1>
-        <button class="whppt-settings-button" @click="saveCategories">Save</button>
+        <button class="whppt-settings__button" @click="saveCategories">Save</button>
       </div>
       <form @submit.prevent>
         <div>
@@ -13,18 +13,18 @@
               <!-- <button class="whppt-icon" @click="addCategory">
                 <w-add-circle></w-add-circle>
               </button> -->
-              <button class="whppt-settings-button" @click="addCategory">Add New Category</button>
+              <button class="whppt-settings__button" @click="addCategory">Add New Category</button>
             </div>
             <div class="whppt-flex whppt-w-full">
               <div v-if="!selectedCat" class="whppt-flex-1">
-                <div v-for="(category, index) in categories" :key="index" class="whppt-category">
-                  <div class="mb-2" @click="selectCat(category, index)">
+                <div v-for="(category, index) in categories" :key="index" class="whppt-settings__category">
+                  <div class="whppt-mb-2" @click="selectCat(category, index)">
                     {{ category.name }}
                   </div>
                 </div>
               </div>
 
-              <div v-if="selectedCat" class="whppt-category">
+              <div v-if="selectedCat" class="whppt-settings__category">
                 <div @click="selectedCat = undefined">
                   close
                 </div>
@@ -32,7 +32,7 @@
                   <label for="name">Category: </label>
                   <div class="whppt-flex-between whppt-align-center">
                     <whppt-text-input v-model="selectedCat.name" placeholder="Enter category name" label="Name" />
-                    <button class="whppt-icon ml-auto" @click="openWarning()">
+                    <button class="whppt-icon whppt-ml-auto" @click="openWarning()">
                       <w-remove></w-remove>
                     </button>
                   </div>
@@ -43,11 +43,11 @@
                       <div class="whppt-flex-start whppt-align-center ">
                         <div>
                           <button
-                            class="whppt-icon ml-auto"
-                            :class="selectedCat.filters.length <= 1 ? 'cursor-default' : ''"
+                            class="whppt-icon whppt-ml-auto"
+                            :class="selectedCat.filters.length <= 1 ? 'whppt-cursor-default' : ''"
                             @click="selectedCat.filters.length > 1 ? removeFilter(filterIndex) : ''"
                           >
-                            <w-remove :class="selectedCat.filters.length <= 1 ? 'text-gray-500' : ''"></w-remove>
+                            <w-remove :class="selectedCat.filters.length <= 1 ? 'whppt-text-gray-500' : ''"></w-remove>
                           </button>
                           <whppt-text-input
                             v-model="filter.value"
@@ -55,22 +55,24 @@
                             info="event, restaurant, etc."
                           />
                         </div>
-                        <label v-if="filterIndex < selectedCat.filters.length - 1" class="text-gray-500 mr-4 ml-4">{{
-                          '(AND)'
-                        }}</label>
+                        <label
+                          v-if="filterIndex < selectedCat.filters.length - 1"
+                          class="whppt-text-gray-500 whppt-mr-4 whppt-ml-4"
+                          >{{ '(AND)' }}</label
+                        >
                       </div>
                     </div>
-                    <button class="whppt-icon ml-4" @click="addOrFilter()">
+                    <button class="whppt-icon whppt-ml-4" @click="addOrFilter()">
                       <w-add-circle></w-add-circle>
                     </button>
                   </div>
                 </div>
               </div>
-              <div class="whppt-category">
-                <div class="font-bold ">
+              <div class="whppt-settings__category">
+                <div class="whppt-font-bold">
                   Tag category fields
                 </div>
-                <div class="overflow-auto" style="max-height: 500px;">
+                <div class="whppt-settings__ordered-cats-container">
                   <div v-for="cat in orderedAllCats" :key="cat">{{ cat }}</div>
                 </div>
               </div>
@@ -83,7 +85,7 @@
       <div class="whppt-settings__heading">
         <h1>Site Settings</h1>
       </div>
-      <div v-if="usedListings && usedListings.length" class="text-center">
+      <div v-if="usedListings && usedListings.length" class="whppt-text-center">
         <p>
           WARNING
         </p>
@@ -91,16 +93,16 @@
         <p>
           You will need to remove this category from use to delete it
         </p>
-        <p class="text-gray-700 italic pt-8">
+        <p class="whppt-settings__page-result">
           These pages are:
         </p>
 
-        <div v-for="(page, index) in usedListings" :key="index" class="text-gray-700 italic">
+        <div v-for="(page, index) in usedListings" :key="index" class="whppt-settings__used-listings-container">
           {{ page }}
         </div>
-        <button class="whppt-warning-button mt-8" @click="closeWarning()">Ok</button>
+        <button class="whppt-settings__warning-button whppt-mt-8" @click="closeWarning()">Ok</button>
       </div>
-      <div v-else class="text-center">
+      <div v-else class="whppt-text-center">
         <p>
           WARNING
         </p>
@@ -108,8 +110,8 @@
           This action will delete this category permanently, are you sure?
         </p>
         <div class="whppt-align-center">
-          <button class="whppt-warning-button mt-8 mr-4" @click="removeCategory()">Yes</button>
-          <button class="whppt-warning-button mt-8 ml-4" @click="closeWarning()">No</button>
+          <button class="whppt-settings__warning-button whppt-mt-8 whppt-mr-4" @click="removeCategory()">Yes</button>
+          <button class="whppt-settings__warning-button whppt-mt-8 whppt-ml-4" @click="closeWarning()">No</button>
         </div>
       </div>
     </div>
@@ -254,7 +256,7 @@ export default {
   position: relative;
 }
 
-.whppt-category {
+.whppt-settings__category {
   border: 1px solid gray;
   margin: 10px;
   padding: 10px;
@@ -319,7 +321,7 @@ export default {
   left: 0;
   display: flex;
   width: 100%;
-  padding: 0.5rem;
+  padding: 1rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.5);
   height: 4rem;
 }
@@ -327,7 +329,7 @@ export default {
 .whppt-settings__content form {
   display: flex;
   flex-direction: column;
-  padding: 0.5rem;
+  padding: 1rem;
 }
 
 .whppt-settings__content form > fieldset {
@@ -354,7 +356,7 @@ export default {
   resize: vertical;
 }
 
-.whppt-settings-button {
+.whppt-settings__button {
   margin-left: auto;
   padding: 0.8rem 2rem;
   display: inline-block;
@@ -363,7 +365,7 @@ export default {
   border-radius: 25px;
 }
 
-.whppt-warning-button {
+.whppt-settings__warning-button {
   padding: 0.8rem 2rem;
   display: inline-block;
   color: white;
@@ -386,5 +388,52 @@ export default {
 
 .whppt-flex-wrap {
   flex-wrap: wrap;
+}
+
+.whppt-settings__page-result {
+  color: gray;
+  font-style: italic;
+  padding-top: 2rem;
+}
+
+.whppt-overflow-auto {
+  overflow: auto;
+}
+
+.whppt-ml-auto {
+  margin-left: auto;
+}
+
+.whppt-ml-4 {
+  margin-left: 1rem;
+}
+.whppt-mr-4 {
+  margin-right: 1rem;
+}
+.whppt-mt-8 {
+  margin-top: 2rem;
+}
+.whppt-settings__ordered-cats-container {
+  overflow: auto;
+  max-height: 500px;
+}
+.whppt-font-bold {
+  font-weight: bold;
+}
+.whppt-text-center {
+  text-align: center;
+}
+.whppt-settings__used-listings-container {
+  color: #222;
+  font-style: italic;
+}
+.whppt-mb-2 {
+  margin-bottom: 0.5rem;
+}
+.whppt-cursor-default {
+  cursor: default;
+}
+.whppt-text-gray-500 {
+  color: #333;
 }
 </style>
