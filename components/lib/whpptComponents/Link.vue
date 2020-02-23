@@ -72,6 +72,12 @@
           it.
         </div>
       </div>
+      <whppt-check-box
+        v-if="isTypeOf(data.featured)"
+        :value="data.featured"
+        label="Feature this link (if applicable)"
+        @click="data.featured = !data.featured"
+      ></whppt-check-box>
     </div>
   </div>
 </template>
@@ -79,11 +85,17 @@
 <script>
 import ETab from './Tab';
 import WhpptTextInput from './WhpptTextInput';
+import WhpptCheckBox from './CheckBox';
 
 export default {
   name: 'EditorLinkEdit',
-  components: { WhpptTextInput, ETab },
+  components: { WhpptTextInput, ETab, WhpptCheckBox },
   props: ['data'],
+  methods: {
+    isTypeOf() {
+      return typeof value !== 'undefined';
+    },
+  },
 };
 </script>
 <style scoped>
