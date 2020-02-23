@@ -51,7 +51,24 @@ const Components = options => [
       href: '',
     },
     property: 'items',
-    items: [],
+    items: [
+      {
+        text: {
+          title: '',
+          description: '',
+        },
+        button: {
+          text: '',
+          icon: undefined,
+          href: '',
+          type: 'page',
+        },
+        image: {
+          imageId: undefined,
+          crop: {},
+        },
+      },
+    ],
   },
   {
     key: 'Listings',
@@ -61,17 +78,17 @@ const Components = options => [
     property: 'categoryFilter',
     categoryFilter: {},
   },
-  {
-    key: 'EditImage',
-    name: 'Edit Image',
-    editorType: 'wEditImage',
-    displayType: 'wEditImage',
-    property: 'data',
-    data: {
-      imageId: '',
-      // crop: {},
-    },
-  },
+  // {
+  //   key: 'EditImage',
+  //   name: 'Edit Image',
+  //   editorType: 'wEditImage',
+  //   displayType: 'wEditImage',
+  //   property: 'data',
+  //   data: {
+  //     imageId: '',
+  //     // crop: {},
+  //   },
+  // },
   ...options.components,
 ];
 

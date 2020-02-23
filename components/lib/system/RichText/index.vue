@@ -184,6 +184,7 @@ export default {
   min-height: 400px;
   padding: 1em;
   height: 60vh;
+  overflow-y: scroll;
 }
 
 .whppt-editor .ProseMirror-focused {

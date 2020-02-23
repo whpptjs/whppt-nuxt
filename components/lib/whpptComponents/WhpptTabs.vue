@@ -2,14 +2,11 @@
   <div>
     <div class="whppt-tabs">
       <div
-        @click="selectTab(tab)"
         v-for="(tab, index) in tabs"
-        class="whppt-tabs__title"
-        :class="{
-          'whppt-tabs__title--active': tab.active,
-          'whppt-tabs__title--inactive': !tab.active,
-        }"
         :key="index"
+        class="whppt-tabs__title"
+        :class="{ 'whppt-tabs__title--active': tab.active, 'whppt-tabs__title--inactive': !tab.active }"
+        @click="selectTab(tab)"
       >
         {{ tab.title }}
       </div>
@@ -60,6 +57,11 @@ export default {
   border-bottom-color: lightgrey;
   border-bottom-width: 1px;
   border-bottom-style: outset;
+}
+
+.whppt-tabs .tabs-details {
+  overflow: auto;
+  height: calc(100vh - 120px);
 }
 
 .whppt-tabs__title {

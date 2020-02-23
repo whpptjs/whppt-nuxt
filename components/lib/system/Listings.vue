@@ -1,5 +1,5 @@
 <template>
-  <div class="whppt-full ">
+  <div class="whppt-full">
     <h1>Listings</h1>
     <p>Filter</p>
     <whppt-select
@@ -7,9 +7,9 @@
       :items="filters"
       label="Category Filter"
       :value="selectedComponent.value[selectedComponent.property]"
-      class="mb-0"
+      class="whppt-mb-0"
     />
-    <p class=" text-gray-700 italic mb-4">
+    <p class="whppt-listings__selection-container">
       Currently set to:
       {{
         selectedComponent.value[selectedComponent.property]
@@ -50,5 +50,15 @@ export default {
 <style>
 .whppt-textBox--margin-top-20 {
   margin-top: 20px;
+}
+
+.whppt-mb-0 {
+  margin-bottom: 0;
+}
+
+.whppt-listings__selection-container {
+  color: lightgray;
+  font-style: italic;
+  margin-bottom: 1rem;
 }
 </style>

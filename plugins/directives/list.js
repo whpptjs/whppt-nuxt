@@ -5,7 +5,7 @@ export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
   Vue.directive('list', {
     bind(el, binding) {
       const property = el.getAttribute('data-property');
-      const value = { value: binding.value, property };
+      const value = { value: binding.value.data, property, addNew: binding.value.addNew };
 
       el.whppthandler = SimpleComponentClickHandler({
         store,
@@ -31,7 +31,7 @@ export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
     update(el, binding) {
       const property = el.getAttribute('data-property');
       el.removeEventListener('click', el.whppthandler);
-      const value = { value: binding.value, property };
+      const value = { value: binding.value.data, property, addNew: binding.value.addNew };
       el.whppthandler = SimpleComponentClickHandler({
         store,
         menuIsInState,
