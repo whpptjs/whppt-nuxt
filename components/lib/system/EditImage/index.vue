@@ -31,12 +31,6 @@ export default {
       this.$refs.imageTabs.selectTab(this.$refs.imageTabs.tabs[0]);
     },
   },
-  // watch: {
-  //   'selectedComponent.value'(val) {
-  //     if (val) {
-  //     }
-  //   },
-  // },
 };
 </script>
 <style scoped>
