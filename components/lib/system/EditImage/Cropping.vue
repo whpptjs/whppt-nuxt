@@ -6,6 +6,7 @@
         <label class="whppt-cropper-label">{{ canvas.name }}</label>
         <croppa
           :key="canvas.name"
+          :show-loading="true"
           :ref="`${canvas.name}Croppa`"
           :disable-drag-and-drop="true"
           :disable-click-to-choose="true"
@@ -18,8 +19,7 @@
           :accept="'image/*'"
           :file-size-limit="0"
           :prevent-white-space="true"
-          @new-image="test"
-          @initial-image-loaded="applyManipulation"
+          @new-image-drawn="applyManipulation"
           @draw="change(canvas.name)"
         />
       </div>
@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { forEach, cloneDeep, map } from 'lodash';
+import { forEach, cloneDeep } from 'lodash';
 import Croppa from 'vue-croppa';
 import 'vue-croppa/dist/vue-croppa.css';
 import WhpptButton from '../../whpptComponents/WhpptButton';
@@ -58,25 +58,15 @@ export default {
     },
   },
   created() {
-    // Reset crop seting for each image
     this.imageOptions.crop = this.imageOptions.crop || {};
 
     forEach(this.sizes, (size, key) => {
-      // this.canvases.push({
-      //   name: key,
-      //   croppa: {},
-      //   ...size,
-      // });
       size.name = key;
-      // size.croppa = size.croppa || {};
     });
 
     this.imageOptionsCopy = cloneDeep(this.imageOptions);
   },
   methods: {
-    test() {
-      console.log('test');
-    },
     applyManipulation() {
       this.$nextTick(() =>
         forEach(this.sizes, (size, key) => {
@@ -84,6 +74,7 @@ export default {
         })
       );
     },
+
     change(sizeKey) {
       const croppa = this.$refs[`${sizeKey}Croppa`][0];
       const meta = {
@@ -92,10 +83,7 @@ export default {
         orientation: croppa.orientation,
         scale: croppa.scaleRatio,
       };
-
       this.imageOptionsCopy.crop[sizeKey] = meta;
-      console.log('TCL: change -> this.imageOptionsCopy', JSON.stringify(this.imageOptionsCopy, null, 2));
-      // this.imageOptionsCopy.imageId = canvas;
     },
     applyChanges() {
       this.imageOptions.crop = cloneDeep(this.imageOptionsCopy.crop);
@@ -104,12 +92,10 @@ export default {
   watch: {
     'imageOptions.imageId'(val) {
       this.imageOptionsCopy.imageId = val;
-      const url = this.$whppt.originalImageUrl(this.imageOptionsCopy.imageId);
-      console.log('TCL: url', url);
+      this.imageOptionsCopy.crop = cloneDeep(this.imageOptions.crop);
       forEach(this.sizes, (size, key) => {
         size.name = key;
         this.$refs[`${key}Croppa`][0].refresh();
-        this.$refs[`${key}Croppa`][0].applyMetadata(this.imageOptions.crop[key] || {});
       });
     },
   },
