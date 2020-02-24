@@ -9,9 +9,7 @@
     :href="linkType === 'a' && to.href"
     :target="linkType === 'a' && to.type === 'external' && '_blank'"
   >
-    <button>
-      <slot></slot>
-    </button>
+    <slot></slot>
   </component>
 </template>
 
