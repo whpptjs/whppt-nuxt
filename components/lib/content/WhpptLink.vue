@@ -10,7 +10,9 @@
       :href="linkType === 'a' && to.href"
       :target="linkType === 'a' && to.type === 'external' && '_blank'"
     >
-      <slot></slot>
+      <button>
+        <slot></slot>
+      </button>
     </component>
   </div>
 </template>

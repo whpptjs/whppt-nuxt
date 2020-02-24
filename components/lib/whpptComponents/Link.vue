@@ -92,7 +92,7 @@ export default {
   components: { WhpptTextInput, ETab, WhpptCheckBox },
   props: ['data'],
   methods: {
-    isTypeOf() {
+    isTypeOf(value) {
       return typeof value !== 'undefined';
     },
   },
