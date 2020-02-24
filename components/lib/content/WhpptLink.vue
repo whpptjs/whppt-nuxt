@@ -1,20 +1,18 @@
 <template>
-  <div>
-    <div v-if="!isLinkActive">
-      <slot></slot>
-    </div>
-    <component
-      :is="linkType"
-      v-else
-      :to="linkType === 'nuxt-link' && to.href"
-      :href="linkType === 'a' && to.href"
-      :target="linkType === 'a' && to.type === 'external' && '_blank'"
-    >
-      <button>
-        <slot></slot>
-      </button>
-    </component>
+  <div v-if="!isLinkActive">
+    <slot></slot>
   </div>
+  <component
+    :is="linkType"
+    v-else
+    :to="linkType === 'nuxt-link' && to.href"
+    :href="linkType === 'a' && to.href"
+    :target="linkType === 'a' && to.type === 'external' && '_blank'"
+  >
+    <button>
+      <slot></slot>
+    </button>
+  </component>
 </template>
 
 <script>
@@ -42,20 +40,3 @@ export default {
   },
 };
 </script>
-
-<!--
-<nuxt-link v-if="isLinkActive && to.href && !to.type" :to="to.href">
-      <slot></slot>
-    </nuxt-link>
-    <nuxt-link v-if="isLinkActive && to.href && to.type === 'page'" :to="to.href">
-      <slot></slot>
-    </nuxt-link>
-    <a v-if="isLinkActive && to.href && to.type === 'external'" :href="to.href" target="_blank">
-      <slot></slot>
-    </a>
-    <a v-if="isLinkActive && to.href && to.type === 'anchor'" :href="to.href">
-      <slot></slot>
-    </a>
-    <span v-if="!isLinkActive">
-      <slot></slot>
-    </span>-->
