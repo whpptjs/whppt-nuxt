@@ -1,6 +1,6 @@
 <template>
   <div class="whppt-editor">
-    <h1 class="whppt-editor__header">Rich Text Editor</h1>
+    <p class="font-xl whppt-editor__header">Rich Text Editor</p>
     <editor-menu-bar :editor="editor">
       <div slot-scope="{ commands, isActive, getMarkAttrs }" class="whppt-menubar" style="top: -52px">
         <button @click="commands.bold">

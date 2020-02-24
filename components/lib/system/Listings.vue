@@ -1,6 +1,6 @@
 <template>
   <div class="whppt-full">
-    <h1>Listings</h1>
+    <p class="font-xl">Listings</p>
     <p>Filter</p>
     <whppt-select
       v-model="selectedComponent.value[selectedComponent.property]"

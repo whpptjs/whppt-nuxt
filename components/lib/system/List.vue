@@ -1,6 +1,7 @@
 <template>
   <div class="whppt-full">
-    <h1>Component</h1>
+    <p class="font-xl">Component</p>
+
     <div class="whppt-contents__actions">
       <button class="whppt-contents__actions-add" @click="selectedComponent.addNew">+ Add New Item</button>
     </div>

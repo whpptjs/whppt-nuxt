@@ -1,6 +1,6 @@
 <template>
   <div class="whppt-full">
-    <h1>Image</h1>
+    <p class="font-xl">Image</p>
     <whppt-tabs ref="imageTabs">
       <whppt-tab title="Cropping">
         <cropping :image-options="selectedComponent.value" :sizes="selectedComponent.sizes" />

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Carousel Items</h1>
+    <p class="font-xl">Carousel Items</p>
     <whppt-select v-model="editingCarouselItem" :items="editingCarouselItems" valueProp="text.title" />
 
     <div class="whppt-carousel__actions">

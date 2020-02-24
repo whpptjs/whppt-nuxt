@@ -2,7 +2,7 @@
   <div class="whppt-settings">
     <div v-if="!showWarning" class="whppt-settings__content">
       <div class="whppt-settings__heading">
-        <h1>Site Settings</h1>
+        <p class="font-xl">Site Settings</p>
         <button class="whppt-settings__button" @click="saveCategories">Save</button>
       </div>
       <form @submit.prevent>
