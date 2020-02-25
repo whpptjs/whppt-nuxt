@@ -72,6 +72,12 @@ const Components = options => [
       // crop: {},
     },
   },
+  {
+    key: 'ContactIcon',
+    name: 'ContactIcon',
+    editorType: 'wContactIcon',
+    displayType: 'wContactIcon',
+  },
   ...options.components,
 ];
 
