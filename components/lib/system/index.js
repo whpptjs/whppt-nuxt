@@ -13,6 +13,7 @@ import atdw from './ATDW';
 import Listings from './Listings';
 import EditImage from './EditImage';
 import CtaButton from './CTAButton';
+import SplitContent from './SplitContent';
 
 export {
   WhpptPage,
@@ -30,4 +31,5 @@ export {
   WLink,
   CtaButton,
   List,
+  SplitContent,
 };

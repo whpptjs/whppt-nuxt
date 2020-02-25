@@ -78,6 +78,15 @@ const Components = options => [
     property: 'categoryFilter',
     categoryFilter: {},
   },
+  {
+    key: 'SplitContent',
+    name: 'Split Content',
+    editorType: 'wSplitContent',
+    displayType: 'wSplitContent',
+    property: 'width',
+    contents: { left: [], right: [] },
+    width: '6',
+  },
   // {
   //   key: 'EditImage',
   //   name: 'Edit Image',
