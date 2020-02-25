@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!isLinkActive">
+  <div v-if="!isLinkActive || !to.href">
     <slot></slot>
   </div>
   <component
