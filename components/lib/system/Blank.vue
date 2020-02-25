@@ -1,6 +1,7 @@
 <template>
   <div class="whppt-full">
-    <h1>Component</h1>
+    <p class="font-xl">Component</p>
+
     <whppt-select
       v-model="selectedComponent.value.backgroundColour"
       label="Background Colour"

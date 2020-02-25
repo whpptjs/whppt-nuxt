@@ -51,7 +51,24 @@ const Components = options => [
       href: '',
     },
     property: 'items',
-    items: [],
+    items: [
+      {
+        text: {
+          title: '',
+          description: '',
+        },
+        button: {
+          text: '',
+          icon: undefined,
+          href: '',
+          type: 'page',
+        },
+        image: {
+          imageId: undefined,
+          crop: {},
+        },
+      },
+    ],
   },
   {
     key: 'Listings',
@@ -62,15 +79,13 @@ const Components = options => [
     categoryFilter: {},
   },
   {
-    key: 'EditImage',
-    name: 'Edit Image',
-    editorType: 'wEditImage',
-    displayType: 'wEditImage',
-    property: 'data',
-    data: {
-      imageId: '',
-      // crop: {},
-    },
+    key: 'SplitContent',
+    name: 'Split Content',
+    editorType: 'wSplitContent',
+    displayType: 'wSplitContent',
+    property: 'width',
+    contents: { left: [], right: [] },
+    width: '6',
   },
   {
     key: 'ContactIcon',
@@ -78,6 +93,17 @@ const Components = options => [
     editorType: 'wContactIcon',
     displayType: 'wContactIcon',
   },
+  // {
+  //   key: 'EditImage',
+  //   name: 'Edit Image',
+  //   editorType: 'wEditImage',
+  //   displayType: 'wEditImage',
+  //   property: 'data',
+  //   data: {
+  //     imageId: '',
+  //     // crop: {},
+  //   },
+  // },
   ...options.components,
 ];
 

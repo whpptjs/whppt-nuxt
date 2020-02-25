@@ -6,19 +6,21 @@
         <label class="whppt-cropper-label">{{ canvas.name }}</label>
         <croppa
           :key="canvas.name"
-          v-model="canvas.croppa"
+          :show-loading="true"
+          :ref="`${canvas.name}Croppa`"
           :disable-drag-and-drop="true"
           :disable-click-to-choose="true"
           :width="canvas.width / canvas.quality"
           :height="canvas.height / canvas.quality"
           :quality="canvas.quality"
           :initial-image="$whppt.originalImageUrl(imageOptionsCopy.imageId)"
-          :placeholder="'Choose an image'"
+          placeholder="Choose from gallery"
+          :placeholder-font-size="14"
           :accept="'image/*'"
           :file-size-limit="0"
           :prevent-white-space="true"
-          @initial-image-loaded="applyManipulation"
-          @draw="change(canvas)"
+          @new-image-drawn="applyManipulation"
+          @draw="change(canvas.name)"
         />
       </div>
       <whppt-button class="whppt-cropper__apply-change" @click="applyChanges">Apply Change</whppt-button>
@@ -31,7 +33,6 @@ import { forEach, cloneDeep } from 'lodash';
 import Croppa from 'vue-croppa';
 import 'vue-croppa/dist/vue-croppa.css';
 import WhpptButton from '../../whpptComponents/WhpptButton';
-
 export default {
   name: 'EditorImageCropping',
   components: { croppa: Croppa.component, WhpptButton },
@@ -48,6 +49,7 @@ export default {
   data() {
     return {
       imageOptionsCopy: {},
+      croppas: [],
     };
   },
   computed: {
@@ -56,12 +58,10 @@ export default {
     },
   },
   created() {
-    // Reset crop seting for each image
-    this.imageOptions.crop = {};
+    this.imageOptions.crop = this.imageOptions.crop || {};
 
     forEach(this.sizes, (size, key) => {
       size.name = key;
-      size.croppa = size.croppa || {};
     });
 
     this.imageOptionsCopy = cloneDeep(this.imageOptions);
@@ -70,22 +70,33 @@ export default {
     applyManipulation() {
       this.$nextTick(() =>
         forEach(this.sizes, (size, key) => {
-          size.croppa.applyMetadata(this.imageOptions.crop[key] || {});
+          this.$refs[`${key}Croppa`][0].applyMetadata(this.imageOptions.crop[key] || {});
         })
       );
     },
-    change(canvas) {
-      const meta = {
-        startX: canvas.croppa.imgData.startX,
-        startY: canvas.croppa.imgData.startY,
-        orientation: canvas.croppa.orientation,
-        scale: canvas.croppa.scaleRatio,
-      };
 
-      this.imageOptionsCopy.crop[canvas.name] = meta;
+    change(sizeKey) {
+      const croppa = this.$refs[`${sizeKey}Croppa`][0];
+      const meta = {
+        startX: croppa.imgData.startX,
+        startY: croppa.imgData.startY,
+        orientation: croppa.orientation,
+        scale: croppa.scaleRatio,
+      };
+      this.imageOptionsCopy.crop[sizeKey] = meta;
     },
     applyChanges() {
       this.imageOptions.crop = cloneDeep(this.imageOptionsCopy.crop);
+    },
+  },
+  watch: {
+    'imageOptions.imageId'(val) {
+      this.imageOptionsCopy.imageId = val;
+      this.imageOptionsCopy.crop = cloneDeep(this.imageOptions.crop);
+      forEach(this.sizes, (size, key) => {
+        size.name = key;
+        this.$refs[`${key}Croppa`][0].refresh();
+      });
     },
   },
 };

@@ -1,6 +1,6 @@
 <template>
   <div class="whppt-full">
-    <h1>Add Content</h1>
+    <p class="font-xl">Add Content</p>
     <whppt-button
       v-for="component in componentList"
       :key="component.key"

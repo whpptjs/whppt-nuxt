@@ -1,6 +1,7 @@
 <template>
   <div class="whppt-page">
-    <h2>Create a Page</h2>
+    <p class="font-xl">Create a Page</p>
+
     <form class="whppt-page__form" @submit.prevent>
       <whppt-select v-model="template" :items="templates" label="Page Template:" />
 

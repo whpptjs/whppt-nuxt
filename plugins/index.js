@@ -1,6 +1,7 @@
 import { Components } from './Components';
 
 import contentDirective from './directives/content';
+import splitContentDirective from './directives/splitContent';
 import richTextDirective from './directives/richText';
 // import carouselDirective from './directives/carousel';
 import blankDirective from './directives/blank';
@@ -88,6 +89,7 @@ export default (context, inject) => {
   inject('whppt', whppt);
 
   contentDirective({ ...context, menuIsInState, MENUSTATES });
+  splitContentDirective({ ...context, menuIsInState, MENUSTATES });
   plainTextDirective({ ...context, menuIsInState, MENUSTATES });
   // carouselDirective({ ...context, menuIsInState, MENUSTATES });
   blankDirective({ ...context, menuIsInState, MENUSTATES });

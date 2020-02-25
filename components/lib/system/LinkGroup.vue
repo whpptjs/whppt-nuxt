@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="whppt-header">Edit Link Group</h1>
+    <p class="font-xl whppt-header">Edit Link Group</p>
     <div class="whppt-link-group__border">
       <h3 class="whppt-header">Header of group</h3>
       <whppt-check-box
@@ -36,12 +36,6 @@
       </div>
 
       <e-link :data="selectKey"></e-link>
-      <whppt-check-box
-        v-if="selectKey"
-        :value="selectKey.featured"
-        label="Feature this link (if applicable)"
-        @click="selectKey.featured = !selectKey.featured"
-      ></whppt-check-box>
     </div>
   </div>
 </template>

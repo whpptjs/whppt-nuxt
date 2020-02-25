@@ -14,6 +14,7 @@ import Listings from './Listings';
 import EditImage from './EditImage';
 import CtaButton from './CTAButton';
 import ContactIcon from './ContactIcon';
+import SplitContent from './SplitContent';
 
 export {
   WhpptPage,
@@ -32,4 +33,5 @@ export {
   CtaButton,
   List,
   ContactIcon,
+  SplitContent,
 };
