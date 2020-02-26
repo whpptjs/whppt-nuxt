@@ -152,7 +152,7 @@ export default {
     return {
       showError: false,
       selectedTab: 'seo',
-      sizes: { desktop: { width: 700, height: 450, quality: 2 } },
+      sizes: { desktop: { width: 400, height: 209, quality: 1 } },
     };
   },
   computed: {
