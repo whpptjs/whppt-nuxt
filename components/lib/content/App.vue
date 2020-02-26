@@ -58,6 +58,7 @@ import { mapState, mapActions } from 'vuex';
 import * as Editors from '../system';
 import Modal from '../system/Modal';
 import SiteSettings from '../system/SiteSettings';
+import PageSettings from '../system/PageSettings';
 import WhpptTextInput from '../whpptComponents/WhpptTextInput';
 import WhpptButton from '../whpptComponents/WhpptButton';
 import WhpptCheckBox from '../whpptComponents/CheckBox';
@@ -69,6 +70,7 @@ export default {
   name: 'WhpptEditorApp',
   components: {
     ...Editors,
+    PageSettings,
     WhpptButton,
     Modal,
     WhpptTextInput,
@@ -118,7 +120,9 @@ export default {
   transition: 0.5s;
   z-index: 51;
   min-height: 400px;
+  height: 100vh;
 }
+
 .whppt-sidebar__inner {
   width: 365px;
   position: fixed;

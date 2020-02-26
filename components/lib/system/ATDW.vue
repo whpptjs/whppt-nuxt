@@ -3,7 +3,8 @@
     <div v-if="showReconnect" class="whppt-atdw__modal">
       <div class="whppt-atdw__content whppt-atdw__modal--inner">
         <div class="whppt-atdw__heading">
-          <h1>ATDW</h1>
+          <p class="font-xl">ATDW</p>
+
           <button class="whppt-atdw__form-button" @click="showReconnect = !showReconnect">Close</button>
         </div>
         <div v-if="listing.listingType === 'product'">

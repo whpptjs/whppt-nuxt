@@ -1,6 +1,12 @@
 <template>
   <div>
-    <label v-if="label" class="whppt-inputText__label" :for="id">{{ label }}</label>
+    <label
+      v-if="label"
+      class="whppt-inputText__label"
+      :class="labelColour ? `color-${labelColour}` : 'color-white'"
+      :for="id"
+      >{{ label }}</label
+    >
     <input
       :id="id"
       v-bind="$attrs"
@@ -23,12 +29,12 @@
 // Based on https://vuejs.org/v2/examples/modal.html
 export default {
   name: 'EditorInputText',
-  props: ['id', 'label', 'value', 'info', 'placeholder', 'disabled'],
+  props: ['id', 'label', 'value', 'info', 'placeholder', 'disabled', 'labelColour'],
 };
 </script>
 <style scoped>
 .whppt-inputText__label {
-  color: white;
+  /* color: white; */
   display: block;
   text-transform: uppercase;
   letter-spacing: 0.025em;

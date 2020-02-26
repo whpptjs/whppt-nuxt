@@ -51,7 +51,24 @@ const Components = options => [
       href: '',
     },
     property: 'items',
-    items: [],
+    items: [
+      {
+        text: {
+          title: '',
+          description: '',
+        },
+        button: {
+          text: '',
+          icon: undefined,
+          href: '',
+          type: 'page',
+        },
+        image: {
+          imageId: undefined,
+          crop: {},
+        },
+      },
+    ],
   },
   {
     key: 'Listings',
@@ -60,6 +77,15 @@ const Components = options => [
     displayType: 'wListings',
     property: 'categoryFilter',
     categoryFilter: {},
+  },
+  {
+    key: 'SplitContent',
+    name: 'Split Content',
+    editorType: 'wSplitContent',
+    displayType: 'wSplitContent',
+    property: 'width',
+    contents: { left: [], right: [] },
+    width: '6',
   },
   // {
   //   key: 'EditImage',

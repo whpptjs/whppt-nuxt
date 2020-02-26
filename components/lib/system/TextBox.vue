@@ -1,6 +1,7 @@
 <template>
   <div class="whppt-full ">
-    <h1>Text box</h1>
+    <p class="font-xl">Text box</p>
+
     <whppt-text-input
       v-model="selectedComponent.value[selectedComponent.property]"
       class="whppt-textBox--margin-top-20"

@@ -30,7 +30,10 @@ export default {
     ...mapState('whppt-nuxt/site', ['footer']),
   },
   asyncData({ params, store, error, app: { $whppt } }) {
-    return Promise.all([store.dispatch('whppt-nuxt/page/loadPage', { slug: params.pathMatch })]).catch(err => {
+    return Promise.all([
+      store.dispatch('whppt-nuxt/page/loadPage', { slug: params.pathMatch }),
+      store.dispatch('whppt-nuxt/site/loadFooter'),
+    ]).catch(err => {
       error({
         statusCode: (err.response && err.response.status) || 500,
         message: (err.response && err.response.statusText) || 'Unknown Error',

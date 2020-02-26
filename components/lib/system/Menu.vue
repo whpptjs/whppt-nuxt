@@ -64,9 +64,17 @@ export default {
         // { key: 'publish', label: 'Publish', icon: 'w-publish', group: 'page' },
         // { key: 'preview', label: 'Preview', icon: 'w-preview', group: 'page' },
         {
+          key: 'page-settings',
+          label: 'Page Settings',
+          icon: 'w-settings',
+          group: 'pageSettings',
+          action: () => this.editInModal('pageSettings'),
+        },
+
+        {
           key: 'site-settings',
           label: 'Site Settings',
-          icon: 'w-settings',
+          icon: 'w-globe',
           group: 'site',
           action: () => this.editInModal('siteSettings'),
         },

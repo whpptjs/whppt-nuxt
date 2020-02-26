@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="whppt-header">Edit Link</h1>
+    <p class="font-xl whppt-header">Edit Link</p>
     <e-link :data="$whppt.editData"></e-link>
   </div>
 </template>
