@@ -58,6 +58,7 @@ import { mapState, mapActions } from 'vuex';
 import * as Editors from '../system';
 import Modal from '../system/Modal';
 import SiteSettings from '../system/SiteSettings';
+import PageSettings from '../system/PageSettings';
 import WhpptTextInput from '../whpptComponents/WhpptTextInput';
 import WhpptButton from '../whpptComponents/WhpptButton';
 import WhpptCheckBox from '../whpptComponents/CheckBox';
@@ -69,6 +70,7 @@ export default {
   name: 'WhpptEditorApp',
   components: {
     ...Editors,
+    PageSettings,
     WhpptButton,
     Modal,
     WhpptTextInput,
