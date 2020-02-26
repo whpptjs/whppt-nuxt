@@ -1,0 +1,233 @@
+<template>
+  <div class="whppt-settings">
+    <div class="whppt-settings__content">
+      <div style="height: 100%;" :style="showWarning ? 'background: rgba(0, 0, 0, .5)' : ''">
+        <div>
+          <div class="whppt-settings__heading">
+            <p style="color: #981A31;">Slug Settings</p>
+            <button class="whppt-settings__button" @click="saveSettings">Save</button>
+          </div>
+          <form @submit.prevent>
+            <div>
+              <whppt-text-input
+                v-model="page.slug"
+                placeholder="Enter a page slug"
+                label="Slug"
+                labelColour="black"
+                info="The page slug makes up part of the pages url that is shown in the browsers address bar and is used by search engines to match your page with search terms. Your input will be formatted to avoid certain characters."
+              />
+              <div><span class="whppt-label">Output: </span>{{ formattedSlug }}</div>
+              <div v-if="errorMessage" style="color: red; font-style: italic;">{{ errorMessage }}</div>
+              <button class="whppt-settings__button" @click="showWarning = true">Delete Page</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div v-if="showWarning" class="whppt-settings__warning">
+        <div style="position: relative; text-align: center;">
+          <div style="padding-bottom: 1rem;">
+            Are you sure? This will delete the page and all of its content.
+          </div>
+          <div class="whppt-flex-between whppt-align-center">
+            <button class="whppt-settings__warning-button" @click="showWarning = false">No</button>
+            <button class="whppt-settings__warning-button" @click="deletePage()">Yes</button>
+          </div>
+          <div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import { mapState, mapActions } from 'vuex';
+import slugify from 'slugify';
+
+import WhpptTextInput from '../whpptComponents/WhpptTextInput';
+import Gallery from './EditImage/Gallery';
+import Cropping from './EditImage/Cropping';
+
+export default {
+  name: 'WhpptSlugSettings',
+  components: { WhpptTextInput, Gallery, Cropping },
+  data() {
+    return {
+      errorMessage: '',
+      showWarning: false,
+    };
+  },
+  computed: {
+    ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
+    ...mapState('whppt-nuxt/page', ['page']),
+    formattedSlug() {
+      return this.formatSlug(this.page.slug);
+    },
+  },
+  methods: {
+    ...mapActions('whppt-nuxt/page', ['savePage']),
+    deletePage() {
+      const vm = this;
+      // return vm.$whppt.deletePage(this.page._id).then(() => {
+      //   vm.$router.push(`/`);
+      //   vm.showWarning = false;
+      //   vm.$emit('closeModal');
+      // });
+    },
+    saveSettings() {
+      const vm = this;
+      const newSlug = this.formattedSlug;
+      if (!newSlug) {
+        this.errorMessage = 'Cannot use an empty slug';
+        return;
+      }
+      return vm.$whppt.checkSlug({ slug: newSlug }).then(result => {
+        if (result) {
+          vm.errorMessage = 'Slug is already in use';
+          return;
+        } else {
+          vm.page.slug = newSlug;
+          console.log('TCL: saveSettings -> vm', vm);
+          return vm.savePage().then(() => {
+            vm.$router.push(`/${newSlug}`);
+            vm.$emit('closeModal');
+          });
+        }
+      });
+    },
+    formatSlug(slug) {
+      if (slug.startsWith('/')) slug = slug.replace(/^(\/*)/, '');
+      slug = slug.replace(/\/{2,}/g, '/');
+
+      slug = slugify(slug, { remove: /[*+~.()'"!:@]/g, lower: true });
+      return slug;
+    },
+  },
+};
+</script>
+
+<style scoped>
+.whppt-settings {
+  color: black;
+  display: flex;
+  z-index: 52;
+  width: 75%;
+  height: 80vh;
+  margin: 1.5rem;
+  position: relative;
+}
+/* 
+.whppt-modal__background {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.75);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+} */
+
+.whppt-label {
+  /* color: white; */
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.whppt-settings__content {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  overflow-y: auto;
+  width: 100%;
+}
+
+.whppt-settings__warning {
+  padding: 1rem;
+  position: absolute;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  overflow-y: auto;
+  width: 35%;
+  height: 25%;
+  top: 35%;
+  left: 35%;
+}
+
+.whppt-settings__heading {
+  align-items: center;
+  font-weight: bold;
+  position: sticky;
+  /* background-color: white; */
+  top: 0;
+  left: 0;
+  display: flex;
+  width: 100%;
+  padding: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+  height: 4rem;
+}
+
+.whppt-settings__content form {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.whppt-settings__content form > fieldset {
+  padding: 0;
+  margin: 0.5rem 0;
+  display: flex;
+  border: none;
+}
+
+.whppt-settings__content form label {
+  font-size: 0.9rem;
+}
+
+.whppt-settings__content form input,
+.whppt-settings__content form textarea {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  margin: 0.2rem 0 0.5rem;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  outline: none;
+  resize: vertical;
+}
+
+.whppt-settings__button {
+  /* @apply text-red-700 rounded-lg ml-auto px-3 py-2 bg-white border-red-700 border-1 */
+  color: #981a31;
+  border-radius: 0.5rem;
+  margin-left: auto;
+  padding: 0.5rem 0.75rem;
+  /* background: white; */
+  border: 1px solid #981a31;
+}
+
+.whppt-settings__warning-button {
+  /* @apply text-red-700 rounded-lg ml-auto px-3 py-2 bg-white border-red-700 border-1 */
+  color: #981a31;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: white;
+  border: 1px solid #981a31;
+}
+
+.whppt-settings__tab {
+  /* @apply px-3 py-2 rounded-lg cursor-pointer mx-2 */
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  margin: 0 0.5rem;
+}
+
+.whppt-ml-auto {
+  margin-left: auto;
+}
+</style>
