@@ -118,7 +118,6 @@ export default {
   transition: 0.5s;
   z-index: 51;
   min-height: 400px;
-  height: 100vh;
 }
 
 .whppt-sidebar__inner {
