@@ -7,7 +7,7 @@
       class="whppt-menu__item"
       :class="{ 'whppt-menu__item--active': item.isActive && item.isActive() }"
     >
-      <button v-if="item.action" @click="item.action()">
+      <button v-if="item.action && !item.disabled" @click="item.action()">
         <component :is="item.icon" />
       </button>
       <button v-else>
@@ -26,6 +26,7 @@ export default {
   }),
   computed: {
     ...mapState('whppt-nuxt/editor', ['activeMenuItem', 'selectedContent', 'selectedComponent']),
+    ...mapState('whppt-nuxt/page', ['page']),
     menuItems() {
       return [
         // { key: 'draggable', label: '', icon: 'w-draggable', group: '' },
@@ -75,6 +76,9 @@ export default {
           label: 'Page Settings',
           icon: 'w-settings',
           group: 'pageSettings',
+          disabled: () => {
+            return !page._id;
+          },
           action: () => this.editInModal('pageSettings'),
         },
         {
@@ -82,6 +86,9 @@ export default {
           label: 'Slug Settings',
           icon: 'w-slugPopup',
           group: 'slugSettings',
+          disabled: () => {
+            return !page._id;
+          },
           action: () => this.editInModal('slugSettings'),
         },
         // { key: 'seo', label: 'SEO', icon: 'w-seo', group: 'site' },
