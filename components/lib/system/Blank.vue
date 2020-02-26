@@ -2,11 +2,13 @@
   <div class="whppt-full">
     <h1>Component</h1>
     <whppt-select
+      v-if="selectedComponent.value.backgroundColour && selectedComponent.value.backgroundColour.length"
       v-model="selectedComponent.value.backgroundColour"
       label="Background Colour"
       :items="availableBackgroundColours"
     ></whppt-select>
     <whppt-select
+      v-if="selectedComponent.value.fontColour && selectedComponent.value.fontColour.length"
       v-model="selectedComponent.value.fontColour"
       label="Font Colour"
       :items="availableTextColours"
@@ -26,11 +28,11 @@ export default {
   computed: {
     ...mapState('whppt-nuxt/editor', ['selectedComponent', 'options']),
     availableBackgroundColours() {
-      if (!this.options && this.options.colours) return [];
+      if (!this.options && !this.options.colours) return [];
       return map(this.options.colours.background, (colour, colourKey) => ({ label: colourKey, value: colour }));
     },
     availableTextColours() {
-      if (!this.options && this.options.colours) return [];
+      if (!this.options && !this.options.colours) return [];
       return map(this.options.colours.text, (colour, colourKey) => ({ label: colourKey, value: colour }));
     },
   },

@@ -25,13 +25,13 @@
                 @click="selectedComponent.value.reversed = !selectedComponent.value.reversed"
               ></whppt-check-box>
               <whppt-check-box
-                v-if="ifExsists(selectedComponent.value.inContainer)"
+                v-if="ifExists(selectedComponent.value.inContainer)"
                 :value="selectedComponent.value.inContainer"
                 label="Put in a Container"
                 @click="selectedComponent.value.inContainer = !selectedComponent.value.inContainer"
               ></whppt-check-box>
               <whppt-text-input
-                v-if="ifExsists(selectedComponent.value.marginTop)"
+                v-if="ifExists(selectedComponent.value.marginTop)"
                 v-model="selectedComponent.value.marginTop"
                 type="number"
                 min="0"
@@ -90,7 +90,7 @@ export default {
 
   methods: {
     ...mapActions('whppt-nuxt/editor', ['closeSidebar', 'closeModal']),
-    ifExsists(value) {
+    ifExists(value) {
       return typeof value !== 'undefined';
     },
   },
