@@ -314,16 +314,26 @@ export default {
 }
 
 .whppt-settings__button {
-  @apply text-red-700 rounded-lg ml-auto px-3 py-2 bg-white border-red-700 border-1
+  /* @apply text-red-700 rounded-lg ml-auto px-3 py-2 bg-white border-red-700 border-1 */
+  color: #981a31;
+  border-radius: 0.5rem;
+  margin-left: auto;
+  padding: 0.5rem 0.75rem;
+  background: white;
+  border: 1px solid #981a31;
   /* margin-left: auto;
   padding: 0.8rem 2rem;
   display: inline-block;
   color: white;
-  border-radius: 10px; */;
+  border-radius: 10px; */
 }
 
 .whppt-settings__tab {
-  @apply px-3 py-2 rounded-lg cursor-pointer mx-2;
+  /* @apply px-3 py-2 rounded-lg cursor-pointer mx-2 */
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  margin: 0 0.5rem;
 }
 
 .whppt-settings__warning-button {
