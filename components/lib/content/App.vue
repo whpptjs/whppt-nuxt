@@ -25,13 +25,13 @@
                 @click="selectedComponent.value.reversed = !selectedComponent.value.reversed"
               ></whppt-check-box>
               <whppt-check-box
-                v-if="ifExsists(selectedComponent.value.inContainer)"
+                v-if="ifExists(selectedComponent.value.inContainer)"
                 :value="selectedComponent.value.inContainer"
                 label="Put in a Container"
                 @click="selectedComponent.value.inContainer = !selectedComponent.value.inContainer"
               ></whppt-check-box>
               <whppt-text-input
-                v-if="ifExsists(selectedComponent.value.marginTop)"
+                v-if="ifExists(selectedComponent.value.marginTop)"
                 v-model="selectedComponent.value.marginTop"
                 type="number"
                 min="0"
@@ -58,6 +58,7 @@ import { mapState, mapActions } from 'vuex';
 import * as Editors from '../system';
 import Modal from '../system/Modal';
 import SiteSettings from '../system/SiteSettings';
+import PageSettings from '../system/PageSettings';
 import WhpptTextInput from '../whpptComponents/WhpptTextInput';
 import WhpptButton from '../whpptComponents/WhpptButton';
 import WhpptCheckBox from '../whpptComponents/CheckBox';
@@ -69,6 +70,7 @@ export default {
   name: 'WhpptEditorApp',
   components: {
     ...Editors,
+    PageSettings,
     WhpptButton,
     Modal,
     WhpptTextInput,
@@ -90,7 +92,7 @@ export default {
 
   methods: {
     ...mapActions('whppt-nuxt/editor', ['closeSidebar', 'closeModal']),
-    ifExsists(value) {
+    ifExists(value) {
       return typeof value !== 'undefined';
     },
   },

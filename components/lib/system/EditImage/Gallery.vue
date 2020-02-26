@@ -2,18 +2,23 @@
   <div>
     <loading v-if="loading" />
     <div v-else class="whppt-gallery-container">
-      <div class="whppt-gallery-item-container">
+      <div class="whppt-gallery-item-container" :style="`flex-basis: ${imageDisplaySize}`">
         <div class="whppt-gallery__add" @click="$refs.fileInput.click()" id="new-image-button">
           <input ref="fileInput" type="file" :accept="'image/*'" style="display: none;" @input="upload" />
           <span>+</span>
         </div>
       </div>
-      <div class="whppt-gallery-item-container" v-if="newImageLoading">
+      <div class="whppt-gallery-item-container" :style="`flex-basis: ${imageDisplaySize}`" v-if="newImageLoading">
         <div class="whppt-gallery__new">
           <loading />
         </div>
       </div>
-      <div v-for="image in images" :key="image._id" class="whppt-gallery-item-container">
+      <div
+        v-for="image in images"
+        :key="image._id"
+        class="whppt-gallery-item-container"
+        :style="`flex-basis: ${imageDisplaySize}`"
+      >
         <div
           class="whppt-gallery-item"
           :style="{ 'background-image': `url('${img(image._id)}')` }"
@@ -48,6 +53,14 @@ export default {
       type: String,
       default: () => '',
     },
+    limit: {
+      type: Number,
+      default: 9,
+    },
+    imageDisplaySize: {
+      type: String,
+      default: '50%',
+    },
   },
   computed: {
     ...mapState('whppt-nuxt/editor', ['selectedComponent', 'baseImageUrl', 'baseAPIUrl']),
@@ -62,7 +75,7 @@ export default {
       newImageLoading: false,
       images: [],
       total: 0,
-      limit: 9,
+      // limit: 9,
       currentPage: 1,
     };
   },

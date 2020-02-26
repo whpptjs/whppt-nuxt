@@ -88,8 +88,8 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  top: 3rem;
-  right: 3rem;
+  top: 1rem;
+  right: 1rem;
 }
 
 .whppt-modal__content {
