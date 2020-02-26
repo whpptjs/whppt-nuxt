@@ -1,38 +1,51 @@
 <template>
-  <div class="whppt-settings">
+  <div class="whppt-settings__slug">
     <div class="whppt-settings__content">
-      <div style="height: 100%;" :style="showWarning ? 'background: rgba(0, 0, 0, .5)' : ''">
-        <div>
-          <div class="whppt-settings__heading">
-            <p style="color: #981A31;">Slug Settings</p>
-            <button class="whppt-settings__button" @click="saveSettings">Save</button>
-          </div>
-          <form @submit.prevent>
-            <div>
-              <whppt-text-input
-                v-model="page.slug"
-                placeholder="Enter a page slug"
-                label="Slug"
-                labelColour="black"
-                info="The page slug makes up part of the pages url that is shown in the browsers address bar and is used by search engines to match your page with search terms. Your input will be formatted to avoid certain characters."
-              />
-              <div><span class="whppt-label">Output: </span>{{ formattedSlug }}</div>
-              <div v-if="errorMessage" style="color: red; font-style: italic;">{{ errorMessage }}</div>
-              <button class="whppt-settings__button" @click="showWarning = true">Delete Page</button>
-            </div>
-          </form>
-        </div>
+      <div
+        v-if="showWarning"
+        style="background: rgba(0, 0, 0, .5); position: absolute; top: 0; left: 0; right: 0; bottom: 0"
+      ></div>
+      <div class="whppt-settings__heading">
+        <p style="color: #981A31;">Slug Settings</p>
+        <button class="whppt-settings__button" @click="saveSettings">Save</button>
       </div>
-      <div v-if="showWarning" class="whppt-settings__warning">
-        <div style="position: relative; text-align: center;">
-          <div style="padding-bottom: 1rem;">
-            Are you sure? This will delete the page and all of its content.
+      <form @submit.prevent>
+        <div>
+          <whppt-text-input
+            v-model="page.slug"
+            placeholder="Enter a page slug"
+            label="Slug"
+            labelColour="black"
+            info="The page slug makes up part of the pages url that is shown in the browsers address bar and is used by search engines to match your page with search terms. Your input will be formatted to avoid certain characters."
+          />
+          <div style="display: flex; align-items: center; justify-content: flex-start">
+            <div style="font-weight: bold; padding-right: 0.5rem;">Output:</div>
+            <div>
+              {{ formattedSlug }}
+            </div>
           </div>
-          <div class="whppt-flex-between whppt-align-center">
-            <button class="whppt-settings__warning-button" @click="showWarning = false">No</button>
-            <button class="whppt-settings__warning-button" @click="deletePage()">Yes</button>
+          <div v-if="errorMessage" style="color: red; font-style: italic;">{{ errorMessage }}</div>
+          <button class="whppt-settings__delete-button" @click="showWarning = true">Delete Page</button>
+        </div>
+      </form>
+      <div v-if="showWarning" class="whppt-settings__warning-modal">
+        <div class="whppt-settings__warning-content">
+          <div style="position: relative; text-align: center;">
+            <div class="whppt-settings__warning-heading">Confirm Delete</div>
+            <div class="whppt-settings__warning-body">
+              <div>
+                Are you sure?
+              </div>
+              <div>
+                This will delete the page and all of its content.
+              </div>
+            </div>
+            <div class="whppt-settings__warning-actions">
+              <button class="whppt-settings__warning-button" @click="deletePage()">Delete</button>
+              <button class="whppt-settings__warning-button" @click="showWarning = false">Cancel</button>
+            </div>
+            <div></div>
           </div>
-          <div></div>
         </div>
       </div>
     </div>
@@ -67,11 +80,11 @@ export default {
     ...mapActions('whppt-nuxt/page', ['savePage']),
     deletePage() {
       const vm = this;
-      // return vm.$whppt.deletePage(this.page._id).then(() => {
-      //   vm.$router.push(`/`);
-      //   vm.showWarning = false;
-      //   vm.$emit('closeModal');
-      // });
+      return vm.$whppt.deletePage(this.page._id).then(() => {
+        vm.$router.push(`/`);
+        vm.showWarning = false;
+        vm.$emit('closeModal');
+      });
     },
     saveSettings() {
       const vm = this;
@@ -105,13 +118,12 @@ export default {
 };
 </script>
 
-<style scoped>
-.whppt-settings {
+<style>
+.whppt-settings__slug {
   color: black;
   display: flex;
   z-index: 52;
   width: 75%;
-  height: 80vh;
   margin: 1.5rem;
   position: relative;
 }
@@ -132,7 +144,7 @@ export default {
   letter-spacing: 0.025em;
   font-size: 0.75rem;
   font-weight: 700;
-  margin-bottom: 0.5rem;
+  padding-right: 0.5rem;
 }
 
 .whppt-settings__content {
@@ -143,17 +155,42 @@ export default {
   width: 100%;
 }
 
-.whppt-settings__warning {
-  padding: 1rem;
+.whppt-settings__warning-modal {
   position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.whppt-settings__warning-content {
+  margin: 2rem;
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   overflow-y: auto;
-  width: 35%;
-  height: 25%;
-  top: 35%;
-  left: 35%;
+}
+
+.whppt-settings__warning-heading {
+  color: #981a31;
+  padding: 1rem;
+}
+
+.whppt-settings__warning-body {
+  border-top: 1px solid #981a31;
+  border-bottom: 1px solid #981a31;
+  padding: 2rem;
+}
+
+.whppt-settings__warning-actions {
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .whppt-settings__heading {
@@ -201,17 +238,22 @@ export default {
 }
 
 .whppt-settings__button {
-  /* @apply text-red-700 rounded-lg ml-auto px-3 py-2 bg-white border-red-700 border-1 */
   color: #981a31;
   border-radius: 0.5rem;
   margin-left: auto;
   padding: 0.5rem 0.75rem;
-  /* background: white; */
+  border: 1px solid #981a31;
+}
+
+.whppt-settings__delete-button {
+  margin-top: 1rem;
+  color: #981a31;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
   border: 1px solid #981a31;
 }
 
 .whppt-settings__warning-button {
-  /* @apply text-red-700 rounded-lg ml-auto px-3 py-2 bg-white border-red-700 border-1 */
   color: #981a31;
   border-radius: 0.5rem;
   padding: 0.5rem 0.75rem;

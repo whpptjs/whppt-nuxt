@@ -66,9 +66,7 @@ export default {
           label: 'Save Page',
           icon: 'w-save',
           group: 'page',
-          disabled: () => {
-            return !this.page._id;
-          },
+          disabled: !this.page || !this.page._id,
           action: () => this.savePage(),
         },
         // { key: 'publish', label: 'Publish', icon: 'w-publish', group: 'page' },
