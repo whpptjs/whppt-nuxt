@@ -61,7 +61,16 @@ export default {
           group: 'page',
           action: () => this.newPage(),
         },
-        { key: 'save', label: 'Save Page', icon: 'w-save', group: 'page', action: () => this.savePage() },
+        {
+          key: 'save',
+          label: 'Save Page',
+          icon: 'w-save',
+          group: 'page',
+          disabled: () => {
+            return !this.page._id;
+          },
+          action: () => this.savePage(),
+        },
         // { key: 'publish', label: 'Publish', icon: 'w-publish', group: 'page' },
         // { key: 'preview', label: 'Preview', icon: 'w-preview', group: 'page' },
         {
@@ -76,9 +85,7 @@ export default {
           label: 'Page Settings',
           icon: 'w-settings',
           group: 'pageSettings',
-          disabled: () => {
-            return !page._id;
-          },
+          disabled: !this.page || !this.page._id,
           action: () => this.editInModal('pageSettings'),
         },
         {
@@ -86,9 +93,7 @@ export default {
           label: 'Slug Settings',
           icon: 'w-slugPopup',
           group: 'slugSettings',
-          disabled: () => {
-            return !page._id;
-          },
+          disabled: !this.page || !this.page._id,
           action: () => this.editInModal('slugSettings'),
         },
         // { key: 'seo', label: 'SEO', icon: 'w-seo', group: 'site' },
