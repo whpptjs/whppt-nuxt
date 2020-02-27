@@ -3,7 +3,7 @@
     <editor-menu></editor-menu>
     <modal :is-active="editInModal" @closeModal="closeModal">
       <template v-slot:content>
-        <component :is="editInModalType" />
+        <component :is="editInModalType" @closeModal="closeModal" />
       </template>
     </modal>
     <div class="whppt-content">
@@ -58,6 +58,8 @@ import { mapState, mapActions } from 'vuex';
 import * as Editors from '../system';
 import Modal from '../system/Modal';
 import SiteSettings from '../system/SiteSettings';
+import PageSettings from '../system/PageSettings';
+import SlugSettings from '../system/SlugSettings';
 import WhpptTextInput from '../whpptComponents/WhpptTextInput';
 import WhpptButton from '../whpptComponents/WhpptButton';
 import WhpptCheckBox from '../whpptComponents/CheckBox';
@@ -73,6 +75,8 @@ export default {
     Modal,
     WhpptTextInput,
     SiteSettings,
+    SlugSettings,
+    PageSettings,
     WhpptCheckBox,
     ContentsTree,
     WhpptTab,
@@ -118,7 +122,6 @@ export default {
   transition: 0.5s;
   z-index: 51;
   min-height: 400px;
-  height: 100vh;
 }
 
 .whppt-sidebar__inner {

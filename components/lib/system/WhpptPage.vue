@@ -38,14 +38,6 @@ export default {
     templates() {
       return this.$whppt.templates;
     },
-    testSlug() {
-      let test = this.slug;
-      if (!test) return '';
-      if (test.startsWith('/')) test = test.replace(/^(\/*)/, '');
-      test = test.replace(/\/{2,}/g, '/');
-      test = slugify(test, { remove: /[*+~.()'"!:@]/g, lower: true });
-      return test;
-    },
   },
   methods: {
     ...mapActions('whppt-nuxt/editor', ['closeSidebar']),
@@ -59,6 +51,8 @@ export default {
         slug: this.formatSlug(vm.slug),
         template: vm.template.key,
         ...vm.template.init,
+        og: { title: '', keywords: '', image: { imageId: '', crop: {} } },
+        twitter: { title: '', keywords: '', image: { imageId: '', crop: {} } },
       };
 
       return vm.$whppt.checkSlug({ slug: newPage.slug }).then(result => {

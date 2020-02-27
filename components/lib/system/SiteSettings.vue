@@ -235,7 +235,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .whppt-settings {
   color: black;
   display: flex;
@@ -357,12 +357,12 @@ export default {
 }
 
 .whppt-settings__button {
+  color: #981a31;
+  border-radius: 0.5rem;
   margin-left: auto;
-  padding: 0.8rem 2rem;
-  display: inline-block;
-  color: white;
-  background-color: black;
-  border-radius: 25px;
+  padding: 0.5rem 0.75rem;
+  background: white;
+  border: 1px solid #981a31;
 }
 
 .whppt-settings__warning-button {
