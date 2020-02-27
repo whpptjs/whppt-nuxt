@@ -1,11 +1,11 @@
 <template>
   <div class="whppt-flex whppt-overflow-hidden">
     <editor-menu></editor-menu>
-    <modal :is-active="editInModal" @closeModal="closeModal">
+    <whppt-modal :is-active="editInModal" @closeModal="closeModal">
       <template v-slot:content>
         <component :is="editInModalType" @closeModal="closeModal" />
       </template>
-    </modal>
+    </whppt-modal>
     <div class="whppt-content">
       <slot></slot>
     </div>
@@ -34,6 +34,7 @@
                 v-if="ifExsists(selectedComponent.value.marginTop)"
                 v-model="selectedComponent.value.marginTop"
                 type="number"
+                max="8"
                 min="0"
                 :placeholder="$whppt.defaultMarginTop"
                 label="Margin Top"
@@ -56,10 +57,10 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import * as Editors from '../system';
-import Modal from '../system/Modal';
 import SiteSettings from '../system/SiteSettings';
 import PageSettings from '../system/PageSettings';
 import SlugSettings from '../system/SlugSettings';
+import WhpptModal from '../whpptComponents/WhpptModal';
 import WhpptTextInput from '../whpptComponents/WhpptTextInput';
 import WhpptButton from '../whpptComponents/WhpptButton';
 import WhpptCheckBox from '../whpptComponents/CheckBox';
@@ -72,7 +73,7 @@ export default {
   components: {
     ...Editors,
     WhpptButton,
-    Modal,
+    WhpptModal,
     WhpptTextInput,
     SiteSettings,
     SlugSettings,

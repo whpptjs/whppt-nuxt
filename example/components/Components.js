@@ -8,7 +8,8 @@ import WEditImage from './EditImage';
 import WLink from './Link';
 import FeatureBlock from './FeatureBlock';
 import wCtaButton from './CTAButton';
-// import SplitContent from './SplitContent';
+import SplitContent from './SplitContent';
+import ContactIcon from './ContactIcon';
 
 export {
   FeatureBlock,
@@ -20,5 +21,6 @@ export {
   WEditImage,
   WLink,
   wCtaButton,
-  // SplitContent,
+  SplitContent,
+  ContactIcon,
 };
