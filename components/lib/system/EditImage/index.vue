@@ -3,10 +3,10 @@
     <p class="font-xl">Image</p>
     <whppt-tabs ref="imageTabs">
       <whppt-tab title="Cropping">
-        <cropping :image-options="selectedComponent.value" :sizes="selectedComponent.sizes" />
+        <cropping :image-options="selectedComponent.value.image" :sizes="selectedComponent.sizes" />
       </whppt-tab>
       <whppt-tab title="Gallery">
-        <gallery :value="selectedComponent.value.imageId" @input="changeTab" />
+        <gallery :value="selectedComponent.value.image.imageId" @input="changeTab" />
       </whppt-tab>
     </whppt-tabs>
   </div>
@@ -27,7 +27,7 @@ export default {
   },
   methods: {
     changeTab(id) {
-      this.selectedComponent.value.imageId = id;
+      this.selectedComponent.value.image.imageId = id;
       this.$refs.imageTabs.selectTab(this.$refs.imageTabs.tabs[0]);
     },
   },

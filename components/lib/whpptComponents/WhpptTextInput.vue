@@ -3,7 +3,7 @@
     <label
       v-if="label"
       class="whppt-inputText__label"
-      :class="labelColour ? `color-${labelColour}` : 'color-white'"
+      :style="labelColour ? `color: ${labelColour}` : 'color: white'"
       :for="id"
       >{{ label }}</label
     >

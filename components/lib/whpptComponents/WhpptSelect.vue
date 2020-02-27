@@ -1,6 +1,6 @@
 <template>
   <div class="whppt-select">
-    <label>{{ label }}</label>
+    <label v-if="label" class="whppt-select__label">{{ label }}</label>
     <select ref="select" class="whppt-select__input" @change="select" :value="selectedIndex">
       <option :value="-1">
         {{ action }}
@@ -38,7 +38,16 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
+.whppt-select__label {
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
 .whppt-select__input {
   width: 100%;
   background: black;
@@ -47,7 +56,7 @@ export default {
   margin: 5px 0;
   height: 35px;
 }
-.whppt-select {
+/* .whppt-select {
   margin: 10px 0;
-}
+} */
 </style>

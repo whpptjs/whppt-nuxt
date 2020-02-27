@@ -2,17 +2,41 @@
   <div class="whppt-settings">
     <div v-if="!showWarning" class="whppt-settings__content">
       <div class="whppt-settings__heading">
-        <p class="font-xl">Site Settings</p>
-        <button class="whppt-settings__button" @click="saveCategories">Save</button>
+        <p class="whppt-settings__heading-text">Site Settings</p>
+        <button class="whppt-settings__button" @click="saveSiteSettings">Save</button>
       </div>
-      <form @submit.prevent>
+      <div class="whppt-settings__tabs">
+        <div
+          class="whppt-settings__tab"
+          :class="selectedTab === 'categories' ? 'whppt-settings__tab-selected' : ''"
+          @click="selectedTab = 'categories'"
+        >
+          Categories
+        </div>
+
+        <div
+          class="whppt-settings__tab"
+          :class="selectedTab === 'og' ? 'whppt-settings__tab-selected' : ''"
+          @click="selectedTab = 'og'"
+        >
+          Open Graph
+        </div>
+
+        <div
+          class="whppt-settings__tab"
+          :class="selectedTab === 'twitter' ? 'whppt-settings__tab-selected' : ''"
+          @click="selectedTab = 'twitter'"
+        >
+          Twitter
+        </div>
+      </div>
+
+      <form v-show="selectedTab === 'categories'" @submit.prevent>
         <div>
           <fieldset>
             <div class="whppt-flex-between whppt-align-center">
               <label for="name">Listing Categories</label>
-              <!-- <button class="whppt-icon" @click="addCategory">
-                <w-add-circle></w-add-circle>
-              </button> -->
+
               <button class="whppt-settings__button" @click="addCategory">Add New Category</button>
             </div>
             <div class="whppt-flex whppt-w-full">
@@ -80,6 +104,12 @@
           </fieldset>
         </div>
       </form>
+      <form v-show="selectedTab === 'og'" @submit.prevent>
+        <settings-open-graph :settings="siteSettings"></settings-open-graph>
+      </form>
+      <form v-show="selectedTab === 'twitter'" @submit.prevent>
+        <settings-twitter :settings="siteSettings"></settings-twitter>
+      </form>
     </div>
     <div v-if="showWarning" class="whppt-settings__content">
       <div class="whppt-settings__heading">
@@ -123,10 +153,12 @@ import { map, remove, orderBy } from 'lodash';
 import { mapState } from 'vuex';
 
 import WhpptTextInput from '../whpptComponents/WhpptTextInput';
+import SettingsOpenGraph from './SettingsOG';
+import SettingsTwitter from './SettingsTwitter';
 
 export default {
   name: 'WhpptSiteSettings',
-  components: { WhpptTextInput },
+  components: { WhpptTextInput, SettingsOpenGraph, SettingsTwitter },
   data() {
     return {
       loadedCategories: [],
@@ -137,6 +169,8 @@ export default {
       selectedIndex: undefined,
       usedListings: [],
       warningId: undefined,
+      siteSettings: { og: { image: {} }, twitter: { image: {} } },
+      selectedTab: 'categories',
     };
   },
   computed: {
@@ -147,6 +181,7 @@ export default {
   },
   mounted() {
     this.queryCategories();
+    this.loadSiteSettings();
   },
   methods: {
     queryCategories() {
@@ -157,6 +192,17 @@ export default {
         this.allCategories = categories;
         this.loadedCategories = data;
         this.formatCategories();
+      });
+    },
+    loadSiteSettings() {
+      return this.$axios.get(`${this.baseAPIUrl}/api/siteSettings/loadSiteSettings`).then(({ data: siteSettings }) => {
+        this.siteSettings = siteSettings || { _id: 'siteSettings' };
+        this.siteSettings.og = this.siteSettings.og || { title: '', keywords: '', image: { imageId: '', crop: {} } };
+        this.siteSettings.twitter = this.siteSettings.twitter || {
+          title: '',
+          keywords: '',
+          image: { imageId: '', crop: {} },
+        };
       });
     },
     selectCat(category, index) {
@@ -215,7 +261,7 @@ export default {
         vm.selectedIndex = undefined;
       });
     },
-    saveCategories() {
+    saveSiteSettings() {
       const formattedCategories = map(this.categories, category => {
         return {
           name: category.name,
@@ -225,27 +271,22 @@ export default {
           }),
         };
       });
-      this.$axios
-        .post(`${this.baseAPIUrl}/api/siteSettings/saveCategories`, { categories: formattedCategories })
+      return this.$axios
+        .post(`${this.baseAPIUrl}/api/siteSettings/saveSiteSettings`, { siteSettings: this.siteSettings })
         .then(() => {
-          this.queryCategories();
+          if (!formattedCategories || !formattedCategories.length) return this.queryCategories();
+          return this.$axios
+            .post(`${this.baseAPIUrl}/api/siteSettings/saveCategories`, { categories: formattedCategories })
+            .then(() => {
+              this.queryCategories();
+            });
         });
     },
   },
 };
 </script>
 
-<style scoped>
-.whppt-settings {
-  color: black;
-  display: flex;
-  z-index: 52;
-  width: 75%;
-  height: 80vh;
-  margin: 1.5rem;
-  position: relative;
-}
-
+<style>
 .whppt-warning {
   color: black;
   display: flex;
@@ -299,31 +340,9 @@ export default {
   z-index: 53;
 }
 
-.whppt-settings__content {
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  overflow-y: auto;
-  width: 100%;
-}
-
 .whppt-settings__modal--inner {
   margin: 1rem auto;
   /*width: 33.33%;*/
-}
-
-.whppt-settings__heading {
-  align-items: center;
-  font-weight: bold;
-  position: sticky;
-  background-color: white;
-  top: 0;
-  left: 0;
-  display: flex;
-  width: 100%;
-  padding: 1rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
-  height: 4rem;
 }
 
 .whppt-settings__content form {
@@ -354,15 +373,6 @@ export default {
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   outline: none;
   resize: vertical;
-}
-
-.whppt-settings__button {
-  color: #981a31;
-  border-radius: 0.5rem;
-  margin-left: auto;
-  padding: 0.5rem 0.75rem;
-  background: white;
-  border: 1px solid #981a31;
 }
 
 .whppt-settings__warning-button {
