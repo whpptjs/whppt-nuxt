@@ -29,6 +29,13 @@
         >
           Twitter
         </div>
+        <div
+          class="whppt-settings__tab"
+          :class="selectedTab === 'redirects' ? 'whppt-settings__tab-selected' : ''"
+          @click="selectedTab = 'redirects'"
+        >
+          Redirects
+        </div>
       </div>
 
       <form v-show="selectedTab === 'categories'" @submit.prevent>
@@ -110,6 +117,46 @@
       <form v-show="selectedTab === 'twitter'" @submit.prevent>
         <settings-twitter :settings="siteSettings"></settings-twitter>
       </form>
+      <form v-show="selectedTab === 'redirects'" @submit.prevent>
+        <div>
+          <fieldset>
+            <label>New Redirect</label>
+            <div class="whppt-flex-between">
+              <div class="whppt-settings__left-column">
+                <whppt-text-input
+                  v-model="selectedRedirect.from"
+                  placeholder="From URL"
+                  label="From"
+                  labelColour="black"
+                  info="When visiting this URL, users will be sent to the To URL."
+                />
+              </div>
+              <div class="whppt-settings__right-column">
+                <whppt-text-input
+                  v-model="selectedRedirect.to"
+                  placeholder="To URL"
+                  label="To"
+                  labelColour="black"
+                  info="Users will be sent to this URL when visiting the From URL"
+                />
+              </div>
+            </div>
+            <button class="whppt-settings__button" style="display: flex" @click="addURL">Add URL</button>
+
+            <label>Saved Redirects</label>
+            <div v-for="(redirect, index) in redirects" :key="index">
+              <div class="whppt-flex-between">
+                <div class="whppt-settings__left-column">
+                  <whppt-text-input v-model="redirect.from" placeholder="From URL" label="From" labelColour="black" />
+                </div>
+                <div class="whppt-settings__right-column">
+                  <whppt-text-input v-model="redirect.to" placeholder="To URL" label="To" labelColour="black" />
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+      </form>
     </div>
     <div v-if="showWarning" class="whppt-settings__content">
       <div class="whppt-settings__heading">
@@ -164,6 +211,7 @@ export default {
       loadedCategories: [],
       categories: [],
       allCategories: [],
+      redirects: [],
       showWarning: false,
       selectedCat: undefined,
       selectedIndex: undefined,
@@ -171,6 +219,7 @@ export default {
       warningId: undefined,
       siteSettings: { og: { image: {} }, twitter: { image: {} } },
       selectedTab: 'categories',
+      selectedRedirect: { from: '', to: '' },
     };
   },
   computed: {
@@ -182,6 +231,7 @@ export default {
   mounted() {
     this.queryCategories();
     this.loadSiteSettings();
+    this.loadRedirects();
   },
   methods: {
     queryCategories() {
@@ -259,6 +309,23 @@ export default {
         vm.showWarning = false;
         vm.selectedCat = undefined;
         vm.selectedIndex = undefined;
+      });
+    },
+    addURL() {
+      const vm = this;
+      if (!this.selectedRedirect.to || !this.selectedRedirect.from) return;
+      return this.$axios
+        .post(`${vm.baseAPIUrl}/api/siteSettings/saveRedirect`, { redirect: this.selectedRedirect })
+        .then(({ data: redirect }) => {
+          vm.redirects.push(redirect);
+          vm.selectedRedirect = { to: '', from: '' };
+        });
+    },
+    loadRedirects() {
+      const vm = this;
+      return this.$axios.get(`${vm.baseAPIUrl}/api/siteSettings/loadRedirects`).then(({ data: redirects }) => {
+        vm.redirects = redirects;
+        console.log('TCL: loadRedirects -> redirects', redirects);
       });
     },
     saveSiteSettings() {
