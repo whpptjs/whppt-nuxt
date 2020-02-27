@@ -7,7 +7,7 @@
       class="whppt-menu__item"
       :class="{ 'whppt-menu__item--active': item.isActive && item.isActive() }"
     >
-      <button v-if="item.action" @click="item.action()">
+      <button v-if="item.action && !item.disabled" @click="item.action()">
         <component :is="item.icon" />
       </button>
       <button v-else>
@@ -26,6 +26,7 @@ export default {
   }),
   computed: {
     ...mapState('whppt-nuxt/editor', ['activeMenuItem', 'selectedContent', 'selectedComponent']),
+    ...mapState('whppt-nuxt/page', ['page']),
     menuItems() {
       return [
         // { key: 'draggable', label: '', icon: 'w-draggable', group: '' },
@@ -60,23 +61,38 @@ export default {
           group: 'page',
           action: () => this.newPage(),
         },
-        { key: 'save', label: 'Save Page', icon: 'w-save', group: 'page', action: () => this.savePage() },
+        {
+          key: 'save',
+          label: 'Save Page',
+          icon: 'w-save',
+          group: 'page',
+          disabled: !this.page || !this.page._id,
+          action: () => this.savePage(),
+        },
         // { key: 'publish', label: 'Publish', icon: 'w-publish', group: 'page' },
         // { key: 'preview', label: 'Preview', icon: 'w-preview', group: 'page' },
-        {
-          key: 'page-settings',
-          label: 'Page Settings',
-          icon: 'w-settings',
-          group: 'pageSettings',
-          action: () => this.editInModal('pageSettings'),
-        },
-
         {
           key: 'site-settings',
           label: 'Site Settings',
           icon: 'w-globe',
           group: 'site',
           action: () => this.editInModal('siteSettings'),
+        },
+        {
+          key: 'page-settings',
+          label: 'Page Settings',
+          icon: 'w-settings',
+          group: 'pageSettings',
+          disabled: !this.page || !this.page._id,
+          action: () => this.editInModal('pageSettings'),
+        },
+        {
+          key: 'slug-settings',
+          label: 'Slug Settings',
+          icon: 'w-slugPopup',
+          group: 'slugSettings',
+          disabled: !this.page || !this.page._id,
+          action: () => this.editInModal('slugSettings'),
         },
         // { key: 'seo', label: 'SEO', icon: 'w-seo', group: 'site' },
         // { key: 'socials', label: 'Socials', icon: 'w-socials', group: 'site' },

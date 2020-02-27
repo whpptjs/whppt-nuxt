@@ -14,6 +14,7 @@ import listingDirective from './directives/listing';
 import editImageDirective from './directives/editImage';
 
 import SavePage from './helpers/SavePage';
+import DeletePage from './helpers/DeletePage';
 import SaveFooter from './helpers/SaveFooter';
 import LoadFooter from './helpers/LoadFooter';
 import SaveNav from './helpers/SaveNav';
@@ -33,6 +34,7 @@ export default (context, inject) => {
     editData: undefined,
     createPage: CreatePage(context),
     savePage: SavePage(context),
+    deletePage: DeletePage(context),
     loadPage: LoadPage(context),
     checkSlug: CheckSlug(context),
     loadFooter: LoadFooter(context),

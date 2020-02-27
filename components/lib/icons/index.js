@@ -9,6 +9,7 @@ import Preview from './Preview';
 import Publish from './Publish';
 import Save from './Save';
 import Settings from './Settings';
+import SlugPopup from './SlugPopup';
 import Remove from './Remove';
 import Trash from './Trash';
 import Warning from './Warning';
@@ -31,6 +32,7 @@ export default {
   Publish,
   Save,
   Settings,
+  SlugPopup,
   Remove,
   Trash,
   Warning,
