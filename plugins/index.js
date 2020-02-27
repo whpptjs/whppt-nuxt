@@ -3,7 +3,6 @@ import { Components } from './Components';
 import contentDirective from './directives/content';
 import splitContentDirective from './directives/splitContent';
 import richTextDirective from './directives/richText';
-// import carouselDirective from './directives/carousel';
 import blankDirective from './directives/blank';
 import listDirective from './directives/list';
 import plainTextDirective from './directives/plainText';
@@ -12,6 +11,7 @@ import linkDirective from './directives/link';
 import listingsDirective from './directives/listings';
 import listingDirective from './directives/listing';
 import editImageDirective from './directives/editImage';
+import anchorDirective from './directives/anchor';
 import contactIconDirective from './directives/contactIcon';
 
 import SavePage from './helpers/SavePage';
@@ -93,7 +93,6 @@ export default (context, inject) => {
   contentDirective({ ...context, menuIsInState, MENUSTATES });
   splitContentDirective({ ...context, menuIsInState, MENUSTATES });
   plainTextDirective({ ...context, menuIsInState, MENUSTATES });
-  // carouselDirective({ ...context, menuIsInState, MENUSTATES });
   blankDirective({ ...context, menuIsInState, MENUSTATES });
   listDirective({ ...context, menuIsInState, MENUSTATES });
   richTextDirective({ ...context, menuIsInState, MENUSTATES });
@@ -102,5 +101,6 @@ export default (context, inject) => {
   listingsDirective({ ...context, menuIsInState, MENUSTATES });
   listingDirective({ ...context, menuIsInState, MENUSTATES });
   editImageDirective({ ...context, menuIsInState, MENUSTATES });
+  anchorDirective({ ...context, menuIsInState, MENUSTATES });
   contactIconDirective({ ...context, menuIsInState, MENUSTATES });
 };

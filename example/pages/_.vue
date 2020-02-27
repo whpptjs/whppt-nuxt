@@ -3,9 +3,10 @@
     <div v-plain-text="page">
       {{ page.title || 'Plain Text' }}
     </div>
-    <whppt-link :to="{ href: '/', type: 'anchor' }">Whppt Link</whppt-link>
+    <whppt-link :to="{ href: '#content', type: 'anchor' }">Whppt Link</whppt-link>
     <div v-content="page.contents">
       Content Block 2
+      {{ page.contents }}
       <component
         :is="content.displayType"
         v-for="(content, contentKey) in page.contents"
@@ -21,7 +22,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import DisplayComponents from '~/components/Components';
+import * as DisplayComponents from '~/components/Components';
 
 export default {
   name: 'WildCardPage',

@@ -88,22 +88,18 @@ const Components = options => [
     width: '6',
   },
   {
+    key: 'Anchor',
+    name: 'Anchor',
+    editorType: 'AnchorMenu',
+    displayType: 'Anchor',
+    id: '',
+  },
+  {
     key: 'ContactIcon',
     name: 'Contact Icon',
     editorType: 'ContactIcon',
     displayType: 'ContactIcon',
   },
-  // {
-  //   key: 'EditImage',
-  //   name: 'Edit Image',
-  //   editorType: 'wEditImage',
-  //   displayType: 'wEditImage',
-  //   property: 'data',
-  //   data: {
-  //     imageId: '',
-  //     // crop: {},
-  //   },
-  // },
   ...options.components,
 ];
 
