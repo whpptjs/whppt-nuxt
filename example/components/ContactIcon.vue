@@ -1,9 +1,8 @@
 <template>
   <section>
-    <div v-whppt-contact-icon="content" style="background-color: gray;">
+    <div v-whppt-contact-icon="content">
       {{ content || 'CONTACT ICON' }}
       <!-- <component :is="content.contactIcon.value"></component> -->
-      {{ content.contactIcon.value }}
     </div>
   </section>
 </template>
