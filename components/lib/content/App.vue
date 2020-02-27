@@ -3,7 +3,7 @@
     <editor-menu></editor-menu>
     <modal :is-active="editInModal" @closeModal="closeModal">
       <template v-slot:content>
-        <component :is="editInModalType" />
+        <component :is="editInModalType" @closeModal="closeModal" />
       </template>
     </modal>
     <div class="whppt-content">
@@ -25,13 +25,13 @@
                 @click="selectedComponent.value.reversed = !selectedComponent.value.reversed"
               ></whppt-check-box>
               <whppt-check-box
-                v-if="ifExists(selectedComponent.value.inContainer)"
+                v-if="ifExsists(selectedComponent.value.inContainer)"
                 :value="selectedComponent.value.inContainer"
                 label="Put in a Container"
                 @click="selectedComponent.value.inContainer = !selectedComponent.value.inContainer"
               ></whppt-check-box>
               <whppt-text-input
-                v-if="ifExists(selectedComponent.value.marginTop)"
+                v-if="ifExsists(selectedComponent.value.marginTop)"
                 v-model="selectedComponent.value.marginTop"
                 type="number"
                 min="0"
@@ -59,6 +59,7 @@ import * as Editors from '../system';
 import Modal from '../system/Modal';
 import SiteSettings from '../system/SiteSettings';
 import PageSettings from '../system/PageSettings';
+import SlugSettings from '../system/SlugSettings';
 import WhpptTextInput from '../whpptComponents/WhpptTextInput';
 import WhpptButton from '../whpptComponents/WhpptButton';
 import WhpptCheckBox from '../whpptComponents/CheckBox';
@@ -70,11 +71,12 @@ export default {
   name: 'WhpptEditorApp',
   components: {
     ...Editors,
-    PageSettings,
     WhpptButton,
     Modal,
     WhpptTextInput,
     SiteSettings,
+    SlugSettings,
+    PageSettings,
     WhpptCheckBox,
     ContentsTree,
     WhpptTab,
@@ -92,7 +94,7 @@ export default {
 
   methods: {
     ...mapActions('whppt-nuxt/editor', ['closeSidebar', 'closeModal']),
-    ifExists(value) {
+    ifExsists(value) {
       return typeof value !== 'undefined';
     },
   },

@@ -182,7 +182,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .whppt-settings {
   color: black;
   display: flex;
@@ -314,18 +314,12 @@ export default {
 }
 
 .whppt-settings__button {
-  /* @apply text-red-700 rounded-lg ml-auto px-3 py-2 bg-white border-red-700 border-1 */
   color: #981a31;
   border-radius: 0.5rem;
   margin-left: auto;
   padding: 0.5rem 0.75rem;
   background: white;
   border: 1px solid #981a31;
-  /* margin-left: auto;
-  padding: 0.8rem 2rem;
-  display: inline-block;
-  color: white;
-  border-radius: 10px; */
 }
 
 .whppt-settings__tab {
