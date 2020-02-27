@@ -22,7 +22,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import * as DisplayComponents from '~/components/Components';
+import DisplayComponents from '~/components/Components';
 
 export default {
   name: 'WildCardPage',

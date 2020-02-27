@@ -94,6 +94,12 @@ const Components = options => [
     displayType: 'Anchor',
     id: '',
   },
+  {
+    key: 'ContactIcon',
+    name: 'Contact Icon',
+    editorType: 'ContactIcon',
+    displayType: 'ContactIcon',
+  },
   ...options.components,
 ];
 

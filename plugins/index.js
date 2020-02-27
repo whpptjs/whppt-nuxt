@@ -12,6 +12,7 @@ import listingsDirective from './directives/listings';
 import listingDirective from './directives/listing';
 import editImageDirective from './directives/editImage';
 import anchorDirective from './directives/anchor';
+import contactIconDirective from './directives/contactIcon';
 
 import SavePage from './helpers/SavePage';
 import DeletePage from './helpers/DeletePage';
@@ -101,4 +102,5 @@ export default (context, inject) => {
   listingDirective({ ...context, menuIsInState, MENUSTATES });
   editImageDirective({ ...context, menuIsInState, MENUSTATES });
   anchorDirective({ ...context, menuIsInState, MENUSTATES });
+  contactIconDirective({ ...context, menuIsInState, MENUSTATES });
 };
