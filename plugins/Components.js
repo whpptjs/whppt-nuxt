@@ -87,17 +87,13 @@ const Components = options => [
     contents: { left: [], right: [] },
     width: '6',
   },
-  // {
-  //   key: 'EditImage',
-  //   name: 'Edit Image',
-  //   editorType: 'wEditImage',
-  //   displayType: 'wEditImage',
-  //   property: 'data',
-  //   data: {
-  //     imageId: '',
-  //     // crop: {},
-  //   },
-  // },
+  {
+    key: 'Anchor',
+    name: 'Anchor',
+    editorType: 'AnchorMenu',
+    displayType: 'Anchor',
+    id: '',
+  },
   ...options.components,
 ];
 
