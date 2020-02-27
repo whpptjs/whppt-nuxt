@@ -34,6 +34,7 @@
                 v-if="ifExsists(selectedComponent.value.marginTop)"
                 v-model="selectedComponent.value.marginTop"
                 type="number"
+                max="8"
                 min="0"
                 :placeholder="$whppt.defaultMarginTop"
                 label="Margin Top"
