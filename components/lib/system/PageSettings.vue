@@ -2,14 +2,14 @@
   <div class="whppt-settings">
     <div class="whppt-settings__content">
       <div class="whppt-settings__heading">
-        <p class="font-xl text-red-700">Page Settings</p>
+        <p class="whppt-settings__heading-text">Page Settings</p>
         <button class="whppt-settings__button" @click="saveSettings">Save</button>
       </div>
-      <div class="flex justify-start items-center text-red-700 pt-4 px-4">
+      <div class="whppt-settings__tabs">
         <div
           @click="selectedTab = 'seo'"
           class="whppt-settings__tab"
-          :class="selectedTab === 'seo' ? 'bg-red-700 text-white' : ''"
+          :class="selectedTab === 'seo' ? 'whppt-settings__tab-selected' : ''"
         >
           SEO
         </div>
@@ -17,7 +17,7 @@
         <div
           @click="selectedTab = 'og'"
           class="whppt-settings__tab"
-          :class="selectedTab === 'og' ? 'bg-red-700 text-white' : ''"
+          :class="selectedTab === 'og' ? 'whppt-settings__tab-selected' : ''"
         >
           Open Graph
         </div>
@@ -25,134 +25,110 @@
         <div
           @click="selectedTab = 'twitter'"
           class="whppt-settings__tab"
-          :class="selectedTab === 'twitter' ? 'bg-red-700 text-white' : ''"
+          :class="selectedTab === 'twitter' ? 'whppt-settings__tab-selected' : ''"
         >
           Twitter
         </div>
       </div>
-      <form @submit.prevent v-if="selectedTab === 'seo'">
-        <div>
-          <fieldset>
-            <div class="whppt-flex-between">
-              <div class="w-1/2 pr-4">
+      <div>
+        <form @submit.prevent v-show="selectedTab === 'seo'">
+          <div>
+            <fieldset>
+              <div class="whppt-flex-between">
+                <div class="whppt-settings__left-column">
+                  <whppt-text-input
+                    v-model="page.title"
+                    placeholder="Enter a page title"
+                    label="Title"
+                    labelColour="black"
+                    info="The page title is shown in the browsers tab and used by search engines to match your page with search terms. Search results use the title to list the page."
+                  />
+                </div>
+                <div class="whppt-settings__right-column">
+                  <whppt-text-input
+                    v-model="page.keywords"
+                    placeholder="keywords, for, the, page"
+                    label="Keywords"
+                    labelColour="black"
+                    info="Keywords are not shown on the page and are used by search engines to match your page with search terms. To add multiple, comma seperate them."
+                  />
+                </div>
+              </div>
+              <div>
                 <whppt-text-input
-                  v-model="page.title"
-                  placeholder="Enter a page title"
-                  label="Title"
+                  v-model="page.description"
+                  placeholder="Enter description"
+                  label="Description"
                   labelColour="black"
-                  info="The page title is shown in the browsers tab and used by search engines to match your page with search terms. Search results use the title to list the page."
+                  info="The page description is not shown the page and is used by search engines to match your page with search terms. Search results can show this description."
                 />
               </div>
-              <div class="w-1/2 pl-4">
-                <whppt-text-input
-                  v-model="page.keywords"
-                  placeholder="keywords, for, the, page"
-                  label="Keywords"
-                  labelColour="black"
-                  info="Keywords are not shown on the page and are used by search engines to match your page with search terms. To add multiple, comma seperate them."
-                />
+              <div class="whppt-flex-between">
+                <div class="whppt-settings__left-column">
+                  <whppt-text-input
+                    v-model="page.priority"
+                    placeholder="Enter a priority"
+                    label="Priority"
+                    labelColour="black"
+                    info="Priority lets search engines know which pages you deem most important. Values range from 0.0 to 1.0, with a default value of 0.5."
+                  />
+                  <div v-if="errorMessage" style="color: red; font-style: italic;">{{ errorMessage }}</div>
+                </div>
+                <div class="whppt-settings__right-column">
+                  <div class="whppt-select__frequency-label">Frequency</div>
+                  <select v-model="page.frequency" class="whppt-select__frequency-input">
+                    <option v-for="(item, index) in frequencies" :key="index">
+                      {{ item.value }}
+                    </option>
+                  </select>
+                  <div class="whppt-select__frequency-info">
+                    Frequency tells search engines how often the page is likely to change.
+                  </div>
+                </div>
               </div>
-            </div>
-            <div>
-              <whppt-text-input
-                v-model="page.description"
-                placeholder="Enter description"
-                label="Description"
-                labelColour="black"
-                info="The page description is not shown the page and is used by search engines to match your page with search terms. Search results can show this description."
-              />
-            </div>
-          </fieldset>
-        </div>
-      </form>
-      <form @submit.prevent v-if="selectedTab === 'og'">
-        <div>
-          <fieldset>
-            <div class="whppt-flex-between">
-              <div class="w-1/2 pr-4">
-                <whppt-text-input
-                  v-model="page.og.title"
-                  placeholder="OG title"
-                  label="Title"
-                  labelColour="black"
-                  info="Open graph title is shown on most social media platforms as the title in a card that is created when this settingss url is used. E.g. Facebook."
-                />
-              </div>
-              <div class="w-1/2 pl-4">
-                <whppt-text-input
-                  v-model="page.og.keywords"
-                  placeholder="keywords, for, OG"
-                  label="Keywords"
-                  labelColour="black"
-                  info="Open graph description is shown on most social media platforms as the description in a card that is created when this settingss url is used. E.g. Facebook."
-                />
-              </div>
-            </div>
-
-            <div class="whppt-label">Image</div>
-            <div v-if="!page.og.image.imageId">
-              <Gallery :limit="7" imageDisplaySize="25%" @input="openCropperOG"></Gallery>
-            </div>
-            <div v-if="page.og.image.imageId" class="text-center">
-              <cropping :image-options="page.og.image" :sizes="sizes" @imageRemoved="removeImage('og')" />
-            </div>
-          </fieldset>
-        </div>
-      </form>
-      <form @submit.prevent v-if="selectedTab === 'twitter'">
-        <div>
-          <fieldset>
-            <div class="whppt-flex-between">
-              <div class="w-1/2 pr-4">
-                <whppt-text-input
-                  v-model="page.twitter.title"
-                  placeholder="Twitter title"
-                  label="Title"
-                  labelColour="black"
-                  info="Twitter title is shown on most social media platforms as the title in a card that is created when this pages url is used."
-                />
-              </div>
-              <div class="w-1/2 pl-4">
-                <whppt-text-input
-                  v-model="page.twitter.keywords"
-                  placeholder="keywords, for, twitter"
-                  label="Keywords"
-                  labelColour="black"
-                  info="Twitter description is shown on most social media platforms as the description in a card that is created when this pages url is used."
-                />
-              </div>
-            </div>
-
-            <div class="whppt-label">Image</div>
-            <div v-if="!page.twitter.image.imageId">
-              <Gallery :limit="7" imageDisplaySize="25%" @input="openCropperTwitter"></Gallery>
-            </div>
-            <div v-if="page.twitter.image.imageId" class="text-center">
-              <cropping :image-options="page.twitter.image" :sizes="sizes" @imageRemoved="removeImage('twitter')" />
-            </div>
-          </fieldset>
-        </div>
-      </form>
+            </fieldset>
+          </div>
+        </form>
+        <form @submit.prevent v-show="selectedTab === 'og'">
+          <settings-open-graph :settings="page"></settings-open-graph>
+        </form>
+        <form @submit.prevent v-show="selectedTab === 'twitter'">
+          <settings-twitter :settings="page"></settings-twitter>
+        </form>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex';
+import { clamp } from 'lodash';
 import slugify from 'slugify';
 
 import WhpptTextInput from '../whpptComponents/WhpptTextInput';
+import WhpptSelect from '../whpptComponents/WhpptSelect';
 import Gallery from './EditImage/Gallery';
 import Cropping from './EditImage/Cropping';
+import SettingsOpenGraph from './SettingsOG';
+import SettingsTwitter from './SettingsTwitter';
 
 export default {
   name: 'WhpptSiteSettings',
-  components: { WhpptTextInput, Gallery, Cropping },
+  components: { WhpptTextInput, WhpptSelect, Gallery, Cropping, SettingsOpenGraph, SettingsTwitter },
   data() {
     return {
       showError: false,
       selectedTab: 'seo',
-      sizes: { desktop: { width: 400, height: 209, quality: 1 } },
+      errorMessage: '',
+      frequencies: [
+        { value: 'always', id: 'always' },
+        { value: 'hourly', id: 'hourly' },
+        { value: 'daily', id: 'daily' },
+        { value: 'weekly', id: 'weekly' },
+        { value: 'monthly', id: 'monthly' },
+        { value: 'yearly', id: 'yearly' },
+        { value: 'never', id: 'never' },
+      ],
     };
   },
   computed: {
@@ -160,39 +136,37 @@ export default {
     ...mapState('whppt-nuxt/page', ['page']),
   },
   mounted() {
+    console.log('TCL: mounted -> this.page', this.page);
     this.page.og = this.page.og || { title: '', keywords: '', image: { imageId: '', crop: {} } };
     this.page.twitter = this.page.twitter || { title: '', keywords: '', image: { imageId: '', crop: {} } };
   },
   methods: {
     ...mapActions('whppt-nuxt/page', ['savePage']),
-    removeImage(type) {
-      if (type === 'og') this.page.og.image.imageId = '';
-      else if (type === 'twitter') this.page.twitter.image.imageId = '';
-    },
-    openCropperOG(id) {
-      this.page.og.image.imageId = id;
-    },
-    openCropperTwitter(id) {
-      this.page.twitter.image.imageId = id;
-    },
+    // removeImage(type) {
+    //   if (type === 'og') this.page.og.image.imageId = '';
+    //   else if (type === 'twitter') this.page.twitter.image.imageId = '';
+    // },
+    // openCropperOG(id) {
+    //   this.page.og.image.imageId = id;
+    // },
+    // openCropperTwitter(id) {
+    //   this.page.twitter.image.imageId = id;
+    // },
     saveSettings() {
+      // this.errorMessage = '';
+      // if (this.page.priority && (this.page.priority < 0.0 || this.page.priority > 1)) {
+      //   return (this.errorMessage = 'Priority must be between 0.0 and 1.0');
+      // }
+      if (this.page.priority) {
+        this.page.priority = clamp(this.page.priority, 0, 1);
+      }
       return this.savePage();
     },
   },
 };
 </script>
 
-<style scoped>
-.whppt-settings {
-  color: black;
-  display: flex;
-  z-index: 52;
-  width: 75%;
-  height: 80vh;
-  margin: 1.5rem;
-  position: relative;
-}
-
+<style>
 .whppt-warning {
   color: black;
   display: flex;
@@ -201,6 +175,36 @@ export default {
   height: 80vh;
   margin: 1.5rem;
   position: relative;
+}
+
+.whppt-select__frequency-label {
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.whppt-select__frequency-info {
+  color: gray;
+  font-size: 0.75rem;
+  font-style: italic;
+  margin-bottom: 0.75rem;
+}
+
+.whppt-select__frequency-input {
+  margin: 0.2rem 0 0.5rem;
+  appearance: none;
+  display: block;
+  width: 100%;
+  background-color: white;
+  color: black;
+  border-radius: 0.25rem;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  padding: 0.75rem 1rem;
+  line-height: 1.25;
+  font-size: 0.75rem;
 }
 
 .whppt-settings__category {
@@ -230,6 +234,18 @@ export default {
   align-items: center;
 }
 
+.whppt-settings__left-column {
+  /* w-1/2 pr-4 */
+  width: 50%;
+  padding-right: 1rem;
+}
+
+.whppt-settings__right-column {
+  /* w-1/2 pr-4 */
+  width: 50%;
+  padding-left: 1rem;
+}
+
 .whppt-label {
   /* color: white; */
   display: block;
@@ -256,31 +272,9 @@ export default {
   z-index: 53;
 }
 
-.whppt-settings__content {
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  overflow-y: auto;
-  width: 100%;
-}
-
 .whppt-settings__modal--inner {
   margin: 1rem auto;
   /*width: 33.33%;*/
-}
-
-.whppt-settings__heading {
-  align-items: center;
-  font-weight: bold;
-  position: sticky;
-  background-color: white;
-  top: 0;
-  left: 0;
-  display: flex;
-  width: 100%;
-  padding: 1rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
-  height: 4rem;
 }
 
 .whppt-settings__content form {
@@ -301,7 +295,7 @@ export default {
 }
 
 .whppt-settings__content form input,
-.whppt-settings__content form textarea {
+/* .whppt-settings__content form textarea {
   width: 100%;
   padding: 0.5rem;
   font-size: 1rem;
@@ -311,24 +305,8 @@ export default {
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   outline: none;
   resize: vertical;
-}
+} */
 
-.whppt-settings__button {
-  color: #981a31;
-  border-radius: 0.5rem;
-  margin-left: auto;
-  padding: 0.5rem 0.75rem;
-  background: white;
-  border: 1px solid #981a31;
-}
-
-.whppt-settings__tab {
-  /* @apply px-3 py-2 rounded-lg cursor-pointer mx-2 */
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  margin: 0 0.5rem;
-}
 
 .whppt-settings__warning-button {
   padding: 0.8rem 2rem;

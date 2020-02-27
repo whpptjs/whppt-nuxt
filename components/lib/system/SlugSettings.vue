@@ -5,8 +5,8 @@
         v-if="showWarning"
         style="background: rgba(0, 0, 0, .5); position: absolute; top: 0; left: 0; right: 0; bottom: 0"
       ></div>
-      <div class="whppt-settings__heading">
-        <p style="color: #981A31;">Slug Settings</p>
+      <div class="whppt-settings__heading" :style="`background: ${showWarning ? 'grey' : 'white'}`">
+        <p class="whppt-settings__heading-text">Slug Settings</p>
         <button class="whppt-settings__button" @click="saveSettings">Save</button>
       </div>
       <form @submit.prevent>
@@ -147,14 +147,6 @@ export default {
   padding-right: 0.5rem;
 }
 
-.whppt-settings__content {
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  overflow-y: auto;
-  width: 100%;
-}
-
 .whppt-settings__warning-modal {
   position: absolute;
   top: 0;
@@ -193,20 +185,6 @@ export default {
   justify-content: space-between;
 }
 
-.whppt-settings__heading {
-  align-items: center;
-  font-weight: bold;
-  position: sticky;
-  /* background-color: white; */
-  top: 0;
-  left: 0;
-  display: flex;
-  width: 100%;
-  padding: 1rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
-  height: 4rem;
-}
-
 .whppt-settings__content form {
   display: flex;
   flex-direction: column;
@@ -237,14 +215,6 @@ export default {
   resize: vertical;
 }
 
-.whppt-settings__button {
-  color: #981a31;
-  border-radius: 0.5rem;
-  margin-left: auto;
-  padding: 0.5rem 0.75rem;
-  border: 1px solid #981a31;
-}
-
 .whppt-settings__delete-button {
   margin-top: 1rem;
   color: #981a31;
@@ -259,14 +229,6 @@ export default {
   padding: 0.5rem 0.75rem;
   background: white;
   border: 1px solid #981a31;
-}
-
-.whppt-settings__tab {
-  /* @apply px-3 py-2 rounded-lg cursor-pointer mx-2 */
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  margin: 0 0.5rem;
 }
 
 .whppt-ml-auto {

@@ -57,31 +57,31 @@ module.exports = {
           imageId: '',
         },
       },
-      {
-        key: 'SplitContent',
-        name: 'Split Content',
-        displayType: 'SplitContent',
-        editorType: 'wComponent',
-        property: 'data',
-        data: {
-          reversed: false,
-          image: {
-            sizes: {},
-            imageId: '',
-            crop: {},
-          },
-          text: {
-            title: 'Title',
-            subtitle: 'Subtitle',
-            description: 'Description',
-          },
-          button: {
-            text: 'Button Text',
-            icon: 'Button Icon',
-            link: 'Button Link',
-          },
-        },
-      },
+      // {
+      //   key: 'SplitContent',
+      //   name: 'Split Content',
+      //   displayType: 'SplitContent',
+      //   editorType: 'wComponent',
+      //   property: 'data',
+      //   data: {
+      //     reversed: false,
+      //     image: {
+      //       sizes: {},
+      //       imageId: '',
+      //       crop: {},
+      //     },
+      //     text: {
+      //       title: 'Title',
+      //       subtitle: 'Subtitle',
+      //       description: 'Description',
+      //     },
+      //     button: {
+      //       text: 'Button Text',
+      //       icon: 'Button Icon',
+      //       link: 'Button Link',
+      //     },
+      //   },
+      // },
     ],
     templates: [
       { key: 'generic', label: 'Generic', init: { header: { title: '' }, contents: [] } },
