@@ -19,7 +19,12 @@ export default {
   name: 'ContactIcon',
   components: { WhpptSelect, WhpptTextInput },
   data: () => ({
-    items: [{ label: 'Phone', value: 'phone' }],
+    items: [
+      { label: 'Phone', value: 'phone' },
+      { label: 'Email', value: 'email' },
+      { label: 'Postal', value: 'postal' },
+      { label: 'Website', value: 'website' },
+    ],
   }),
   computed: mapState('whppt-nuxt/editor', ['selectedComponent']),
 };

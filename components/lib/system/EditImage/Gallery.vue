@@ -63,7 +63,7 @@ export default {
     },
   },
   computed: {
-    ...mapState('whppt-nuxt/editor', ['selectedComponent', 'baseImageUrl', 'baseAPIUrl']),
+    ...mapState('whppt-nuxt/editor', ['baseImageUrl', 'baseAPIUrl']),
   },
   mounted() {
     this.loading = true;
