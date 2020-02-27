@@ -89,9 +89,9 @@ const Components = options => [
   },
   {
     key: 'ContactIcon',
-    name: 'ContactIcon',
-    editorType: 'wContactIcon',
-    displayType: 'wContactIcon',
+    name: 'Contact Icon',
+    editorType: 'ContactIcon',
+    displayType: 'ContactIcon',
   },
   // {
   //   key: 'EditImage',

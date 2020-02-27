@@ -9,7 +9,7 @@ import WLink from './Link';
 import FeatureBlock from './FeatureBlock';
 import wCtaButton from './CTAButton';
 import SplitContent from './SplitContent';
-import WContactIcon from './ContactIcon';
+import ContactIcon from './ContactIcon';
 
 export {
   FeatureBlock,
@@ -22,5 +22,5 @@ export {
   WLink,
   wCtaButton,
   SplitContent,
-  WContactIcon,
+  ContactIcon,
 };

@@ -3,7 +3,7 @@ import SimpleComponentClickHandler from './_simpleComponentClickHandler';
 // export default ({ store }, whppt) => {
 
 export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
-  Vue.directive('plainText', {
+  Vue.directive('whppt-contact-icon', {
     bind(el, binding) {
       const property = el.getAttribute('data-property');
       const value = { value: binding.value, property };
@@ -11,7 +11,7 @@ export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
         store,
         menuIsInState,
         MENUSTATES,
-        name: 'contactIcon',
+        name: 'ContactIcon',
         el,
         value,
       });
@@ -36,7 +36,7 @@ export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
         store,
         menuIsInState,
         MENUSTATES,
-        name: 'contactIcon',
+        name: 'ContactIcon',
         el,
         value,
       });

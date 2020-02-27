@@ -2,8 +2,8 @@
   <div class="whppt-full ">
     <h1>Contact icon</h1>
     <whppt-select
-      v-model="selectedComponent.value.alignment"
-      :value="selectedComponent.value.alignment"
+      v-model="selectedComponent.value.contactIcon"
+      :value="selectedComponent.value.contactIcon"
       label="Text Align"
       :items="items"
     ></whppt-select>
@@ -19,11 +19,7 @@ export default {
   name: 'ContactIcon',
   components: { WhpptSelect, WhpptTextInput },
   data: () => ({
-    items: [
-      { label: 'Left', value: 'left' },
-      { label: 'Center', value: 'center' },
-      { label: 'Right', value: 'right' },
-    ],
+    items: [{ label: 'Phone', value: 'phone' }],
   }),
   computed: mapState('whppt-nuxt/editor', ['selectedComponent']),
 };

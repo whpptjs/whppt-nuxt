@@ -1,7 +1,9 @@
 <template>
-  <section v-contact-icon="value">
-    <div>
-      {{ value || 'CONTACT ICON' }}
+  <section>
+    <div v-whppt-contact-icon="content" style="background-color: gray;">
+      {{ content || 'CONTACT ICON' }}
+      <!-- <component :is="content.contactIcon.value"></component> -->
+      {{ content.contactIcon.value }}
     </div>
   </section>
 </template>
@@ -10,14 +12,14 @@
 export default {
   name: 'ContactIcon',
   props: {
-    value: {
+    content: {
       type: Object,
       default: () => ({}),
     },
   },
   computed: {
     data() {
-      return this.value[this.value.property];
+      return this.content[this.content.property];
     },
   },
 };
