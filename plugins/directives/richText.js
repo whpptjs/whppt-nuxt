@@ -5,7 +5,12 @@ export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
   Vue.directive('richText', {
     bind(el, binding) {
       const property = el.getAttribute('data-property');
-      const value = { value: binding.value, property };
+
+      const hideMenu = el.getAttribute('data-hide-menu');
+      const hideStyle = el.getAttribute('data-hide-style');
+      const hideHeaders = el.getAttribute('data-hide-headers');
+      const hideLists = el.getAttribute('data-hide-lists');
+      const value = { value: binding.value, property, hideMenu, hideStyle, hideHeaders, hideLists };
       el.whppthandler = SimpleComponentClickHandler({ store, menuIsInState, MENUSTATES, name: 'richText', el, value });
       el.addEventListener('click', el.whppthandler);
       el.addEventListener('mouseover', function(e) {
@@ -23,7 +28,11 @@ export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
     update(el, binding) {
       el.removeEventListener('click', el.whppthandler);
       const property = el.getAttribute('data-property');
-      const value = { value: binding.value, property };
+      const hideMenu = el.getAttribute('data-hide-menu');
+      const hideStyle = el.getAttribute('data-hide-style');
+      const hideHeaders = el.getAttribute('data-hide-headers');
+      const hideLists = el.getAttribute('data-hide-lists');
+      const value = { value: binding.value, property, hideMenu, hideStyle, hideHeaders, hideLists };
       el.whppthandler = SimpleComponentClickHandler({ store, menuIsInState, MENUSTATES, name: 'richText', el, value });
       el.addEventListener('click', el.whppthandler);
     },

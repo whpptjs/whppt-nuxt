@@ -1,39 +1,44 @@
 <template>
   <div class="whppt-editor">
     <p class="font-xl whppt-editor__header">Rich Text Editor</p>
-    <editor-menu-bar :editor="editor">
+    <editor-menu-bar v-if="selectedComponent.hideMenu" :editor="editor">
       <div slot-scope="{ commands, isActive, getMarkAttrs }" class="whppt-menubar" style="top: -52px">
-        <button @click="commands.bold">
-          <i-bold :fill="isActive.bold() ? 'orangered' : 'white'" />
-        </button>
-        <button @click="commands.italic">
-          <i-italic :fill="isActive.italic() ? 'orangered' : 'white'" />
-        </button>
-        <button @click="commands.underline">
-          <i-underline :fill="isActive.underline() ? 'orangered' : 'white'" />
-        </button>
-
-        <button @click="commands.paragraph">
-          <i-paragraph :fill="isActive.paragraph() ? 'orangered' : 'white'" />
-        </button>
-        <button @click="commands.heading({ level: 1 })">
-          <i-header1 :fill="isActive.heading({ level: 1 }) ? 'orangered' : 'white'" />
-        </button>
-        <button @click="commands.heading({ level: 2 })">
-          <i-header2 :fill="isActive.heading({ level: 2 }) ? 'orangered' : 'white'" />
-        </button>
-        <button @click="commands.heading({ level: 3 })">
-          <i-header3 :fill="isActive.heading({ level: 3 }) ? 'orangered' : 'white'" />
-        </button>
-        <button @click="commands.bullet_list">
-          <i-bullet-list :fill="isActive.bullet_list() ? 'orangered' : 'white'" />
-        </button>
-        <button @click="commands.ordered_list">
-          <i-ordered-list :fill="isActive.ordered_list() ? 'orangered' : 'white'" />
-        </button>
-        <button @click="showLink(getMarkAttrs('link'))">
-          <i-link :fill="isActive.link() ? 'orangered' : 'white'" />
-        </button>
+        <div v-if="selectedComponent.hideStyle">
+          <button @click="commands.bold">
+            <i-bold :fill="isActive.bold() ? 'orangered' : 'white'" />
+          </button>
+          <button @click="commands.italic">
+            <i-italic :fill="isActive.italic() ? 'orangered' : 'white'" />
+          </button>
+          <button @click="commands.underline">
+            <i-underline :fill="isActive.underline() ? 'orangered' : 'white'" />
+          </button>
+        </div>
+        <div v-if="selectedComponent.hideHeaders">
+          <button @click="commands.paragraph">
+            <i-paragraph :fill="isActive.paragraph() ? 'orangered' : 'white'" />
+          </button>
+          <button @click="commands.heading({ level: 1 })">
+            <i-header1 :fill="isActive.heading({ level: 1 }) ? 'orangered' : 'white'" />
+          </button>
+          <button @click="commands.heading({ level: 2 })">
+            <i-header2 :fill="isActive.heading({ level: 2 }) ? 'orangered' : 'white'" />
+          </button>
+          <button @click="commands.heading({ level: 3 })">
+            <i-header3 :fill="isActive.heading({ level: 3 }) ? 'orangered' : 'white'" />
+          </button>
+        </div>
+        <div v-if="selectedComponent.hideLists">
+          <button @click="commands.bullet_list">
+            <i-bullet-list :fill="isActive.bullet_list() ? 'orangered' : 'white'" />
+          </button>
+          <button @click="commands.ordered_list">
+            <i-ordered-list :fill="isActive.ordered_list() ? 'orangered' : 'white'" />
+          </button>
+          <button @click="showLink(getMarkAttrs('link'))">
+            <i-link :fill="isActive.link() ? 'orangered' : 'white'" />
+          </button>
+        </div>
       </div>
     </editor-menu-bar>
     <editor-content class="whppt-rich-content" :editor="editor" />

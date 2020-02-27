@@ -122,7 +122,7 @@ export default {
   margin-right: -400px;
   transition: 0.5s;
   z-index: 51;
-  min-height: 400px;
+  min-height: 100vh;
 }
 
 .whppt-sidebar__inner {
