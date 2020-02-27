@@ -1,11 +1,12 @@
 <template>
   <div :id="content.id" v-whppt-anchor="content" data-property="id">
-    <!--TODO, only show content if in draft mode -->
-    <p>Anchor with ID: {{ content.id }}</p>
+    <p v-if="activeMenuItem" class="bg-">Anchor with ID: {{ content.id }}</p>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   name: 'WhpptAnchor',
   props: {
@@ -13,6 +14,9 @@ export default {
       type: Object,
       required: true,
     },
+  },
+  computed: {
+    ...mapState('whppt-nuxt/editor', ['activeMenuItem']),
   },
 };
 </script>
