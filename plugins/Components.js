@@ -93,6 +93,7 @@ const Components = options => [
     editorType: 'AnchorMenu',
     displayType: 'Anchor',
     id: '',
+    marginTop: 0,
   },
   {
     key: 'ContactIcon',
