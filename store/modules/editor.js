@@ -18,6 +18,7 @@ export default options => ({
   },
   actions: {
     selectMenuItem({ commit }, type) {
+      console.log('selectMenuItem', type);
       this.$whppt.clearSelectedComponent();
       this.$whppt.clearSelectedContent();
       commit('menuItemSelected', type);
