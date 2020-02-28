@@ -96,7 +96,8 @@ export default {
       'selectedContent',
     ]),
     isDraft() {
-      return process.env.DRAFT === 'true';
+      console.log('TCL: isDraft -> process.env.DRAFT', process.env.DRAFT);
+      return process.env.DRAFT || true;
     },
   },
 
