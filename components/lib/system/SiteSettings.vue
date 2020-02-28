@@ -118,7 +118,15 @@
         <settings-twitter :settings="siteSettings"></settings-twitter>
       </form>
       <form v-show="selectedTab === 'redirects'" @submit.prevent>
-        <div>
+        <settings-redirect
+          :redirects="slicedRedirects"
+          :pages="pages"
+          :currentPage="currentPage"
+          @addedRedirect="addedRedirect"
+          @deleteRedirect="deleteRedirect"
+          @swapPage="swapPage"
+        ></settings-redirect>
+        <!-- <div>
           <fieldset>
             <label>New Redirect</label>
             <div class="whppt-flex-between">
@@ -155,7 +163,7 @@
               </div>
             </div>
           </fieldset>
-        </div>
+        </div> -->
       </form>
     </div>
     <div v-if="showWarning" class="whppt-settings__content">
@@ -202,24 +210,28 @@ import { mapState } from 'vuex';
 import WhpptTextInput from '../whpptComponents/WhpptTextInput';
 import SettingsOpenGraph from './SettingsOG';
 import SettingsTwitter from './SettingsTwitter';
+import SettingsRedirect from './SettingsRedirect';
 
 export default {
   name: 'WhpptSiteSettings',
-  components: { WhpptTextInput, SettingsOpenGraph, SettingsTwitter },
+  components: { WhpptTextInput, SettingsOpenGraph, SettingsTwitter, SettingsRedirect },
   data() {
     return {
       loadedCategories: [],
       categories: [],
       allCategories: [],
-      redirects: [],
       showWarning: false,
       selectedCat: undefined,
       selectedIndex: undefined,
       usedListings: [],
       warningId: undefined,
+      redirects: [],
+      slicedRedirects: [],
       siteSettings: { og: { image: {} }, twitter: { image: {} } },
       selectedTab: 'categories',
-      selectedRedirect: { from: '', to: '' },
+      pages: 0,
+      currentPage: 0,
+      limit: 4,
     };
   },
   computed: {
@@ -255,6 +267,37 @@ export default {
         };
       });
     },
+    sliceRedirects() {
+      this.pages = Math.ceil(this.redirects.length / this.limit);
+      if (this.currentPage >= this.pages) this.currentPage = this.pages - 1;
+      this.slicedRedirects = this.redirects.slice(
+        this.currentPage * this.limit,
+        this.currentPage * this.limit + this.limit
+      );
+    },
+    loadRedirects() {
+      const vm = this;
+      return this.$axios.get(`${vm.baseAPIUrl}/api/siteSettings/loadRedirects`).then(({ data: redirects }) => {
+        if (!redirects || !redirects.length) return;
+        vm.redirects = redirects;
+        vm.sliceRedirects();
+      });
+    },
+    deleteRedirect(_id) {
+      const vm = this;
+      return this.$axios.post(`${vm.baseAPIUrl}/api/siteSettings/deleteRedirect`, { _id }).then(() => {
+        vm.redirects = remove(vm.redirects, r => r._id !== _id);
+        vm.sliceRedirects();
+      });
+    },
+    swapPage(newPage) {
+      this.currentPage = newPage;
+      this.sliceRedirects();
+    },
+    addedRedirect(newRedirect) {
+      this.redirects.push(newRedirect);
+      this.sliceRedirects();
+    },
     selectCat(category, index) {
       this.selectedCat = category;
       this.selectedIndex = index;
@@ -263,7 +306,7 @@ export default {
       this.categories = map(this.loadedCategories, category => {
         return {
           name: category.name,
-          id: category.id,
+          _id: category._id,
           filters: map(category.filters, filter => {
             return {
               value: filter.join(','),
@@ -289,13 +332,13 @@ export default {
       this.usedListings = [];
     },
     openWarning() {
-      if (!this.selectedCat.id) {
+      if (!this.selectedCat._id) {
         this.removeFromList(this.selectedIndex);
         this.selectedCat = undefined;
         this.selectedIndex = undefined;
       } else {
         return this.$axios
-          .post(`${this.baseAPIUrl}/api/siteSettings/getWarningInfo`, { id: this.selectedCat.id })
+          .post(`${this.baseAPIUrl}/api/siteSettings/getWarningInfo`, { _id: this.selectedCat._id })
           .then(({ data }) => {
             this.usedListings = data;
             this.showWarning = true;
@@ -304,50 +347,43 @@ export default {
     },
     removeCategory() {
       const vm = this;
-      return vm.$axios.post(`${vm.baseAPIUrl}/api/siteSettings/deleteCategory`, { id: vm.selectedCat.id }).then(() => {
-        vm.categories = remove(vm.categories, c => c.id !== vm.selectedCat.id);
+      return vm.$axios.post(`${vm.baseAPIUrl}/api/siteSettings/deleteCategory`, { id: vm.selectedCat._id }).then(() => {
+        vm.categories = remove(vm.categories, c => c._id !== vm.selectedCat._id);
         vm.showWarning = false;
         vm.selectedCat = undefined;
         vm.selectedIndex = undefined;
-      });
-    },
-    addURL() {
-      const vm = this;
-      if (!this.selectedRedirect.to || !this.selectedRedirect.from) return;
-      return this.$axios
-        .post(`${vm.baseAPIUrl}/api/siteSettings/saveRedirect`, { redirect: this.selectedRedirect })
-        .then(({ data: redirect }) => {
-          vm.redirects.push(redirect);
-          vm.selectedRedirect = { to: '', from: '' };
-        });
-    },
-    loadRedirects() {
-      const vm = this;
-      return this.$axios.get(`${vm.baseAPIUrl}/api/siteSettings/loadRedirects`).then(({ data: redirects }) => {
-        vm.redirects = redirects;
-        console.log('TCL: loadRedirects -> redirects', redirects);
       });
     },
     saveSiteSettings() {
       const formattedCategories = map(this.categories, category => {
         return {
           name: category.name,
-          id: category.id,
+          _id: category._id,
           filters: map(category.filters, filter => {
             return filter.value.split(',');
           }),
         };
       });
-      return this.$axios
-        .post(`${this.baseAPIUrl}/api/siteSettings/saveSiteSettings`, { siteSettings: this.siteSettings })
-        .then(() => {
-          if (!formattedCategories || !formattedCategories.length) return this.queryCategories();
-          return this.$axios
-            .post(`${this.baseAPIUrl}/api/siteSettings/saveCategories`, { categories: formattedCategories })
-            .then(() => {
-              this.queryCategories();
-            });
-        });
+      const promises = [
+        this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveSiteSettings`, {
+          siteSettings: this.siteSettings,
+        }),
+      ];
+
+      if (this.redirects && this.redirects.length)
+        promises.push(
+          this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveRedirects`, { redirects: this.redirects })
+        );
+
+      if (formattedCategories && formattedCategories.length) {
+        promises.push(
+          this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveCategories`, { categories: formattedCategories })
+        );
+      }
+
+      return Promise.all(promises).then(() => {
+        this.queryCategories();
+      });
     },
   },
 };

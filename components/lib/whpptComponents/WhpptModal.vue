@@ -112,7 +112,7 @@ export default {
   display: flex;
   z-index: 52;
   width: 75%;
-  max-height: 80vh;
+  max-height: 90vh;
   margin: 1.5rem;
   position: relative;
 }
