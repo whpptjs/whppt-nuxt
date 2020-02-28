@@ -1,11 +1,13 @@
 <template>
   <div class="whppt-flex whppt-overflow-hidden">
-    <editor-menu v-if="isDraft"></editor-menu>
-    <whppt-modal v-if="isDraft" :is-active="editInModal" @closeModal="closeModal">
-      <template v-slot:content>
-        <component :is="editInModalType" @closeModal="closeModal" />
-      </template>
-    </whppt-modal>
+    <div v-if="isDraft">
+      <editor-menu></editor-menu>
+      <whppt-modal :is-active="editInModal" @closeModal="closeModal">
+        <template v-slot:content>
+          <component :is="editInModalType" @closeModal="closeModal" />
+        </template>
+      </whppt-modal>
+    </div>
     <div class="whppt-content">
       <slot></slot>
     </div>
