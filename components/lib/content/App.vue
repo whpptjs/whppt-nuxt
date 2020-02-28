@@ -128,11 +128,9 @@ export default {
 .whppt-sidebar__inner {
   width: 365px;
   position: fixed;
-}
-
-.whppt-sidebar__inner {
-  width: 365px;
-  position: fixed;
+  overflow: auto;
+  height: 100vh;
+  padding-bottom: 60px;
 }
 
 .whppt-openEditor {

@@ -10,6 +10,7 @@
         label="Page Slug:"
         info="Enter any text and we'll turn it into a slug for you!"
       ></whppt-text-input>
+      <div class="whppt-info">Your slug: {{ formatSlug(slug) }}</div>
       <div v-if="showError">A page with that slug already exists, please select another.</div>
 
       <whppt-button @click="saveNewPage">Create Page</whppt-button>
@@ -90,5 +91,12 @@ export default {
 .whppt-page__hint {
   margin-top: 0.3rem;
   font-size: 0.7rem;
+}
+
+.whppt-info {
+  color: gray;
+  font-size: 0.75rem;
+  font-style: italic;
+  margin-bottom: 0.75rem;
 }
 </style>
