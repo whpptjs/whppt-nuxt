@@ -1,19 +1,12 @@
 <template>
   <div class="whppt-full ">
     <p class="font-xl">Text box</p>
-
     <whppt-text-input
       v-model="selectedComponent.value[selectedComponent.property]"
       class="whppt-textBox--margin-top-20"
       placeholder="Enter text here"
       :label="selectedComponent.property || 'Text'"
     />
-    <whppt-select
-      v-model="selectedComponent.value.alignment"
-      :value="selectedComponent.value.alignment"
-      label="Text Align"
-      :items="items"
-    ></whppt-select>
   </div>
 </template>
 
@@ -25,13 +18,6 @@ import WhpptSelect from '../whpptComponents/WhpptSelect';
 export default {
   name: 'EditorTextBox',
   components: { WhpptSelect, WhpptTextInput },
-  data: () => ({
-    items: [
-      { label: 'Left', value: 'left' },
-      { label: 'Center', value: 'center' },
-      { label: 'Right', value: 'right' },
-    ],
-  }),
   computed: mapState('whppt-nuxt/editor', ['selectedComponent']),
 };
 </script>
