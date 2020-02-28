@@ -26,7 +26,7 @@
         <w-add-circle></w-add-circle>
       </button>
     </div>
-    <whppt-select v-model="selectKey" :items="selectedComponent.value.links" />
+    <whppt-select v-model="selectKey" value-prop="text" :items="selectedComponent.value.links" />
     <div v-if="selectKey">
       <div class="whppt-flex-between">
         <h3 class="whppt-header">Edit link - {{ selectKey.text }}</h3>
