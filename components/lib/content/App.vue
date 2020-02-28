@@ -1,7 +1,7 @@
 <template>
   <div class="whppt-flex whppt-overflow-hidden">
-    <editor-menu></editor-menu>
-    <whppt-modal :is-active="editInModal" @closeModal="closeModal">
+    <editor-menu v-if="isDraft"></editor-menu>
+    <whppt-modal v-if="isDraft" :is-active="editInModal" @closeModal="closeModal">
       <template v-slot:content>
         <component :is="editInModalType" @closeModal="closeModal" />
       </template>
@@ -9,7 +9,7 @@
     <div class="whppt-content">
       <slot></slot>
     </div>
-    <div class="whppt-sidebar" :class="{ 'whppt-openEditor': editSidebar }">
+    <div v-if="isDraft" class="whppt-sidebar" :class="{ 'whppt-openEditor': editSidebar }">
       <div class="whppt-sidebar__inner">
         <whppt-tabs>
           <whppt-tab title="Selected Component">
@@ -83,15 +83,20 @@ export default {
     WhpptTab,
     WhpptTabs,
   },
-  computed: mapState('whppt-nuxt/editor', [
-    'editInModal',
-    'editInModalType',
-    'editSidebar',
-    'editSidebarType',
-    'editData',
-    'selectedComponent',
-    'selectedContent',
-  ]),
+  computed: {
+    ...mapState('whppt-nuxt/editor', [
+      'editInModal',
+      'editInModalType',
+      'editSidebar',
+      'editSidebarType',
+      'editData',
+      'selectedComponent',
+      'selectedContent',
+    ]),
+    isDraft() {
+      return process.env.DRAFT === 'true';
+    },
+  },
 
   methods: {
     ...mapActions('whppt-nuxt/editor', ['closeSidebar', 'closeModal']),
