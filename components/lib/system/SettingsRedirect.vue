@@ -89,6 +89,8 @@ export default {
     addRedirect() {
       const vm = this;
       if (!this.newRedirect.to || !this.newRedirect.from) return;
+      if (!this.newRedirect.to.startsWith('/')) this.newRedirect.to = `/${this.newRedirect.to}`;
+      if (!this.newRedirect.from.startsWith('/')) this.newRedirect.from = `/${this.newRedirect.from}`;
       return this.$axios
         .post(`${vm.baseAPIUrl}/api/siteSettings/checkDuplicateRedirect`, { redirect: this.newRedirect })
         .then(({ data: alreadyExists }) => {

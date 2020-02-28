@@ -347,12 +347,14 @@ export default {
     },
     removeCategory() {
       const vm = this;
-      return vm.$axios.post(`${vm.baseAPIUrl}/api/siteSettings/deleteCategory`, { id: vm.selectedCat._id }).then(() => {
-        vm.categories = remove(vm.categories, c => c._id !== vm.selectedCat._id);
-        vm.showWarning = false;
-        vm.selectedCat = undefined;
-        vm.selectedIndex = undefined;
-      });
+      return vm.$axios
+        .post(`${vm.baseAPIUrl}/api/siteSettings/deleteCategory`, { _id: vm.selectedCat._id })
+        .then(() => {
+          vm.categories = remove(vm.categories, c => c._id !== vm.selectedCat._id);
+          vm.showWarning = false;
+          vm.selectedCat = undefined;
+          vm.selectedIndex = undefined;
+        });
     },
     saveSiteSettings() {
       const formattedCategories = map(this.categories, category => {
