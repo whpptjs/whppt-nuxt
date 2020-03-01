@@ -384,6 +384,7 @@ export default {
       }
 
       return Promise.all(promises).then(() => {
+        this.$toast.global.editorSuccess('Site Settings Saved');
         this.queryCategories();
       });
     },

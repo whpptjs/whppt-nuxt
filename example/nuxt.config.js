@@ -17,7 +17,7 @@ module.exports = {
   css: [],
   plugins: ['plugins/axios.js'],
   buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/tailwindcss'],
-  modules: ['@nuxtjs/axios', '@nuxtjs/dotenv', ['../../module.js']],
+  modules: ['@nuxtjs/toast', '@nuxtjs/axios', '@nuxtjs/dotenv', ['../../module.js']],
   whppt: {
     componentPrefix: 'W',
     defaultMarginTop: '40',
@@ -96,6 +96,35 @@ module.exports = {
     whitelist: [],
     whitelistPatterns: [/^bg-\w+-\d00/, /^text-\w+-\d00/, /^border-\w+-\d00/, /^hover:border-\w+-\d00/, /^whppt-/],
     whitelistPatternsChildren: [],
+  },
+  toast: {
+    position: 'top-center',
+    register: [
+      {
+        name: 'editorSuccess',
+        message: payload => {
+          if (!payload) return 'Success';
+          return payload;
+        },
+        options: {
+          type: 'success',
+          duration: 4000,
+          keepOnHover: true,
+        },
+      },
+      {
+        name: 'editorError',
+        message: err => {
+          if (!err) return 'Unknown Error';
+          return err;
+        },
+        options: {
+          type: 'error',
+          duration: 4000,
+          keepOnHover: true,
+        },
+      },
+    ],
   },
   build: {
     extend(config, ctx) {},

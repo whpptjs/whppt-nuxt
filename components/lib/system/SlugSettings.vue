@@ -16,7 +16,7 @@
             placeholder="Enter a page slug"
             label="Slug"
             labelColour="black"
-            info="The page slug makes up part of the pages url that is shown in the browsers address bar and is used by search engines to match your page with search terms. Your input will be formatted to avoid certain characters."
+            info="The page slug makes up part of the page's url that is shown in the browsers address bar and is used by search engines to match your page with search terms. Your input will be formatted to avoid certain characters."
           />
           <div style="display: flex; align-items: center; justify-content: flex-start">
             <div style="font-weight: bold; padding-right: 0.5rem;">Output:</div>
@@ -90,16 +90,18 @@ export default {
       const vm = this;
       const newSlug = this.formattedSlug;
       if (!newSlug) {
-        this.errorMessage = 'Cannot use an empty slug';
+        // this.errorMessage = 'Cannot use an empty slug';
+        this.$toast.global.editorError('Cannot use an empty slug');
+
         return;
       }
       return vm.$whppt.checkSlug({ slug: newSlug }).then(result => {
         if (result) {
-          vm.errorMessage = 'Slug is already in use';
+          // vm.errorMessage = 'Slug is already in use';
+          this.$toast.global.editorError('Slug already in use');
           return;
         } else {
           vm.page.slug = newSlug;
-          console.log('TCL: saveSettings -> vm', vm);
           return vm.savePage().then(() => {
             vm.$router.push(`/${newSlug}`);
             vm.$emit('closeModal');

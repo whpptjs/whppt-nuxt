@@ -7,7 +7,7 @@
       class="whppt-menu__item"
       :class="{ 'whppt-menu__item--active': item.isActive && item.isActive() }"
     >
-      <button v-if="item.action" @click="item.action()">
+      <button v-if="item.action && !item.disabled" @click="item.action()">
         <component :is="item.icon" />
       </button>
       <button v-else>

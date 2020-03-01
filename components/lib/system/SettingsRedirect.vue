@@ -88,17 +88,19 @@ export default {
   methods: {
     addRedirect() {
       const vm = this;
-      if (!this.newRedirect.to || !this.newRedirect.from) return;
+      if (!this.newRedirect.to || !this.newRedirect.from)
+        return this.$toast.global.editorError('Cannot save an empty redirect');
       if (!this.newRedirect.to.startsWith('/')) this.newRedirect.to = `/${this.newRedirect.to}`;
       if (!this.newRedirect.from.startsWith('/')) this.newRedirect.from = `/${this.newRedirect.from}`;
       return this.$axios
         .post(`${vm.baseAPIUrl}/api/siteSettings/checkDuplicateRedirect`, { redirect: this.newRedirect })
         .then(({ data: alreadyExists }) => {
-          if (alreadyExists) return (this.errorMessage = 'That redirect already exists.');
+          if (alreadyExists) return this.$toast.global.editorError('Redirect already exists');
           return this.$axios
             .post(`${vm.baseAPIUrl}/api/siteSettings/saveRedirect`, { redirect: this.newRedirect })
             .then(({ data: redirect }) => {
               this.$emit('addedRedirect', redirect);
+              this.$toast.global.editorSuccess('Redirect Successfully Added');
               this.newRedirect = { to: '', from: '' };
             });
         });
@@ -142,6 +144,7 @@ export default {
 
 .whppt-redirects__icon {
   border: 1px solid #981a31;
+  cursor: pointer;
   border-radius: 50%;
   height: 40px;
   width: 40px;
