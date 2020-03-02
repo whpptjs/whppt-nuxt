@@ -94,10 +94,11 @@ export default {
       'editData',
       'selectedComponent',
       'selectedContent',
+      'draft',
     ]),
     isDraft() {
-      console.log('TCL: isDraft -> process.env.DRAFT', process.env.DRAFT);
-      return process.env.DRAFT || true;
+      console.log('TCL: isDraft -> this.draft', this.draft);
+      return this.draft;
     },
   },
 
