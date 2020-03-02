@@ -2,7 +2,7 @@
   <div class="whppt-settings">
     <div v-if="!showWarning" class="whppt-settings__content">
       <div class="whppt-settings__heading">
-        <p class="whppt-settings__heading-text">Site Settings</p>
+        <h2 class="whppt-settings__heading-text">Site Settings</h2>
         <button class="whppt-settings__button" @click="saveSiteSettings">Save</button>
       </div>
       <div class="whppt-settings__tabs">
@@ -112,12 +112,15 @@
           </fieldset>
         </div>
       </form>
+
       <form v-show="selectedTab === 'og'" @submit.prevent>
         <settings-open-graph :settings="siteSettings"></settings-open-graph>
       </form>
+
       <form v-show="selectedTab === 'twitter'" @submit.prevent>
         <settings-twitter :settings="siteSettings"></settings-twitter>
       </form>
+
       <form v-show="selectedTab === 'redirects'" @submit.prevent>
         <settings-redirect
           :redirects="slicedRedirects"

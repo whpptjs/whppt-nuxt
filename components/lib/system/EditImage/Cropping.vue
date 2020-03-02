@@ -24,7 +24,7 @@
           @draw="change(canvas.name)"
         />
       </div>
-      <whppt-button class="whppt-cropper__apply-change" @click="applyChanges">Apply Change</whppt-button>
+      <whppt-button class="whppt-cropper__apply-change" @click="applyChanges">Crop Image</whppt-button>
     </div>
   </div>
 </template>
