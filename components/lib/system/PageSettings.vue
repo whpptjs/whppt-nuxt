@@ -136,7 +136,6 @@ export default {
     ...mapState('whppt-nuxt/page', ['page']),
   },
   mounted() {
-    console.log('TCL: mounted -> this.page', this.page);
     this.page.og = this.page.og || { title: '', keywords: '', image: { imageId: '', crop: {} } };
     this.page.twitter = this.page.twitter || { title: '', keywords: '', image: { imageId: '', crop: {} } };
   },

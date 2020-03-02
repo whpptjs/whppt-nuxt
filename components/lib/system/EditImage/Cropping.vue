@@ -71,8 +71,6 @@ export default {
     applyManipulation() {
       this.$nextTick(() =>
         forEach(this.sizes, (size, key) => {
-          console.log('TCL: applyManipulation -> size', size);
-          console.log('TCL: applyManipulation -> key', key);
           this.$refs[`${key}Croppa`][0].applyMetadata(this.imageOptions.crop[key] || {});
         })
       );
