@@ -135,7 +135,7 @@ export default {
   left: 0;
   display: flex;
   width: 100%;
-  padding: 1rem;
+  padding: 2.5rem 1rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.5);
   height: 4rem;
 }
@@ -174,7 +174,7 @@ export default {
 }
 
 .whppt-settings__heading-text {
-  font-size: 1.25rem;
+  font-size: 1.75rem;
   color: #981a31;
 }
 </style>
