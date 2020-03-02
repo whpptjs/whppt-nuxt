@@ -97,7 +97,6 @@ export default {
       'draft',
     ]),
     isDraft() {
-      console.log('TCL: isDraft -> this.draft', this.draft);
       return this.draft;
     },
   },

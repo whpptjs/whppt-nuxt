@@ -25,6 +25,7 @@
             </div>
           </div>
           <div v-if="errorMessage" style="color: red; font-style: italic;">{{ errorMessage }}</div>
+          <!-- <button v-if="inProduction" class="whppt-settings__delete-button" @click="unpublish">Unpublish Page</button> -->
           <button class="whppt-settings__delete-button" @click="showWarning = true">Delete Page</button>
         </div>
       </form>
@@ -41,7 +42,9 @@
               </div>
             </div>
             <div class="whppt-settings__warning-actions">
-              <button class="whppt-settings__warning-button" @click="deletePage()">Delete</button>
+              <button class="whppt-settings__warning-button" @click="deletePageFromDraft()">
+                Delete
+              </button>
               <button class="whppt-settings__warning-button" @click="showWarning = false">Cancel</button>
             </div>
             <div></div>
@@ -75,14 +78,24 @@ export default {
     formattedSlug() {
       return this.formatSlug(this.page.slug);
     },
+    inProduction() {
+      console.log('TCL: inProduction -> process.env.NODE_ENV', process.env.NODE_ENV);
+      return process.env.NODE_ENV === 'production';
+    },
   },
   methods: {
-    ...mapActions('whppt-nuxt/page', ['savePage']),
-    deletePage() {
+    ...mapActions('whppt-nuxt/page', ['savePage', 'unpublishPage', 'deletePage']),
+    deletePageFromDraft() {
       const vm = this;
-      return vm.$whppt.deletePage(this.page._id).then(() => {
+      return vm.deletePage().then(() => {
         vm.$router.push(`/`);
         vm.showWarning = false;
+        vm.$emit('closeModal');
+      });
+    },
+    unpublish() {
+      const vm = this;
+      return vm.unpublishPage().then(() => {
         vm.$emit('closeModal');
       });
     },
