@@ -222,9 +222,6 @@ export default {
   border: 0;
   cursor: pointer;
 }
-:focus {
-  outline: none;
-}
 
 .whppt__default-container {
   display: grid;

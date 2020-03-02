@@ -2,7 +2,7 @@
   <div v-if="isActive" class="whppt-modal">
     <div class="whppt-modal-inner">
       <div class="whppt-modal__background" @click="$emit('closeModal')"></div>
-      <button class="whppt-modal__close-btn" @click="$emit('closeModal')">
+      <button class="whppt-modal__close-btn" aria-label="Close Modal" @click="$emit('closeModal')">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           style="stroke: currentColor;"

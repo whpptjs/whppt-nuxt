@@ -67,9 +67,6 @@ export default {
   align-items: center;
 }
 
-.whppt-contents__actions button:focus {
-  outline: none;
-}
 .whppt-contents__actions button:hover {
   background: black;
 }
