@@ -21,8 +21,8 @@
       <e-link :data="selectedComponent.value"></e-link>
     </div>
     <div class="whppt-flex-between">
-      <label for="groupLink">Link in group: </label>
-      <button class="whppt-icon-button" @click="addLink">
+      <label>Link in group: </label>
+      <button class="whppt-icon-button" aria-label="Add Link" @click="addLink">
         <w-add-circle></w-add-circle>
       </button>
     </div>
@@ -30,7 +30,7 @@
     <div v-if="selectKey">
       <div class="whppt-flex-between">
         <h3 class="whppt-header">Edit link - {{ selectKey.text }}</h3>
-        <button class="whppt-icon-button" @click="removeLink(selectKey)">
+        <button class="whppt-icon-button" aria-label="Remove Link" @click="removeLink(selectKey)">
           <w-remove></w-remove>
         </button>
       </div>

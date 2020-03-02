@@ -54,9 +54,6 @@ export default {
   line-height: 1.25;
   font-size: 0.75rem;
 }
-.whppt-inputText__input:focus {
-  outline: none;
-}
 
 .whppt-inputText__info {
   color: gray;

@@ -142,7 +142,7 @@ export default {
   margin: 1.5rem;
   position: relative;
 }
-/* 
+/*
 .whppt-modal__background {
   position: absolute;
   background-color: rgba(0, 0, 0, 0.75);
@@ -226,7 +226,6 @@ export default {
   border-radius: 5px;
   border: 1px solid rgba(0, 0, 0, 0.5);
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  outline: none;
   resize: vertical;
 }
 

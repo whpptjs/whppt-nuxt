@@ -68,7 +68,7 @@
                   <label for="name">Category: </label>
                   <div class="whppt-flex-between whppt-align-center">
                     <whppt-text-input v-model="selectedCat.name" placeholder="Enter category name" label="Name" />
-                    <button class="whppt-icon whppt-ml-auto" @click="openWarning()">
+                    <button class="whppt-icon whppt-ml-auto" aria-label="Remove Category" @click="openWarning()">
                       <w-remove></w-remove>
                     </button>
                   </div>
@@ -81,6 +81,7 @@
                           <button
                             class="whppt-icon whppt-ml-auto"
                             :class="selectedCat.filters.length <= 1 ? 'whppt-cursor-default' : ''"
+                            aria-label="Remove Category"
                             @click="selectedCat.filters.length > 1 ? removeFilter(filterIndex) : ''"
                           >
                             <w-remove :class="selectedCat.filters.length <= 1 ? 'whppt-text-gray-500' : ''"></w-remove>
@@ -98,7 +99,7 @@
                         >
                       </div>
                     </div>
-                    <button class="whppt-icon whppt-ml-4" @click="addOrFilter()">
+                    <button class="whppt-icon whppt-ml-4" aria-label="Add Category" @click="addOrFilter()">
                       <w-add-circle></w-add-circle>
                     </button>
                   </div>
@@ -116,17 +117,20 @@
           </fieldset>
         </div>
       </form>
+
       <form v-show="selectedTab === 'og'" @submit.prevent>
         <settings-open-graph :settings="siteSettings"></settings-open-graph>
       </form>
+
       <form v-show="selectedTab === 'twitter'" @submit.prevent>
         <settings-twitter :settings="siteSettings"></settings-twitter>
       </form>
+
       <form v-show="selectedTab === 'redirects'" @submit.prevent>
         <settings-redirect
           :redirects="slicedRedirects"
           :pages="pages"
-          :currentPage="currentPage"
+          :current-page="currentPage"
           @addedRedirect="addedRedirect"
           @deleteRedirect="deleteRedirect"
           @swapPage="swapPage"
@@ -152,7 +156,7 @@
         <div v-for="(page, index) in usedListings" :key="index" class="whppt-settings__used-listings-container">
           {{ page }}
         </div>
-        <button class="whppt-settings__warning-button whppt-mt-8" @click="closeWarning()">Ok</button>
+        <button class="whppt-settings__warning-button whppt-mt-8" @click="closeWarning()">Close</button>
       </div>
       <div v-else class="whppt-text-center">
         <p>
@@ -477,7 +481,6 @@ export default {
   border-radius: 5px;
   border: 1px solid rgba(0, 0, 0, 0.5);
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  outline: none;
   resize: vertical;
 }
 

@@ -7,10 +7,10 @@
       class="whppt-menu__item"
       :class="{ 'whppt-menu__item--active': item.isActive && item.isActive() }"
     >
-      <button v-if="item.action && !item.disabled" @click="item.action()">
+      <button v-if="item.action && !item.disabled" @click="item.action()" :aria-label="item.label">
         <component :is="item.icon" />
       </button>
-      <button v-else>
+      <button v-else aria-label="">
         <component :is="item.icon" />
       </button>
     </div>
@@ -217,8 +217,5 @@ export default {
 .whppt-menu__item,
 .whppt-menu__item--active svg {
   fill: currentColor;
-}
-:focus {
-  outline: none;
 }
 </style>
