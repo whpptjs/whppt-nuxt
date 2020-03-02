@@ -12,6 +12,7 @@ export default options => ({
     },
     savePage({ state, commit }) {
       return this.$whppt.savePage(state.page).then(page => {
+        this.$toast.global.editorSuccess('Page Saved');
         commit('pageLoaded', page);
       });
     },

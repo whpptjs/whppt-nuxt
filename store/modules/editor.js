@@ -5,6 +5,7 @@ export default options => ({
       options,
       baseAPIUrl: process.env.BASE_API_URL,
       baseImageUrl: process.env.BASE_IMAGE_URL,
+      draft: process.env.DRAFT,
       activeMenuItem: undefined,
       editSidebar: false,
       editInModal: false,
