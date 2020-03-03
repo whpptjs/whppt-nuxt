@@ -1,221 +1,92 @@
 <template>
-  <!-- https://vuejsexamples.com/a-vue-component-that-create-moveable-and-resizable/ -->
-  <div class="whppt-menu">
-    <div
-      v-for="(item, index) in menuItems"
-      :key="index"
-      class="whppt-menu__item"
-      :class="{ 'whppt-menu__item--active': item.isActive && item.isActive() }"
-    >
-      <button v-if="item.action && !item.disabled" @click="item.action()" :aria-label="item.label">
-        <component :is="item.icon" />
+  <div>
+    <p class="font-xl whppt-header">Edit Menu</p>
+    <div class="whppt-link-group__border">
+      <h3 class="whppt-header">Header of group</h3>
+      <whppt-check-box
+        :value="selectedComponent.value.showOnDesktop"
+        label="Show on desktop"
+        @click="selectedComponent.value.showOnDesktop = !selectedComponent.value.showOnDesktop"
+      ></whppt-check-box>
+      <whppt-check-box
+        :value="selectedComponent.value.showOnTablet"
+        label="Show on tablet"
+        @click="selectedComponent.value.showOnTablet = !selectedComponent.value.showOnTablet"
+      ></whppt-check-box>
+      <whppt-check-box
+        :value="selectedComponent.value.showOnMobile"
+        label="Show on phone"
+        @click="selectedComponent.value.showOnMobile = !selectedComponent.value.showOnMobile"
+      ></whppt-check-box>
+      <e-link :data="selectedComponent.value"></e-link>
+    </div>
+    <div class="whppt-flex-between">
+      <label>Link in group: </label>
+      <button class="whppt-icon-button" aria-label="Add Link" @click="addLink">
+        <w-add-circle></w-add-circle>
       </button>
-      <button v-else aria-label="">
-        <component :is="item.icon" />
-      </button>
+    </div>
+    <whppt-select v-model="selectKey" value-prop="text" :items="selectedComponent.value.links" />
+    <div v-if="selectKey">
+      <div class="whppt-flex-between">
+        <h3 class="whppt-header">Edit link - {{ selectKey.text }}</h3>
+        <button class="whppt-icon-button" aria-label="Remove Link" @click="removeLink(selectKey)">
+          <w-remove></w-remove>
+        </button>
+      </div>
+
+      <e-link :data="selectKey"></e-link>
+      <whppt-check-box
+        :value="selectKey.featured"
+        label="Feature this link"
+        @click="selectKey.featured = !selectKey.featured"
+      ></whppt-check-box>
     </div>
   </div>
 </template>
 
 <script>
-import { mapMutations, mapState, mapActions } from 'vuex';
-export default {
-  name: 'WhpptMenu',
-  data: () => ({
-    currentAction: undefined,
-  }),
-  computed: {
-    ...mapState('whppt-nuxt/editor', ['activeMenuItem', 'selectedContent', 'selectedComponent', 'environment']),
-    ...mapState('whppt-nuxt/page', ['page']),
-    menuItems() {
-      return [
-        // { key: 'draggable', label: '', icon: 'w-draggable', group: '' },
-        // { key: 'cursor', label: 'Cursor', icon: 'w-cursor', group: '' },
-        {
-          key: 'select',
-          label: 'Select',
-          icon: 'w-pointer',
-          group: '',
-          action: () => this.selectMenuItem('select'),
-          isActive: () => this.activeMenuItem === 'select',
-        },
-        {
-          key: 'remove',
-          label: 'Remove',
-          icon: 'w-trash',
-          group: '',
-          action: () => this.removeLink(),
-        },
-        { key: 'up', label: 'Up', icon: 'w-arrow-up', group: '', action: () => this.moveComponentUp() },
-        {
-          key: 'down',
-          label: 'Down',
-          icon: 'w-arrow-down',
-          group: '',
-          action: () => this.moveComponentDown(),
-        },
-        {
-          key: 'new-page',
-          label: 'New Page',
-          icon: 'w-new-page',
-          group: 'page',
-          action: () => this.newPage(),
-        },
-        {
-          key: 'save',
-          label: 'Save Page',
-          icon: 'w-save',
-          group: 'page',
-          disabled: !this.page || !this.page._id,
-          action: () => this.savePage(),
-        },
-        // { key: 'publish', label: 'Publish', icon: 'w-publish', group: 'page' },
-        // { key: 'preview', label: 'Preview', icon: 'w-preview', group: 'page' },
-        {
-          key: 'site-settings',
-          label: 'Site Settings',
-          icon: 'w-globe',
-          group: 'site',
-          action: () => this.editInModal('siteSettings'),
-        },
-        {
-          key: 'page-settings',
-          label: 'Page Settings',
-          icon: 'w-settings',
-          group: 'pageSettings',
-          disabled: !this.page || !this.page._id,
-          action: () => this.editInModal('pageSettings'),
-        },
-        {
-          key: 'slug-settings',
-          label: 'Slug Settings',
-          icon: 'w-slugPopup',
-          group: 'slugSettings',
-          disabled: !this.page || !this.page._id,
-          action: () => this.editInModal('slugSettings'),
-        },
-        // { key: 'seo', label: 'SEO', icon: 'w-seo', group: 'site' },
-        // { key: 'socials', label: 'Socials', icon: 'w-socials', group: 'site' },
-        // { key: 'documents', label: 'Documents', icon: 'w-document', group: 'site' },
-        // { key: 'redirects', label: 'Redirects', icon: 'w-redirect', group: 'site' },
-        // { key: 'logout', label: 'Logout', icon: 'w-logout', group: 'security' },
-        { key: 'nav', label: 'Nav', icon: 'w-nav', group: 'nav', action: () => this.saveNav() },
-        { key: 'footer', label: 'Footer', icon: 'w-footer', group: 'footer', action: () => this.saveFooter() },
-        // {
-        //   key: 'publishPage',
-        //   label: 'Publish Page',
-        //   icon: 'w-publish',
-        //   group: 'page',
-        //   disabled: this.environment !== 'production',
-        //   action: () => this.publishPage(),
-        // },
-        // {
-        //   key: 'publishNav',
-        //   label: 'Publish Nav',
-        //   icon: 'w-nav',
-        //   group: 'nav',
-        //   disabled: this.environment !== 'production',
-        //   action: () => this.publishNav(),
-        // },
+import { mapState } from 'vuex';
+import { without } from 'lodash';
+import WhpptCheckBox from '../whpptComponents/CheckBox';
+import WhpptSelect from '../whpptComponents/WhpptSelect';
+import ELink from '../whpptComponents/Link';
 
-        // {
-        //   key: 'publishFooter',
-        //   label: 'Publish Footer',
-        //   icon: 'w-footer',
-        //   group: 'footer',
-        //   disabled: this.environment !== 'production',
-        //   action: () => this.publishFooter(),
-        // },
-      ];
-    },
+export default {
+  name: 'Menu',
+  components: { ELink, WhpptCheckBox, WhpptSelect },
+  data() {
+    return {
+      selectKey: undefined,
+    };
+  },
+  computed: {
+    ...mapState('whppt-nuxt/editor', ['selectedComponent']),
   },
   methods: {
-    ...mapActions('whppt-nuxt/site', ['saveFooter', 'saveNav', 'publishFooter', 'publishNav']),
-    ...mapActions('whppt-nuxt/page', ['savePage', 'publishPage']),
-    ...mapActions('whppt-nuxt/editor', [
-      'selectMenuItem',
-      'moveComponentUp',
-      'moveComponentDown',
-      'removeComponent',
-      'clearSelectedComponent',
-      'clearSelectedContent',
-    ]),
-    ...mapMutations('whppt-nuxt/page', ['loaded']),
-    ...mapMutations('whppt-nuxt/editor', ['editInModal', 'editInSidebar']),
-    callMethod(action, options) {
-      if (!action) return;
-      return this[action](options);
+    changeCheck(value) {
+      value = !value;
     },
-    save() {
-      return this.savePage();
+    addLink() {
+      this.selectedComponent.value.links = this.selectedComponent.value.links || [];
+      const newLink = { type: 'page', featured: false };
+      this.selectedComponent.value.links.push(newLink);
+      this.selectKey = newLink;
     },
-    newPage() {
-      this.clearSelectedContent();
-      this.clearSelectedComponent();
-      return this.editInSidebar('WhpptPage');
-    },
-    removeLink() {
-      if (!this.selectedContent || !this.selectedComponent) return;
+    removeLink(link) {
       if (window.confirm('Are you sure?')) {
-        this.removeComponent();
+        this.selectedComponent.value.links = without(this.selectedComponent.value.links, link);
+        this.selectKey = undefined;
       }
-    },
-    editATDW() {
-      return this.editInModal('atdw');
     },
   },
 };
 </script>
-
-<style scoped>
-.whppt-menu {
-  background-color: rgba(0, 0, 0, 0.8);
-  padding: 0 0.25rem;
-  position: fixed;
-  z-index: 51;
-  top: 20px;
-  left: 20px;
-  border-radius: 100px;
-}
-
-.whppt-menu__item--active {
-  border-radius: 100%;
-  background-color: #262626;
-}
-
-.whppt-menu__item button {
-  border: none;
-  color: white;
-  background-color: transparent;
-  cursor: pointer;
-  border-radius: 50%;
-  width: 36px;
-  height: 36px;
-  display: flex;
-  justify-content: center;
-}
-.whppt-menu__item:first-child {
-  margin-top: 0.25rem;
-}
-.whppt-menu__item:last-child {
-  margin-bottom: 0.25rem;
-}
-
-.whppt-menu__item--active button {
-  color: orangered;
-}
-
-.whppt-menu__item--bordered {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-}
-
-.whppt-menu__item:hover {
-  border-radius: 100%;
-  background-color: #262626;
-}
-
-.whppt-menu__item,
-.whppt-menu__item--active svg {
-  fill: currentColor;
+<style>
+.whppt-link-group__border {
+  border-bottom-color: lightgrey;
+  border-bottom-width: 1px;
+  border-bottom-style: outset;
+  margin-bottom: 2rem;
 }
 </style>

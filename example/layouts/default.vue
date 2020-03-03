@@ -1,14 +1,21 @@
 <template>
   <w-editor-app>
-    <div>Header</div>
+    <header class="pb-16">
+      <navbar-desktop />
+    </header>
     <nuxt />
     <div>Footer</div>
   </w-editor-app>
 </template>
 
 <script>
+import NavbarDesktop from '~/components/navbar/NavbarDesktop';
+
 export default {
   name: 'LayoutDefault',
+  components: {
+    NavbarDesktop,
+  },
 };
 </script>
 

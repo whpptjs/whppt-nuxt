@@ -6,7 +6,7 @@ import richTextDirective from './directives/richText';
 import blankDirective from './directives/blank';
 import listDirective from './directives/list';
 import plainTextDirective from './directives/plainText';
-import linkGroupDirective from './directives/linkGroup';
+import menuDirective from './directives/menu';
 import linkDirective from './directives/link';
 import listingsDirective from './directives/listings';
 import listingDirective from './directives/listing';
@@ -108,7 +108,7 @@ export default (context, inject) => {
   blankDirective({ ...context, menuIsInState, MENUSTATES });
   listDirective({ ...context, menuIsInState, MENUSTATES });
   richTextDirective({ ...context, menuIsInState, MENUSTATES });
-  linkGroupDirective({ ...context, menuIsInState, MENUSTATES });
+  menuDirective({ ...context, menuIsInState, MENUSTATES });
   linkDirective({ ...context, menuIsInState, MENUSTATES });
   listingsDirective({ ...context, menuIsInState, MENUSTATES });
   listingDirective({ ...context, menuIsInState, MENUSTATES });

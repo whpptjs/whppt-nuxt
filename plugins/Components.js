@@ -27,11 +27,11 @@ const Components = options => [
     showOnMobile: true,
   },
   {
-    key: 'LinkGroup',
-    name: 'Link Group',
-    editorType: 'wLinkGroup',
-    displayType: 'wLinkGroup',
-    type: 'page',
+    key: 'Menu',
+    name: 'Menu',
+    editorType: 'Menu',
+    displayType: 'Menu',
+    type: 'page', // what is this?
     links: [],
     showOnDesktop: true,
     showOnTablet: true,
