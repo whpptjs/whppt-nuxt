@@ -6,7 +6,7 @@
     :is="linkType"
     v-else
     :to="linkType === 'nuxt-link' ? to.href : ''"
-    :href="linkType === 'a' ? to.href : ''"
+    :href="to.href"
     :target="linkType === 'a' && to.type === 'external' && '_blank'"
     style="cursor: pointer;"
   >
