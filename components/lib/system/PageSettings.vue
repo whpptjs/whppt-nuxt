@@ -138,9 +138,7 @@ export default {
   mounted() {
     this.page.og = this.page.og || { title: '', keywords: '', image: { imageId: '', crop: {} } };
     this.page.twitter = this.page.twitter || { title: '', keywords: '', image: { imageId: '', crop: {} } };
-    console.log('mounted ->  this.page.frequency', this.page.frequency);
     this.page.frequency = this.page.frequency || 'never';
-    console.log('mounted ->  this.page.frequency', this.page.frequency);
   },
   methods: {
     ...mapActions('whppt-nuxt/page', ['savePage']),
