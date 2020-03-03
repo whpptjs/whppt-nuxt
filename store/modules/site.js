@@ -4,6 +4,7 @@ export default options => ({
     options,
     footer: undefined,
     nav: undefined,
+    siteSettings: undefined,
   }),
   actions: {
     saveFooter({ state, commit }) {
@@ -38,6 +39,18 @@ export default options => ({
         commit('navLoaded', nav);
       });
     },
+    loadSiteSettings({ commit }) {
+      return this.$whppt.loadSiteSettings().then(siteSettings => {
+        siteSettings = siteSettings || { _id: 'siteSettings' };
+        siteSettings.og = siteSettings.og || { title: '', keywords: '', image: { imageId: '', crop: {} } };
+        siteSettings.twitter = siteSettings.twitter || {
+          title: '',
+          keywords: '',
+          image: { imageId: '', crop: {} },
+        };
+        commit('siteSettingsLoaded', siteSettings);
+      });
+    },
     saveSiteSettings({ commit }, { siteSettings, redirects, categories }) {
       return this.$whppt
         .saveSiteSettings({ siteSettings, redirects, categories })
@@ -50,6 +63,9 @@ export default options => ({
     },
     navLoaded(state, nav) {
       state.nav = nav;
+    },
+    siteSettingsLoaded(state, siteSettings) {
+      state.siteSettings = siteSettings;
     },
   },
   getters: {},

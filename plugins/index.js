@@ -14,6 +14,7 @@ import editImageDirective from './directives/editImage';
 import anchorDirective from './directives/anchor';
 import contactIconDirective from './directives/contactIcon';
 
+import LoadSiteSettings from './helpers/LoadSiteSettings';
 import SaveSiteSettings from './helpers/SaveSiteSettings';
 import SavePage from './helpers/SavePage';
 import PublishPage from './helpers/PublishPage';
@@ -38,6 +39,7 @@ export default (context, inject) => {
   const { store } = context;
   const whppt = {
     editData: undefined,
+    loadSiteSettings: LoadSiteSettings(context),
     saveSiteSettings: SaveSiteSettings(context),
     createPage: CreatePage(context),
     savePage: SavePage(context),

@@ -76,7 +76,6 @@
                 </div>
                 <div class="whppt-settings__right-column">
                   <div class="whppt-select__frequency-label">Frequency</div>
-                  {{ page.frequency }}
                   <select v-model="page.frequency" class="whppt-select__frequency-input">
                     <option v-for="(item, index) in frequencies" :key="index">
                       {{ item.value }}
