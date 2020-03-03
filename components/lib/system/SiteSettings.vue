@@ -13,14 +13,6 @@
       <div class="whppt-settings__tabs">
         <div
           class="whppt-settings__tab"
-          :class="selectedTab === 'categories' ? 'whppt-settings__tab-selected' : ''"
-          @click="selectedTab = 'categories'"
-        >
-          Categories
-        </div>
-
-        <div
-          class="whppt-settings__tab"
           :class="selectedTab === 'og' ? 'whppt-settings__tab-selected' : ''"
           @click="selectedTab = 'og'"
         >
@@ -40,6 +32,13 @@
           @click="selectedTab = 'redirects'"
         >
           Redirects
+        </div>
+        <div
+          class="whppt-settings__tab"
+          :class="selectedTab === 'categories' ? 'whppt-settings__tab-selected' : ''"
+          @click="selectedTab = 'categories'"
+        >
+          Categories
         </div>
       </div>
 
