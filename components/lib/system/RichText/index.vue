@@ -168,6 +168,7 @@ export default {
   display: flex;
   align-items: center;
   padding: 0.2em;
+  padding-left: 15px;
   border: 1px solid white;
   color: white;
   background: #222;
@@ -189,6 +190,11 @@ export default {
   border-radius: 50%;
   width: 30px;
   height: 30px;
+}
+
+.whppt-menubar__section-container {
+  display: flex;
+  align-items: center;
 }
 
 .whppt-editor .ProseMirror {

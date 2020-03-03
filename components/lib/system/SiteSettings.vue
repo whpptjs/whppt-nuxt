@@ -13,12 +13,11 @@
       <div class="whppt-settings__tabs">
         <div
           class="whppt-settings__tab"
-          :class="selectedTab === 'categories' ? 'whppt-settings__tab-selected' : ''"
-          @click="selectedTab = 'categories'"
+          :class="selectedTab === 'seo' ? 'whppt-settings__tab-selected' : ''"
+          @click="selectedTab = 'seo'"
         >
-          Categories
+          SEO
         </div>
-
         <div
           class="whppt-settings__tab"
           :class="selectedTab === 'og' ? 'whppt-settings__tab-selected' : ''"
@@ -41,8 +40,49 @@
         >
           Redirects
         </div>
+        <div
+          class="whppt-settings__tab"
+          :class="selectedTab === 'categories' ? 'whppt-settings__tab-selected' : ''"
+          @click="selectedTab = 'categories'"
+        >
+          Categories
+        </div>
       </div>
-
+      <form v-show="selectedTab === 'seo'" @submit.prevent>
+        <div>
+          <fieldset>
+            <div class="whppt-flex-between">
+              <div class="whppt-settings__left-column">
+                <whppt-text-input
+                  v-model="siteSettings.title"
+                  placeholder="Enter a title"
+                  label="Title"
+                  labelColour="black"
+                  info="This title will be used as a fallback for any page without one. The page title is shown in the browser's tab and used by search engines to match your page with search terms. Search results use the title to list the page."
+                />
+              </div>
+              <div class="whppt-settings__right-column">
+                <whppt-text-input
+                  v-model="siteSettings.keywords"
+                  placeholder="keywords (eg. page, simple)"
+                  label="Keywords"
+                  labelColour="black"
+                  info="These keywords will be used as a fallback for any page without them. Keywords are not shown on the page and are used by search engines to match your page with search terms. Comma seperate your values to add multiple."
+                />
+              </div>
+            </div>
+            <div>
+              <whppt-text-input
+                v-model="siteSettings.description"
+                placeholder="Enter description"
+                label="Description"
+                labelColour="black"
+                info="This description will be used as a fallback for any page without one. The page description is not shown the page and is used by search engines to match your page with search terms. Search results can show this description."
+              />
+            </div>
+          </fieldset>
+        </div>
+      </form>
       <form v-show="selectedTab === 'categories'" @submit.prevent>
         <div>
           <fieldset>
@@ -198,8 +238,8 @@ export default {
       warningId: undefined,
       redirects: [],
       slicedRedirects: [],
-      siteSettings: { og: { image: {} }, twitter: { image: {} } },
-      selectedTab: 'categories',
+      // siteSettings: { og: { image: {} }, twitter: { image: {} } },
+      selectedTab: 'seo',
       pages: 0,
       currentPage: 0,
       limit: 4,
@@ -207,13 +247,14 @@ export default {
   },
   computed: {
     ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
+    ...mapState('whppt-nuxt/site', ['siteSettings']),
     orderedAllCats() {
       return orderBy(this.allCategories);
     },
   },
   mounted() {
     this.queryCategories();
-    this.loadSiteSettings();
+    // this.loadSiteSettings();
     this.loadRedirects();
   },
   methods: {
@@ -229,17 +270,17 @@ export default {
         this.formatCategories();
       });
     },
-    loadSiteSettings() {
-      return this.$axios.get(`${this.baseAPIUrl}/api/siteSettings/loadSiteSettings`).then(({ data: siteSettings }) => {
-        this.siteSettings = siteSettings || { _id: 'siteSettings' };
-        this.siteSettings.og = this.siteSettings.og || { title: '', keywords: '', image: { imageId: '', crop: {} } };
-        this.siteSettings.twitter = this.siteSettings.twitter || {
-          title: '',
-          keywords: '',
-          image: { imageId: '', crop: {} },
-        };
-      });
-    },
+    // loadSiteSettings() {
+    //   return this.$axios.get(`${this.baseAPIUrl}/api/siteSettings/loadSiteSettings`).then(({ data: siteSettings }) => {
+    //     this.siteSettings = siteSettings || { _id: 'siteSettings' };
+    //     this.siteSettings.og = this.siteSettings.og || { title: '', keywords: '', image: { imageId: '', crop: {} } };
+    //     this.siteSettings.twitter = this.siteSettings.twitter || {
+    //       title: '',
+    //       keywords: '',
+    //       image: { imageId: '', crop: {} },
+    //     };
+    //   });
+    // },
     sliceRedirects() {
       this.pages = Math.ceil(this.redirects.length / this.limit);
       if (this.currentPage >= this.pages) this.currentPage = this.pages - 1;
