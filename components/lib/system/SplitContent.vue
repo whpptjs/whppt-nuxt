@@ -3,10 +3,13 @@
     <h1>Split Contents Width</h1>
     <whppt-text-input
       v-model="selectedComponent.value[selectedComponent.property]"
+      @change="clampInput"
       class="whppt-textBox--margin-top-20"
       info="Sets the first column's width. Calculated in 12ths, e.g. 2 = 2/12, 5 = 5/12"
       placeholder=""
       type="number"
+      min="2"
+      max="11"
       :label="selectedComponent.property"
     />
   </div>
@@ -14,12 +17,20 @@
 
 <script>
 import { mapState } from 'vuex';
+import { clamp } from 'lodash';
 import WhpptTextInput from '../whpptComponents/WhpptTextInput';
 
 export default {
   name: 'SplitContentEditor',
   components: { WhpptTextInput },
-  computed: mapState('whppt-nuxt/editor', ['selectedComponent']),
+  computed: {
+    ...mapState('whppt-nuxt/editor', ['selectedComponent']),
+  },
+  methods: {
+    clampInput(input) {
+      this.selectedComponent.value[this.selectedComponent.property] = clamp(input, 2, 11);
+    },
+  },
 };
 </script>
 <style>

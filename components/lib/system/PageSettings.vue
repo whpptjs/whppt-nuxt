@@ -59,6 +59,7 @@
                   v-model="page.description"
                   placeholder="Enter description"
                   label="Description"
+                  rows="2"
                   labelColour="black"
                   info="The page description is not shown the page and is used by search engines to match your page with search terms. Search results can show this description."
                 />

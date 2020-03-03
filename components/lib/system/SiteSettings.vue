@@ -76,6 +76,7 @@
                 v-model="siteSettings.description"
                 placeholder="Enter description"
                 label="Description"
+                rows="2"
                 labelColour="black"
                 info="This description will be used as a fallback for any page without one. The page description is not shown the page and is used by search engines to match your page with search terms. Search results can show this description."
               />
@@ -253,6 +254,7 @@ export default {
     },
   },
   mounted() {
+    console.log('siteSettings', this.siteSettings);
     this.queryCategories();
     // this.loadSiteSettings();
     this.loadRedirects();
@@ -380,29 +382,28 @@ export default {
           }),
         };
       });
-      this.saveSiteSettings({
-        siteSettings: this.siteSettings,
-        categories: formattedCategories,
-        redirects: this.redirects,
-      });
-      // const promises = [
-      //   this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveSiteSettings`, {
-      //     siteSettings: this.siteSettings,
-      //   }),
-      // ];
-      // if (this.redirects && this.redirects.length)
-      //   promises.push(
-      //     this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveRedirects`, { redirects: this.redirects })
-      //   );
-      // if (formattedCategories && formattedCategories.length) {
-      //   promises.push(
-      //     this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveCategories`, { categories: formattedCategories })
-      //   );
-      // }
-      // return Promise.all(promises).then(() => {
-      //
-      //   this.queryCategories();
+      // this.saveSiteSettings({
+      //   siteSettings: this.siteSettings,
+      //   categories: formattedCategories,
+      //   redirects: this.redirects,
       // });
+      const promises = [
+        this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveSiteSettings`, {
+          siteSettings: this.siteSettings,
+        }),
+      ];
+      if (this.redirects && this.redirects.length)
+        promises.push(
+          this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveRedirects`, { redirects: this.redirects })
+        );
+      if (formattedCategories && formattedCategories.length) {
+        promises.push(
+          this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveCategories`, { categories: formattedCategories })
+        );
+      }
+      return Promise.all(promises).then(() => {
+        this.queryCategories();
+      });
     },
     publishSiteSettings() {
       // const formattedCategories = map(this.categories, category => {

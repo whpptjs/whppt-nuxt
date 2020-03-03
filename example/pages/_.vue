@@ -33,7 +33,6 @@ export default {
   mixins: [meta],
   computed: {
     ...mapState('whppt-nuxt/page', ['page']),
-    ...mapState('whppt-nuxt/site', ['footer', 'siteSettings']),
   },
   asyncData({ params, store, error, app: { $whppt } }) {
     return Promise.all([
