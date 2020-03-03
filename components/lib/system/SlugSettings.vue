@@ -25,6 +25,7 @@
             </div>
           </div>
           <div v-if="errorMessage" style="color: red; font-style: italic;">{{ errorMessage }}</div>
+          <!-- <button v-if="inProduction" class="whppt-settings__delete-button" @click="unpublish">Unpublish Page</button> -->
           <button class="whppt-settings__delete-button" @click="showWarning = true">Delete Page</button>
         </div>
       </form>
@@ -41,7 +42,9 @@
               </div>
             </div>
             <div class="whppt-settings__warning-actions">
-              <button class="whppt-settings__warning-button" @click="deletePage()">Delete</button>
+              <button class="whppt-settings__warning-button" @click="deletePageFromDraft()">
+                Delete
+              </button>
               <button class="whppt-settings__warning-button" @click="showWarning = false">Cancel</button>
             </div>
             <div></div>
@@ -75,14 +78,24 @@ export default {
     formattedSlug() {
       return this.formatSlug(this.page.slug);
     },
+    inProduction() {
+      console.log('TCL: inProduction -> process.env.NODE_ENV', process.env.NODE_ENV);
+      return process.env.NODE_ENV === 'production';
+    },
   },
   methods: {
-    ...mapActions('whppt-nuxt/page', ['savePage']),
-    deletePage() {
+    ...mapActions('whppt-nuxt/page', ['savePage', 'unpublishPage', 'deletePage']),
+    deletePageFromDraft() {
       const vm = this;
-      return vm.$whppt.deletePage(this.page._id).then(() => {
+      return vm.deletePage().then(() => {
         vm.$router.push(`/`);
         vm.showWarning = false;
+        vm.$emit('closeModal');
+      });
+    },
+    unpublish() {
+      const vm = this;
+      return vm.unpublishPage().then(() => {
         vm.$emit('closeModal');
       });
     },
@@ -129,7 +142,7 @@ export default {
   margin: 1.5rem;
   position: relative;
 }
-/* 
+/*
 .whppt-modal__background {
   position: absolute;
   background-color: rgba(0, 0, 0, 0.75);
@@ -213,7 +226,6 @@ export default {
   border-radius: 5px;
   border: 1px solid rgba(0, 0, 0, 0.5);
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  outline: none;
   resize: vertical;
 }
 

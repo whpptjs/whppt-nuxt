@@ -7,10 +7,10 @@
       class="whppt-menu__item"
       :class="{ 'whppt-menu__item--active': item.isActive && item.isActive() }"
     >
-      <button v-if="item.action && !item.disabled" @click="item.action()">
+      <button v-if="item.action && !item.disabled" @click="item.action()" :aria-label="item.label">
         <component :is="item.icon" />
       </button>
-      <button v-else>
+      <button v-else aria-label="">
         <component :is="item.icon" />
       </button>
     </div>
@@ -25,7 +25,7 @@ export default {
     currentAction: undefined,
   }),
   computed: {
-    ...mapState('whppt-nuxt/editor', ['activeMenuItem', 'selectedContent', 'selectedComponent']),
+    ...mapState('whppt-nuxt/editor', ['activeMenuItem', 'selectedContent', 'selectedComponent', 'environment']),
     ...mapState('whppt-nuxt/page', ['page']),
     menuItems() {
       return [
@@ -101,12 +101,37 @@ export default {
         // { key: 'logout', label: 'Logout', icon: 'w-logout', group: 'security' },
         { key: 'nav', label: 'Nav', icon: 'w-nav', group: 'nav', action: () => this.saveNav() },
         { key: 'footer', label: 'Footer', icon: 'w-footer', group: 'footer', action: () => this.saveFooter() },
+        // {
+        //   key: 'publishPage',
+        //   label: 'Publish Page',
+        //   icon: 'w-publish',
+        //   group: 'page',
+        //   disabled: this.environment !== 'production',
+        //   action: () => this.publishPage(),
+        // },
+        // {
+        //   key: 'publishNav',
+        //   label: 'Publish Nav',
+        //   icon: 'w-nav',
+        //   group: 'nav',
+        //   disabled: this.environment !== 'production',
+        //   action: () => this.publishNav(),
+        // },
+
+        // {
+        //   key: 'publishFooter',
+        //   label: 'Publish Footer',
+        //   icon: 'w-footer',
+        //   group: 'footer',
+        //   disabled: this.environment !== 'production',
+        //   action: () => this.publishFooter(),
+        // },
       ];
     },
   },
   methods: {
-    ...mapActions('whppt-nuxt/site', ['saveFooter', 'saveNav']),
-    ...mapActions('whppt-nuxt/page', ['savePage']),
+    ...mapActions('whppt-nuxt/site', ['saveFooter', 'saveNav', 'publishFooter', 'publishNav']),
+    ...mapActions('whppt-nuxt/page', ['savePage', 'publishPage']),
     ...mapActions('whppt-nuxt/editor', [
       'selectMenuItem',
       'moveComponentUp',
@@ -192,8 +217,5 @@ export default {
 .whppt-menu__item,
 .whppt-menu__item--active svg {
   fill: currentColor;
-}
-:focus {
-  outline: none;
 }
 </style>

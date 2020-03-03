@@ -1,9 +1,14 @@
 <template>
   <div class="whppt-settings">
     <div v-if="!showWarning" class="whppt-settings__content">
-      <div class="whppt-settings__heading">
+      <div class="whppt-settings__heading whppt-flex-between">
         <p class="whppt-settings__heading-text">Site Settings</p>
-        <button class="whppt-settings__button" @click="saveSiteSettings">Save</button>
+        <div class="whppt-flex-between whppt-align-center">
+          <!-- <button class="whppt-settings__button" style="margin-right: 1rem;" @click="publishSiteSettings">
+            Publish
+          </button> -->
+          <button class="whppt-settings__button" @click="saveSettings">Save</button>
+        </div>
       </div>
       <div class="whppt-settings__tabs">
         <div
@@ -63,7 +68,7 @@
                   <label for="name">Category: </label>
                   <div class="whppt-flex-between whppt-align-center">
                     <whppt-text-input v-model="selectedCat.name" placeholder="Enter category name" label="Name" />
-                    <button class="whppt-icon whppt-ml-auto" @click="openWarning()">
+                    <button class="whppt-icon whppt-ml-auto" aria-label="Remove Category" @click="openWarning()">
                       <w-remove></w-remove>
                     </button>
                   </div>
@@ -76,6 +81,7 @@
                           <button
                             class="whppt-icon whppt-ml-auto"
                             :class="selectedCat.filters.length <= 1 ? 'whppt-cursor-default' : ''"
+                            aria-label="Remove Category"
                             @click="selectedCat.filters.length > 1 ? removeFilter(filterIndex) : ''"
                           >
                             <w-remove :class="selectedCat.filters.length <= 1 ? 'whppt-text-gray-500' : ''"></w-remove>
@@ -93,7 +99,7 @@
                         >
                       </div>
                     </div>
-                    <button class="whppt-icon whppt-ml-4" @click="addOrFilter()">
+                    <button class="whppt-icon whppt-ml-4" aria-label="Add Category" @click="addOrFilter()">
                       <w-add-circle></w-add-circle>
                     </button>
                   </div>
@@ -111,59 +117,24 @@
           </fieldset>
         </div>
       </form>
+
       <form v-show="selectedTab === 'og'" @submit.prevent>
         <settings-open-graph :settings="siteSettings"></settings-open-graph>
       </form>
+
       <form v-show="selectedTab === 'twitter'" @submit.prevent>
         <settings-twitter :settings="siteSettings"></settings-twitter>
       </form>
+
       <form v-show="selectedTab === 'redirects'" @submit.prevent>
         <settings-redirect
           :redirects="slicedRedirects"
           :pages="pages"
-          :currentPage="currentPage"
+          :current-page="currentPage"
           @addedRedirect="addedRedirect"
           @deleteRedirect="deleteRedirect"
           @swapPage="swapPage"
         ></settings-redirect>
-        <!-- <div>
-          <fieldset>
-            <label>New Redirect</label>
-            <div class="whppt-flex-between">
-              <div class="whppt-settings__left-column">
-                <whppt-text-input
-                  v-model="selectedRedirect.from"
-                  placeholder="From URL"
-                  label="From"
-                  labelColour="black"
-                  info="When visiting this URL, users will be sent to the To URL."
-                />
-              </div>
-              <div class="whppt-settings__right-column">
-                <whppt-text-input
-                  v-model="selectedRedirect.to"
-                  placeholder="To URL"
-                  label="To"
-                  labelColour="black"
-                  info="Users will be sent to this URL when visiting the From URL"
-                />
-              </div>
-            </div>
-            <button class="whppt-settings__button" style="display: flex" @click="addURL">Add URL</button>
-
-            <label>Saved Redirects</label>
-            <div v-for="(redirect, index) in redirects" :key="index">
-              <div class="whppt-flex-between">
-                <div class="whppt-settings__left-column">
-                  <whppt-text-input v-model="redirect.from" placeholder="From URL" label="From" labelColour="black" />
-                </div>
-                <div class="whppt-settings__right-column">
-                  <whppt-text-input v-model="redirect.to" placeholder="To URL" label="To" labelColour="black" />
-                </div>
-              </div>
-            </div>
-          </fieldset>
-        </div> -->
       </form>
     </div>
     <div v-if="showWarning" class="whppt-settings__content">
@@ -185,7 +156,7 @@
         <div v-for="(page, index) in usedListings" :key="index" class="whppt-settings__used-listings-container">
           {{ page }}
         </div>
-        <button class="whppt-settings__warning-button whppt-mt-8" @click="closeWarning()">Ok</button>
+        <button class="whppt-settings__warning-button whppt-mt-8" @click="closeWarning()">Close</button>
       </div>
       <div v-else class="whppt-text-center">
         <p>
@@ -205,7 +176,7 @@
 
 <script>
 import { map, remove, orderBy } from 'lodash';
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 import WhpptTextInput from '../whpptComponents/WhpptTextInput';
 import SettingsOpenGraph from './SettingsOG';
@@ -246,6 +217,8 @@ export default {
     this.loadRedirects();
   },
   methods: {
+    ...mapActions('whppt-nuxt/site', ['saveSiteSettings']),
+
     queryCategories() {
       return Promise.all([
         this.$axios.get(`${this.baseAPIUrl}/api/siteSettings/loadCategories`),
@@ -356,7 +329,7 @@ export default {
           vm.selectedIndex = undefined;
         });
     },
-    saveSiteSettings() {
+    saveSettings() {
       const formattedCategories = map(this.categories, category => {
         return {
           name: category.name,
@@ -366,25 +339,56 @@ export default {
           }),
         };
       });
+      this.saveSiteSettings({
+        siteSettings: this.siteSettings,
+        categories: formattedCategories,
+        redirects: this.redirects,
+      });
+      // const promises = [
+      //   this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveSiteSettings`, {
+      //     siteSettings: this.siteSettings,
+      //   }),
+      // ];
+      // if (this.redirects && this.redirects.length)
+      //   promises.push(
+      //     this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveRedirects`, { redirects: this.redirects })
+      //   );
+      // if (formattedCategories && formattedCategories.length) {
+      //   promises.push(
+      //     this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveCategories`, { categories: formattedCategories })
+      //   );
+      // }
+      // return Promise.all(promises).then(() => {
+      //
+      //   this.queryCategories();
+      // });
+    },
+    publishSiteSettings() {
+      // const formattedCategories = map(this.categories, category => {
+      //   return {
+      //     name: category.name,
+      //     _id: category._id,
+      //     filters: map(category.filters, filter => {
+      //       return filter.value.split(',');
+      //     }),
+      //   };
+      // });
       const promises = [
-        this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveSiteSettings`, {
+        this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/publishSiteSettings`, {
           siteSettings: this.siteSettings,
         }),
       ];
-
-      if (this.redirects && this.redirects.length)
-        promises.push(
-          this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveRedirects`, { redirects: this.redirects })
-        );
-
-      if (formattedCategories && formattedCategories.length) {
-        promises.push(
-          this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveCategories`, { categories: formattedCategories })
-        );
-      }
-
+      // if (this.redirects && this.redirects.length)
+      //   promises.push(
+      //     this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveRedirects`, { redirects: this.redirects })
+      //   );
+      // if (formattedCategories && formattedCategories.length) {
+      //   promises.push(
+      //     this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveCategories`, { categories: formattedCategories })
+      //   );
+      // }
       return Promise.all(promises).then(() => {
-        this.$toast.global.editorSuccess('Site Settings Saved');
+        this.$toast.global.editorSuccess('Site Settings Published');
         this.queryCategories();
       });
     },
@@ -477,7 +481,6 @@ export default {
   border-radius: 5px;
   border: 1px solid rgba(0, 0, 0, 0.5);
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  outline: none;
   resize: vertical;
 }
 

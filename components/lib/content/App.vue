@@ -94,10 +94,10 @@ export default {
       'editData',
       'selectedComponent',
       'selectedContent',
+      'draft',
     ]),
     isDraft() {
-      console.log('TCL: isDraft -> process.env.DRAFT', process.env.DRAFT);
-      return process.env.DRAFT || true;
+      return this.draft;
     },
   },
 
@@ -221,9 +221,6 @@ export default {
   color: white;
   border: 0;
   cursor: pointer;
-}
-:focus {
-  outline: none;
 }
 
 .whppt__default-container {

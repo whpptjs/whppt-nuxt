@@ -6,6 +6,14 @@
       <span class="whppt-checkbox__title">{{ label }}</span>
     </div>
   </div>
+  <!-- <button v-if="value" class="whppt-checkbox whppt-icon-button" @click="$emit('click')">
+    <w-check></w-check>
+    <span class="whppt-checkbox__title">{{ label }}</span>
+  </button>
+  <button v-else class="whppt-checkbox whppt-icon-button" @click="$emit('click')">
+    <w-circle></w-circle>
+    <span class="whppt-checkbox__title">{{ label }}</span>
+  </button> -->
 </template>
 
 <script>
@@ -22,6 +30,7 @@ export default {
   },
 };
 </script>
+
 <style>
 .whppt-checkbox {
   display: flex;

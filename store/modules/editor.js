@@ -5,6 +5,8 @@ export default options => ({
       options,
       baseAPIUrl: process.env.BASE_API_URL,
       baseImageUrl: process.env.BASE_IMAGE_URL,
+      draft: process.env.DRAFT,
+      environment: process.env.NODE_ENV,
       activeMenuItem: undefined,
       editSidebar: false,
       editInModal: false,
@@ -18,7 +20,6 @@ export default options => ({
   },
   actions: {
     selectMenuItem({ commit }, type) {
-      console.log('selectMenuItem', type);
       this.$whppt.clearSelectedComponent();
       this.$whppt.clearSelectedContent();
       commit('menuItemSelected', type);

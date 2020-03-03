@@ -24,7 +24,7 @@
           @draw="change(canvas.name)"
         />
       </div>
-      <whppt-button class="whppt-cropper__apply-change" @click="applyChanges">Apply Change</whppt-button>
+      <whppt-button class="whppt-cropper__apply-change" @click="applyChanges">Crop Image</whppt-button>
     </div>
   </div>
 </template>
@@ -71,8 +71,6 @@ export default {
     applyManipulation() {
       this.$nextTick(() =>
         forEach(this.sizes, (size, key) => {
-          console.log('TCL: applyManipulation -> size', size);
-          console.log('TCL: applyManipulation -> key', key);
           this.$refs[`${key}Croppa`][0].applyMetadata(this.imageOptions.crop[key] || {});
         })
       );

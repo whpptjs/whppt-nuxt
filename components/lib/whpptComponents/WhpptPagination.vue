@@ -1,10 +1,10 @@
 <template>
   <div class="whppt-pagination-container">
     <div class="whppt-pagination-left-nav">
-      <button @click="goToPage(1)" :disabled="currentPage === 1">
+      <button @click="goToPage(1)" aria-label="Go To First" :disabled="currentPage === 1">
         ⇤
       </button>
-      <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1">
+      <button @click="goToPage(currentPage - 1)" aria-label="Previous" :disabled="currentPage === 1">
         ←
       </button>
     </div>
@@ -22,13 +22,18 @@
     <div class="whppt-pagination-right-nav">
       <button
         @click="goToPage(currentPage + 1)"
+        aria-label="Next"
         :disabled="currentPage === Math.max(pageAmount, 1)"
         class="whppt-pagination-right-buttons"
       >
         →
       </button>
 
-      <button @click="goToPage(Math.max(pageAmount, 1))" :disabled="currentPage === Math.max(pageAmount, 1)">
+      <button
+        @click="goToPage(Math.max(pageAmount, 1))"
+        aria-label="Go To Last"
+        :disabled="currentPage === Math.max(pageAmount, 1)"
+      >
         ⇥
       </button>
     </div>

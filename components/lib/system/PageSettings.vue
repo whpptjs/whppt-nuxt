@@ -2,7 +2,7 @@
   <div class="whppt-settings">
     <div class="whppt-settings__content">
       <div class="whppt-settings__heading">
-        <p class="whppt-settings__heading-text">Page Settings</p>
+        <h2 class="whppt-settings__heading-text">Page Settings</h2>
         <button class="whppt-settings__button" @click="saveSettings">Save</button>
       </div>
       <div class="whppt-settings__tabs">
@@ -41,16 +41,16 @@
                     placeholder="Enter a page title"
                     label="Title"
                     labelColour="black"
-                    info="The page title is shown in the browsers tab and used by search engines to match your page with search terms. Search results use the title to list the page."
+                    info="The page title is shown in the browser's tab and used by search engines to match your page with search terms. Search results use the title to list the page."
                   />
                 </div>
                 <div class="whppt-settings__right-column">
                   <whppt-text-input
                     v-model="page.keywords"
-                    placeholder="keywords, for, the, page"
+                    placeholder="keywords (eg. page, simple)"
                     label="Keywords"
                     labelColour="black"
-                    info="Keywords are not shown on the page and are used by search engines to match your page with search terms. To add multiple, comma seperate them."
+                    info="Keywords are not shown on the page and are used by search engines to match your page with search terms. Comma seperate your values to add multiple."
                   />
                 </div>
               </div>
@@ -136,7 +136,6 @@ export default {
     ...mapState('whppt-nuxt/page', ['page']),
   },
   mounted() {
-    console.log('TCL: mounted -> this.page', this.page);
     this.page.og = this.page.og || { title: '', keywords: '', image: { imageId: '', crop: {} } };
     this.page.twitter = this.page.twitter || { title: '', keywords: '', image: { imageId: '', crop: {} } };
   },
@@ -303,7 +302,6 @@ export default {
   border-radius: 5px;
   border: 1px solid rgba(0, 0, 0, 0.5);
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  outline: none;
   resize: vertical;
 } */
 
