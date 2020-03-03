@@ -1,19 +1,23 @@
 <template>
   <div class="whppt-settings">
     <div v-if="!showWarning" class="whppt-settings__content">
-      <div class="whppt-settings__heading">
-        <h2 class="whppt-settings__heading-text">Site Settings</h2>
-        <button class="whppt-settings__button" @click="saveSiteSettings">Save</button>
+      <div class="whppt-settings__heading whppt-flex-between">
+        <p class="whppt-settings__heading-text">Site Settings</p>
+        <div class="whppt-flex-between whppt-align-center">
+          <!-- <button class="whppt-settings__button" style="margin-right: 1rem;" @click="publishSiteSettings">
+            Publish
+          </button> -->
+          <button class="whppt-settings__button" @click="saveSettings">Save</button>
+        </div>
       </div>
       <div class="whppt-settings__tabs">
         <div
           class="whppt-settings__tab"
-          :class="selectedTab === 'categories' ? 'whppt-settings__tab-selected' : ''"
-          @click="selectedTab = 'categories'"
+          :class="selectedTab === 'seo' ? 'whppt-settings__tab-selected' : ''"
+          @click="selectedTab = 'seo'"
         >
-          Categories
+          SEO
         </div>
-
         <div
           class="whppt-settings__tab"
           :class="selectedTab === 'og' ? 'whppt-settings__tab-selected' : ''"
@@ -36,8 +40,49 @@
         >
           Redirects
         </div>
+        <div
+          class="whppt-settings__tab"
+          :class="selectedTab === 'categories' ? 'whppt-settings__tab-selected' : ''"
+          @click="selectedTab = 'categories'"
+        >
+          Categories
+        </div>
       </div>
-
+      <form v-show="selectedTab === 'seo'" @submit.prevent>
+        <div>
+          <fieldset>
+            <div class="whppt-flex-between">
+              <div class="whppt-settings__left-column">
+                <whppt-text-input
+                  v-model="siteSettings.title"
+                  placeholder="Enter a title"
+                  label="Title"
+                  labelColour="black"
+                  info="This title will be used as a fallback for any page without one. The page title is shown in the browser's tab and used by search engines to match your page with search terms. Search results use the title to list the page."
+                />
+              </div>
+              <div class="whppt-settings__right-column">
+                <whppt-text-input
+                  v-model="siteSettings.keywords"
+                  placeholder="keywords (eg. page, simple)"
+                  label="Keywords"
+                  labelColour="black"
+                  info="These keywords will be used as a fallback for any page without them. Keywords are not shown on the page and are used by search engines to match your page with search terms. Comma seperate your values to add multiple."
+                />
+              </div>
+            </div>
+            <div>
+              <whppt-text-input
+                v-model="siteSettings.description"
+                placeholder="Enter description"
+                label="Description"
+                labelColour="black"
+                info="This description will be used as a fallback for any page without one. The page description is not shown the page and is used by search engines to match your page with search terms. Search results can show this description."
+              />
+            </div>
+          </fieldset>
+        </div>
+      </form>
       <form v-show="selectedTab === 'categories'" @submit.prevent>
         <div>
           <fieldset>
@@ -130,44 +175,6 @@
           @deleteRedirect="deleteRedirect"
           @swapPage="swapPage"
         ></settings-redirect>
-        <!-- <div>
-          <fieldset>
-            <label>New Redirect</label>
-            <div class="whppt-flex-between">
-              <div class="whppt-settings__left-column">
-                <whppt-text-input
-                  v-model="selectedRedirect.from"
-                  placeholder="From URL"
-                  label="From"
-                  labelColour="black"
-                  info="When visiting this URL, users will be sent to the To URL."
-                />
-              </div>
-              <div class="whppt-settings__right-column">
-                <whppt-text-input
-                  v-model="selectedRedirect.to"
-                  placeholder="To URL"
-                  label="To"
-                  labelColour="black"
-                  info="Users will be sent to this URL when visiting the From URL"
-                />
-              </div>
-            </div>
-            <button class="whppt-settings__button" style="display: flex" @click="addURL">Add URL</button>
-
-            <label>Saved Redirects</label>
-            <div v-for="(redirect, index) in redirects" :key="index">
-              <div class="whppt-flex-between">
-                <div class="whppt-settings__left-column">
-                  <whppt-text-input v-model="redirect.from" placeholder="From URL" label="From" labelColour="black" />
-                </div>
-                <div class="whppt-settings__right-column">
-                  <whppt-text-input v-model="redirect.to" placeholder="To URL" label="To" labelColour="black" />
-                </div>
-              </div>
-            </div>
-          </fieldset>
-        </div> -->
       </form>
     </div>
     <div v-if="showWarning" class="whppt-settings__content">
@@ -209,7 +216,7 @@
 
 <script>
 import { map, remove, orderBy } from 'lodash';
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 import WhpptTextInput from '../whpptComponents/WhpptTextInput';
 import SettingsOpenGraph from './SettingsOG';
@@ -231,8 +238,8 @@ export default {
       warningId: undefined,
       redirects: [],
       slicedRedirects: [],
-      siteSettings: { og: { image: {} }, twitter: { image: {} } },
-      selectedTab: 'categories',
+      // siteSettings: { og: { image: {} }, twitter: { image: {} } },
+      selectedTab: 'seo',
       pages: 0,
       currentPage: 0,
       limit: 4,
@@ -240,16 +247,19 @@ export default {
   },
   computed: {
     ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
+    ...mapState('whppt-nuxt/site', ['siteSettings']),
     orderedAllCats() {
       return orderBy(this.allCategories);
     },
   },
   mounted() {
     this.queryCategories();
-    this.loadSiteSettings();
+    // this.loadSiteSettings();
     this.loadRedirects();
   },
   methods: {
+    ...mapActions('whppt-nuxt/site', ['saveSiteSettings']),
+
     queryCategories() {
       return Promise.all([
         this.$axios.get(`${this.baseAPIUrl}/api/siteSettings/loadCategories`),
@@ -260,17 +270,17 @@ export default {
         this.formatCategories();
       });
     },
-    loadSiteSettings() {
-      return this.$axios.get(`${this.baseAPIUrl}/api/siteSettings/loadSiteSettings`).then(({ data: siteSettings }) => {
-        this.siteSettings = siteSettings || { _id: 'siteSettings' };
-        this.siteSettings.og = this.siteSettings.og || { title: '', keywords: '', image: { imageId: '', crop: {} } };
-        this.siteSettings.twitter = this.siteSettings.twitter || {
-          title: '',
-          keywords: '',
-          image: { imageId: '', crop: {} },
-        };
-      });
-    },
+    // loadSiteSettings() {
+    //   return this.$axios.get(`${this.baseAPIUrl}/api/siteSettings/loadSiteSettings`).then(({ data: siteSettings }) => {
+    //     this.siteSettings = siteSettings || { _id: 'siteSettings' };
+    //     this.siteSettings.og = this.siteSettings.og || { title: '', keywords: '', image: { imageId: '', crop: {} } };
+    //     this.siteSettings.twitter = this.siteSettings.twitter || {
+    //       title: '',
+    //       keywords: '',
+    //       image: { imageId: '', crop: {} },
+    //     };
+    //   });
+    // },
     sliceRedirects() {
       this.pages = Math.ceil(this.redirects.length / this.limit);
       if (this.currentPage >= this.pages) this.currentPage = this.pages - 1;
@@ -360,7 +370,7 @@ export default {
           vm.selectedIndex = undefined;
         });
     },
-    saveSiteSettings() {
+    saveSettings() {
       const formattedCategories = map(this.categories, category => {
         return {
           name: category.name,
@@ -370,25 +380,56 @@ export default {
           }),
         };
       });
+      this.saveSiteSettings({
+        siteSettings: this.siteSettings,
+        categories: formattedCategories,
+        redirects: this.redirects,
+      });
+      // const promises = [
+      //   this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveSiteSettings`, {
+      //     siteSettings: this.siteSettings,
+      //   }),
+      // ];
+      // if (this.redirects && this.redirects.length)
+      //   promises.push(
+      //     this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveRedirects`, { redirects: this.redirects })
+      //   );
+      // if (formattedCategories && formattedCategories.length) {
+      //   promises.push(
+      //     this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveCategories`, { categories: formattedCategories })
+      //   );
+      // }
+      // return Promise.all(promises).then(() => {
+      //
+      //   this.queryCategories();
+      // });
+    },
+    publishSiteSettings() {
+      // const formattedCategories = map(this.categories, category => {
+      //   return {
+      //     name: category.name,
+      //     _id: category._id,
+      //     filters: map(category.filters, filter => {
+      //       return filter.value.split(',');
+      //     }),
+      //   };
+      // });
       const promises = [
-        this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveSiteSettings`, {
+        this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/publishSiteSettings`, {
           siteSettings: this.siteSettings,
         }),
       ];
-
-      if (this.redirects && this.redirects.length)
-        promises.push(
-          this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveRedirects`, { redirects: this.redirects })
-        );
-
-      if (formattedCategories && formattedCategories.length) {
-        promises.push(
-          this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveCategories`, { categories: formattedCategories })
-        );
-      }
-
+      // if (this.redirects && this.redirects.length)
+      //   promises.push(
+      //     this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveRedirects`, { redirects: this.redirects })
+      //   );
+      // if (formattedCategories && formattedCategories.length) {
+      //   promises.push(
+      //     this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveCategories`, { categories: formattedCategories })
+      //   );
+      // }
       return Promise.all(promises).then(() => {
-        this.$toast.global.editorSuccess('Site Settings Saved');
+        this.$toast.global.editorSuccess('Site Settings Published');
         this.queryCategories();
       });
     },

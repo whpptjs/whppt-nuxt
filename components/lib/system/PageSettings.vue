@@ -121,13 +121,13 @@ export default {
       selectedTab: 'seo',
       errorMessage: '',
       frequencies: [
-        { value: 'always', id: 'always' },
-        { value: 'hourly', id: 'hourly' },
-        { value: 'daily', id: 'daily' },
-        { value: 'weekly', id: 'weekly' },
-        { value: 'monthly', id: 'monthly' },
-        { value: 'yearly', id: 'yearly' },
         { value: 'never', id: 'never' },
+        { value: 'yearly', id: 'yearly' },
+        { value: 'monthly', id: 'monthly' },
+        { value: 'weekly', id: 'weekly' },
+        { value: 'daily', id: 'daily' },
+        { value: 'hourly', id: 'hourly' },
+        { value: 'always', id: 'always' },
       ],
     };
   },
@@ -138,19 +138,13 @@ export default {
   mounted() {
     this.page.og = this.page.og || { title: '', keywords: '', image: { imageId: '', crop: {} } };
     this.page.twitter = this.page.twitter || { title: '', keywords: '', image: { imageId: '', crop: {} } };
+    this.page.frequency = this.page.frequency || 'yearly';
   },
   methods: {
     ...mapActions('whppt-nuxt/page', ['savePage']),
-    // removeImage(type) {
-    //   if (type === 'og') this.page.og.image.imageId = '';
-    //   else if (type === 'twitter') this.page.twitter.image.imageId = '';
-    // },
-    // openCropperOG(id) {
-    //   this.page.og.image.imageId = id;
-    // },
-    // openCropperTwitter(id) {
-    //   this.page.twitter.image.imageId = id;
-    // },
+    select(event) {
+      this.page.frequency = event.target.value;
+    },
     saveSettings() {
       // this.errorMessage = '';
       // if (this.page.priority && (this.page.priority < 0.0 || this.page.priority > 1)) {

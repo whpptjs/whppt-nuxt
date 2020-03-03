@@ -6,7 +6,7 @@ import richTextDirective from './directives/richText';
 import blankDirective from './directives/blank';
 import listDirective from './directives/list';
 import plainTextDirective from './directives/plainText';
-import linkGroupDirective from './directives/linkGroup';
+import menuDirective from './directives/menu';
 import linkDirective from './directives/link';
 import listingsDirective from './directives/listings';
 import listingDirective from './directives/listing';
@@ -14,11 +14,17 @@ import editImageDirective from './directives/editImage';
 import anchorDirective from './directives/anchor';
 import contactIconDirective from './directives/contactIcon';
 
+import LoadSiteSettings from './helpers/LoadSiteSettings';
+import SaveSiteSettings from './helpers/SaveSiteSettings';
 import SavePage from './helpers/SavePage';
+import PublishPage from './helpers/PublishPage';
+import UnpublishPage from './helpers/UnpublishPage';
 import DeletePage from './helpers/DeletePage';
 import SaveFooter from './helpers/SaveFooter';
+import PublishFooter from './helpers/PublishFooter';
 import LoadFooter from './helpers/LoadFooter';
 import SaveNav from './helpers/SaveNav';
+import PublishNav from './helpers/PublishNav';
 import LoadNav from './helpers/LoadNav';
 import CreatePage from './helpers/CreatePage';
 import LoadPage from './helpers/LoadPage';
@@ -33,15 +39,21 @@ export default (context, inject) => {
   const { store } = context;
   const whppt = {
     editData: undefined,
+    loadSiteSettings: LoadSiteSettings(context),
+    saveSiteSettings: SaveSiteSettings(context),
     createPage: CreatePage(context),
     savePage: SavePage(context),
+    publishPage: PublishPage(context),
+    unpublishPage: UnpublishPage(context),
     deletePage: DeletePage(context),
     loadPage: LoadPage(context),
     checkSlug: CheckSlug(context),
     loadFooter: LoadFooter(context),
     saveFooter: SaveFooter(context),
+    publishFooter: PublishFooter(context),
     loadNav: LoadNav(context),
     saveNav: SaveNav(context),
+    publishNav: PublishNav(context),
     templates: options.templates,
     marginTop: options.marginTop,
     components: Components(options),
@@ -96,7 +108,7 @@ export default (context, inject) => {
   blankDirective({ ...context, menuIsInState, MENUSTATES });
   listDirective({ ...context, menuIsInState, MENUSTATES });
   richTextDirective({ ...context, menuIsInState, MENUSTATES });
-  linkGroupDirective({ ...context, menuIsInState, MENUSTATES });
+  menuDirective({ ...context, menuIsInState, MENUSTATES });
   linkDirective({ ...context, menuIsInState, MENUSTATES });
   listingsDirective({ ...context, menuIsInState, MENUSTATES });
   listingDirective({ ...context, menuIsInState, MENUSTATES });

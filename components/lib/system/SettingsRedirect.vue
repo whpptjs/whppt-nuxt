@@ -118,8 +118,10 @@ export default {
 <style>
 .whppt-redirects__actions-column {
   width: 10%;
-  padding-left: 1rem;
   padding-top: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .whppt-redirects__page {

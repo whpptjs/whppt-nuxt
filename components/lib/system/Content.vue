@@ -20,7 +20,7 @@ export default {
   name: 'WhpptContent',
   components: { WhpptButton },
   computed: {
-    ...mapState('whppt-nuxt/editor', ['selectedComponent']),
+    ...mapState('whppt-nuxt/editor', ['selectedComponent', 'selectedContentBlacklist', 'selectedContentWhitelist']),
     contents() {
       return this.selectedComponent && this.selectedComponent.value;
     },
@@ -28,8 +28,20 @@ export default {
       return this.selectedComponent && this.selectedComponent.filter;
     },
     componentList() {
-      if (this.filterList) {
-        return filter(this.$whppt.components, c => includes(this.filterList, c.displayType));
+      if (!this.selectedComponent) return;
+      // TODO: this.selectedContentWhitelist doesnt exist, selectContent doesnt fire, selectComponent does.
+      console.log(this.selectedComponent);
+
+      console.log('this.selectedContentWhitelist', this.selectedContentWhitelist);
+      console.log('this.selectedContentBlacklist', this.selectedContentBlacklist);
+
+      if (this.selectedContentWhitelist || this.selectedContentBlacklist) {
+        return filter(
+          this.$whppt.components,
+          c =>
+            includes(this.selectedContentWhitelist, c.displayType) &&
+            !includes(this.selectedContentBlacklist, c.displayType)
+        );
       }
       return this.$whppt.components;
     },
