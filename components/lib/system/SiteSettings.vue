@@ -1,9 +1,14 @@
 <template>
   <div class="whppt-settings">
     <div v-if="!showWarning" class="whppt-settings__content">
-      <div class="whppt-settings__heading">
-        <h2 class="whppt-settings__heading-text">Site Settings</h2>
-        <button class="whppt-settings__button" @click="saveSiteSettings">Save</button>
+      <div class="whppt-settings__heading whppt-flex-between">
+        <p class="whppt-settings__heading-text">Site Settings</p>
+        <div class="whppt-flex-between whppt-align-center">
+          <!-- <button class="whppt-settings__button" style="margin-right: 1rem;" @click="publishSiteSettings">
+            Publish
+          </button> -->
+          <button class="whppt-settings__button" @click="saveSettings">Save</button>
+        </div>
       </div>
       <div class="whppt-settings__tabs">
         <div
@@ -130,44 +135,6 @@
           @deleteRedirect="deleteRedirect"
           @swapPage="swapPage"
         ></settings-redirect>
-        <!-- <div>
-          <fieldset>
-            <label>New Redirect</label>
-            <div class="whppt-flex-between">
-              <div class="whppt-settings__left-column">
-                <whppt-text-input
-                  v-model="selectedRedirect.from"
-                  placeholder="From URL"
-                  label="From"
-                  labelColour="black"
-                  info="When visiting this URL, users will be sent to the To URL."
-                />
-              </div>
-              <div class="whppt-settings__right-column">
-                <whppt-text-input
-                  v-model="selectedRedirect.to"
-                  placeholder="To URL"
-                  label="To"
-                  labelColour="black"
-                  info="Users will be sent to this URL when visiting the From URL"
-                />
-              </div>
-            </div>
-            <button class="whppt-settings__button" style="display: flex" @click="addURL">Add URL</button>
-
-            <label>Saved Redirects</label>
-            <div v-for="(redirect, index) in redirects" :key="index">
-              <div class="whppt-flex-between">
-                <div class="whppt-settings__left-column">
-                  <whppt-text-input v-model="redirect.from" placeholder="From URL" label="From" labelColour="black" />
-                </div>
-                <div class="whppt-settings__right-column">
-                  <whppt-text-input v-model="redirect.to" placeholder="To URL" label="To" labelColour="black" />
-                </div>
-              </div>
-            </div>
-          </fieldset>
-        </div> -->
       </form>
     </div>
     <div v-if="showWarning" class="whppt-settings__content">
@@ -209,7 +176,7 @@
 
 <script>
 import { map, remove, orderBy } from 'lodash';
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 import WhpptTextInput from '../whpptComponents/WhpptTextInput';
 import SettingsOpenGraph from './SettingsOG';
@@ -250,6 +217,8 @@ export default {
     this.loadRedirects();
   },
   methods: {
+    ...mapActions('whppt-nuxt/site', ['saveSiteSettings']),
+
     queryCategories() {
       return Promise.all([
         this.$axios.get(`${this.baseAPIUrl}/api/siteSettings/loadCategories`),
@@ -360,7 +329,7 @@ export default {
           vm.selectedIndex = undefined;
         });
     },
-    saveSiteSettings() {
+    saveSettings() {
       const formattedCategories = map(this.categories, category => {
         return {
           name: category.name,
@@ -370,25 +339,56 @@ export default {
           }),
         };
       });
+      this.saveSiteSettings({
+        siteSettings: this.siteSettings,
+        categories: formattedCategories,
+        redirects: this.redirects,
+      });
+      // const promises = [
+      //   this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveSiteSettings`, {
+      //     siteSettings: this.siteSettings,
+      //   }),
+      // ];
+      // if (this.redirects && this.redirects.length)
+      //   promises.push(
+      //     this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveRedirects`, { redirects: this.redirects })
+      //   );
+      // if (formattedCategories && formattedCategories.length) {
+      //   promises.push(
+      //     this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveCategories`, { categories: formattedCategories })
+      //   );
+      // }
+      // return Promise.all(promises).then(() => {
+      //
+      //   this.queryCategories();
+      // });
+    },
+    publishSiteSettings() {
+      // const formattedCategories = map(this.categories, category => {
+      //   return {
+      //     name: category.name,
+      //     _id: category._id,
+      //     filters: map(category.filters, filter => {
+      //       return filter.value.split(',');
+      //     }),
+      //   };
+      // });
       const promises = [
-        this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveSiteSettings`, {
+        this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/publishSiteSettings`, {
           siteSettings: this.siteSettings,
         }),
       ];
-
-      if (this.redirects && this.redirects.length)
-        promises.push(
-          this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveRedirects`, { redirects: this.redirects })
-        );
-
-      if (formattedCategories && formattedCategories.length) {
-        promises.push(
-          this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveCategories`, { categories: formattedCategories })
-        );
-      }
-
+      // if (this.redirects && this.redirects.length)
+      //   promises.push(
+      //     this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveRedirects`, { redirects: this.redirects })
+      //   );
+      // if (formattedCategories && formattedCategories.length) {
+      //   promises.push(
+      //     this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveCategories`, { categories: formattedCategories })
+      //   );
+      // }
       return Promise.all(promises).then(() => {
-        this.$toast.global.editorSuccess('Site Settings Saved');
+        this.$toast.global.editorSuccess('Site Settings Published');
         this.queryCategories();
       });
     },

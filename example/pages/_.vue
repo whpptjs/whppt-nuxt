@@ -35,6 +35,7 @@ export default {
     return Promise.all([
       store.dispatch('whppt-nuxt/page/loadPage', { slug: params.pathMatch }),
       store.dispatch('whppt-nuxt/site/loadFooter'),
+      store.dispatch('whppt-nuxt/site/loadNav'),
     ]).catch(err => {
       error({
         statusCode: (err.response && err.response.status) || 500,

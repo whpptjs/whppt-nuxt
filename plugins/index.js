@@ -14,11 +14,16 @@ import editImageDirective from './directives/editImage';
 import anchorDirective from './directives/anchor';
 import contactIconDirective from './directives/contactIcon';
 
+import SaveSiteSettings from './helpers/SaveSiteSettings';
 import SavePage from './helpers/SavePage';
+import PublishPage from './helpers/PublishPage';
+import UnpublishPage from './helpers/UnpublishPage';
 import DeletePage from './helpers/DeletePage';
 import SaveFooter from './helpers/SaveFooter';
+import PublishFooter from './helpers/PublishFooter';
 import LoadFooter from './helpers/LoadFooter';
 import SaveNav from './helpers/SaveNav';
+import PublishNav from './helpers/PublishNav';
 import LoadNav from './helpers/LoadNav';
 import CreatePage from './helpers/CreatePage';
 import LoadPage from './helpers/LoadPage';
@@ -33,15 +38,20 @@ export default (context, inject) => {
   const { store } = context;
   const whppt = {
     editData: undefined,
+    saveSiteSettings: SaveSiteSettings(context),
     createPage: CreatePage(context),
     savePage: SavePage(context),
+    publishPage: PublishPage(context),
+    unpublishPage: UnpublishPage(context),
     deletePage: DeletePage(context),
     loadPage: LoadPage(context),
     checkSlug: CheckSlug(context),
     loadFooter: LoadFooter(context),
     saveFooter: SaveFooter(context),
+    publishFooter: PublishFooter(context),
     loadNav: LoadNav(context),
     saveNav: SaveNav(context),
+    publishNav: PublishNav(context),
     templates: options.templates,
     marginTop: options.marginTop,
     components: Components(options),
