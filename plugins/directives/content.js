@@ -5,8 +5,11 @@ export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
     bind(el, binding) {
       el.addEventListener('content-selected', function(e) {
         store.dispatch('whppt-nuxt/editor/clearSelectedContent');
-        const filter = el.getAttribute('data-components');
-        store.dispatch('whppt-nuxt/editor/selectContent', { el, value: binding.value, filter });
+
+        const whitelist = el.getAttribute('data-whitelist');
+        const blacklist = el.getAttribute('data-blacklist');
+
+        store.dispatch('whppt-nuxt/editor/selectContent', { el, value: binding.value, whitelist, blacklist });
       });
 
       el.addEventListener('click', function(e) {
@@ -14,15 +17,22 @@ export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
         e.stopPropagation();
         store.dispatch('whppt-nuxt/editor/clearSelectedContent');
         store.dispatch('whppt-nuxt/editor/clearSelectedComponent');
-        const filter = el.getAttribute('data-components');
-        // const filter = _filter && _filter.split(',').trim();
-        store.dispatch('whppt-nuxt/editor/selectComponent', { el, value: { value: binding.value, filter } });
+
+        const whitelist = el.getAttribute('data-whitelist');
+        const blacklist = el.getAttribute('data-blacklist');
+
+        store.dispatch('whppt-nuxt/editor/selectComponent', {
+          el,
+          value: { value: binding.value, whitelist, blacklist },
+        });
         store.commit('whppt-nuxt/editor/editInSidebar', 'eContent');
       });
+
       el.addEventListener('mouseover', function(e) {
         e.preventDefault();
         if (menuIsInState(MENUSTATES.SELECT)) $whppt.mouseoverContent(el);
       });
+
       el.addEventListener('mouseout', function(e) {
         $whppt.mouseoutContent(el);
       });

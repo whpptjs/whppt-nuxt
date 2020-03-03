@@ -1,12 +1,12 @@
 import RichText from './RichText';
 import LinkSidebar from './LinkSidebar';
-import EditorMenu from './Menu';
+import EditorMenu from './EditorMenu';
 import EContent from './Content';
 import WhpptPage from './WhpptPage';
 import PlainText from './TextBox';
 import Blank from './Blank';
 import List from './List';
-import LinkGroup from './LinkGroup';
+import Menu from './Menu';
 import WLink from './Link';
 import atdw from './ATDW';
 import Listings from './Listings';
@@ -25,7 +25,7 @@ export {
   PlainText,
   AnchorMenu,
   Blank,
-  LinkGroup,
+  Menu,
   atdw,
   Listings,
   EditImage,
