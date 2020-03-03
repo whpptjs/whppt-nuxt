@@ -1,9 +1,9 @@
 <template>
   <div class="whppt-editor">
     <p class="font-xl whppt-editor__header">Rich Text Editor</p>
-    <editor-menu-bar v-if="selectedComponent.hideMenu" :editor="editor">
+    <editor-menu-bar v-if="!selectedComponent.hideMenu" :editor="editor">
       <div slot-scope="{ commands, isActive, getMarkAttrs }" class="whppt-menubar" style="top: -52px">
-        <div v-if="selectedComponent.hideStyle">
+        <div v-if="!selectedComponent.hideStyle" class="whppt-menubar__section">
           <button aria-label="Bold" @click="commands.bold">
             <i-bold :fill="isActive.bold() ? 'orangered' : 'white'" />
           </button>
@@ -14,7 +14,7 @@
             <i-underline :fill="isActive.underline() ? 'orangered' : 'white'" />
           </button>
         </div>
-        <div v-if="selectedComponent.hideHeaders">
+        <div v-if="!selectedComponent.hideHeaders" class="whppt-menubar__section">
           <button aria-label="Paragraph" @click="commands.paragraph">
             <i-paragraph :fill="isActive.paragraph() ? 'orangered' : 'white'" />
           </button>
@@ -28,7 +28,7 @@
             <i-header3 :fill="isActive.heading({ level: 3 }) ? 'orangered' : 'white'" />
           </button>
         </div>
-        <div v-if="selectedComponent.hideLists">
+        <div v-if="!selectedComponent.hideLists" class="whppt-menubar__section">
           <button aria-label="Bullet List" @click="commands.bullet_list">
             <i-bullet-list :fill="isActive.bullet_list() ? 'orangered' : 'white'" />
           </button>
@@ -165,12 +165,21 @@ export default {
 }
 
 .whppt-menubar {
+  display: flex;
+  align-items: center;
   padding: 0.2em;
+  padding-left: 15px;
   border: 1px solid white;
   color: white;
+  background: #222;
 }
+
 .whppt-menubar--active {
   color: orangered !important;
+}
+
+.whppt-menubar__section {
+  display: flex;
 }
 
 .whppt-menubar button {
@@ -181,6 +190,11 @@ export default {
   border-radius: 50%;
   width: 30px;
   height: 30px;
+}
+
+.whppt-menubar__section-container {
+  display: flex;
+  align-items: center;
 }
 
 .whppt-editor .ProseMirror {
