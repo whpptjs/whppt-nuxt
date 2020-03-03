@@ -24,4 +24,7 @@ export default {
   background-color: #eee;
   color: black;
 }
+.whppt-button:focus {
+  outline: none;
+}
 </style>
