@@ -27,15 +27,21 @@ export default options => ({
       });
     },
     deletePage({ state }) {
-      return this.$whppt.deletePage(state.page._id);
+      return this.$whppt.deletePage(state.page._id).then(() => {
+        state.page = undefined;
+      });
     },
     publishPage({ state }) {
       return this.$whppt.publishPage(state.page).then(() => {
+        state.page.published = true;
         this.$toast.global.editorSuccess('Page Published');
       });
     },
     unpublishPage({ state }) {
-      return this.$whppt.unpublishPage(state.page);
+      return this.$whppt.unpublishPage(state.page._id).then(() => {
+        state.page.published = false;
+        this.$toast.global.editorSuccess('Page Unpublished');
+      });
     },
     loadPage({ commit }, { slug }) {
       return this.$whppt.loadPage({ slug }).then(page => {

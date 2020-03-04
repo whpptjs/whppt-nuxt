@@ -11,7 +11,7 @@
       :id="id"
       v-bind="$attrs"
       class="whppt-inputText__input"
-      :class="{ 'whppt-editor-disabled': disabled }"
+      :class="{ 'whppt-inputText__disabled': disabled }"
       :type="$attrs.type || 'text'"
       :placeholder="placeholder"
       :value="value"
@@ -60,5 +60,10 @@ export default {
   font-size: 0.75rem;
   font-style: italic;
   margin-bottom: 0.75rem;
+}
+
+.whppt-inputText__disabled {
+  cursor: not-allowed;
+  background-color: #f1f1f1;
 }
 </style>

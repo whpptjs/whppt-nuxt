@@ -54,14 +54,13 @@
               </div>
             </div>
           </fieldset>
-          <whppt-text-input
-            id="slug"
-            v-model="listing.slug"
-            label="Page Slug"
-            info="NOTE: Changing this slug will modify the url of the page. If any user had this page bookmarked, their link will no longer work. 
-              Adding a redirect from this page's old url to its new one would resolve this."
-            labelColour="black"
-          />
+          <label for="slug">Page Slug</label>
+          <input id="slug" v-model="listing.slug" class="whppt-atdw__form-input" />
+          <div style="font-style: italic; color: grey; padding-bottom: 1rem;">
+            NOTE: Changing this slug will modify the url of the page. If any user had this page bookmarked, their link
+            will no longer work. Adding a redirect from this page's old url to its new one would resolve this.
+          </div>
+
           <fieldset v-if="listing.listingType === 'product'">
             <label for="desc">Description</label>
             <textarea
@@ -94,13 +93,6 @@
           </fieldset>
           <fieldset>
             <label for="status">Active Status</label>
-            <!-- <input
-            id="status"
-            v-model="listing.activeStatus.value"
-            class="whppt-atdw__form-input"
-            :disabled="!!listing.activeStatus.path"
-            :class="{ 'whppt-atdw__input--disabled': listing.activeStatus.path }"
-          /> -->
             <select
               class="select__input border-1 border-black bg-white"
               :value="listing.activeStatus.value"
