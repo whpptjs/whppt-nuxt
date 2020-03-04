@@ -52,9 +52,14 @@ export default options => ({
       });
     },
     saveSiteSettings({ commit }, { siteSettings, redirects, categories }) {
-      return this.$whppt
-        .saveSiteSettings({ siteSettings, redirects, categories })
-        .then(() => this.$toast.global.editorSuccess('Site Settings Saved'));
+      return this.$whppt.saveSiteSettings({ siteSettings, redirects, categories }).then(() => {
+        this.$toast.global.editorSuccess('Site Settings Saved');
+      });
+    },
+    publishSiteSettings({ commit }, { siteSettings, redirects, categories }) {
+      return this.$whppt.publishSiteSettings({ siteSettings, redirects, categories }).then(() => {
+        this.$toast.global.editorSuccess('Site Settings Published');
+      });
     },
   },
   mutations: {
