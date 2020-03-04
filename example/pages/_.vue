@@ -1,21 +1,23 @@
 <template>
-  <div v-if="page" class="h-screen wContainer">
-    <div v-plain-text="page">
-      {{ page.title || 'Plain Text' }}
-    </div>
-    <whppt-link :to="{ href: '#content', type: 'anchor' }">Whppt Link</whppt-link>
-    <div v-content="page.contents">
-      Content Block 2
-      {{ page.contents }}
-      <component
-        :is="content.displayType"
-        v-for="(content, contentKey) in page.contents"
-        :key="`content-${contentKey}`"
-        :value="content"
-        :content="content"
-        :class="{ container: content.inContainer, 'mx-auto': content.inContainer }"
-        :style="{ 'margin-top': `${content.marginTop || $whppt.defaultMarginTop}px` }"
-      ></component>
+  <div>
+    <div v-if="page" class="h-screen wContainer">
+      <div v-plain-text="page">
+        {{ page.title || 'Plain Text' }}
+      </div>
+      <whppt-link :to="{ href: '#content', type: 'anchor' }">Whppt Link</whppt-link>
+      <div v-content="page.contents">
+        Content Block 2
+        {{ page.contents }}
+        <component
+          :is="content.displayType"
+          v-for="(content, contentKey) in page.contents"
+          :key="`content-${contentKey}`"
+          :value="content"
+          :content="content"
+          :class="{ container: content.inContainer, 'mx-auto': content.inContainer }"
+          :style="{ 'margin-top': `${content.marginTop || $whppt.defaultMarginTop}px` }"
+        ></component>
+      </div>
     </div>
   </div>
 </template>
@@ -23,18 +25,21 @@
 <script>
 import { mapState } from 'vuex';
 import * as DisplayComponents from '~/components/Components';
+import meta from '~/components/mixins/meta';
 
 export default {
   name: 'WildCardPage',
   components: { ...DisplayComponents },
+  mixins: [meta],
   computed: {
     ...mapState('whppt-nuxt/page', ['page']),
-    ...mapState('whppt-nuxt/site', ['footer']),
   },
   asyncData({ params, store, error, app: { $whppt } }) {
     return Promise.all([
       store.dispatch('whppt-nuxt/page/loadPage', { slug: params.pathMatch }),
       store.dispatch('whppt-nuxt/site/loadFooter'),
+      store.dispatch('whppt-nuxt/site/loadNav'),
+      store.dispatch('whppt-nuxt/site/loadSiteSettings'),
     ]).catch(err => {
       error({
         statusCode: (err.response && err.response.status) || 500,

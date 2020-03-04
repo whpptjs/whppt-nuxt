@@ -6,8 +6,8 @@
         <label class="whppt-cropper-label">{{ canvas.name }}</label>
         <croppa
           :key="canvas.name"
-          :show-loading="true"
           :ref="`${canvas.name}Croppa`"
+          :show-loading="true"
           :disable-drag-and-drop="true"
           :disable-click-to-choose="true"
           :width="canvas.width / canvas.quality"
@@ -24,7 +24,7 @@
           @draw="change(canvas.name)"
         />
       </div>
-      <whppt-button class="whppt-cropper__apply-change" @click="applyChanges">Apply Change</whppt-button>
+      <whppt-button class="whppt-cropper__apply-change" @click="applyChanges">Apply</whppt-button>
     </div>
   </div>
 </template>
@@ -58,6 +58,16 @@ export default {
       return !Object.keys(this.sizes).length;
     },
   },
+  watch: {
+    'imageOptions.imageId'(val) {
+      this.imageOptionsCopy.imageId = val;
+      this.imageOptionsCopy.crop = cloneDeep(this.imageOptions.crop);
+      forEach(this.sizes, (size, key) => {
+        size.name = key;
+        this.$refs[`${key}Croppa`][0].refresh();
+      });
+    },
+  },
   created() {
     this.imageOptions.crop = this.imageOptions.crop || {};
 
@@ -71,8 +81,6 @@ export default {
     applyManipulation() {
       this.$nextTick(() =>
         forEach(this.sizes, (size, key) => {
-          console.log('TCL: applyManipulation -> size', size);
-          console.log('TCL: applyManipulation -> key', key);
           this.$refs[`${key}Croppa`][0].applyMetadata(this.imageOptions.crop[key] || {});
         })
       );
@@ -90,16 +98,6 @@ export default {
     },
     applyChanges() {
       this.imageOptions.crop = cloneDeep(this.imageOptionsCopy.crop);
-    },
-  },
-  watch: {
-    'imageOptions.imageId'(val) {
-      this.imageOptionsCopy.imageId = val;
-      this.imageOptionsCopy.crop = cloneDeep(this.imageOptions.crop);
-      forEach(this.sizes, (size, key) => {
-        size.name = key;
-        this.$refs[`${key}Croppa`][0].refresh();
-      });
     },
   },
 };

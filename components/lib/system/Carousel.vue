@@ -88,9 +88,6 @@ export default {
   border-radius: 5px;
   cursor: pointer;
 }
-.whppt-carousel__actions button:focus {
-  outline: none;
-}
 .whppt-carousel__actions button:hover {
   background: black;
 }

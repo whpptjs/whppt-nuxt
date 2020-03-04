@@ -1,3 +1,5 @@
+const whpptConfig = require('./config');
+
 module.exports = {
   mode: 'universal',
   head: {
@@ -19,74 +21,8 @@ module.exports = {
   buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/tailwindcss'],
   modules: ['@nuxtjs/toast', '@nuxtjs/axios', '@nuxtjs/dotenv', ['../../module.js']],
   whppt: {
+    ...whpptConfig,
     componentPrefix: 'W',
-    defaultMarginTop: '40',
-    colours: {
-      background: {
-        'Red Lighter': '#E52F2F',
-        Red: '#981A31',
-        'Red Darker': '#761218',
-        'Red Darkest': '#4A131F',
-        White: 'white',
-        Grey: '#efefef',
-      },
-      text: {
-        Black: 'black',
-        White: 'white',
-      },
-    },
-    components: [
-      {
-        key: 'CardCarousel',
-        name: 'Card Carousel',
-        editorType: 'wCarousel',
-        displayType: 'wCardCarousel',
-        reversed: false,
-        title: '',
-        description: '',
-        items: [],
-      },
-      {
-        key: 'FeatureBlock',
-        name: 'Feature Block',
-        displayType: 'FeatureBlock',
-        editorType: 'wComponent',
-        reversed: false,
-        image: {
-          crop: {},
-          imageId: '',
-        },
-      },
-      // {
-      //   key: 'SplitContent',
-      //   name: 'Split Content',
-      //   displayType: 'SplitContent',
-      //   editorType: 'wComponent',
-      //   property: 'data',
-      //   data: {
-      //     reversed: false,
-      //     image: {
-      //       sizes: {},
-      //       imageId: '',
-      //       crop: {},
-      //     },
-      //     text: {
-      //       title: 'Title',
-      //       subtitle: 'Subtitle',
-      //       description: 'Description',
-      //     },
-      //     button: {
-      //       text: 'Button Text',
-      //       icon: 'Button Icon',
-      //       link: 'Button Link',
-      //     },
-      //   },
-      // },
-    ],
-    templates: [
-      { key: 'generic', label: 'Generic', init: { header: { title: '' }, contents: [] } },
-      { key: 'home', label: 'Home', init: { header: { title: '', link: { type: 'anchor' } }, contents: [] } },
-    ],
   },
   axios: {
     proxy: true,

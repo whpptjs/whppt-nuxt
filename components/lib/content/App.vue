@@ -97,7 +97,6 @@ export default {
       'draft',
     ]),
     isDraft() {
-      console.log('TCL: isDraft -> this.draft', this.draft);
       return this.draft;
     },
   },
@@ -222,9 +221,6 @@ export default {
   color: white;
   border: 0;
   cursor: pointer;
-}
-:focus {
-  outline: none;
 }
 
 .whppt__default-container {

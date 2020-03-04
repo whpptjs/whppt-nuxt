@@ -1,3 +1,13 @@
+function commitTimeout(f) {
+  if (process.client) {
+    setTimeout(() => {
+      f();
+    }, 100);
+  } else {
+    f();
+  }
+}
+
 export default options => ({
   namespaced: true,
   state: () => ({
@@ -16,9 +26,20 @@ export default options => ({
         commit('pageLoaded', page);
       });
     },
+    deletePage({ state }) {
+      return this.$whppt.deletePage(state.page._id);
+    },
+    publishPage({ state }) {
+      return this.$whppt.publishPage(state.page).then(() => {
+        this.$toast.global.editorSuccess('Page Published');
+      });
+    },
+    unpublishPage({ state }) {
+      return this.$whppt.unpublishPage(state.page);
+    },
     loadPage({ commit }, { slug }) {
       return this.$whppt.loadPage({ slug }).then(page => {
-        commit('pageLoaded', page);
+        commitTimeout(() => commit('pageLoaded', page));
       });
     },
   },

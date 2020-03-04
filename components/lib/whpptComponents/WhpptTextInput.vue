@@ -7,11 +7,13 @@
       :for="id"
       >{{ label }}</label
     >
-    <input
+    <textarea
       :id="id"
       v-bind="$attrs"
       class="whppt-inputText__input"
+      :rows="rows || '1'"
       :class="{ 'whppt-editor-disabled': disabled }"
+      :style="adjustable ? '' : 'resize: none'"
       :type="$attrs.type || 'text'"
       :placeholder="placeholder"
       :value="value"
@@ -29,7 +31,7 @@
 // Based on https://vuejs.org/v2/examples/modal.html
 export default {
   name: 'EditorInputText',
-  props: ['id', 'label', 'value', 'info', 'placeholder', 'disabled', 'labelColour'],
+  props: ['id', 'label', 'value', 'info', 'placeholder', 'disabled', 'labelColour', 'rows', 'adjustable'],
 };
 </script>
 <style scoped>
@@ -53,9 +55,6 @@ export default {
   padding: 0.75rem 1rem;
   line-height: 1.25;
   font-size: 0.75rem;
-}
-.whppt-inputText__input:focus {
-  outline: none;
 }
 
 .whppt-inputText__info {

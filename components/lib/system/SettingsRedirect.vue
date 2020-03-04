@@ -11,25 +11,25 @@
         <div class="whppt-settings__left-column">
           <whppt-text-input
             v-model="newRedirect.from"
-            placeholder="From URL"
+            placeholder="From page (eg. page)"
             label="From"
             labelColour="black"
-            info="When visiting this URL, users will be sent to the To URL instead."
+            info="When visiting this Page, users will be sent to the To Page instead."
           />
         </div>
         <div class="whppt-settings__right-column">
           <whppt-text-input
             v-model="newRedirect.to"
-            placeholder="To URL"
+            placeholder="To page (eg. page/item)"
             label="To"
             labelColour="black"
-            info="Users will be sent to this URL when visiting the From URL"
+            info="Users will be sent to this Page when visiting the From Page"
           />
         </div>
       </div>
 
       <div class="whppt-flex-between whppt-align-center" style="padding-top: 1rem;">
-        <label>Saved Redirects</label>
+        <label style="font-size: 1.25rem">Saved Redirects</label>
         <div class="whppt-flex-start whppt-align-center">
           <div
             v-for="index in pages"
@@ -46,10 +46,10 @@
       <div v-for="(redirect, index) in redirects" :key="index">
         <div class="whppt-flex-between whppt-align-center">
           <div class="whppt-redirects__left-column">
-            <whppt-text-input v-model="redirect.from" placeholder="From URL" label="From" labelColour="black" />
+            <whppt-text-input v-model="redirect.from" placeholder="From Page" label="From" labelColour="black" />
           </div>
           <div class="whppt-redirects__middle-column">
-            <whppt-text-input v-model="redirect.to" placeholder="To URL" label="To" labelColour="black" />
+            <whppt-text-input v-model="redirect.to" placeholder="To Page" label="To" labelColour="black" />
           </div>
           <div class="whppt-redirects__actions-column">
             <div class="whppt-redirects__icon" @click="$emit('deleteRedirect', redirect._id)">
@@ -58,6 +58,7 @@
           </div>
         </div>
       </div>
+      <div v-if="!redirects || !redirects.length">There are currently no redirects</div>
     </fieldset>
   </div>
 </template>
@@ -90,6 +91,8 @@ export default {
       const vm = this;
       if (!this.newRedirect.to || !this.newRedirect.from)
         return this.$toast.global.editorError('Cannot save an empty redirect');
+      if (this.newRedirect.to === this.newRedirect.from)
+        return this.$toast.global.editorError("Redirects can't have the same value");
       if (!this.newRedirect.to.startsWith('/')) this.newRedirect.to = `/${this.newRedirect.to}`;
       if (!this.newRedirect.from.startsWith('/')) this.newRedirect.from = `/${this.newRedirect.from}`;
       return this.$axios
@@ -115,8 +118,10 @@ export default {
 <style>
 .whppt-redirects__actions-column {
   width: 10%;
-  padding-left: 1rem;
   padding-top: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .whppt-redirects__page {

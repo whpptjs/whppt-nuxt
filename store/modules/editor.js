@@ -6,6 +6,7 @@ export default options => ({
       baseAPIUrl: process.env.BASE_API_URL,
       baseImageUrl: process.env.BASE_IMAGE_URL,
       draft: process.env.DRAFT,
+      environment: process.env.NODE_ENV,
       activeMenuItem: undefined,
       editSidebar: false,
       editInModal: false,
@@ -14,12 +15,12 @@ export default options => ({
       richTextWatcher: 0,
       selectedComponent: undefined,
       selectedContent: undefined,
-      selectedContentFilter: undefined,
+      selectedContentWhitelist: undefined,
+      selectedContentBlacklist: undefined,
     };
   },
   actions: {
     selectMenuItem({ commit }, type) {
-      console.log('selectMenuItem', type);
       this.$whppt.clearSelectedComponent();
       this.$whppt.clearSelectedContent();
       commit('menuItemSelected', type);
@@ -42,8 +43,8 @@ export default options => ({
       commit('componentSelected', value);
       this.$whppt.selectComponent(el);
     },
-    selectContent({ state, commit }, { el, value, filter }) {
-      commit('contentSelected', { value, filter });
+    selectContent({ state, commit }, { el, value, whitelist, blacklist }) {
+      commit('contentSelected', { value, whitelist, blacklist });
       this.$whppt.selectContent(el);
     },
     clearSelectedContent({ commit }) {
@@ -102,9 +103,10 @@ export default options => ({
     componentSelected(state, value) {
       state.selectedComponent = value;
     },
-    contentSelected(state, { value, filter }) {
+    contentSelected(state, { value, whitelist, blacklist }) {
       state.selectedContent = value;
-      state.selectedContentFilter = filter;
+      state.selectedContentWhitelist = whitelist;
+      state.selectedContentBlacklist = blacklist;
     },
     selectedContentCleared(state, value) {
       state.selectedContent = undefined;

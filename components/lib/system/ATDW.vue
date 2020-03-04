@@ -4,7 +4,6 @@
       <div class="whppt-atdw__content whppt-atdw__modal--inner">
         <div class="whppt-atdw__heading">
           <p class="font-xl">ATDW</p>
-
           <button class="whppt-atdw__form-button" @click="showReconnect = !showReconnect">Close</button>
         </div>
         <div v-if="listing.listingType === 'product'">
@@ -46,10 +45,10 @@
             <span>Linked To: {{ listing.name.path }}</span>
             <div>
               <button v-if="listing.name.path" class="whppt-atdw__form-button" @click="disconnect(listing.name)">
-                disconnect
+                Disconnect
               </button>
               <button v-if="!listing.name.path" class="whppt-atdw__form-button" @click="openReconnectMenu('name')">
-                reconnect
+                Reconnect
               </button>
             </div>
           </div>
@@ -72,14 +71,14 @@
                 class="whppt-atdw__form-button"
                 @click="disconnect(listing.description)"
               >
-                disconnect
+                Disconnect
               </button>
               <button
                 v-if="!listing.description.path"
                 class="whppt-atdw__form-button"
                 @click="openReconnectMenu('description')"
               >
-                reconnect
+                Reconnect
               </button>
             </div>
           </div>
@@ -115,14 +114,14 @@
                 class="whppt-atdw__form-button"
                 @click="disconnect(listing.activeStatus)"
               >
-                disconnect
+                Disconnect
               </button>
               <button
                 v-if="!listing.activeStatus.path"
                 class="whppt-atdw__form-button"
                 @click="openReconnectMenu('activeStatus')"
               >
-                reconnect
+                Reconnect
               </button>
             </div>
           </div>
@@ -184,14 +183,14 @@
                 class="whppt-atdw__form-button"
                 @click="disconnect(listing.physicalAddress)"
               >
-                disconnect
+                Disconnect
               </button>
               <button
                 v-if="!listing.physicalAddress.path"
                 class="whppt-atdw__form-button"
                 @click="openReconnectMenu('physicalAddress')"
               >
-                reconnect
+                Reconnect
               </button>
             </div>
           </div>
@@ -209,10 +208,10 @@
             <span>Linked To: {{ listing.phone.path }}</span>
             <div>
               <button v-if="listing.phone.path" class="whppt-atdw__form-button" @click="disconnect(listing.phone)">
-                disconnect
+                Disconnect
               </button>
               <button v-if="!listing.phone.path" class="whppt-atdw__form-button" @click="openReconnectMenu('phone')">
-                reconnect
+                Reconnect
               </button>
             </div>
           </div>
@@ -230,10 +229,10 @@
             <span>Linked To: {{ listing.email.path }}</span>
             <div>
               <button v-if="listing.email.path" class="whppt-atdw__form-button" @click="disconnect(listing.email)">
-                disconnect
+                Disconnect
               </button>
               <button v-if="!listing.email.path" class="whppt-atdw__form-button" @click="openReconnectMenu('email')">
-                reconnect
+                Reconnect
               </button>
             </div>
           </div>
@@ -251,10 +250,10 @@
             <span>Linked To: {{ listing.image.path }}</span>
             <div>
               <button v-if="listing.image.path" class="whppt-atdw__form-button" @click="disconnect(listing.image)">
-                disconnect
+                Disconnect
               </button>
               <button v-if="!listing.image.path" class="whppt-atdw__form-button" @click="openReconnectMenu('image')">
-                reconnect
+                Reconnect
               </button>
             </div>
           </div>
@@ -263,30 +262,11 @@
           <whppt-tags-input label="ATDW Categories" :display-only="true" :tags="listing.atdwCategories.value" />
           <div class="whppt-atdw__form-controls">
             <span>Linked To: {{ listing.atdwCategories.path }}</span>
-            <!-- <div>
-              <button
-                v-if="listing.atdwCategories.path"
-                class="whppt-atdw__form-button"
-                @click="disconnect(listing.atdwCategories)"
-              >
-                disconnect
-              </button>
-              <button
-                v-if="!listing.atdwCategories.path"
-                class="whppt-atdw__form-button"
-                @click="openReconnectMenu('atdwCategories')"
-              >
-                reconnect
-              </button>
-            </div> -->
           </div>
         </fieldset>
         <fieldset>
           <whppt-tags-input label="Custom Categories" :tags="listing.customCategories.value" />
         </fieldset>
-        <!-- <fieldset>
-          <whppt-tags-input label="Tagged Categories" :display-only="true" :tags="listing.taggedCategories.value" />
-        </fieldset> -->
       </div>
     </div>
   </div>
@@ -520,7 +500,6 @@ export default {
   border-radius: 5px;
   border: 1px solid rgba(0, 0, 0, 0.5);
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  outline: none;
   resize: vertical;
 }
 

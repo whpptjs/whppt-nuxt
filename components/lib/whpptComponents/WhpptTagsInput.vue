@@ -6,7 +6,7 @@
       <div class="whppt-tags__container">
         <span class="whppt-tags__spacer">:</span>
         <span v-for="(tag, index) in tags" :key="index" class="whppt-tags__tag">
-          <button v-if="!displayOnly" @click="deleteTag(tag)"><i-close /></button>{{ tag }}
+          <button v-if="!displayOnly" @click="deleteTag(tag)" aria-label="Remove Tag"><i-close /></button>{{ tag }}
         </span>
       </div>
     </div>
