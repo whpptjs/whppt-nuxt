@@ -4,9 +4,9 @@
       <div class="whppt-settings__heading whppt-flex-between">
         <p class="whppt-settings__heading-text">Site Settings</p>
         <div class="whppt-flex-between whppt-align-center">
-          <!-- <button class="whppt-settings__button" style="margin-right: 1rem;" @click="publishSiteSettings">
+          <button class="whppt-settings__button" style="margin-right: 1rem;" @click="publishSettings">
             Publish
-          </button> -->
+          </button>
           <button class="whppt-settings__button" @click="saveSettings">Save</button>
         </div>
       </div>
@@ -76,6 +76,7 @@
                 v-model="siteSettings.description"
                 placeholder="Enter description"
                 label="Description"
+                rows="2"
                 labelColour="black"
                 info="This description will be used as a fallback for any page without one. The page description is not shown the page and is used by search engines to match your page with search terms. Search results can show this description."
               />
@@ -238,7 +239,7 @@ export default {
       warningId: undefined,
       redirects: [],
       slicedRedirects: [],
-      // siteSettings: { og: { image: {} }, twitter: { image: {} } },
+      siteSettings: { og: { image: {} }, twitter: { image: {} } },
       selectedTab: 'seo',
       pages: 0,
       currentPage: 0,
@@ -247,18 +248,18 @@ export default {
   },
   computed: {
     ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
-    ...mapState('whppt-nuxt/site', ['siteSettings']),
+    // ...mapState('whppt-nuxt/site', ['siteSettings']),
     orderedAllCats() {
       return orderBy(this.allCategories);
     },
   },
   mounted() {
     this.queryCategories();
-    // this.loadSiteSettings();
+    this.loadSiteSettings();
     this.loadRedirects();
   },
   methods: {
-    ...mapActions('whppt-nuxt/site', ['saveSiteSettings']),
+    ...mapActions('whppt-nuxt/site', ['saveSiteSettings', 'publishSiteSettings']),
 
     queryCategories() {
       return Promise.all([
@@ -270,17 +271,17 @@ export default {
         this.formatCategories();
       });
     },
-    // loadSiteSettings() {
-    //   return this.$axios.get(`${this.baseAPIUrl}/api/siteSettings/loadSiteSettings`).then(({ data: siteSettings }) => {
-    //     this.siteSettings = siteSettings || { _id: 'siteSettings' };
-    //     this.siteSettings.og = this.siteSettings.og || { title: '', keywords: '', image: { imageId: '', crop: {} } };
-    //     this.siteSettings.twitter = this.siteSettings.twitter || {
-    //       title: '',
-    //       keywords: '',
-    //       image: { imageId: '', crop: {} },
-    //     };
-    //   });
-    // },
+    loadSiteSettings() {
+      return this.$axios.get(`${this.baseAPIUrl}/api/siteSettings/loadSiteSettings`).then(({ data: siteSettings }) => {
+        this.siteSettings = siteSettings || { _id: 'siteSettings' };
+        this.siteSettings.og = this.siteSettings.og || { title: '', keywords: '', image: { imageId: '', crop: {} } };
+        this.siteSettings.twitter = this.siteSettings.twitter || {
+          title: '',
+          keywords: '',
+          image: { imageId: '', crop: {} },
+        };
+      });
+    },
     sliceRedirects() {
       this.pages = Math.ceil(this.redirects.length / this.limit);
       if (this.currentPage >= this.pages) this.currentPage = this.pages - 1;
@@ -384,6 +385,8 @@ export default {
         siteSettings: this.siteSettings,
         categories: formattedCategories,
         redirects: this.redirects,
+      }).then(() => {
+        this.queryCategories();
       });
       // const promises = [
       //   this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveSiteSettings`, {
@@ -400,25 +403,29 @@ export default {
       //   );
       // }
       // return Promise.all(promises).then(() => {
-      //
       //   this.queryCategories();
       // });
     },
-    publishSiteSettings() {
-      // const formattedCategories = map(this.categories, category => {
-      //   return {
-      //     name: category.name,
-      //     _id: category._id,
-      //     filters: map(category.filters, filter => {
-      //       return filter.value.split(',');
-      //     }),
-      //   };
-      // });
-      const promises = [
-        this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/publishSiteSettings`, {
-          siteSettings: this.siteSettings,
-        }),
-      ];
+    publishSettings() {
+      const formattedCategories = map(this.categories, category => {
+        return {
+          name: category.name,
+          _id: category._id,
+          filters: map(category.filters, filter => {
+            return filter.value.split(',');
+          }),
+        };
+      });
+      this.publishSiteSettings({
+        siteSettings: this.siteSettings,
+        categories: formattedCategories,
+        redirects: this.redirects,
+      });
+      // const promises = [
+      //   this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/publishSiteSettings`, {
+      //     siteSettings: this.siteSettings,
+      //   }),
+      // ];
       // if (this.redirects && this.redirects.length)
       //   promises.push(
       //     this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveRedirects`, { redirects: this.redirects })
@@ -428,10 +435,10 @@ export default {
       //     this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveCategories`, { categories: formattedCategories })
       //   );
       // }
-      return Promise.all(promises).then(() => {
-        this.$toast.global.editorSuccess('Site Settings Published');
-        this.queryCategories();
-      });
+      // return Promise.all(promises).then(() => {
+      //   this.$toast.global.editorSuccess('Site Settings Published');
+      //   this.queryCategories();
+      // });
     },
   },
 };

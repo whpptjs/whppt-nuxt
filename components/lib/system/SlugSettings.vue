@@ -13,6 +13,7 @@
         <div>
           <whppt-text-input
             v-model="page.slug"
+            :disabled="page.template === 'listing'"
             placeholder="Enter a page slug"
             label="Slug"
             labelColour="black"

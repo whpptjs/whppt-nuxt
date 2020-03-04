@@ -59,6 +59,7 @@
                   v-model="page.description"
                   placeholder="Enter description"
                   label="Description"
+                  rows="2"
                   labelColour="black"
                   info="The page description is not shown the page and is used by search engines to match your page with search terms. Search results can show this description."
                 />
@@ -69,6 +70,7 @@
                     v-model="page.priority"
                     placeholder="Enter a priority"
                     label="Priority"
+                    @change="clampInput"
                     labelColour="black"
                     info="Priority lets search engines know which pages you deem most important. Values range from 0.0 to 1.0, with a default value of 0.5."
                   />
@@ -144,6 +146,9 @@ export default {
     ...mapActions('whppt-nuxt/page', ['savePage']),
     select(event) {
       this.page.frequency = event.target.value;
+    },
+    clampInput(input) {
+      input ? (this.page.priority = clamp(input, 0, 1)) : 0.5;
     },
     saveSettings() {
       // this.errorMessage = '';
