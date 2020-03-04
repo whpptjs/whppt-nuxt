@@ -2,16 +2,12 @@
   <div v-if="!isLinkActive || !to.href">
     <slot></slot>
   </div>
-  <component
-    :is="linkType"
-    v-else
-    :to="linkType === 'nuxt-link' ? to.href : ''"
-    :href="linkType === 'a' ? to.href : ''"
-    :target="linkType === 'a' && to.type === 'external' && '_blank'"
-    style="cursor: pointer;"
-  >
+  <nuxt-link v-else-if="linkType === 'nuxt-link'" :to="to.href">
     <slot></slot>
-  </component>
+  </nuxt-link>
+  <a v-else :href="to.href" :target="linkType === 'a' && to.type === 'external' && '_blank'">
+    <slot></slot>
+  </a>
 </template>
 
 <script>
