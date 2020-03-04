@@ -72,7 +72,7 @@
               </div>
             </div>
             <div>
-              <whppt-text-input
+              <whppt-text-area
                 v-model="siteSettings.description"
                 placeholder="Enter description"
                 label="Description"
@@ -220,13 +220,14 @@ import { map, remove, orderBy } from 'lodash';
 import { mapState, mapActions } from 'vuex';
 
 import WhpptTextInput from '../whpptComponents/WhpptTextInput';
+import WhpptTextArea from '../whpptComponents/WhpptTextArea';
 import SettingsOpenGraph from './SettingsOG';
 import SettingsTwitter from './SettingsTwitter';
 import SettingsRedirect from './SettingsRedirect';
 
 export default {
   name: 'WhpptSiteSettings',
-  components: { WhpptTextInput, SettingsOpenGraph, SettingsTwitter, SettingsRedirect },
+  components: { WhpptTextInput, SettingsOpenGraph, SettingsTwitter, SettingsRedirect, WhpptTextArea },
   data() {
     return {
       loadedCategories: [],

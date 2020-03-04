@@ -55,7 +55,7 @@
                 </div>
               </div>
               <div>
-                <whppt-text-input
+                <whppt-text-area
                   v-model="page.description"
                   placeholder="Enter description"
                   label="Description"
@@ -108,6 +108,7 @@ import { clamp } from 'lodash';
 import slugify from 'slugify';
 
 import WhpptTextInput from '../whpptComponents/WhpptTextInput';
+import WhpptTextArea from '../whpptComponents/WhpptTextArea';
 import WhpptSelect from '../whpptComponents/WhpptSelect';
 import Gallery from './EditImage/Gallery';
 import Cropping from './EditImage/Cropping';
@@ -116,7 +117,7 @@ import SettingsTwitter from './SettingsTwitter';
 
 export default {
   name: 'WhpptSiteSettings',
-  components: { WhpptTextInput, WhpptSelect, Gallery, Cropping, SettingsOpenGraph, SettingsTwitter },
+  components: { WhpptTextInput, WhpptSelect, Gallery, Cropping, SettingsOpenGraph, SettingsTwitter, WhpptTextArea },
   data() {
     return {
       showError: false,

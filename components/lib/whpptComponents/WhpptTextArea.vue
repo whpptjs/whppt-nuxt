@@ -2,15 +2,17 @@
   <div>
     <label
       v-if="label"
-      class="whppt-inputText__label"
+      class="whppt-inputTextArea__label"
       :style="labelColour ? `color: ${labelColour}` : 'color: white'"
       :for="id"
       >{{ label }}</label
     >
-    <input
+    <textarea
       :id="id"
       v-bind="$attrs"
-      class="whppt-inputText__input"
+      class="whppt-inputTextArea__input"
+      :rows="rows || '1'"
+      :style="adjustable ? '' : 'resize: none'"
       :class="{ 'whppt-editor-disabled': disabled }"
       :type="$attrs.type || 'text'"
       :placeholder="placeholder"
@@ -21,19 +23,19 @@
       @blur="$emit('blur', $event.target.value)"
     />
     <!-- v-on="$listeners" -->
-    <p v-if="info" class="whppt-inputText__info">{{ info }}&nbsp;</p>
+    <p v-if="info" class="whppt-inputTextArea__info">{{ info }}&nbsp;</p>
   </div>
 </template>
 
 <script>
 // Based on https://vuejs.org/v2/examples/modal.html
 export default {
-  name: 'EditorInputText',
-  props: ['id', 'label', 'value', 'info', 'placeholder', 'disabled', 'labelColour'],
+  name: 'EditorInputTextArea',
+  props: ['id', 'label', 'value', 'info', 'placeholder', 'disabled', 'labelColour', 'rows', 'adjustable'],
 };
 </script>
 <style scoped>
-.whppt-inputText__label {
+.whppt-inputTextArea__label {
   /* color: white; */
   display: block;
   text-transform: uppercase;
@@ -43,7 +45,7 @@ export default {
   margin-bottom: 0.5rem;
 }
 
-.whppt-inputText__input {
+.whppt-inputTextArea__input {
   appearance: none;
   display: block;
   width: 100%;
@@ -55,7 +57,7 @@ export default {
   font-size: 0.75rem;
 }
 
-.whppt-inputText__info {
+.whppt-inputTextArea__info {
   color: gray;
   font-size: 0.75rem;
   font-style: italic;
