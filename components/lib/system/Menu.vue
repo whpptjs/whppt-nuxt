@@ -38,7 +38,7 @@
       <e-link :data="selectKey"></e-link>
       <whppt-check-box
         :value="selectKey.featured"
-        label="Feature this link"
+        label="Featured"
         @click="selectKey.featured = !selectKey.featured"
       ></whppt-check-box>
     </div>
