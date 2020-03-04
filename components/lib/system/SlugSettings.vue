@@ -26,7 +26,7 @@
             </div>
           </div>
           <div v-if="errorMessage" style="color: red; font-style: italic;">{{ errorMessage }}</div>
-          <!-- <button v-if="inProduction" class="whppt-settings__delete-button" @click="unpublish">Unpublish Page</button> -->
+          <!-- <button v-if="inDraft" class="whppt-settings__delete-button" @click="unpublish">Unpublish Page</button> -->
           <button class="whppt-settings__delete-button" @click="showWarning = true">Delete Page</button>
         </div>
       </form>
@@ -79,9 +79,8 @@ export default {
     formattedSlug() {
       return this.formatSlug(this.page.slug);
     },
-    inProduction() {
-      console.log('TCL: inProduction -> process.env.NODE_ENV', process.env.NODE_ENV);
-      return process.env.NODE_ENV === 'production';
+    inDraft() {
+      return process.env.DRAFT === 'true';
     },
   },
   methods: {
