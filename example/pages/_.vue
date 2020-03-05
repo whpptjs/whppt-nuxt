@@ -43,7 +43,7 @@ export default {
   computed: {
     ...mapState('whppt-nuxt/page', ['page']),
   },
-  asyncData({ params, store, error, app: { $whppt } }) {
+  asyncData({ params, store, error }) {
     return Promise.all([
       // store.dispatch('whppt-nuxt/site/loadSiteSettings'),
       store.dispatch('whppt-nuxt/page/loadPage', { slug: params.pathMatch }),
