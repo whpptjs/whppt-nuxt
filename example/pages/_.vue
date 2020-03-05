@@ -9,11 +9,13 @@
       </div>
       <div class="my-8">
         <h2 id="whppt-link" class="font-bold underline">Whppt Link Example</h2>
-        <whppt-link :to="{ href: '#content', type: 'anchor' }">Whppt Link</whppt-link>
+        <whppt-link v-link="page.link" :to="page.link">
+          {{ page.link.text || 'Whppt Link' }}
+        </whppt-link>
       </div>
       <div class="my-8">
         <h2 id="contents" class="font-bold underline">Content Example</h2>
-        <div v-content="page.contents" data-whitelist="FeatureBlock, Anchor, ContactIcon">
+        <div v-content="page.contents" data-blacklist="" class="p-8">
           <component
             :is="content.displayType"
             v-for="(content, contentKey) in page.contents"
@@ -61,29 +63,8 @@ export default {
 <style>
 .wContainer {
   margin: 0 auto;
-  min-height: 100vh;
   justify-content: center;
   align-items: center;
   text-align: center;
 }
-.margin {
-  margin: 20px 0;
-}
 </style>
-
-<!--
-    <div v-content="page.contents" data-components="wPlainText, wRichText, wEditImage" class="whppt-contents">
-      <component
-        :is="content.displayType"
-        v-for="(content, index) in page.contents"
-        :key="index"
-        :value="content"
-        :class="{ container: content.inContainer }"
-        :style="{ 'margin-top': `${content.marginTop || $whppt.defaultMarginTop}px` }"
-      ></component>
-      <div v-for="(content, index) in page.contents" :key="index">{{ content }}</div>
-      <div v-if="!page.contents">
-        Content Block (Limited)
-      </div>
-    </div>
--->
