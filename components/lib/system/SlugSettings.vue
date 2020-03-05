@@ -13,6 +13,7 @@
         <div>
           <whppt-text-input
             v-model="page.slug"
+            :disabled="page.template === 'listing'"
             placeholder="Enter a page slug"
             label="Slug"
             labelColour="black"
@@ -24,9 +25,14 @@
               {{ formattedSlug }}
             </div>
           </div>
+          <div style="color: grey; font-style: italic;">
+            Note: A listing page's slug can only be modified from the listing editor.
+          </div>
           <div v-if="errorMessage" style="color: red; font-style: italic;">{{ errorMessage }}</div>
-          <!-- <button v-if="inProduction" class="whppt-settings__delete-button" @click="unpublish">Unpublish Page</button> -->
-          <button class="whppt-settings__delete-button" @click="showWarning = true">Delete Page</button>
+          <button v-if="page.published" class="whppt-settings__delete-button" @click="unpublish">Unpublish Page</button>
+          <button v-if="!page.published" class="whppt-settings__delete-button" @click="showWarning = true">
+            Delete Page
+          </button>
         </div>
       </form>
       <div v-if="showWarning" class="whppt-settings__warning-modal">
@@ -78,9 +84,8 @@ export default {
     formattedSlug() {
       return this.formatSlug(this.page.slug);
     },
-    inProduction() {
-      console.log('TCL: inProduction -> process.env.NODE_ENV', process.env.NODE_ENV);
-      return process.env.NODE_ENV === 'production';
+    inDraft() {
+      return process.env.DRAFT === 'true';
     },
   },
   methods: {

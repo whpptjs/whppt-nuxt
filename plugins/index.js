@@ -16,6 +16,7 @@ import contactIconDirective from './directives/contactIcon';
 
 import LoadSiteSettings from './helpers/LoadSiteSettings';
 import SaveSiteSettings from './helpers/SaveSiteSettings';
+import PublishSiteSettings from './helpers/PublishSiteSettings';
 import SavePage from './helpers/SavePage';
 import PublishPage from './helpers/PublishPage';
 import UnpublishPage from './helpers/UnpublishPage';
@@ -41,6 +42,7 @@ export default (context, inject) => {
     editData: undefined,
     loadSiteSettings: LoadSiteSettings(context),
     saveSiteSettings: SaveSiteSettings(context),
+    publishSiteSettings: PublishSiteSettings(context),
     createPage: CreatePage(context),
     savePage: SavePage(context),
     publishPage: PublishPage(context),

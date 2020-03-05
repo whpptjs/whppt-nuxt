@@ -1,6 +1,5 @@
 <template>
   <div v-rich-text="value" :data-property="value.property" :style="{ 'margin-top': `${marginTop}rem` }">
-    {{ marginTop }}
     <div v-html="value[value.property] || 'Enter Text Here'"></div>
   </div>
 </template>

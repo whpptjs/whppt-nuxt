@@ -92,6 +92,7 @@ export default {
         },
         { key: 'nav', label: 'Nav', icon: 'w-nav', group: 'nav', action: () => this.saveNav() },
         { key: 'footer', label: 'Footer', icon: 'w-footer', group: 'footer', action: () => this.saveFooter() },
+        { key: 'footer', label: 'Footer', icon: 'w-publish', group: 'footer', action: () => this.publishPage() },
       ];
     },
   },
