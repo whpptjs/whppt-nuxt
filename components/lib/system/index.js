@@ -1,37 +1,39 @@
-import RichText from './RichText';
-import LinkSidebar from './LinkSidebar';
-import EditorMenu from './EditorMenu';
-import EContent from './Content';
-import WhpptPage from './WhpptPage';
-import PlainText from './TextBox';
-import Blank from './Blank';
-import List from './List';
-import Menu from './Menu';
-import WLink from './Link';
-import atdw from './ATDW';
-import Listings from './Listings';
-import EditImage from './EditImage';
-import CtaButton from './CTAButton';
-import ContactIcon from './ContactIcon';
-import SplitContent from './SplitContent';
 import AnchorMenu from './AnchorMenu';
+import Atdw from './ATDW';
+import Colours from './Colours';
+import ContactIcon from './ContactIcon';
+import CtaButton from './CTAButton';
+import Default from './Default';
+import EContent from './Content';
+import EditImage from './EditImage';
+import EditorMenu from './EditorMenu';
+import LinkSidebar from './LinkSidebar';
+import List from './List';
+import Listings from './Listings';
+import Menu from './Menu';
+import PlainText from './TextBox';
+import RichText from './RichText';
+import SplitContent from './SplitContent';
+import WhpptPage from './WhpptPage';
+import WLink from './Link';
 
 export {
-  WhpptPage,
-  EditorMenu,
-  RichText,
-  LinkSidebar,
-  EContent,
-  PlainText,
   AnchorMenu,
-  Blank,
-  Menu,
-  atdw,
-  Listings,
-  EditImage,
-  WLink,
-  CtaButton,
-  List,
+  Atdw,
+  Colours,
   ContactIcon,
+  CtaButton,
+  Default,
+  EContent,
+  EditImage,
+  EditorMenu,
+  LinkSidebar,
+  List,
+  Listings,
+  Menu,
+  PlainText,
+  RichText,
   SplitContent,
+  WhpptPage,
+  WLink,
 };
