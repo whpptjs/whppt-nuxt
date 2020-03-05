@@ -94,9 +94,27 @@
             </div>
             <div class="whppt-flex whppt-w-full">
               <div v-if="!selectedCat" class="whppt-flex-1">
-                <div v-for="(category, index) in categories" :key="index" class="whppt-settings__category">
+                <div
+                  v-for="(category, index) in categories"
+                  :key="index"
+                  class="whppt-settings__category whppt-flex-between"
+                >
                   <div class="whppt-mb-2" @click="selectCat(category, index)">
                     {{ category.name }}
+                  </div>
+                  <div class="whppt-flex-between whppt-align-center">
+                    <div class="whppt-redirects__icon" @click="saveCat(category)">
+                      <w-save></w-save>
+                    </div>
+                    <div class="whppt-redirects__icon" @click="publishCat(category)">
+                      <w-publish></w-publish>
+                    </div>
+                    <div v-if="!category.published" class="whppt-redirects__icon" @click="openWarning(category)">
+                      <w-remove></w-remove>
+                    </div>
+                    <div v-if="category.published" class="whppt-redirects__icon" @click="unpublishCat(category)">
+                      <w-close></w-close>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -261,7 +279,45 @@ export default {
   },
   methods: {
     ...mapActions('whppt-nuxt/site', ['saveSiteSettings', 'publishSiteSettings']),
-
+    saveCat(category) {
+      const newCat = {
+        name: category.name,
+        _id: category._id,
+        filters: map(category.filters, filter => {
+          return filter.value.split(',');
+        }),
+      };
+      return this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveCategory`, { category: newCat }).then(() => {
+        this.queryCategories();
+        this.$toast.global.editorSuccess('Category Saved');
+      });
+    },
+    publishCat(category) {
+      const newCat = {
+        name: category.name,
+        _id: category._id,
+        filters: map(category.filters, filter => {
+          return filter.value.split(',');
+        }),
+      };
+      const vm = this;
+      return vm.$axios.post(`${vm.baseAPIUrl}/api/siteSettings/publishCategory`, { category: newCat }).then(() => {
+        category.published = true;
+        vm.$toast.global.editorSuccess('Category Published');
+      });
+    },
+    unpublishCat(category) {
+      const vm = this;
+      return vm.$axios.post(`${vm.baseAPIUrl}/api/siteSettings/unpublishCategory`, { _id: category._id }).then(() => {
+        category.published = false;
+        vm.$toast.global.editorSuccess('Category Unpublished');
+      });
+    },
+    deleteCat(_id) {
+      return this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/deleteCategory`, { _id }).then(() => {
+        this.queryCategories();
+      });
+    },
     queryCategories() {
       return Promise.all([
         this.$axios.get(`${this.baseAPIUrl}/api/siteSettings/loadCategories`),
@@ -321,8 +377,7 @@ export default {
     formatCategories() {
       this.categories = map(this.loadedCategories, category => {
         return {
-          name: category.name,
-          _id: category._id,
+          ...category,
           filters: map(category.filters, filter => {
             return {
               value: filter.join(','),
@@ -332,7 +387,18 @@ export default {
       });
     },
     addCategory() {
-      this.categories.push({ name: `New Category ${this.categories.length + 1}`, filters: [{ value: '' }] });
+      let newCat = { name: `New Category ${this.categories.length + 1}`, filters: [{ value: '' }] };
+      newCat = {
+        name: newCat.name,
+        _id: newCat._id,
+        filters: map(newCat.filters, filter => {
+          return filter.value.split(',');
+        }),
+      };
+      return this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveCategory`, { category: newCat }).then(() => {
+        this.queryCategories();
+        this.$toast.global.editorSuccess('Category Added');
+      });
     },
     addOrFilter() {
       this.selectedCat.filters.push({ value: '' });
@@ -347,7 +413,8 @@ export default {
       this.showWarning = false;
       this.usedListings = [];
     },
-    openWarning() {
+    openWarning(category) {
+      this.selectedCat = this.selectedCat || category;
       if (!this.selectedCat._id) {
         this.removeFromList(this.selectedIndex);
         this.selectedCat = undefined;

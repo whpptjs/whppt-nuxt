@@ -34,12 +34,15 @@ import Select from './helpers/editors/Select';
 import Hover from './helpers/editors/Hover';
 import Image from './helpers/Image';
 
+import PublishListing from './helpers/PublishListing';
+
 const options = JSON.parse(`<%= JSON.stringify(options) %>`);
 
 export default (context, inject) => {
   const { store } = context;
   const whppt = {
     editData: undefined,
+    publishListing: PublishListing(context),
     loadSiteSettings: LoadSiteSettings(context),
     saveSiteSettings: SaveSiteSettings(context),
     publishSiteSettings: PublishSiteSettings(context),
