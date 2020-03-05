@@ -29,6 +29,7 @@ import PublishNav from './helpers/PublishNav';
 import LoadNav from './helpers/LoadNav';
 import CreatePage from './helpers/CreatePage';
 import LoadPage from './helpers/LoadPage';
+import LoadListing from './helpers/LoadListing';
 import CheckSlug from './helpers/CheckSlug';
 import Select from './helpers/editors/Select';
 import Hover from './helpers/editors/Hover';
@@ -52,6 +53,7 @@ export default (context, inject) => {
     unpublishPage: UnpublishPage(context),
     deletePage: DeletePage(context),
     loadPage: LoadPage(context),
+    loadListing: LoadListing(context),
     checkSlug: CheckSlug(context),
     loadFooter: LoadFooter(context),
     saveFooter: SaveFooter(context),

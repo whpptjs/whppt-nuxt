@@ -8,7 +8,7 @@
       info="Sets the first column's width. Calculated in 12ths, e.g. 2 = 2/12, 5 = 5/12"
       placeholder=""
       type="number"
-      min="2"
+      min="1"
       max="11"
       :label="selectedComponent.property"
     />
@@ -28,7 +28,7 @@ export default {
   },
   methods: {
     clampInput(input) {
-      this.selectedComponent.value[this.selectedComponent.property] = clamp(input, 2, 11);
+      this.selectedComponent.value[this.selectedComponent.property] = clamp(input, 1, 11);
     },
   },
 };

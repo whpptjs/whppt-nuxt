@@ -4,7 +4,7 @@
       <editor-menu></editor-menu>
       <whppt-modal :is-active="editInModal" @closeModal="closeModal">
         <template v-slot:content>
-          <component :is="editInModalType" @closeModal="closeModal" />
+          <component :is="editInModalType" :prefix="prefix" @closeModal="closeModal" />
         </template>
       </whppt-modal>
     </div>
@@ -72,6 +72,7 @@ import WhpptTabs from '../whpptComponents/WhpptTabs';
 
 export default {
   name: 'WhpptEditorApp',
+  props: { prefix: { type: String, default: '' } },
   components: {
     ...Editors,
     WhpptButton,
@@ -112,7 +113,7 @@ export default {
 
 <style>
 .whppt-button__close {
-  margin-top: 10px;
+  margin-top: 10px !important;
 }
 
 .whppt-link {
