@@ -1,22 +1,29 @@
 <template>
   <div>
     <div v-if="page" class="h-screen wContainer">
-      <div v-plain-text="page">
-        {{ page.title || 'Plain Text' }}
+      <div class="my-8">
+        <h2 id="plain-text" class="font-bold underline">Plain Text Example</h2>
+        <div v-plain-text="page">
+          {{ page.title || 'Plain Text' }}
+        </div>
       </div>
-      <whppt-link :to="{ href: '#content', type: 'anchor' }">Whppt Link</whppt-link>
-      <div v-content="page.contents">
-        Content Block 2
-        {{ page.contents }}
-        <component
-          :is="content.displayType"
-          v-for="(content, contentKey) in page.contents"
-          :key="`content-${contentKey}`"
-          :value="content"
-          :content="content"
-          :class="{ container: content.inContainer, 'mx-auto': content.inContainer }"
-          :style="{ 'margin-top': `${content.marginTop || $whppt.defaultMarginTop}px` }"
-        ></component>
+      <div class="my-8">
+        <h2 id="whppt-link" class="font-bold underline">Whppt Link Example</h2>
+        <whppt-link :to="{ href: '#content', type: 'anchor' }">Whppt Link</whppt-link>
+      </div>
+      <div class="my-8">
+        <h2 id="contents" class="font-bold underline">Content Example</h2>
+        <div v-content="page.contents" data-whitelist="FeatureBlock, Anchor, ContactIcon">
+          <component
+            :is="content.displayType"
+            v-for="(content, contentKey) in page.contents"
+            :key="`content-${contentKey}`"
+            :value="content"
+            :content="content"
+            :class="{ container: content.inContainer, 'mx-auto': content.inContainer }"
+            :style="{ 'margin-top': `${content.marginTop || $whppt.defaultMarginTop}px` }"
+          ></component>
+        </div>
       </div>
     </div>
   </div>
