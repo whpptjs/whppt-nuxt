@@ -13,6 +13,13 @@
       <div class="whppt-settings__tabs">
         <div
           class="whppt-settings__tab"
+          :class="selectedTab === 'general' ? 'whppt-settings__tab-selected' : ''"
+          @click="selectedTab = 'general'"
+        >
+          General
+        </div>
+        <div
+          class="whppt-settings__tab"
           :class="selectedTab === 'seo' ? 'whppt-settings__tab-selected' : ''"
           @click="selectedTab = 'seo'"
         >
@@ -81,6 +88,18 @@
                 info="This description will be used as a fallback for any page without one. The page description is not shown the page and is used by search engines to match your page with search terms. Search results can show this description."
               />
             </div>
+          </fieldset>
+        </div>
+      </form>
+      <form v-show="selectedTab === 'general'" @submit.prevent>
+        <div>
+          <fieldset>
+            <button class="whppt-settings__button" style="display: flex" @click="pubNav">
+              Publish Nav
+            </button>
+            <button class="whppt-settings__button" style="display: flex" @click="pubFooter">
+              Publish Footer
+            </button>
           </fieldset>
         </div>
       </form>
@@ -277,7 +296,13 @@ export default {
     this.loadRedirects();
   },
   methods: {
-    ...mapActions('whppt-nuxt/site', ['saveSiteSettings', 'publishSiteSettings']),
+    ...mapActions('whppt-nuxt/site', ['saveSiteSettings', 'publishSiteSettings', 'publishNav', 'publishFooter']),
+    pubNav() {
+      this.publishNav();
+    },
+    pubFooter() {
+      this.publishFooter();
+    },
     saveCat(category) {
       const newCat = {
         name: category.name,

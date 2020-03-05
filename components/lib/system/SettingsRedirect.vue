@@ -204,8 +204,9 @@ export default {
   border: 1px solid #981a31;
   cursor: pointer;
   border-radius: 50%;
-  height: 40px;
-  width: 40px;
+  padding: 5px;
+  height: 30px;
+  width: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
