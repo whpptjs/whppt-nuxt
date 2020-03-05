@@ -57,12 +57,12 @@
               </div>
             </div>
           </fieldset>
-          <label for="slug">Page Slug</label>
+          <!-- <label for="slug">Page Slug</label>
           <input id="slug" v-model="listing.slug" class="whppt-atdw__form-input" />
           <div style="font-style: italic; color: grey; padding-bottom: 1rem;">
             NOTE: Changing this slug will modify the url of the page. If any user had this page bookmarked, their link
             will no longer work. Adding a redirect from this page's old url to its new one would resolve this.
-          </div>
+          </div> -->
 
           <fieldset v-if="listing.listingType === 'product'">
             <label for="desc">Description</label>

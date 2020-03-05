@@ -13,6 +13,7 @@ export default options => ({
   state: () => ({
     options,
     page: undefined,
+    listing: undefined,
   }),
   actions: {
     createPage({ commit }, _page) {
@@ -53,10 +54,18 @@ export default options => ({
         commitTimeout(() => commit('pageLoaded', page));
       });
     },
+    loadListing({ commit }, { slug }) {
+      return this.$whppt.loadListing({ slug }).then(({ listing }) => {
+        commitTimeout(() => commit('listingLoaded', listing));
+      });
+    },
   },
   mutations: {
     pageLoaded(state, page) {
       state.page = page;
+    },
+    listingLoaded(state, listing) {
+      state.listing = listing;
     },
   },
   getters: {},

@@ -109,10 +109,10 @@
                     <div class="whppt-redirects__icon" @click="publishCat(category)">
                       <w-publish></w-publish>
                     </div>
-                    <div v-if="!category.published" class="whppt-redirects__icon" @click="openWarning(category)">
+                    <div class="whppt-redirects__icon" @click="openWarning(category)">
                       <w-remove></w-remove>
                     </div>
-                    <div v-if="category.published" class="whppt-redirects__icon" @click="unpublishCat(category)">
+                    <div class="whppt-redirects__icon" @click="unpublishCat(category)">
                       <w-close></w-close>
                     </div>
                   </div>
@@ -306,6 +306,7 @@ export default {
       });
     },
     unpublishCat(category) {
+      if (!category.published) return this.$toast.global.editorError("Category isn't published");
       const vm = this;
       return vm.$axios.post(`${vm.baseAPIUrl}/api/siteSettings/unpublishCategory`, { _id: category._id }).then(() => {
         category.published = false;
@@ -354,10 +355,11 @@ export default {
         vm.sliceRedirects();
       });
     },
-    deleteRedirect(_id) {
+    deleteRedirect(redirect) {
+      if (redirect.published) return this.$toast.global.editorError('Redirect has to be unpublished first');
       const vm = this;
-      return this.$axios.post(`${vm.baseAPIUrl}/api/siteSettings/deleteRedirect`, { _id }).then(() => {
-        vm.redirects = remove(vm.redirects, r => r._id !== _id);
+      return this.$axios.post(`${vm.baseAPIUrl}/api/siteSettings/deleteRedirect`, { _id: redirect._id }).then(() => {
+        vm.redirects = remove(vm.redirects, r => r._id !== redirect._id);
         vm.sliceRedirects();
       });
     },
@@ -366,8 +368,7 @@ export default {
       this.sliceRedirects();
     },
     addedRedirect(newRedirect) {
-      this.redirects.push(newRedirect);
-      this.sliceRedirects();
+      this.loadRedirects();
     },
     selectCat(category, index) {
       this.selectedCat = category;
@@ -413,6 +414,8 @@ export default {
       this.usedListings = [];
     },
     openWarning(category) {
+      if (category.published) return this.$toast.global.editorError('Category has to be unpublished first');
+
       this.selectedCat = this.selectedCat || category;
       if (!this.selectedCat._id) {
         this.removeFromList(this.selectedIndex);

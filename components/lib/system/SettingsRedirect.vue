@@ -58,14 +58,10 @@
             <div class="whppt-redirects__icon" @click="publish(redirect)">
               <w-publish></w-publish>
             </div>
-            <div
-              v-if="!redirect.published"
-              class="whppt-redirects__icon"
-              @click="$emit('deleteRedirect', redirect._id)"
-            >
+            <div class="whppt-redirects__icon" @click="$emit('deleteRedirect', redirect)">
               <w-remove></w-remove>
             </div>
-            <div v-if="redirect.published" class="whppt-redirects__icon" @click="unpublishRedirect(redirect)">
+            <div class="whppt-redirects__icon" @click="unpublishRedirect(redirect)">
               <w-close></w-close>
             </div>
           </div>
@@ -159,6 +155,7 @@ export default {
         });
     },
     unpublishRedirect(redirect) {
+      if (!redirect.published) return this.$toast.global.editorError("Redirect isn't published");
       const vm = this;
       return vm.$axios.post(`${vm.baseAPIUrl}/api/siteSettings/unpublishRedirect`, { _id: redirect._id }).then(() => {
         redirect.published = false;
