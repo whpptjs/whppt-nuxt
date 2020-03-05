@@ -267,7 +267,6 @@ export default {
   },
   computed: {
     ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
-    // ...mapState('whppt-nuxt/site', ['siteSettings']),
     orderedAllCats() {
       return orderBy(this.allCategories);
     },
@@ -456,23 +455,6 @@ export default {
       }).then(() => {
         this.queryCategories();
       });
-      // const promises = [
-      //   this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveSiteSettings`, {
-      //     siteSettings: this.siteSettings,
-      //   }),
-      // ];
-      // if (this.redirects && this.redirects.length)
-      //   promises.push(
-      //     this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveRedirects`, { redirects: this.redirects })
-      //   );
-      // if (formattedCategories && formattedCategories.length) {
-      //   promises.push(
-      //     this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveCategories`, { categories: formattedCategories })
-      //   );
-      // }
-      // return Promise.all(promises).then(() => {
-      //   this.queryCategories();
-      // });
     },
     publishSettings() {
       const formattedCategories = map(this.categories, category => {
@@ -489,24 +471,6 @@ export default {
         categories: formattedCategories,
         redirects: this.redirects,
       });
-      // const promises = [
-      //   this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/publishSiteSettings`, {
-      //     siteSettings: this.siteSettings,
-      //   }),
-      // ];
-      // if (this.redirects && this.redirects.length)
-      //   promises.push(
-      //     this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveRedirects`, { redirects: this.redirects })
-      //   );
-      // if (formattedCategories && formattedCategories.length) {
-      //   promises.push(
-      //     this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveCategories`, { categories: formattedCategories })
-      //   );
-      // }
-      // return Promise.all(promises).then(() => {
-      //   this.$toast.global.editorSuccess('Site Settings Published');
-      //   this.queryCategories();
-      // });
     },
   },
 };
@@ -537,38 +501,6 @@ export default {
 .whppt-linker {
   display: flex;
   margin: 0.4rem 1rem;
-}
-
-.whppt-linker__labels span {
-  font-weight: bold;
-  margin-bottom: 0.4rem;
-}
-
-.whppt-settings__form-controls {
-  display: flex;
-  /*justify-content: center;*/
-  align-items: center;
-}
-
-.whppt-settings__form-controls span {
-  margin-right: auto;
-}
-
-.whppt-settings__modal {
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 53;
-}
-
-.whppt-settings__modal--inner {
-  margin: 1rem auto;
-  /*width: 33.33%;*/
 }
 
 .whppt-settings__content form {
