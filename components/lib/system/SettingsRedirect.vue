@@ -149,7 +149,6 @@ export default {
           if (alreadyExists) return vm.$toast.global.editorError('Redirect already exists');
           return vm.$axios.post(`${vm.baseAPIUrl}/api/siteSettings/publishRedirect`, { redirect }).then(() => {
             redirect.published = true;
-            console.log('publish -> redirect.published', redirect.published);
             vm.$toast.global.editorSuccess('Redirect Published');
           });
         });

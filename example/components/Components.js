@@ -10,6 +10,7 @@ import FeatureBlock from './FeatureBlock';
 import wCtaButton from './CTAButton';
 import SplitContent from './SplitContent';
 import ContactIcon from './ContactIcon';
+import ImageNavigation from './ImageNavigation';
 
 export {
   FeatureBlock,
@@ -23,4 +24,5 @@ export {
   wCtaButton,
   SplitContent,
   ContactIcon,
+  ImageNavigation,
 };
