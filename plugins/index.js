@@ -1,9 +1,10 @@
 import { Components } from './Components';
 
 import contentDirective from './directives/content';
+import coloursDirective from './directives/colours';
 import splitContentDirective from './directives/splitContent';
 import richTextDirective from './directives/richText';
-import blankDirective from './directives/blank';
+import defaultDirective from './directives/default';
 import listDirective from './directives/list';
 import plainTextDirective from './directives/plainText';
 import menuDirective from './directives/menu';
@@ -16,6 +17,7 @@ import contactIconDirective from './directives/contactIcon';
 
 import LoadSiteSettings from './helpers/LoadSiteSettings';
 import SaveSiteSettings from './helpers/SaveSiteSettings';
+import PublishSiteSettings from './helpers/PublishSiteSettings';
 import SavePage from './helpers/SavePage';
 import PublishPage from './helpers/PublishPage';
 import UnpublishPage from './helpers/UnpublishPage';
@@ -28,10 +30,13 @@ import PublishNav from './helpers/PublishNav';
 import LoadNav from './helpers/LoadNav';
 import CreatePage from './helpers/CreatePage';
 import LoadPage from './helpers/LoadPage';
+import LoadListing from './helpers/LoadListing';
 import CheckSlug from './helpers/CheckSlug';
 import Select from './helpers/editors/Select';
 import Hover from './helpers/editors/Hover';
 import Image from './helpers/Image';
+
+import PublishListing from './helpers/PublishListing';
 
 const options = JSON.parse(`<%= JSON.stringify(options) %>`);
 
@@ -39,14 +44,17 @@ export default (context, inject) => {
   const { store } = context;
   const whppt = {
     editData: undefined,
+    publishListing: PublishListing(context),
     loadSiteSettings: LoadSiteSettings(context),
     saveSiteSettings: SaveSiteSettings(context),
+    publishSiteSettings: PublishSiteSettings(context),
     createPage: CreatePage(context),
     savePage: SavePage(context),
     publishPage: PublishPage(context),
     unpublishPage: UnpublishPage(context),
     deletePage: DeletePage(context),
     loadPage: LoadPage(context),
+    loadListing: LoadListing(context),
     checkSlug: CheckSlug(context),
     loadFooter: LoadFooter(context),
     saveFooter: SaveFooter(context),
@@ -103,9 +111,10 @@ export default (context, inject) => {
   inject('whppt', whppt);
 
   contentDirective({ ...context, menuIsInState, MENUSTATES });
+  coloursDirective({ ...context, menuIsInState, MENUSTATES });
   splitContentDirective({ ...context, menuIsInState, MENUSTATES });
   plainTextDirective({ ...context, menuIsInState, MENUSTATES });
-  blankDirective({ ...context, menuIsInState, MENUSTATES });
+  defaultDirective({ ...context, menuIsInState, MENUSTATES });
   listDirective({ ...context, menuIsInState, MENUSTATES });
   richTextDirective({ ...context, menuIsInState, MENUSTATES });
   menuDirective({ ...context, menuIsInState, MENUSTATES });

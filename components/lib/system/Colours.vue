@@ -1,15 +1,11 @@
 <template>
   <div class="whppt-full">
-    <p class="font-xl">Component</p>
-
     <whppt-select
-      v-if="selectedComponent.value.backgroundColour && selectedComponent.value.backgroundColour.length"
       v-model="selectedComponent.value.backgroundColour"
       label="Background Colour"
       :items="availableBackgroundColours"
     ></whppt-select>
     <whppt-select
-      v-if="selectedComponent.value.fontColour && selectedComponent.value.fontColour.length"
       v-model="selectedComponent.value.fontColour"
       label="Font Colour"
       :items="availableTextColours"
@@ -20,12 +16,11 @@
 <script>
 import { mapState } from 'vuex';
 import { map } from 'lodash';
-import WhpptCheckBox from '../whpptComponents/CheckBox';
 import WhpptSelect from '../whpptComponents/WhpptSelect';
 
 export default {
   name: 'EditorBlank',
-  components: { WhpptSelect, WhpptCheckBox },
+  components: { WhpptSelect },
   computed: {
     ...mapState('whppt-nuxt/editor', ['selectedComponent', 'options']),
     availableBackgroundColours() {

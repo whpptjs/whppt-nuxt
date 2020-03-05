@@ -52,8 +52,17 @@
             <whppt-text-input v-model="redirect.to" placeholder="To Page" label="To" labelColour="black" />
           </div>
           <div class="whppt-redirects__actions-column">
-            <div class="whppt-redirects__icon" @click="$emit('deleteRedirect', redirect._id)">
+            <div class="whppt-redirects__icon" @click="save(redirect)">
+              <w-save></w-save>
+            </div>
+            <div class="whppt-redirects__icon" @click="publish(redirect)">
+              <w-publish></w-publish>
+            </div>
+            <div class="whppt-redirects__icon" @click="$emit('deleteRedirect', redirect)">
               <w-remove></w-remove>
+            </div>
+            <div class="whppt-redirects__icon" @click="unpublishRedirect(redirect)">
+              <w-close></w-close>
             </div>
           </div>
         </div>
@@ -87,12 +96,15 @@ export default {
   },
   mounted() {},
   methods: {
+    isPublished(redirect) {
+      return redirect.published;
+    },
     addRedirect() {
       const vm = this;
       if (!this.newRedirect.to || !this.newRedirect.from)
         return this.$toast.global.editorError('Cannot save an empty redirect');
       if (this.newRedirect.to === this.newRedirect.from)
-        return this.$toast.global.editorError("Redirects can't have the same value");
+        return this.$toast.global.editorError('To and From must be different');
       if (!this.newRedirect.to.startsWith('/')) this.newRedirect.to = `/${this.newRedirect.to}`;
       if (!this.newRedirect.from.startsWith('/')) this.newRedirect.from = `/${this.newRedirect.from}`;
       return this.$axios
@@ -108,6 +120,47 @@ export default {
             });
         });
     },
+    save(redirect) {
+      const vm = this;
+      if (!redirect.to || !redirect.from) return this.$toast.global.editorError('Cannot save an empty redirect');
+      if (redirect.to === redirect.from) return this.$toast.global.editorError('To and From must be different');
+      if (!redirect.to.startsWith('/')) redirect.to = `/${redirect.to}`;
+      if (!redirect.from.startsWith('/')) redirect.from = `/${redirect.from}`;
+      return this.$axios
+        .post(`${vm.baseAPIUrl}/api/siteSettings/checkDuplicateRedirect`, { redirect })
+        .then(({ data: alreadyExists }) => {
+          if (alreadyExists) return this.$toast.global.editorError('Redirect already exists');
+          return this.$axios
+            .post(`${vm.baseAPIUrl}/api/siteSettings/saveRedirect`, { redirect })
+            .then(({ data: redirect }) => {
+              this.$toast.global.editorSuccess('Redirect Saved');
+            });
+        });
+    },
+    publish(redirect) {
+      const vm = this;
+      if (!redirect.to || !redirect.from) return this.$toast.global.editorError('Cannot publish an empty redirect');
+      if (redirect.to === redirect.from) return this.$toast.global.editorError('To and From must be different');
+      if (!redirect.to.startsWith('/')) redirect.to = `/${redirect.to}`;
+      if (!redirect.from.startsWith('/')) redirect.from = `/${redirect.from}`;
+      return this.$axios
+        .post(`${vm.baseAPIUrl}/api/siteSettings/checkDuplicatePublishedRedirect`, { redirect })
+        .then(({ data: alreadyExists }) => {
+          if (alreadyExists) return vm.$toast.global.editorError('Redirect already exists');
+          return vm.$axios.post(`${vm.baseAPIUrl}/api/siteSettings/publishRedirect`, { redirect }).then(() => {
+            redirect.published = true;
+            vm.$toast.global.editorSuccess('Redirect Published');
+          });
+        });
+    },
+    unpublishRedirect(redirect) {
+      if (!redirect.published) return this.$toast.global.editorError("Redirect isn't published");
+      const vm = this;
+      return vm.$axios.post(`${vm.baseAPIUrl}/api/siteSettings/unpublishRedirect`, { _id: redirect._id }).then(() => {
+        redirect.published = false;
+        vm.$toast.global.editorSuccess('Redirect Unpublished');
+      });
+    },
     swapPage(newPage) {
       this.$emit('swapPage', newPage);
     },
@@ -117,10 +170,10 @@ export default {
 
 <style>
 .whppt-redirects__actions-column {
-  width: 10%;
+  width: 20%;
   padding-top: 1rem;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -138,12 +191,12 @@ export default {
 }
 
 .whppt-redirects__left-column {
-  width: 45%;
+  width: 40%;
   padding-right: 1rem;
 }
 
 .whppt-redirects__middle-column {
-  width: 45%;
+  width: 40%;
   padding: 0 1rem;
 }
 
@@ -151,8 +204,9 @@ export default {
   border: 1px solid #981a31;
   cursor: pointer;
   border-radius: 50%;
-  height: 40px;
-  width: 40px;
+  padding: 5px;
+  height: 30px;
+  width: 30px;
   display: flex;
   align-items: center;
   justify-content: center;

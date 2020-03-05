@@ -2,16 +2,16 @@
   <div v-if="!isLinkActive || !to.href">
     <slot></slot>
   </div>
-  <component
-    :is="linkType"
-    v-else
-    :to="linkType === 'nuxt-link' ? to.href : ''"
-    :href="to.href"
-    :target="linkType === 'a' && to.type === 'external' && '_blank'"
-    style="cursor: pointer;"
-  >
+  <nuxt-link v-else-if="to.type === 'page'" :to="to.href">
     <slot></slot>
-  </component>
+  </nuxt-link>
+  <a v-else-if="to.type === 'anchor'" :href="to.href" class="smooth" @click.prevent="navigateToAnchor(to.href)">
+    {{ to.type }}
+    <slot></slot>
+  </a>
+  <a v-else :href="to.href" :target="to.type === 'external' && '_blank'">
+    <slot></slot>
+  </a>
 </template>
 
 <script>
@@ -32,10 +32,24 @@ export default {
     isLinkActive() {
       return !this.activeMenuItem;
     },
-    linkType() {
-      if (this.to.type === 'page' || !this.to.type) return 'nuxt-link';
-      return 'a';
+  },
+  methods: {
+    navigateToAnchor(to) {
+      const elementId = to.replace('#', '');
+      const anchor = document.getElementById(elementId);
+      if (!anchor) return;
+
+      anchor.scrollIntoView({ behavior: 'smooth' });
+      history.pushState(null, null, to);
+      // this.$router.hash = to;
+      // window.location.hash = to;
     },
   },
 };
 </script>
+
+<style>
+.smooth {
+  scroll-behavior: smooth;
+}
+</style>

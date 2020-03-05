@@ -4,13 +4,20 @@
       <div class="whppt-settings__heading whppt-flex-between">
         <p class="whppt-settings__heading-text">Site Settings</p>
         <div class="whppt-flex-between whppt-align-center">
-          <!-- <button class="whppt-settings__button" style="margin-right: 1rem;" @click="publishSiteSettings">
+          <button class="whppt-settings__button" style="margin-right: 1rem;" @click="publishSettings">
             Publish
-          </button> -->
+          </button>
           <button class="whppt-settings__button" @click="saveSettings">Save</button>
         </div>
       </div>
       <div class="whppt-settings__tabs">
+        <div
+          class="whppt-settings__tab"
+          :class="selectedTab === 'general' ? 'whppt-settings__tab-selected' : ''"
+          @click="selectedTab = 'general'"
+        >
+          General
+        </div>
         <div
           class="whppt-settings__tab"
           :class="selectedTab === 'seo' ? 'whppt-settings__tab-selected' : ''"
@@ -72,14 +79,27 @@
               </div>
             </div>
             <div>
-              <whppt-text-input
+              <whppt-text-area
                 v-model="siteSettings.description"
                 placeholder="Enter description"
                 label="Description"
+                rows="2"
                 labelColour="black"
                 info="This description will be used as a fallback for any page without one. The page description is not shown the page and is used by search engines to match your page with search terms. Search results can show this description."
               />
             </div>
+          </fieldset>
+        </div>
+      </form>
+      <form v-show="selectedTab === 'general'" @submit.prevent>
+        <div>
+          <fieldset>
+            <button class="whppt-settings__button" style="display: flex" @click="pubNav">
+              Publish Nav
+            </button>
+            <button class="whppt-settings__button" style="display: flex" @click="pubFooter">
+              Publish Footer
+            </button>
           </fieldset>
         </div>
       </form>
@@ -93,9 +113,27 @@
             </div>
             <div class="whppt-flex whppt-w-full">
               <div v-if="!selectedCat" class="whppt-flex-1">
-                <div v-for="(category, index) in categories" :key="index" class="whppt-settings__category">
+                <div
+                  v-for="(category, index) in categories"
+                  :key="index"
+                  class="whppt-settings__category whppt-flex-between"
+                >
                   <div class="whppt-mb-2" @click="selectCat(category, index)">
                     {{ category.name }}
+                  </div>
+                  <div class="whppt-flex-between whppt-align-center">
+                    <div class="whppt-redirects__icon" @click="saveCat(category)">
+                      <w-save></w-save>
+                    </div>
+                    <div class="whppt-redirects__icon" @click="publishCat(category)">
+                      <w-publish></w-publish>
+                    </div>
+                    <div class="whppt-redirects__icon" @click="openWarning(category)">
+                      <w-remove></w-remove>
+                    </div>
+                    <div class="whppt-redirects__icon" @click="unpublishCat(category)">
+                      <w-close></w-close>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -219,13 +257,14 @@ import { map, remove, orderBy } from 'lodash';
 import { mapState, mapActions } from 'vuex';
 
 import WhpptTextInput from '../whpptComponents/WhpptTextInput';
+import WhpptTextArea from '../whpptComponents/WhpptTextArea';
 import SettingsOpenGraph from './SettingsOG';
 import SettingsTwitter from './SettingsTwitter';
 import SettingsRedirect from './SettingsRedirect';
 
 export default {
   name: 'WhpptSiteSettings',
-  components: { WhpptTextInput, SettingsOpenGraph, SettingsTwitter, SettingsRedirect },
+  components: { WhpptTextInput, SettingsOpenGraph, SettingsTwitter, SettingsRedirect, WhpptTextArea },
   data() {
     return {
       loadedCategories: [],
@@ -238,7 +277,7 @@ export default {
       warningId: undefined,
       redirects: [],
       slicedRedirects: [],
-      // siteSettings: { og: { image: {} }, twitter: { image: {} } },
+      siteSettings: { og: { image: {} }, twitter: { image: {} } },
       selectedTab: 'seo',
       pages: 0,
       currentPage: 0,
@@ -247,19 +286,63 @@ export default {
   },
   computed: {
     ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
-    ...mapState('whppt-nuxt/site', ['siteSettings']),
     orderedAllCats() {
       return orderBy(this.allCategories);
     },
   },
   mounted() {
     this.queryCategories();
-    // this.loadSiteSettings();
+    this.loadSiteSettings();
     this.loadRedirects();
   },
   methods: {
-    ...mapActions('whppt-nuxt/site', ['saveSiteSettings']),
-
+    ...mapActions('whppt-nuxt/site', ['saveSiteSettings', 'publishSiteSettings', 'publishNav', 'publishFooter']),
+    pubNav() {
+      this.publishNav();
+    },
+    pubFooter() {
+      this.publishFooter();
+    },
+    saveCat(category) {
+      const newCat = {
+        name: category.name,
+        _id: category._id,
+        filters: map(category.filters, filter => {
+          return filter.value.split(',');
+        }),
+      };
+      return this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveCategory`, { category: newCat }).then(() => {
+        this.queryCategories();
+        this.$toast.global.editorSuccess('Category Saved');
+      });
+    },
+    publishCat(category) {
+      const newCat = {
+        name: category.name,
+        _id: category._id,
+        filters: map(category.filters, filter => {
+          return filter.value.split(',');
+        }),
+      };
+      const vm = this;
+      return vm.$axios.post(`${vm.baseAPIUrl}/api/siteSettings/publishCategory`, { category: newCat }).then(() => {
+        category.published = true;
+        vm.$toast.global.editorSuccess('Category Published');
+      });
+    },
+    unpublishCat(category) {
+      if (!category.published) return this.$toast.global.editorError("Category isn't published");
+      const vm = this;
+      return vm.$axios.post(`${vm.baseAPIUrl}/api/siteSettings/unpublishCategory`, { _id: category._id }).then(() => {
+        category.published = false;
+        vm.$toast.global.editorSuccess('Category Unpublished');
+      });
+    },
+    deleteCat(_id) {
+      return this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/deleteCategory`, { _id }).then(() => {
+        this.queryCategories();
+      });
+    },
     queryCategories() {
       return Promise.all([
         this.$axios.get(`${this.baseAPIUrl}/api/siteSettings/loadCategories`),
@@ -270,17 +353,17 @@ export default {
         this.formatCategories();
       });
     },
-    // loadSiteSettings() {
-    //   return this.$axios.get(`${this.baseAPIUrl}/api/siteSettings/loadSiteSettings`).then(({ data: siteSettings }) => {
-    //     this.siteSettings = siteSettings || { _id: 'siteSettings' };
-    //     this.siteSettings.og = this.siteSettings.og || { title: '', keywords: '', image: { imageId: '', crop: {} } };
-    //     this.siteSettings.twitter = this.siteSettings.twitter || {
-    //       title: '',
-    //       keywords: '',
-    //       image: { imageId: '', crop: {} },
-    //     };
-    //   });
-    // },
+    loadSiteSettings() {
+      return this.$axios.get(`${this.baseAPIUrl}/api/siteSettings/loadSiteSettings`).then(({ data: siteSettings }) => {
+        this.siteSettings = siteSettings || { _id: 'siteSettings' };
+        this.siteSettings.og = this.siteSettings.og || { title: '', keywords: '', image: { imageId: '', crop: {} } };
+        this.siteSettings.twitter = this.siteSettings.twitter || {
+          title: '',
+          keywords: '',
+          image: { imageId: '', crop: {} },
+        };
+      });
+    },
     sliceRedirects() {
       this.pages = Math.ceil(this.redirects.length / this.limit);
       if (this.currentPage >= this.pages) this.currentPage = this.pages - 1;
@@ -297,10 +380,11 @@ export default {
         vm.sliceRedirects();
       });
     },
-    deleteRedirect(_id) {
+    deleteRedirect(redirect) {
+      if (redirect.published) return this.$toast.global.editorError('Redirect has to be unpublished first');
       const vm = this;
-      return this.$axios.post(`${vm.baseAPIUrl}/api/siteSettings/deleteRedirect`, { _id }).then(() => {
-        vm.redirects = remove(vm.redirects, r => r._id !== _id);
+      return this.$axios.post(`${vm.baseAPIUrl}/api/siteSettings/deleteRedirect`, { _id: redirect._id }).then(() => {
+        vm.redirects = remove(vm.redirects, r => r._id !== redirect._id);
         vm.sliceRedirects();
       });
     },
@@ -309,8 +393,7 @@ export default {
       this.sliceRedirects();
     },
     addedRedirect(newRedirect) {
-      this.redirects.push(newRedirect);
-      this.sliceRedirects();
+      this.loadRedirects();
     },
     selectCat(category, index) {
       this.selectedCat = category;
@@ -319,8 +402,7 @@ export default {
     formatCategories() {
       this.categories = map(this.loadedCategories, category => {
         return {
-          name: category.name,
-          _id: category._id,
+          ...category,
           filters: map(category.filters, filter => {
             return {
               value: filter.join(','),
@@ -330,7 +412,18 @@ export default {
       });
     },
     addCategory() {
-      this.categories.push({ name: `New Category ${this.categories.length + 1}`, filters: [{ value: '' }] });
+      let newCat = { name: `New Category ${this.categories.length + 1}`, filters: [{ value: '' }] };
+      newCat = {
+        name: newCat.name,
+        _id: newCat._id,
+        filters: map(newCat.filters, filter => {
+          return filter.value.split(',');
+        }),
+      };
+      return this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveCategory`, { category: newCat }).then(() => {
+        this.queryCategories();
+        this.$toast.global.editorSuccess('Category Added');
+      });
     },
     addOrFilter() {
       this.selectedCat.filters.push({ value: '' });
@@ -345,7 +438,10 @@ export default {
       this.showWarning = false;
       this.usedListings = [];
     },
-    openWarning() {
+    openWarning(category) {
+      if (category.published) return this.$toast.global.editorError('Category has to be unpublished first');
+
+      this.selectedCat = this.selectedCat || category;
       if (!this.selectedCat._id) {
         this.removeFromList(this.selectedIndex);
         this.selectedCat = undefined;
@@ -384,53 +480,24 @@ export default {
         siteSettings: this.siteSettings,
         categories: formattedCategories,
         redirects: this.redirects,
-      });
-      // const promises = [
-      //   this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveSiteSettings`, {
-      //     siteSettings: this.siteSettings,
-      //   }),
-      // ];
-      // if (this.redirects && this.redirects.length)
-      //   promises.push(
-      //     this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveRedirects`, { redirects: this.redirects })
-      //   );
-      // if (formattedCategories && formattedCategories.length) {
-      //   promises.push(
-      //     this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveCategories`, { categories: formattedCategories })
-      //   );
-      // }
-      // return Promise.all(promises).then(() => {
-      //
-      //   this.queryCategories();
-      // });
-    },
-    publishSiteSettings() {
-      // const formattedCategories = map(this.categories, category => {
-      //   return {
-      //     name: category.name,
-      //     _id: category._id,
-      //     filters: map(category.filters, filter => {
-      //       return filter.value.split(',');
-      //     }),
-      //   };
-      // });
-      const promises = [
-        this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/publishSiteSettings`, {
-          siteSettings: this.siteSettings,
-        }),
-      ];
-      // if (this.redirects && this.redirects.length)
-      //   promises.push(
-      //     this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveRedirects`, { redirects: this.redirects })
-      //   );
-      // if (formattedCategories && formattedCategories.length) {
-      //   promises.push(
-      //     this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveCategories`, { categories: formattedCategories })
-      //   );
-      // }
-      return Promise.all(promises).then(() => {
-        this.$toast.global.editorSuccess('Site Settings Published');
+      }).then(() => {
         this.queryCategories();
+      });
+    },
+    publishSettings() {
+      const formattedCategories = map(this.categories, category => {
+        return {
+          name: category.name,
+          _id: category._id,
+          filters: map(category.filters, filter => {
+            return filter.value.split(',');
+          }),
+        };
+      });
+      this.publishSiteSettings({
+        siteSettings: this.siteSettings,
+        categories: formattedCategories,
+        redirects: this.redirects,
       });
     },
   },
@@ -462,38 +529,6 @@ export default {
 .whppt-linker {
   display: flex;
   margin: 0.4rem 1rem;
-}
-
-.whppt-linker__labels span {
-  font-weight: bold;
-  margin-bottom: 0.4rem;
-}
-
-.whppt-settings__form-controls {
-  display: flex;
-  /*justify-content: center;*/
-  align-items: center;
-}
-
-.whppt-settings__form-controls span {
-  margin-right: auto;
-}
-
-.whppt-settings__modal {
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 53;
-}
-
-.whppt-settings__modal--inner {
-  margin: 1rem auto;
-  /*width: 33.33%;*/
 }
 
 .whppt-settings__content form {

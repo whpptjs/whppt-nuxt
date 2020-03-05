@@ -1,4 +1,7 @@
 module.exports = [
-  { key: 'generic', label: 'Generic', init: { header: { title: '' }, contents: [] } },
-  { key: 'home', label: 'Home', init: { header: { title: '', link: { type: 'anchor' } }, contents: [] } },
+  {
+    key: 'example',
+    label: 'Example',
+    init: { header: { title: '' }, link: { type: 'page', href: '', text: '' }, contents: [] },
+  },
 ];

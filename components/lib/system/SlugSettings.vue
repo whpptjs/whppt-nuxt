@@ -11,13 +11,33 @@
       </div>
       <form @submit.prevent>
         <div>
-          <whppt-text-input
-            v-model="page.slug"
-            placeholder="Enter a page slug"
-            label="Slug"
-            labelColour="black"
-            info="The page slug makes up part of the page's url that is shown in the browsers address bar and is used by search engines to match your page with search terms. Your input will be formatted to avoid certain characters."
-          />
+          <div v-if="prefix" class="whppt-flex-between whppt-align-center">
+            <whppt-text-input
+              :value="prefix"
+              disabled
+              placeholder="Page Slug Prefix"
+              label="Prefix"
+              labelColour="black"
+              info="This prefix is managed by Whppt and is not editable."
+            />
+            <whppt-text-input
+              :value="slugSuffix"
+              placeholder="Enter a page slug"
+              label="Slug"
+              labelColour="black"
+              @input="confirmSlug"
+              info="The page slug makes up part of the page's url that is shown in the browsers address bar and is used by search engines to match your page with search terms. Your input will be formatted to avoid certain characters."
+            />
+          </div>
+          <div v-if="!prefix">
+            <whppt-text-input
+              v-model="page.slug"
+              placeholder="Enter a page slug"
+              label="Slug"
+              labelColour="black"
+              info="The page slug makes up part of the page's url that is shown in the browsers address bar and is used by search engines to match your page with search terms. Your input will be formatted to avoid certain characters."
+            />
+          </div>
           <div style="display: flex; align-items: center; justify-content: flex-start">
             <div style="font-weight: bold; padding-right: 0.5rem;">Output:</div>
             <div>
@@ -25,8 +45,10 @@
             </div>
           </div>
           <div v-if="errorMessage" style="color: red; font-style: italic;">{{ errorMessage }}</div>
-          <!-- <button v-if="inProduction" class="whppt-settings__delete-button" @click="unpublish">Unpublish Page</button> -->
-          <button class="whppt-settings__delete-button" @click="showWarning = true">Delete Page</button>
+          <button v-if="page.published" class="whppt-settings__delete-button" @click="unpublish">Unpublish Page</button>
+          <button v-if="!page.published" class="whppt-settings__delete-button" @click="showWarning = true">
+            Delete Page
+          </button>
         </div>
       </form>
       <div v-if="showWarning" class="whppt-settings__warning-modal">
@@ -65,6 +87,7 @@ import Cropping from './EditImage/Cropping';
 
 export default {
   name: 'WhpptSlugSettings',
+  props: { prefix: { type: String, default: '' } },
   components: { WhpptTextInput, Gallery, Cropping },
   data() {
     return {
@@ -78,13 +101,24 @@ export default {
     formattedSlug() {
       return this.formatSlug(this.page.slug);
     },
-    inProduction() {
-      console.log('TCL: inProduction -> process.env.NODE_ENV', process.env.NODE_ENV);
-      return process.env.NODE_ENV === 'production';
+    inDraft() {
+      return process.env.DRAFT === 'true';
+    },
+    slugSuffix() {
+      if (!this.prefix) return '';
+      return this.page.slug.replace(`${this.prefix}/`, '');
     },
   },
   methods: {
     ...mapActions('whppt-nuxt/page', ['savePage', 'unpublishPage', 'deletePage']),
+    confirmSlug(value) {
+      if (value.startsWith('/')) value = value.replace(/^(\/*)/, '');
+      value = value.replace(/\/{2,}/g, '/');
+
+      value = slugify(value, { remove: /[*+~.()'"!:@]/g, lower: true });
+      if (this.prefix) value = `${this.prefix}/${value}`;
+      this.page.slug = value;
+    },
     deletePageFromDraft() {
       const vm = this;
       return vm.deletePage().then(() => {
@@ -108,7 +142,7 @@ export default {
 
         return;
       }
-      return vm.$whppt.checkSlug({ slug: newSlug }).then(result => {
+      return vm.$whppt.checkSlug({ slug: newSlug, _id: this.page._id }).then(result => {
         if (result) {
           // vm.errorMessage = 'Slug is already in use';
           this.$toast.global.editorError('Slug already in use');
@@ -127,6 +161,7 @@ export default {
       slug = slug.replace(/\/{2,}/g, '/');
 
       slug = slugify(slug, { remove: /[*+~.()'"!:@]/g, lower: true });
+      // if(this.prefix) slug = `${this.prefix}/${slug}`
       return slug;
     },
   },
