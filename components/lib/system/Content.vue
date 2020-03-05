@@ -29,20 +29,15 @@ export default {
     },
     componentList() {
       if (!this.selectedComponent) return;
-      // TODO: this.selectedContentWhitelist doesnt exist, selectContent doesnt fire, selectComponent does.
-      console.log(this.selectedComponent);
 
-      console.log('this.selectedContentWhitelist', this.selectedContentWhitelist);
-      console.log('this.selectedContentBlacklist', this.selectedContentBlacklist);
-
-      if (this.selectedContentWhitelist || this.selectedContentBlacklist) {
-        return filter(
-          this.$whppt.components,
-          c =>
-            includes(this.selectedContentWhitelist, c.displayType) &&
-            !includes(this.selectedContentBlacklist, c.displayType)
-        );
+      if (this.selectedComponent.whitelist) {
+        return filter(this.$whppt.components, c => includes(this.selectedComponent.whitelist, c.displayType));
       }
+
+      if (this.selectedComponent.blacklist) {
+        return filter(this.$whppt.components, c => !includes(this.selectedComponent.blacklist, c.displayType));
+      }
+
       return this.$whppt.components;
     },
   },

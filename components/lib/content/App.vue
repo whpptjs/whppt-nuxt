@@ -113,7 +113,7 @@ export default {
 
 <style>
 .whppt-button__close {
-  margin-top: 10px;
+  margin-top: 10px !important;
 }
 
 .whppt-link {
