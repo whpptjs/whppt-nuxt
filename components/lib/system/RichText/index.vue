@@ -167,8 +167,7 @@ export default {
 .whppt-menubar {
   display: flex;
   align-items: center;
-  padding: 0.2em;
-  padding-left: 15px;
+  padding: 0.2em 0.2em 0.2em 15px;
   border: 1px solid white;
   color: white;
   background: #222;
@@ -208,5 +207,9 @@ export default {
 
 .whppt-editor__header {
   margin-bottom: 5px;
+}
+
+.whppt-rich-content p:not(:first-child) {
+  padding-top: 2rem;
 }
 </style>

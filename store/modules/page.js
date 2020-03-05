@@ -31,6 +31,11 @@ export default options => ({
         state.page = undefined;
       });
     },
+    // publishListing({ state }, listing) {
+    //   return this.$whppt.publishListing(listing).then(() => {
+    //     this.$toast.global.editorSuccess('Listing & Listing Page Published');
+    //   });
+    // },
     publishPage({ state }) {
       return this.$whppt.publishPage(state.page).then(() => {
         state.page.published = true;

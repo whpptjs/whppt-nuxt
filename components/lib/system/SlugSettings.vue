@@ -25,7 +25,7 @@
               {{ formattedSlug }}
             </div>
           </div>
-          <div style="color: grey; font-style: italic;">
+          <div v-if="page.template === 'listing'" style="color: grey; font-style: italic;">
             Note: A listing page's slug can only be modified from the listing editor.
           </div>
           <div v-if="errorMessage" style="color: red; font-style: italic;">{{ errorMessage }}</div>
@@ -113,7 +113,7 @@ export default {
 
         return;
       }
-      return vm.$whppt.checkSlug({ slug: newSlug }).then(result => {
+      return vm.$whppt.checkSlug({ slug: newSlug, _id: this.page._id }).then(result => {
         if (result) {
           // vm.errorMessage = 'Slug is already in use';
           this.$toast.global.editorError('Slug already in use');

@@ -39,10 +39,12 @@ export default options => ({
       commit('selectedComponentCleared');
       this.$whppt.clearSelectedComponent();
     },
+    // Child
     selectComponent({ state, commit }, { el, value }) {
       commit('componentSelected', value);
       this.$whppt.selectComponent(el);
     },
+    // Parent
     selectContent({ state, commit }, { el, value, whitelist, blacklist }) {
       commit('contentSelected', { value, whitelist, blacklist });
       this.$whppt.selectContent(el);
