@@ -1,6 +1,5 @@
 <template>
   <div class="whppt-full">
-    <p class="font-xl">Anchor</p>
     <whppt-text-input
       v-model="selectedComponent.value.id"
       label="Anchor To"
