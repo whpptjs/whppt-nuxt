@@ -65,7 +65,7 @@ export default {
 </style>
 
 <!--
-    <div v-content="page.contents" data-components="wPlainText, wRichText, wEditImage" class="whppt-contents">
+    <div v-content="page.contents" data-whitelist="wPlainText, wRichText, wEditImage" class="whppt-contents">
       <component
         :is="content.displayType"
         v-for="(content, index) in page.contents"
