@@ -2,10 +2,10 @@ import Vue from 'vue';
 import SimpleComponentClickHandler from './_simpleComponentClickHandler';
 
 export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
-  Vue.directive('blank', {
+  Vue.directive('whppt-colours', {
     bind(el, binding) {
       const value = { value: binding.value };
-      el.whppthandler = SimpleComponentClickHandler({ store, menuIsInState, MENUSTATES, name: 'blank', el, value });
+      el.whppthandler = SimpleComponentClickHandler({ store, menuIsInState, MENUSTATES, name: 'colours', el, value });
       el.addEventListener('click', el.whppthandler);
       el.addEventListener('mouseover', function(e) {
         if (!menuIsInState(MENUSTATES.SELECT)) return;
@@ -15,14 +15,14 @@ export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
         $whppt.mouseoutComponent(el);
       });
     },
-    unbind(el, binding) {
+    unbind(el) {
       el.removeEventListener('click', el.whppthandler);
       delete el.whppthandler;
     },
     update(el, binding) {
       el.removeEventListener('click', el.whppthandler);
       const value = { value: binding.value };
-      el.whppthandler = SimpleComponentClickHandler({ store, menuIsInState, MENUSTATES, name: 'blank', el, value });
+      el.whppthandler = SimpleComponentClickHandler({ store, menuIsInState, MENUSTATES, name: 'colours', el, value });
       el.addEventListener('click', el.whppthandler);
     },
   });

@@ -1,9 +1,10 @@
 import { Components } from './Components';
 
 import contentDirective from './directives/content';
+import coloursDirective from './directives/colours';
 import splitContentDirective from './directives/splitContent';
 import richTextDirective from './directives/richText';
-import blankDirective from './directives/blank';
+import defaultDirective from './directives/default';
 import listDirective from './directives/list';
 import plainTextDirective from './directives/plainText';
 import menuDirective from './directives/menu';
@@ -110,9 +111,10 @@ export default (context, inject) => {
   inject('whppt', whppt);
 
   contentDirective({ ...context, menuIsInState, MENUSTATES });
+  coloursDirective({ ...context, menuIsInState, MENUSTATES });
   splitContentDirective({ ...context, menuIsInState, MENUSTATES });
   plainTextDirective({ ...context, menuIsInState, MENUSTATES });
-  blankDirective({ ...context, menuIsInState, MENUSTATES });
+  defaultDirective({ ...context, menuIsInState, MENUSTATES });
   listDirective({ ...context, menuIsInState, MENUSTATES });
   richTextDirective({ ...context, menuIsInState, MENUSTATES });
   menuDirective({ ...context, menuIsInState, MENUSTATES });

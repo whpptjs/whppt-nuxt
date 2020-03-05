@@ -20,4 +20,17 @@ module.exports = [
       imageId: '',
     },
   },
+  {
+    key: 'ImageNavigation',
+    name: 'Image Navigation',
+    displayType: 'ImageNavigation',
+    editorType: 'Colours',
+    reversed: false,
+    imageCaption: { text: '', href: '', type: 'page' },
+    links: [],
+    image: {
+      imageId: '',
+      crop: {},
+    },
+  },
 ];
