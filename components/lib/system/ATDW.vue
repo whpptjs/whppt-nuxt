@@ -4,7 +4,7 @@
       <div class="whppt-atdw__content whppt-atdw__modal--inner">
         <div class="whppt-atdw__heading">
           <p class="font-xl">ATDW</p>
-          <button class="whppt-atdw__form-button" @click="showReconnect = !showReconnect">Close</button>
+          <button class="whppt-settings__button" @click="showReconnect = !showReconnect">Close</button>
         </div>
         <div v-if="listing.listingType === 'product'">
           <div v-for="(field, key) in atdwFields" :key="key" class="whppt-linker">
@@ -12,7 +12,7 @@
               <span class="whppt__bold">{{ key }}</span>
               <div>{{ field(listing.atdw, key) }}</div>
             </div>
-            <button class="whppt-atdw__form-button" @click="reconnect(field, key)">Link</button>
+            <button class="whppt-settings__button" @click="reconnect(field, key)">Link</button>
           </div>
         </div>
         <div v-if="listing.listingType === 'service'">
@@ -21,7 +21,7 @@
               <span class="whppt__bold">{{ key }}</span>
               <div>{{ field(listing.atdw, key) }}</div>
             </div>
-            <button class="whppt-atdw__form-button" @click="reconnect(field, key)">Link</button>
+            <button class="whppt-settings__button" @click="reconnect(field, key)">Link</button>
           </div>
         </div>
       </div>
@@ -29,7 +29,10 @@
     <div class="whppt-atdw__content">
       <div class="whppt-atdw__heading">
         <h1>Edit Listing</h1>
-        <button class="whppt-atdw__form-button" @click="saveListing">Save</button>
+        <div class="whppt-flex-between whppt-align-center">
+          <!-- <button class="whppt-settings__button" style="margin-right: 1rem;" @click="publish">Publish</button> -->
+          <button class="whppt-settings__button" @click="saveListing">Save</button>
+        </div>
       </div>
       <div class="whppt-atdw__form">
         <form @submit.prevent>
@@ -45,10 +48,10 @@
             <div class="whppt-atdw__form-controls">
               <span>Linked To: {{ listing.name.path }}</span>
               <div>
-                <button v-if="listing.name.path" class="whppt-atdw__form-button" @click="disconnect(listing.name)">
+                <button v-if="listing.name.path" class="whppt-settings__button" @click="disconnect(listing.name)">
                   Disconnect
                 </button>
-                <button v-if="!listing.name.path" class="whppt-atdw__form-button" @click="openReconnectMenu('name')">
+                <button v-if="!listing.name.path" class="whppt-settings__button" @click="openReconnectMenu('name')">
                   Reconnect
                 </button>
               </div>
@@ -76,14 +79,14 @@
               <div>
                 <button
                   v-if="listing.description.path"
-                  class="whppt-atdw__form-button"
+                  class="whppt-settings__button"
                   @click="disconnect(listing.description)"
                 >
                   Disconnect
                 </button>
                 <button
                   v-if="!listing.description.path"
-                  class="whppt-atdw__form-button"
+                  class="whppt-settings__button"
                   @click="openReconnectMenu('description')"
                 >
                   Reconnect
@@ -112,14 +115,14 @@
               <div>
                 <button
                   v-if="listing.activeStatus.path"
-                  class="whppt-atdw__form-button"
+                  class="whppt-settings__button"
                   @click="disconnect(listing.activeStatus)"
                 >
                   Disconnect
                 </button>
                 <button
                   v-if="!listing.activeStatus.path"
-                  class="whppt-atdw__form-button"
+                  class="whppt-settings__button"
                   @click="openReconnectMenu('activeStatus')"
                 >
                   Reconnect
@@ -181,14 +184,14 @@
               <div>
                 <button
                   v-if="listing.physicalAddress.path"
-                  class="whppt-atdw__form-button"
+                  class="whppt-settings__button"
                   @click="disconnect(listing.physicalAddress)"
                 >
                   Disconnect
                 </button>
                 <button
                   v-if="!listing.physicalAddress.path"
-                  class="whppt-atdw__form-button"
+                  class="whppt-settings__button"
                   @click="openReconnectMenu('physicalAddress')"
                 >
                   Reconnect
@@ -208,10 +211,10 @@
             <div class="whppt-atdw__form-controls">
               <span>Linked To: {{ listing.phone.path }}</span>
               <div>
-                <button v-if="listing.phone.path" class="whppt-atdw__form-button" @click="disconnect(listing.phone)">
+                <button v-if="listing.phone.path" class="whppt-settings__button" @click="disconnect(listing.phone)">
                   Disconnect
                 </button>
-                <button v-if="!listing.phone.path" class="whppt-atdw__form-button" @click="openReconnectMenu('phone')">
+                <button v-if="!listing.phone.path" class="whppt-settings__button" @click="openReconnectMenu('phone')">
                   Reconnect
                 </button>
               </div>
@@ -229,10 +232,10 @@
             <div class="whppt-atdw__form-controls">
               <span>Linked To: {{ listing.email.path }}</span>
               <div>
-                <button v-if="listing.email.path" class="whppt-atdw__form-button" @click="disconnect(listing.email)">
+                <button v-if="listing.email.path" class="whppt-settings__button" @click="disconnect(listing.email)">
                   Disconnect
                 </button>
-                <button v-if="!listing.email.path" class="whppt-atdw__form-button" @click="openReconnectMenu('email')">
+                <button v-if="!listing.email.path" class="whppt-settings__button" @click="openReconnectMenu('email')">
                   Reconnect
                 </button>
               </div>
@@ -250,10 +253,10 @@
             <div class="whppt-atdw__form-controls">
               <span>Linked To: {{ listing.image.path }}</span>
               <div>
-                <button v-if="listing.image.path" class="whppt-atdw__form-button" @click="disconnect(listing.image)">
+                <button v-if="listing.image.path" class="whppt-settings__button" @click="disconnect(listing.image)">
                   Disconnect
                 </button>
-                <button v-if="!listing.image.path" class="whppt-atdw__form-button" @click="openReconnectMenu('image')">
+                <button v-if="!listing.image.path" class="whppt-settings__button" @click="openReconnectMenu('image')">
                   Reconnect
                 </button>
               </div>
@@ -275,7 +278,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import { map, get, find } from 'lodash';
 import { parse } from 'uri-js';
 import slugify from 'slugify';
@@ -354,6 +357,7 @@ export default {
   computed: {
     ...mapState('whppt-nuxt/editor', ['selectedComponent', 'baseAPIUrl']),
     ...mapState('whppt-nuxt/page', ['page']),
+
     taggedCategories() {
       return [...this.listing.atdwCategories.value, this.listing.customCategories.value];
     },
@@ -370,6 +374,8 @@ export default {
     });
   },
   methods: {
+    ...mapActions('whppt-nuxt/page', ['publishListing']),
+
     reconnect(field, key) {
       // this.listing.atdw should probably be dynamic, what if bookeasy?
       this.listing[this.propToReconnect].path = key;
@@ -385,6 +391,37 @@ export default {
       this.showReconnect = !this.showReconnect;
       this.propToReconnect = property;
     },
+    // publish() {
+    //   const vm = this;
+    //   const newSlug = this.formattedSlug;
+    //   if (!newSlug) {
+    //     this.$toast.global.editorError('Cannot use an empty slug');
+    //     return;
+    //   }
+    //   return vm.$whppt.checkSlug({ slug: newSlug, _id: vm.listing._id }).then(result => {
+    //     if (result) {
+    //       this.$toast.global.editorError('Slug already in use');
+    //     } else {
+    //       vm.listing.slug = newSlug;
+    //       // return this.$axios.post(`${this.baseAPIUrl}/api/listing/save`, { listing: this.listing }).then(() => {
+    //       return this.$axios
+    //         .post(`${vm.baseAPIUrl}/api/page/updateFromListing`, {
+    //           _id: vm.listing._id,
+    //           slug: vm.listing.slug,
+    //           title: vm.listing.name.value,
+    //         })
+    //         .then(() => {
+    //           return vm.$whppt.publishListing(this.listing).then(() => {
+    //             if (vm.page.template === 'listing') {
+    //               vm.$router.push(`/${vm.listing.slug}`);
+    //               vm.$emit('closeModal');
+    //             }
+    //           });
+    //         });
+    //       // });
+    //     }
+    //   });
+    // },
     saveListing() {
       const vm = this;
       const newSlug = this.formattedSlug;
@@ -392,21 +429,25 @@ export default {
         this.$toast.global.editorError('Cannot use an empty slug');
         return;
       }
-      return vm.$whppt.checkSlug({ slug: newSlug }).then(result => {
+      return vm.$whppt.checkSlug({ slug: newSlug, _id: vm.listing._id }).then(result => {
         if (result) {
           this.$toast.global.editorError('Slug already in use');
         } else {
           vm.listing.slug = newSlug;
           return this.$axios.post(`${this.baseAPIUrl}/api/listing/save`, { listing: this.listing }).then(() => {
-            if (vm.listing.slug !== vm.oldSlug)
-              return this.$axios
-                .post(`${vm.baseAPIUrl}/api/page/updateSlug`, { _id: vm.listing._id, slug: vm.listing.slug })
-                .then(() => {
-                  if (vm.page.template === 'listing') {
-                    vm.$router.push(`/${vm.listing.slug}`);
-                    vm.$emit('closeModal');
-                  }
-                });
+            return this.$axios
+              .post(`${vm.baseAPIUrl}/api/page/updateFromListing`, {
+                _id: vm.listing._id,
+                slug: vm.listing.slug,
+                title: vm.listing.name.value,
+              })
+              .then(() => {
+                this.$toast.global.editorSuccess('Listing Saved');
+                if (vm.page.template === 'listing') {
+                  vm.$router.push(`/${vm.listing.slug}`);
+                  vm.$emit('closeModal');
+                }
+              });
           });
         }
       });
@@ -499,6 +540,7 @@ export default {
   top: 0;
   left: 0;
   display: flex;
+  justify-content: space-between;
   width: 100%;
   padding: 0.5rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.5);

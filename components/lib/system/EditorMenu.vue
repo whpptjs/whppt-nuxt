@@ -11,7 +11,7 @@
         <component :is="item.icon" />
       </button>
       <button v-else aria-label="">
-        <component :is="item.icon" />
+        <component :is="item.icon" style="color: grey" />
       </button>
     </div>
   </div>
@@ -68,6 +68,14 @@ export default {
           action: () => this.savePage(),
         },
         {
+          key: 'publishPage',
+          label: 'Publish Page',
+          icon: 'w-publish',
+          group: 'page',
+          disabled: !this.page || !this.page._id,
+          action: () => this.publishPage(),
+        },
+        {
           key: 'site-settings',
           label: 'Site Settings',
           icon: 'w-globe',
@@ -92,7 +100,6 @@ export default {
         },
         { key: 'nav', label: 'Nav', icon: 'w-nav', group: 'nav', action: () => this.saveNav() },
         { key: 'footer', label: 'Footer', icon: 'w-footer', group: 'footer', action: () => this.saveFooter() },
-        { key: 'footer', label: 'Footer', icon: 'w-publish', group: 'footer', action: () => this.publishPage() },
       ];
     },
   },

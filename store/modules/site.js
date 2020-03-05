@@ -57,8 +57,11 @@ export default options => ({
       });
     },
     publishSiteSettings({ commit }, { siteSettings, redirects, categories }) {
-      return this.$whppt.publishSiteSettings({ siteSettings, redirects, categories }).then(() => {
-        this.$toast.global.editorSuccess('Site Settings Published');
+      siteSettings._id = siteSettings._id || 'siteSettings';
+      return this.$whppt.saveSiteSettings({ siteSettings, redirects, categories }).then(() => {
+        return this.$whppt.publishSiteSettings({ siteSettings, redirects, categories }).then(() => {
+          this.$toast.global.editorSuccess('Site Settings Published');
+        });
       });
     },
   },
