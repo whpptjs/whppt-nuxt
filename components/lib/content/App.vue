@@ -181,7 +181,7 @@ export default {
 
 .whppt__component--active {
   outline: 2px solid palegreen;
-  outline-offset: -2px;
+  /*outline-offset: -2px;*/
 }
 
 .whppt__content--active {
@@ -190,7 +190,7 @@ export default {
 
 .whppt__component--hover {
   outline: 2px solid blue;
-  outline-offset: -2px;
+  /*outline-offset: -2px;*/
 }
 
 .whppt__content--hover {
