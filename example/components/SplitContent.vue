@@ -1,5 +1,5 @@
 <template>
-  <section v-blank="value" class="lg:flex py-32" :class="data.reversed ? '' : 'flex-row-reverse'">
+  <section v-whppt-default="value" class="lg:flex py-32" :class="data.reversed ? '' : 'flex-row-reverse'">
     <div class="w-full lg:w-1/2 bg-red-700 relative">
       <div class="absolute inset-0 bg-center bg-cover bg-no-repeat" :style="`background-image: url(${data.image})`">
         <div class="absolute hidden lg:flex" :class="{ 'right-0': data.reversed }">

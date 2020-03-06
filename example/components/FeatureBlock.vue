@@ -1,5 +1,5 @@
 <template>
-  <section v-blank="value" class="lg:flex bg-black text-white" :class="{ 'flex-row-reverse': value.reversed }">
+  <section v-whppt-default="value" class="lg:flex bg-black text-white" :class="{ 'flex-row-reverse': value.reversed }">
     <div
       v-edit-image="value.image"
       data-sizes='{ "desktop": { "width":400, "height":400, "quality":2 } }'
