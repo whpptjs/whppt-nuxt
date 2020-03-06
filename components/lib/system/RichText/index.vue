@@ -35,6 +35,8 @@
           <button aria-label="Ordered List" @click="commands.ordered_list">
             <i-ordered-list :fill="isActive.ordered_list() ? 'orangered' : 'white'" />
           </button>
+        </div>
+        <div v-if="!selectedComponent.hideLinks" class="whppt-menubar__section">
           <button aria-label="Create Link" @click="showLink(getMarkAttrs('link'))">
             <i-link :fill="isActive.link() ? 'orangered' : 'white'" />
           </button>

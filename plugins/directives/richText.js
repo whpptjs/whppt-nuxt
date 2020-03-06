@@ -10,7 +10,9 @@ export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
       const hideStyle = el.getAttribute('data-hide-style');
       const hideHeaders = el.getAttribute('data-hide-headers');
       const hideLists = el.getAttribute('data-hide-lists');
-      const value = { value: binding.value, property, hideMenu, hideStyle, hideHeaders, hideLists };
+      const hideLinks = el.getAttribute('data-hide-links');
+
+      const value = { value: binding.value, property, hideMenu, hideStyle, hideHeaders, hideLists, hideLinks };
       el.whppthandler = SimpleComponentClickHandler({ store, menuIsInState, MENUSTATES, name: 'richText', el, value });
       el.addEventListener('click', el.whppthandler);
       el.addEventListener('mouseover', function(e) {
