@@ -361,9 +361,9 @@ export default {
     taggedCategories() {
       return [...this.listing.atdwCategories.value, this.listing.customCategories.value];
     },
-    formattedSlug() {
-      return this.formatSlug(this.listing.slug);
-    },
+    // formattedSlug() {
+    //   return this.formatSlug(this.listing.slug);
+    // },
   },
   mounted() {
     if (!this.selectedComponent || !this.selectedComponent.value) return;
@@ -424,44 +424,44 @@ export default {
     // },
     saveListing() {
       const vm = this;
-      const newSlug = this.formattedSlug;
-      if (!newSlug) {
-        this.$toast.global.editorError('Cannot use an empty slug');
-        return;
-      }
-      return vm.$whppt.checkSlug({ slug: newSlug, _id: vm.listing._id }).then(result => {
-        if (result) {
-          this.$toast.global.editorError('Slug already in use');
-        } else {
-          vm.listing.slug = newSlug;
-          return this.$axios.post(`${this.baseAPIUrl}/api/listing/save`, { listing: this.listing }).then(() => {
-            return this.$axios
-              .post(`${vm.baseAPIUrl}/api/page/updateFromListing`, {
-                _id: vm.listing._id,
-                slug: vm.listing.slug,
-                title: vm.listing.name.value,
-              })
-              .then(() => {
-                this.$toast.global.editorSuccess('Listing Saved');
-                if (vm.page.template === 'listing') {
-                  vm.$router.push(`/${vm.listing.slug}`);
-                  vm.$emit('closeModal');
-                }
-              });
-          });
+      // const newSlug = this.formattedSlug;
+      // if (!newSlug) {
+      //   this.$toast.global.editorError('Cannot use an empty slug');
+      //   return;
+      // }
+      // return vm.$whppt.checkSlug({ slug: newSlug, _id: vm.listing._id }).then(result => {
+      //   if (result) {
+      //     this.$toast.global.editorError('Slug already in use');
+      //   } else {
+      //     vm.listing.slug = newSlug;
+      return this.$axios.post(`${this.baseAPIUrl}/api/listing/save`, { listing: this.listing }).then(() => {
+        // return this.$axios
+        //   .post(`${vm.baseAPIUrl}/api/page/updateFromListing`, {
+        //     _id: vm.listing._id,
+        //     slug: vm.listing.slug,
+        //     title: vm.listing.name.value,
+        //   })
+        //   .then(() => {
+        this.$toast.global.editorSuccess('Listing Saved');
+        if (vm.page.template === 'listing') {
+          vm.$router.push(`/${vm.listing.slug}`);
+          vm.$emit('closeModal');
         }
       });
+      //     });
+      //   }
+      // });
     },
     setStatus(value) {
       this.listing.activeStatus.value = value;
     },
-    formatSlug(slug) {
-      if (slug.startsWith('/')) slug = slug.replace(/^(\/*)/, '');
-      slug = slug.replace(/\/{2,}/g, '/');
+    // formatSlug(slug) {
+    //   if (slug.startsWith('/')) slug = slug.replace(/^(\/*)/, '');
+    //   slug = slug.replace(/\/{2,}/g, '/');
 
-      slug = slugify(slug, { remove: /[*+~.()'"!:@]/g, lower: true });
-      return slug;
-    },
+    //   slug = slugify(slug, { remove: /[*+~.()'"!:@]/g, lower: true });
+    //   return slug;
+    // },
   },
 };
 </script>

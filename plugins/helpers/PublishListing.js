@@ -9,10 +9,9 @@ export default context => listing => {
         .post(`${baseAPIUrl}/api/page/updateFromListing`, {
           _id: listing._id,
           slug: listing.slug,
-          title: listing.name.vsalue,
+          title: listing.name.value,
         })
         .then(result => {
-          console.log('result', result);
           // return $axios.post(`${baseAPIUrl}/api/page/findById`, { id: listing._id }).then(page => {
           // return $axios.post(`${baseAPIUrl}/api/page/publishPage`, { page }).then(() => {
           //   return request.data;
