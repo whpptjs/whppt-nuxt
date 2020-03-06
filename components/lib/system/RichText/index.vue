@@ -35,6 +35,8 @@
           <button aria-label="Ordered List" @click="commands.ordered_list">
             <i-ordered-list :fill="isActive.ordered_list() ? 'orangered' : 'white'" />
           </button>
+        </div>
+        <div v-if="!selectedComponent.hideLinks" class="whppt-menubar__section">
           <button aria-label="Create Link" @click="showLink(getMarkAttrs('link'))">
             <i-link :fill="isActive.link() ? 'orangered' : 'white'" />
           </button>
@@ -48,14 +50,14 @@
 <script>
 import {
   Bold,
-  Italic,
-  Underline,
-  Heading,
   BulletList,
+  HardBreak,
+  Heading,
+  Italic,
+  Link,
   ListItem,
   OrderedList,
-  Link,
-  HardBreak,
+  Underline,
 } from 'tiptap-extensions';
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap';
 import { mapState } from 'vuex';
@@ -143,8 +145,7 @@ export default {
       this.editingLink = {};
     },
     showLink(attrs) {
-      const link = { type: 'page', href: '', text: '', openOnClick: false, ...attrs };
-      this.editingLink = link;
+      this.editingLink = { type: 'page', href: '', text: '', openOnClick: false, ...attrs };
     },
     closeLink() {
       this.editingLink = {};

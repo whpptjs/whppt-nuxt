@@ -24,12 +24,11 @@ export default options => ({
     savePage({ state, commit }) {
       return this.$whppt.savePage(state.page).then(page => {
         this.$toast.global.editorSuccess('Page Saved');
-        commit('pageLoaded', page);
       });
     },
-    deletePage({ state }) {
+    deletePage({ state, commit }) {
       return this.$whppt.deletePage(state.page._id).then(() => {
-        state.page = undefined;
+        commit('pageDeleted');
       });
     },
     // publishListing({ state }, listing) {
@@ -63,6 +62,9 @@ export default options => ({
   mutations: {
     pageLoaded(state, page) {
       state.page = page;
+    },
+    pageDeleted(state) {
+      state.page = undefined;
     },
     listingLoaded(state, listing) {
       state.listing = listing;

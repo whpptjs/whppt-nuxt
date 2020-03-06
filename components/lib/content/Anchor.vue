@@ -1,6 +1,6 @@
 <template>
-  <div :id="content.id" v-whppt-anchor="content" data-property="id" class="whppt-anchor">
-    <p v-if="activeMenuItem" class="bg-">Anchor with ID: {{ content.id }}</p>
+  <div :id="content.id" v-whppt-anchor="content" data-property="id">
+    <p v-if="activeMenuItem"><span class="whppt-hash">#</span> {{ content.id }}</p>
   </div>
 </template>
 
@@ -22,7 +22,9 @@ export default {
 </script>
 
 <style>
-.whppt-anchor {
-  scroll-behavior: smooth;
+.whppt-hash {
+  font-size: 1.5rem;
+  color: #42b883;
+  font-style: italic;
 }
 </style>
