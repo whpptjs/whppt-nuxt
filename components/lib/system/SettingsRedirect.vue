@@ -201,7 +201,6 @@ export default {
 }
 
 .whppt-redirects__icon {
-  border: 1px solid #981a31;
   cursor: pointer;
   border-radius: 50%;
   padding: 5px;

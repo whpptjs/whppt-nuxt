@@ -54,6 +54,13 @@
         >
           Categories
         </div>
+        <!-- <div
+          class="whppt-settings__tab"
+          :class="selectedTab === 'customListings' ? 'whppt-settings__tab-selected' : ''"
+          @click="selectedTab = 'customListings'"
+        >
+          Custom Listings
+        </div> -->
       </div>
       <form v-show="selectedTab === 'seo'" @submit.prevent>
         <div>
@@ -199,6 +206,9 @@
       <form v-show="selectedTab === 'og'" @submit.prevent>
         <settings-open-graph :settings="siteSettings"></settings-open-graph>
       </form>
+      <!-- <form v-show="selectedTab === 'customListings'" @submit.prevent>
+        <custom-listings></custom-listings>
+      </form> -->
 
       <form v-show="selectedTab === 'twitter'" @submit.prevent>
         <settings-twitter :settings="siteSettings"></settings-twitter>
@@ -261,10 +271,11 @@ import WhpptTextArea from '../whpptComponents/WhpptTextArea';
 import SettingsOpenGraph from './SettingsOG';
 import SettingsTwitter from './SettingsTwitter';
 import SettingsRedirect from './SettingsRedirect';
+import CustomListings from './CustomListings';
 
 export default {
   name: 'WhpptSiteSettings',
-  components: { WhpptTextInput, SettingsOpenGraph, SettingsTwitter, SettingsRedirect, WhpptTextArea },
+  components: { WhpptTextInput, SettingsOpenGraph, SettingsTwitter, SettingsRedirect, WhpptTextArea, CustomListings },
   data() {
     return {
       loadedCategories: [],

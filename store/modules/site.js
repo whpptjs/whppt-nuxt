@@ -53,6 +53,7 @@ export default options => ({
     },
     saveSiteSettings({ commit }, { siteSettings, redirects, categories }) {
       return this.$whppt.saveSiteSettings({ siteSettings, redirects, categories }).then(() => {
+        commit('siteSettingsLoaded', siteSettings);
         this.$toast.global.editorSuccess('Site Settings Saved');
       });
     },
