@@ -1,7 +1,7 @@
 <template>
   <div>
     <p class="font-xl">Carousel Items</p>
-    <whppt-select v-model="editingCarouselItem" :items="editingCarouselItems" valueProp="text.title" />
+    <whppt-select v-model="editingCarouselItem" :items="editingCarouselItems" value-prop="text.title" />
 
     <div class="whppt-carousel__actions">
       <button class="whppt-carousel__actions-add" @click="add">Add New Item</button>
@@ -14,7 +14,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import WhpptTextInput from '../whpptComponents/WhpptSelect';
+import WhpptTextInput from '../whpptComponents/WhpptTextInput';
 import WhpptSelect from '../whpptComponents/WhpptSelect';
 
 export default {

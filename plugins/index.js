@@ -14,6 +14,7 @@ import listingDirective from './directives/listing';
 import editImageDirective from './directives/editImage';
 import anchorDirective from './directives/anchor';
 import contactIconDirective from './directives/contactIcon';
+import videoBlockDirective from './directives/videoBlock';
 
 import LoadSiteSettings from './helpers/LoadSiteSettings';
 import SaveSiteSettings from './helpers/SaveSiteSettings';
@@ -124,4 +125,5 @@ export default (context, inject) => {
   editImageDirective({ ...context, menuIsInState, MENUSTATES });
   anchorDirective({ ...context, menuIsInState, MENUSTATES });
   contactIconDirective({ ...context, menuIsInState, MENUSTATES });
+  videoBlockDirective({ ...context, menuIsInState, MENUSTATES });
 };

@@ -101,6 +101,17 @@ const Components = options => [
     editorType: 'ContactIcon',
     displayType: 'ContactIcon',
   },
+  {
+    key: 'VideoBlock',
+    name: 'Video Block',
+    editorType: 'wVideoBlock',
+    displayType: 'wVideoBlock',
+    property: 'data',
+    data: {
+      platform: { id: '', value: '' },
+      videoId: '',
+    },
+  },
   ...options.components,
 ];
 

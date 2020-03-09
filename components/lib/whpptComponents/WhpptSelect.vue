@@ -20,11 +20,16 @@ export default {
     action: { type: String, default: () => 'Please select ...' },
     label: { type: String, default: () => '' },
     value: { type: Object, default: () => undefined },
-    valueProp: { type: String, default: () => null },
+    valueProp: { type: String, default: () => '' },
+    idProp: { type: String, default: () => '' },
   },
   computed: {
     selectedIndex() {
-      return this.items.indexOf(this.value);
+      if (!this.value) return -1;
+      return this.items.findIndex(item => {
+        if (typeof item === 'object') return item[this.idProp || 'id'] === this.value[this.idProp || 'id'];
+        return item === this.value;
+      });
     },
   },
   methods: {
@@ -55,6 +60,10 @@ export default {
   font-size: 16px;
   margin: 5px 0;
   height: 35px;
+}
+
+.whppt-select__input:focus {
+  outline: none;
 }
 /* .whppt-select {
   margin: 10px 0;
