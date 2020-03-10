@@ -36,6 +36,13 @@ export default options => ({
     },
     loadNav({ commit }) {
       return this.$whppt.loadNav().then(nav => {
+        nav.menus = nav.menus || [];
+        for (const ele of nav.menus) {
+          ele.links = ele.links || [];
+          for (const link of ele.links) {
+            link.featured = link.featured || false;
+          }
+        }
         commit('navLoaded', nav);
       });
     },
