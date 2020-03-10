@@ -41,7 +41,6 @@ export default {
     },
   },
   mounted() {
-    console.log('mounted -> this.$router', this.$router);
     if (!this.page || !this.page._id) {
       this.slug = this.formatSlug(this.$router.currentRoute.path);
     }
