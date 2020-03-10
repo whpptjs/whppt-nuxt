@@ -15,7 +15,8 @@ import RichText from './RichText';
 import SplitContent from './SplitContent';
 import WhpptPage from './WhpptPage';
 import WLink from './Link';
-import VideoBlock from './VideoBlock';
+// import VideoBlock from './_VideoBlock';
+import Youtube from './Youtube';
 
 export {
   AnchorMenu,
@@ -35,5 +36,6 @@ export {
   SplitContent,
   WhpptPage,
   WLink,
-  VideoBlock,
+  Youtube,
+  // _VideoBlock,
 };
