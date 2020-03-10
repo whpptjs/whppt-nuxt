@@ -101,12 +101,16 @@
       <form v-show="selectedTab === 'general'" @submit.prevent>
         <div>
           <fieldset>
-            <button class="whppt-settings__button" style="display: flex" @click="pubNav">
-              Publish Nav
-            </button>
-            <button class="whppt-settings__button" style="display: flex" @click="pubFooter">
-              Publish Footer
-            </button>
+            <div>
+              <label for="name">Nav</label>
+              <button class="whppt-settings__button" @click="pubNav">
+                Publish Nav
+              </button>
+              <label for="name">Footer</label>
+              <button class="whppt-settings__button" @click="pubFooter">
+                Publish Footer
+              </button>
+            </div>
           </fieldset>
         </div>
       </form>
@@ -124,70 +128,66 @@
                   v-for="(category, index) in categories"
                   :key="index"
                   class="whppt-settings__category whppt-flex-between"
+                  style="cursor: pointer"
+                  @click.stop="selectCat(category, index)"
                 >
-                  <div class="whppt-mb-2" @click="selectCat(category, index)">
+                  <div class="whppt-mb-2">
                     {{ category.name }}
                   </div>
                   <div class="whppt-flex-between whppt-align-center">
-                    <div class="whppt-redirects__icon" @click="saveCat(category)">
+                    <div class="whppt-redirects__icon" @click.stop="saveCat(category)">
                       <w-save></w-save>
                     </div>
-                    <div class="whppt-redirects__icon" @click="publishCat(category)">
+                    <div class="whppt-redirects__icon" @click.stop="publishCat(category)">
                       <w-publish></w-publish>
                     </div>
-                    <div class="whppt-redirects__icon" @click="openWarning(category)">
-                      <w-remove></w-remove>
-                    </div>
-                    <div class="whppt-redirects__icon" @click="unpublishCat(category)">
+                    <div class="whppt-redirects__icon" @click.stop="unpublishCat(category)">
                       <w-close></w-close>
+                    </div>
+                    <div class="whppt-redirects__icon" @click.stop="openWarning(category)">
+                      <w-remove></w-remove>
                     </div>
                   </div>
                 </div>
               </div>
 
               <div v-if="selectedCat" class="whppt-settings__category">
-                <div @click="selectedCat = undefined">
-                  close
+                <div class="whppt-flex-between whppt-align-center">
+                  <label for="name">Category: </label>
+                  <div class="whppt-redirects__icon" @click="selectedCat = undefined">
+                    <w-close></w-close>
+                  </div>
                 </div>
                 <div>
-                  <label for="name">Category: </label>
-                  <div class="whppt-flex-between whppt-align-center">
-                    <whppt-text-input v-model="selectedCat.name" placeholder="Enter category name" label="Name" />
-                    <button class="whppt-icon whppt-ml-auto" aria-label="Remove Category" @click="openWarning()">
-                      <w-remove></w-remove>
-                    </button>
-                  </div>
-
+                  <whppt-text-input v-model="selectedCat.name" placeholder="Enter category name" label="Name" />
                   <label>Filters: </label>
                   <div class="whppt-flex-start whppt-align-center whppt-flex-wrap">
                     <div v-for="(filter, filterIndex) in selectedCat.filters" :key="filterIndex">
                       <div class="whppt-flex-start whppt-align-center ">
-                        <div>
-                          <button
-                            class="whppt-icon whppt-ml-auto"
-                            :class="selectedCat.filters.length <= 1 ? 'whppt-cursor-default' : ''"
-                            aria-label="Remove Category"
-                            @click="selectedCat.filters.length > 1 ? removeFilter(filterIndex) : ''"
-                          >
-                            <w-remove :class="selectedCat.filters.length <= 1 ? 'whppt-text-gray-500' : ''"></w-remove>
-                          </button>
-                          <whppt-text-input
-                            v-model="filter.value"
-                            placeholder="Enter categories to filter by"
-                            info="event, restaurant, etc."
-                          />
-                        </div>
-                        <label
-                          v-if="filterIndex < selectedCat.filters.length - 1"
-                          class="whppt-text-gray-500 whppt-mr-4 whppt-ml-4"
-                          >{{ '(AND)' }}</label
+                        <whppt-text-input
+                          v-model="filter.value"
+                          placeholder="Enter categories to filter by"
+                          info="event, restaurant, etc."
+                        />
+                        <button
+                          class="whppt-icon whppt-ml-auto"
+                          :class="selectedCat.filters.length <= 1 ? 'whppt-cursor-default' : ''"
+                          aria-label="Remove Category"
+                          @click="selectedCat.filters.length > 1 ? removeFilter(filterIndex) : ''"
                         >
+                          <w-remove :class="selectedCat.filters.length <= 1 ? 'whppt-text-gray-500' : ''"></w-remove>
+                        </button>
                       </div>
+                      <label
+                        v-if="filterIndex < selectedCat.filters.length - 1"
+                        class="whppt-text-gray-500 whppt-mr-4 whppt-ml-4"
+                        >{{ '(AND)' }}</label
+                      >
                     </div>
-                    <button class="whppt-icon whppt-ml-4" aria-label="Add Category" @click="addOrFilter()">
-                      <w-add-circle></w-add-circle>
-                    </button>
                   </div>
+                  <button class="whppt-icon whppt-ml-4" aria-label="Add Category" @click="addOrFilter()">
+                    <w-add-circle></w-add-circle>
+                  </button>
                 </div>
               </div>
               <div class="whppt-settings__category">
