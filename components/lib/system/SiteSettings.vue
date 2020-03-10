@@ -103,13 +103,19 @@
           <fieldset>
             <div>
               <label for="name">Nav</label>
-              <button class="whppt-settings__button" @click="pubNav">
-                Publish Nav
-              </button>
+              <div>
+                <button class="whppt-settings__button" @click="pubNav">
+                  Publish Nav
+                </button>
+              </div>
+            </div>
+            <div>
               <label for="name">Footer</label>
-              <button class="whppt-settings__button" @click="pubFooter">
-                Publish Footer
-              </button>
+              <div>
+                <button class="whppt-settings__button" @click="pubFooter">
+                  Publish Footer
+                </button>
+              </div>
             </div>
           </fieldset>
         </div>

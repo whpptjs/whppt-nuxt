@@ -58,11 +58,11 @@
             <div class="whppt-redirects__icon" @click="publish(redirect)">
               <w-publish></w-publish>
             </div>
-            <div class="whppt-redirects__icon" @click="$emit('deleteRedirect', redirect)">
-              <w-remove></w-remove>
-            </div>
             <div class="whppt-redirects__icon" @click="unpublishRedirect(redirect)">
               <w-close></w-close>
+            </div>
+            <div class="whppt-redirects__icon" @click="$emit('deleteRedirect', redirect)">
+              <w-remove></w-remove>
             </div>
           </div>
         </div>
