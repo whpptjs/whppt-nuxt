@@ -122,16 +122,16 @@
 
               <button class="whppt-settings__button" @click="addCategory">Add New Category</button>
             </div>
-            <div class="whppt-flex whppt-w-full">
+            <div class="whppt-flex whppt-w-full" style="padding-top: 20px;">
               <div v-if="!selectedCat" class="whppt-flex-1">
                 <div
                   v-for="(category, index) in categories"
                   :key="index"
-                  class="whppt-settings__category whppt-flex-between"
-                  style="cursor: pointer"
+                  class="whppt-settings__category whppt-flex-between whppt-divider"
+                  style="cursor: pointer; margin-right: 20px;"
                   @click.stop="selectCat(category, index)"
                 >
-                  <div class="whppt-mb-2">
+                  <div class="whppt-mb-2 ">
                     {{ category.name }}
                   </div>
                   <div class="whppt-flex-between whppt-align-center">
@@ -151,7 +151,7 @@
                 </div>
               </div>
 
-              <div v-if="selectedCat" class="whppt-settings__category">
+              <div v-if="selectedCat" class="whppt-settings__category" style="width: 75%;">
                 <div class="whppt-flex-between whppt-align-center">
                   <label for="name">Category: </label>
                   <div class="whppt-redirects__icon" @click="selectedCat = undefined">
@@ -159,18 +159,25 @@
                   </div>
                 </div>
                 <div>
-                  <whppt-text-input v-model="selectedCat.name" placeholder="Enter category name" label="Name" />
+                  <whppt-text-input
+                    v-model="selectedCat.name"
+                    labelColour="black"
+                    placeholder="Enter category name"
+                    label="Name"
+                  />
                   <label>Filters: </label>
-                  <div class="whppt-flex-start whppt-align-center whppt-flex-wrap">
+                  <div>
                     <div v-for="(filter, filterIndex) in selectedCat.filters" :key="filterIndex">
-                      <div class="whppt-flex-start whppt-align-center ">
-                        <whppt-text-input
-                          v-model="filter.value"
-                          placeholder="Enter categories to filter by"
-                          info="event, restaurant, etc."
-                        />
+                      <div class="whppt-flex-start" style="align-items: flex-start">
+                        <div style="width: 100%;">
+                          <whppt-text-input
+                            v-model="filter.value"
+                            placeholder="Enter categories to filter by"
+                            info="event, restaurant, etc."
+                          />
+                        </div>
                         <button
-                          class="whppt-icon whppt-ml-auto"
+                          class="whppt-redirects__icon"
                           :class="selectedCat.filters.length <= 1 ? 'whppt-cursor-default' : ''"
                           aria-label="Remove Category"
                           @click="selectedCat.filters.length > 1 ? removeFilter(filterIndex) : ''"
@@ -181,16 +188,17 @@
                       <label
                         v-if="filterIndex < selectedCat.filters.length - 1"
                         class="whppt-text-gray-500 whppt-mr-4 whppt-ml-4"
+                        style="padding: 0 10px;"
                         >{{ '(AND)' }}</label
                       >
                     </div>
                   </div>
-                  <button class="whppt-icon whppt-ml-4" aria-label="Add Category" @click="addOrFilter()">
+                  <button class="whppt-redirects__icon" aria-label="Add Category" @click="addOrFilter()">
                     <w-add-circle></w-add-circle>
                   </button>
                 </div>
               </div>
-              <div class="whppt-settings__category">
+              <div class="whppt-settings__category" style="text-align: center; width: 25%;">
                 <div class="whppt-font-bold">
                   Tag category fields
                 </div>
@@ -226,8 +234,8 @@
       </form>
     </div>
     <div v-if="showWarning" class="whppt-settings__content">
-      <div class="whppt-settings__heading">
-        <h1>Site Settings</h1>
+      <div class="whppt-settings__heading whppt-flex-between">
+        <p class="whppt-settings__heading-text">Site Settings</p>
       </div>
       <div v-if="usedListings && usedListings.length" class="whppt-text-center">
         <p>
@@ -526,12 +534,12 @@ export default {
   position: relative;
 }
 
-.whppt-settings__category {
+/* .whppt-settings__category {
   border: 1px solid gray;
   margin: 10px;
   padding: 10px;
   flex: 1;
-}
+} */
 
 .whppt-settings__column {
   width: 50%;
