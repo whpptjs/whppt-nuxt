@@ -102,7 +102,7 @@
         <div>
           <fieldset>
             <div>
-              <label for="name">Nav</label>
+              <label>Nav</label>
               <div>
                 <button class="whppt-settings__button" @click="pubNav">
                   Publish Nav
@@ -110,11 +110,23 @@
               </div>
             </div>
             <div>
-              <label for="name">Footer</label>
+              <label>Footer</label>
               <div>
                 <button class="whppt-settings__button" @click="pubFooter">
                   Publish Footer
                 </button>
+              </div>
+            </div>
+            <div>
+              <label>Mailing List</label>
+              <div>
+                <whppt-text-input
+                  v-model="siteSettings.subscriptionListId"
+                  placeholder="e.g. 12345678"
+                  label="Subscription Mail List ID"
+                  labelColour="black"
+                  info="The ID of the mailing list that users will be subscribed to if they opt in."
+                />
               </div>
             </div>
           </fieldset>
