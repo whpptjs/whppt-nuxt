@@ -36,9 +36,11 @@ export default {
     select(event) {
       this.$emit('input', this.items[event.target.value]);
     },
-    getValue(obj, path) {
-      if (!path) return obj.title || obj.label;
-      return get(obj, path);
+    getValue(item, path) {
+      if (typeof item !== 'object') return item;
+      if (!path) return item.title || item.label;
+
+      return get(item, path);
     },
   },
 };

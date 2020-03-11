@@ -49,6 +49,13 @@
         </div>
         <div
           class="whppt-settings__tab"
+          :class="selectedTab === 'email' ? 'whppt-settings__tab-selected' : ''"
+          @click="selectedTab = 'email'"
+        >
+          Email
+        </div>
+        <div
+          class="whppt-settings__tab"
           :class="selectedTab === 'categories' ? 'whppt-settings__tab-selected' : ''"
           @click="selectedTab = 'categories'"
         >
@@ -102,20 +109,20 @@
         <div>
           <fieldset>
             <div>
+              <label for="email">Email</label>
+              <settings-email :settings="siteSettings"></settings-email>
+            </div>
+            <div>
               <label for="name">Nav</label>
-              <div>
-                <button class="whppt-settings__button" @click="pubNav">
-                  Publish Nav
-                </button>
-              </div>
+              <button class="whppt-settings__button" @click="pubNav">
+                Publish Nav
+              </button>
             </div>
             <div>
               <label for="name">Footer</label>
-              <div>
-                <button class="whppt-settings__button" @click="pubFooter">
-                  Publish Footer
-                </button>
-              </div>
+              <button class="whppt-settings__button" @click="pubFooter">
+                Publish Footer
+              </button>
             </div>
           </fieldset>
         </div>
@@ -238,6 +245,10 @@
           @swapPage="swapPage"
         ></settings-redirect>
       </form>
+
+      <form v-show="selectedTab === 'email'" @submit.prevent>
+        <settings-email :settings="siteSettings"></settings-email>
+      </form>
     </div>
     <div v-if="showWarning" class="whppt-settings__content">
       <div class="whppt-settings__heading whppt-flex-between">
@@ -285,11 +296,20 @@ import WhpptTextArea from '../whpptComponents/WhpptTextArea';
 import SettingsOpenGraph from './SettingsOG';
 import SettingsTwitter from './SettingsTwitter';
 import SettingsRedirect from './SettingsRedirect';
+import SettingsEmail from './SettingsEmail';
 import CustomListings from './CustomListings';
 
 export default {
   name: 'WhpptSiteSettings',
-  components: { WhpptTextInput, SettingsOpenGraph, SettingsTwitter, SettingsRedirect, WhpptTextArea, CustomListings },
+  components: {
+    WhpptTextInput,
+    SettingsOpenGraph,
+    SettingsTwitter,
+    SettingsRedirect,
+    SettingsEmail,
+    WhpptTextArea,
+    CustomListings,
+  },
   data() {
     return {
       loadedCategories: [],
