@@ -121,7 +121,7 @@ export default {
         });
     },
     getUrl(item) {
-      return `/${item.slug}`;
+      return `/${item.slug[0] || item.parentSlug[0]}`;
     },
     loadNextItems() {
       const filters = { from: this.from || undefined, to: this.to || undefined };

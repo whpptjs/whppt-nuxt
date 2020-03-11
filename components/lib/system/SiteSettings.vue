@@ -124,6 +124,18 @@
                 Publish Footer
               </button>
             </div>
+            <div>
+              <label>Mailing List</label>
+              <div>
+                <whppt-text-input
+                  v-model="siteSettings.subscriptionListId"
+                  placeholder="e.g. 12345678"
+                  label="Subscription Mail List ID"
+                  labelColour="black"
+                  info="The ID of the mailing list that users will be subscribed to if they opt in."
+                />
+              </div>
+            </div>
           </fieldset>
         </div>
       </form>
