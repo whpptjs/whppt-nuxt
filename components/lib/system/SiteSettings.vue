@@ -533,6 +533,7 @@ export default {
           }),
         };
       });
+      // TODO: need to check the email address is valid (empty is fine)
       this.saveSiteSettings({
         siteSettings: this.siteSettings,
         categories: formattedCategories,
