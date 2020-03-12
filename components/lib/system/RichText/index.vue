@@ -18,9 +18,9 @@
           <button aria-label="Paragraph" @click="commands.paragraph">
             <i-paragraph :fill="isActive.paragraph() ? 'orangered' : 'white'" />
           </button>
-          <button aria-label="Header Size 1" @click="commands.heading({ level: 1 })">
+          <!-- <button aria-label="Header Size 1" @click="commands.heading({ level: 1 })">
             <i-header1 :fill="isActive.heading({ level: 1 }) ? 'orangered' : 'white'" />
-          </button>
+          </button> -->
           <button aria-label="Header Size 2" @click="commands.heading({ level: 2 })">
             <i-header2 :fill="isActive.heading({ level: 2 }) ? 'orangered' : 'white'" />
           </button>
@@ -35,6 +35,8 @@
           <button aria-label="Ordered List" @click="commands.ordered_list">
             <i-ordered-list :fill="isActive.ordered_list() ? 'orangered' : 'white'" />
           </button>
+        </div>
+        <div v-if="!selectedComponent.hideLinks" class="whppt-menubar__section">
           <button aria-label="Create Link" @click="showLink(getMarkAttrs('link'))">
             <i-link :fill="isActive.link() ? 'orangered' : 'white'" />
           </button>

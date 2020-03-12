@@ -5,8 +5,7 @@
   <nuxt-link v-else-if="to.type === 'page'" :to="to.href">
     <slot></slot>
   </nuxt-link>
-  <a v-else-if="to.type === 'anchor'" :href="to.href" class="smooth" @click.prevent="navigateToAnchor(to.href)">
-    {{ to.type }}
+  <a v-else-if="to.type === 'anchor'" :href="to.href" @click.prevent="navigateToAnchor(to.href)">
     <slot></slot>
   </a>
   <a v-else :href="to.href" :target="to.type === 'external' && '_blank'">
@@ -41,15 +40,7 @@ export default {
 
       anchor.scrollIntoView({ behavior: 'smooth' });
       history.pushState(null, null, to);
-      // this.$router.hash = to;
-      // window.location.hash = to;
     },
   },
 };
 </script>
-
-<style>
-.smooth {
-  scroll-behavior: smooth;
-}
-</style>

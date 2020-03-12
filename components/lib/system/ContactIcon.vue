@@ -22,8 +22,8 @@ export default {
     items: [
       { label: 'Phone', value: 'phone' },
       { label: 'Email', value: 'email' },
-      { label: 'Postal', value: 'postal' },
-      { label: 'Website', value: 'website' },
+      { label: 'Address', value: 'location' },
+      { label: 'URL', value: 'url' },
     ],
   }),
   computed: mapState('whppt-nuxt/editor', ['selectedComponent']),
