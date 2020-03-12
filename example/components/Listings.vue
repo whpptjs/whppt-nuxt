@@ -1,7 +1,7 @@
 <template>
   <div
     v-listings="content"
-    data-property="'categories'"
+    data-property="categoryFilter"
     :style="{ 'margin-top': `${content.marginTop || $whppt.defaultMarginTop}px` }"
   >
     <div class="py-16 lg:p-16 mx-6">
@@ -17,8 +17,8 @@
                   <div class="bg-red-700 w-full lg:w-1/2"></div>
                   <div class="w-full lg:w-1/2 p-2 lg:p-12">
                     <div class="flex flex-col justify-between h-full">
-                      <h2 class="font-bold text-sm lg:text-base lg:mb-4">{{ item.atdw.productName }}</h2>
-                      <div v-if="item.atdw.verticalClassifications" class="my-4">
+                      <h2 class="font-bold text-sm lg:text-base lg:mb-4">{{ item.name.value }}</h2>
+                      <!-- <div v-if="item.atdw.verticalClassifications" class="my-4">
                         <h5 class="font-bold">ATDW Tags:</h5>
                         <div>
                           <span v-for="(tag, tagIndex) in item.atdw.verticalClassifications" :key="`tag-${tagIndex}`">
@@ -26,7 +26,7 @@
                             <span v-if="tagIndex + 1 < item.atdw.verticalClassifications.length">, </span>
                           </span>
                         </div>
-                      </div>
+                      </div> -->
                       <button
                         v-if="item.bookEasy"
                         class="mt-4 mr-2 bg-red-500 w-12 h-12 flex justify-center items-center"
@@ -81,23 +81,30 @@ export default {
     from() {
       this.filterItems();
     },
-    'content.categories'() {
-      const apiUrl = this.baseAPIUrl;
+    // 'content.categories'() {
+    //   const apiUrl = this.baseAPIUrl;
 
-      return this.$axios
-        .post(`${apiUrl}/api/listing/fetch`, { categories: this.content.categories })
-        .then(({ data }) => {
-          this.items = data.listings;
-          this.totalItems = data.totalListings;
-        });
-    },
+    //   return this.$axios
+    //     .post(`${apiUrl}/api/listing/fetch`, { categories: this.content.categories })
+    //     .then(({ data }) => {
+    //       this.items = data.listings;
+    //       this.totalItems = data.totalListings;
+    //     });
+    // },
   },
   mounted() {
-    const apiUrl = this.baseAPIUrl;
-    return this.$axios.post(`${apiUrl}/api/listing/fetch`, { categories: this.content.categories }).then(({ data }) => {
-      this.items = data.listings;
-      this.totalItems = data.totalListings;
-    });
+    return this.$axios
+      .post(`${this.baseAPIUrl}/api/listing/fetch`, {
+        categoryFilterId: this.content.categoryFilter && this.content.categoryFilter._id,
+        hideTours: true,
+      })
+      .then(({ data }) => {
+        this.items = data.listings;
+        this.totalItems = data.totalListings;
+        // this.listingCategories = map(data.listingCategories, c => {
+        //   return upperFirst(c);
+        // });
+      });
   },
   methods: {
     filterItems() {
@@ -114,7 +121,7 @@ export default {
         });
     },
     getUrl(item) {
-      return `/${item.slug}`;
+      return `/${item.slug[0] || item.parentSlug[0]}`;
     },
     loadNextItems() {
       const filters = { from: this.from || undefined, to: this.to || undefined };

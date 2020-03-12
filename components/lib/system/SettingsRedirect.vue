@@ -58,11 +58,11 @@
             <div class="whppt-redirects__icon" @click="publish(redirect)">
               <w-publish></w-publish>
             </div>
-            <div class="whppt-redirects__icon" @click="$emit('deleteRedirect', redirect)">
-              <w-remove></w-remove>
-            </div>
             <div class="whppt-redirects__icon" @click="unpublishRedirect(redirect)">
               <w-close></w-close>
+            </div>
+            <div class="whppt-redirects__icon" @click="$emit('deleteRedirect', redirect)">
+              <w-remove></w-remove>
             </div>
           </div>
         </div>
@@ -201,7 +201,6 @@ export default {
 }
 
 .whppt-redirects__icon {
-  border: 1px solid #981a31;
   cursor: pointer;
   border-radius: 50%;
   padding: 5px;

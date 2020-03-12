@@ -262,7 +262,7 @@
               </div>
             </div>
           </fieldset>
-          <fieldset>
+          <fieldset v-if="listing.atdwCategories">
             <whppt-tags-input label="ATDW Categories" :display-only="true" :tags="listing.atdwCategories.value" />
             <div class="whppt-atdw__form-controls">
               <span>Linked To: {{ listing.atdwCategories.path }}</span>
@@ -423,7 +423,7 @@ export default {
     //   });
     // },
     saveListing() {
-      const vm = this;
+      // const vm = this;
       // const newSlug = this.formattedSlug;
       // if (!newSlug) {
       //   this.$toast.global.editorError('Cannot use an empty slug');
@@ -443,10 +443,10 @@ export default {
         //   })
         //   .then(() => {
         this.$toast.global.editorSuccess('Listing Saved');
-        if (vm.page.template === 'listing') {
-          vm.$router.push(`/${vm.listing.slug}`);
-          vm.$emit('closeModal');
-        }
+        // if (vm.page.template === 'listing') {
+        //   vm.$router.push(`/${vm.listing.slug}`);
+        //   vm.$emit('closeModal');
+        // }
       });
       //     });
       //   }

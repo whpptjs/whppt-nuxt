@@ -50,14 +50,14 @@
 <script>
 import {
   Bold,
-  Italic,
-  Underline,
-  Heading,
   BulletList,
+  HardBreak,
+  Heading,
+  Italic,
+  Link,
   ListItem,
   OrderedList,
-  Link,
-  HardBreak,
+  Underline,
 } from 'tiptap-extensions';
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap';
 import { mapState } from 'vuex';
@@ -145,8 +145,7 @@ export default {
       this.editingLink = {};
     },
     showLink(attrs) {
-      const link = { type: 'page', href: '', text: '', openOnClick: false, ...attrs };
-      this.editingLink = link;
+      this.editingLink = { type: 'page', href: '', text: '', openOnClick: false, ...attrs };
     },
     closeLink() {
       this.editingLink = {};

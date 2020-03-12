@@ -206,13 +206,6 @@ export default {
   font-size: 0.75rem;
 }
 
-.whppt-settings__category {
-  border: 1px solid gray;
-  margin: 10px;
-  padding: 10px;
-  flex: 1;
-}
-
 .whppt-settings__column {
   width: 50%;
 }
