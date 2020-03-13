@@ -1,10 +1,17 @@
 <template>
   <div>
     <fieldset>
+      <label>The address to send out emails:</label>
       <div class="whppt-flex whppt-align-center">
         <whppt-text-input v-model="settings.emailLocal" placeholder="Give the mailbox a name" class="whppt-full" />
-        <span>@</span>
-        <whppt-select v-model="settings.emailDomain" :items="domains" action="Select a domain name" />
+        <div class="whppt-settings__email-at-sign">@</div>
+        <whppt-select
+          v-model="settings.emailDomain"
+          :items="domains"
+          action="Select a domain name"
+          class="whppt-full"
+          white
+        />
       </div>
     </fieldset>
   </div>
@@ -33,3 +40,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.whppt-settings__email-at-sign {
+  margin: 0 1rem;
+}
+</style>
