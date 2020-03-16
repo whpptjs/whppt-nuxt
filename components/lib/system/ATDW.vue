@@ -51,7 +51,12 @@
                 <button v-if="listing.name.path" class="whppt-settings__button" @click="disconnect(listing.name)">
                   Disconnect
                 </button>
-                <button v-if="!listing.name.path" class="whppt-settings__button" @click="openReconnectMenu('name')">
+                <button
+                  v-if="!listing.name.path"
+                  class="whppt-settings__button"
+                  type="button"
+                  @click="openReconnectMenu('name')"
+                >
                   Reconnect
                 </button>
               </div>
@@ -87,6 +92,7 @@
                 <button
                   v-if="!listing.description.path"
                   class="whppt-settings__button"
+                  type="button"
                   @click="openReconnectMenu('description')"
                 >
                   Reconnect
@@ -123,6 +129,7 @@
                 <button
                   v-if="!listing.activeStatus.path"
                   class="whppt-settings__button"
+                  type="button"
                   @click="openReconnectMenu('activeStatus')"
                 >
                   Reconnect
@@ -192,6 +199,7 @@
                 <button
                   v-if="!listing.physicalAddress.path"
                   class="whppt-settings__button"
+                  type="button"
                   @click="openReconnectMenu('physicalAddress')"
                 >
                   Reconnect
@@ -214,7 +222,12 @@
                 <button v-if="listing.phone.path" class="whppt-settings__button" @click="disconnect(listing.phone)">
                   Disconnect
                 </button>
-                <button v-if="!listing.phone.path" class="whppt-settings__button" @click="openReconnectMenu('phone')">
+                <button
+                  v-if="!listing.phone.path"
+                  class="whppt-settings__button"
+                  type="button"
+                  @click="openReconnectMenu('phone')"
+                >
                   Reconnect
                 </button>
               </div>
@@ -235,7 +248,12 @@
                 <button v-if="listing.email.path" class="whppt-settings__button" @click="disconnect(listing.email)">
                   Disconnect
                 </button>
-                <button v-if="!listing.email.path" class="whppt-settings__button" @click="openReconnectMenu('email')">
+                <button
+                  v-if="!listing.email.path"
+                  class="whppt-settings__button"
+                  type="button"
+                  @click="openReconnectMenu('email')"
+                >
                   Reconnect
                 </button>
               </div>
@@ -256,7 +274,12 @@
                 <button v-if="listing.image.path" class="whppt-settings__button" @click="disconnect(listing.image)">
                   Disconnect
                 </button>
-                <button v-if="!listing.image.path" class="whppt-settings__button" @click="openReconnectMenu('image')">
+                <button
+                  v-if="!listing.image.path"
+                  class="whppt-settings__button"
+                  type="button"
+                  @click="openReconnectMenu('image')"
+                >
                   Reconnect
                 </button>
               </div>
@@ -279,9 +302,8 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import { map, get, find } from 'lodash';
+import { get, find } from 'lodash';
 import { parse } from 'uri-js';
-import slugify from 'slugify';
 
 import WhpptTagsInput from '../whpptComponents/WhpptTagsInput';
 import WhpptTextInput from '../whpptComponents/WhpptTextInput';
@@ -361,9 +383,6 @@ export default {
     taggedCategories() {
       return [...this.listing.atdwCategories.value, this.listing.customCategories.value];
     },
-    // formattedSlug() {
-    //   return this.formatSlug(this.listing.slug);
-    // },
   },
   mounted() {
     if (!this.selectedComponent || !this.selectedComponent.value) return;
@@ -391,77 +410,14 @@ export default {
       this.showReconnect = !this.showReconnect;
       this.propToReconnect = property;
     },
-    // publish() {
-    //   const vm = this;
-    //   const newSlug = this.formattedSlug;
-    //   if (!newSlug) {
-    //     this.$toast.global.editorError('Cannot use an empty slug');
-    //     return;
-    //   }
-    //   return vm.$whppt.checkSlug({ slug: newSlug, _id: vm.listing._id }).then(result => {
-    //     if (result) {
-    //       this.$toast.global.editorError('Slug already in use');
-    //     } else {
-    //       vm.listing.slug = newSlug;
-    //       // return this.$axios.post(`${this.baseAPIUrl}/api/listing/save`, { listing: this.listing }).then(() => {
-    //       return this.$axios
-    //         .post(`${vm.baseAPIUrl}/api/page/updateFromListing`, {
-    //           _id: vm.listing._id,
-    //           slug: vm.listing.slug,
-    //           title: vm.listing.name.value,
-    //         })
-    //         .then(() => {
-    //           return vm.$whppt.publishListing(this.listing).then(() => {
-    //             if (vm.page.template === 'listing') {
-    //               vm.$router.push(`/${vm.listing.slug}`);
-    //               vm.$emit('closeModal');
-    //             }
-    //           });
-    //         });
-    //       // });
-    //     }
-    //   });
-    // },
     saveListing() {
-      // const vm = this;
-      // const newSlug = this.formattedSlug;
-      // if (!newSlug) {
-      //   this.$toast.global.editorError('Cannot use an empty slug');
-      //   return;
-      // }
-      // return vm.$whppt.checkSlug({ slug: newSlug, _id: vm.listing._id }).then(result => {
-      //   if (result) {
-      //     this.$toast.global.editorError('Slug already in use');
-      //   } else {
-      //     vm.listing.slug = newSlug;
       return this.$axios.post(`${this.baseAPIUrl}/api/listing/save`, { listing: this.listing }).then(() => {
-        // return this.$axios
-        //   .post(`${vm.baseAPIUrl}/api/page/updateFromListing`, {
-        //     _id: vm.listing._id,
-        //     slug: vm.listing.slug,
-        //     title: vm.listing.name.value,
-        //   })
-        //   .then(() => {
         this.$toast.global.editorSuccess('Listing Saved');
-        // if (vm.page.template === 'listing') {
-        //   vm.$router.push(`/${vm.listing.slug}`);
-        //   vm.$emit('closeModal');
-        // }
       });
-      //     });
-      //   }
-      // });
     },
     setStatus(value) {
       this.listing.activeStatus.value = value;
     },
-    // formatSlug(slug) {
-    //   if (slug.startsWith('/')) slug = slug.replace(/^(\/*)/, '');
-    //   slug = slug.replace(/\/{2,}/g, '/');
-
-    //   slug = slugify(slug, { remove: /[*+~.()'"!:@]/g, lower: true });
-    //   return slug;
-    // },
   },
 };
 </script>

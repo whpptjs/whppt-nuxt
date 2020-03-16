@@ -105,7 +105,6 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import { clamp } from 'lodash';
-import slugify from 'slugify';
 
 import WhpptTextInput from '../whpptComponents/WhpptTextInput';
 import WhpptTextArea from '../whpptComponents/WhpptTextArea';
