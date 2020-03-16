@@ -18,12 +18,12 @@ export default {
   components: { WhpptSelect, WhpptTextInput, WhpptButton },
   data: () => ({
     videoId: '',
-    platform: { id: '', value: '' },
-    items: [
-      { value: 'Youtube', id: 'youtube' },
-      { value: 'Vimeo', id: 'vimeo' },
-      { value: 'Dailymotion', id: 'dailymotion' },
-    ],
+    // platform: { key: '', label: '' },
+    // items: [
+    //   { label: 'Youtube', key: 'youtube' },
+    //   { label: 'Vimeo', key: 'vimeo' },
+    //   { label: 'Dailymotion', key: 'dailymotion' },
+    // ],
   }),
   computed: mapState('whppt-nuxt/editor', ['selectedComponent']),
   mounted() {
