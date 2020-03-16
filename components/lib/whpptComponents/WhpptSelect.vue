@@ -25,15 +25,15 @@ export default {
     action: { type: String, default: () => 'Please select ...' },
     label: { type: String, default: () => '' },
     value: { type: [Object, String, Number], default: () => undefined },
+    keyProp: { type: String, default: () => '' },
     valueProp: { type: String, default: () => '' },
-    idProp: { type: String, default: () => '' },
     white: { type: Boolean, default: () => false },
   },
   computed: {
     selectedIndex() {
       if (!this.value) return -1;
       return this.items.findIndex(item => {
-        if (typeof item === 'object') return item[this.idProp || 'id'] === this.value[this.idProp || 'id'];
+        if (typeof item === 'object') return item[this.keyProp || 'key'] === this.value[this.keyProp || 'key'];
         return item === this.value;
       });
     },
