@@ -36,6 +36,13 @@ export default options => ({
     },
     loadNav({ commit }) {
       return this.$whppt.loadNav().then(nav => {
+        nav.menus = nav.menus || [];
+        for (const ele of nav.menus) {
+          ele.links = ele.links || [];
+          for (const link of ele.links) {
+            link.featured = link.featured || false;
+          }
+        }
         commit('navLoaded', nav);
       });
     },
@@ -53,6 +60,7 @@ export default options => ({
     },
     saveSiteSettings({ commit }, { siteSettings, redirects, categories }) {
       return this.$whppt.saveSiteSettings({ siteSettings, redirects, categories }).then(() => {
+        commit('siteSettingsLoaded', siteSettings);
         this.$toast.global.editorSuccess('Site Settings Saved');
       });
     },

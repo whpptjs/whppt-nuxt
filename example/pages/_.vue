@@ -7,7 +7,7 @@
           {{ page.title || 'Plain Text' }}
         </div>
       </div>
-      <div class="my-8">
+      <div class="my-8" v-if="page.link">
         <h2 id="whppt-link" class="font-bold underline">Whppt Link Example</h2>
         <whppt-link v-link="page.link" :to="page.link">
           {{ page.link.text || 'Whppt Link' }}

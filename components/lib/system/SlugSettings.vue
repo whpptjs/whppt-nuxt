@@ -9,7 +9,7 @@
         <p class="whppt-settings__heading-text">Slug Settings</p>
         <button class="whppt-settings__button" @click="saveSettings">Save</button>
       </div>
-      <form @submit.prevent>
+      <form @submit.prevent="saveSettings">
         <div>
           <div v-if="prefix" class="whppt-flex-between whppt-align-center">
             <whppt-text-input
@@ -45,8 +45,15 @@
             </div>
           </div>
           <div v-if="errorMessage" style="color: red; font-style: italic;">{{ errorMessage }}</div>
-          <button v-if="page.published" class="whppt-settings__delete-button" @click="unpublish">Unpublish Page</button>
-          <button v-if="!page.published" class="whppt-settings__delete-button" @click="showWarning = true">
+          <button v-if="page.published" type="button" class="whppt-settings__delete-button" @click="unpublish">
+            Unpublish Page
+          </button>
+          <button
+            v-if="!page.published"
+            type="button"
+            class="whppt-settings__delete-button"
+            @click="showWarning = true"
+          >
             Delete Page
           </button>
         </div>
@@ -112,10 +119,7 @@ export default {
   methods: {
     ...mapActions('whppt-nuxt/page', ['savePage', 'unpublishPage', 'deletePage']),
     confirmSlug(value) {
-      if (value.startsWith('/')) value = value.replace(/^(\/*)/, '');
-      value = value.replace(/\/{2,}/g, '/');
-
-      value = slugify(value, { remove: /[*+~.()'"!:@]/g, lower: true });
+      value = this.formatSlug(value);
       if (this.prefix) value = `${this.prefix}/${value}`;
       this.page.slug = value;
     },
@@ -161,6 +165,7 @@ export default {
       slug = slug.replace(/\/{2,}/g, '/');
 
       slug = slugify(slug, { remove: /[*+~.()'"!:@]/g, lower: true });
+      slug = slug.replace(/[#?]/g, '');
       // if(this.prefix) slug = `${this.prefix}/${slug}`
       return slug;
     },

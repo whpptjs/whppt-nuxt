@@ -40,6 +40,11 @@ export default {
       return this.$whppt.templates;
     },
   },
+  mounted() {
+    if (!this.page || !this.page._id) {
+      this.slug = this.formatSlug(this.$router.currentRoute.path);
+    }
+  },
   methods: {
     ...mapActions('whppt-nuxt/editor', ['closeSidebar']),
     saveNewPage() {
@@ -73,6 +78,8 @@ export default {
       slug = slug.replace(/\/{2,}/g, '/');
 
       slug = slugify(slug, { remove: /[*+~.()'"!:@]/g, lower: true });
+      slug = slug.replace(/[#?]/g, '');
+
       return slug;
     },
   },

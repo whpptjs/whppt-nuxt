@@ -2,7 +2,6 @@ import AnchorMenu from './AnchorMenu';
 import Atdw from './ATDW';
 import Colours from './Colours';
 import ContactIcon from './ContactIcon';
-import CtaButton from './CTAButton';
 import Default from './Default';
 import EContent from './Content';
 import EditImage from './EditImage';
@@ -16,13 +15,14 @@ import RichText from './RichText';
 import SplitContent from './SplitContent';
 import WhpptPage from './WhpptPage';
 import WLink from './Link';
+// import VideoBlock from './_VideoBlock';
+import Youtube from './Youtube';
 
 export {
   AnchorMenu,
   Atdw,
   Colours,
   ContactIcon,
-  CtaButton,
   Default,
   EContent,
   EditImage,
@@ -36,4 +36,6 @@ export {
   SplitContent,
   WhpptPage,
   WLink,
+  Youtube,
+  // _VideoBlock,
 };

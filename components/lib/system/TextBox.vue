@@ -13,11 +13,10 @@
 <script>
 import { mapState } from 'vuex';
 import WhpptTextInput from '../whpptComponents/WhpptTextInput';
-import WhpptSelect from '../whpptComponents/WhpptSelect';
 
 export default {
   name: 'EditorTextBox',
-  components: { WhpptSelect, WhpptTextInput },
+  components: { WhpptTextInput },
   computed: mapState('whppt-nuxt/editor', ['selectedComponent']),
 };
 </script>

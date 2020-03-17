@@ -105,7 +105,6 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import { clamp } from 'lodash';
-import slugify from 'slugify';
 
 import WhpptTextInput from '../whpptComponents/WhpptTextInput';
 import WhpptTextArea from '../whpptComponents/WhpptTextArea';
@@ -204,13 +203,6 @@ export default {
   padding: 0.75rem 1rem;
   line-height: 1.25;
   font-size: 0.75rem;
-}
-
-.whppt-settings__category {
-  border: 1px solid gray;
-  margin: 10px;
-  padding: 10px;
-  flex: 1;
 }
 
 .whppt-settings__column {

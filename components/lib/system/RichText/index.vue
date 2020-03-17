@@ -18,9 +18,9 @@
           <button aria-label="Paragraph" @click="commands.paragraph">
             <i-paragraph :fill="isActive.paragraph() ? 'orangered' : 'white'" />
           </button>
-          <button aria-label="Header Size 1" @click="commands.heading({ level: 1 })">
+          <!-- <button aria-label="Header Size 1" @click="commands.heading({ level: 1 })">
             <i-header1 :fill="isActive.heading({ level: 1 }) ? 'orangered' : 'white'" />
-          </button>
+          </button> -->
           <button aria-label="Header Size 2" @click="commands.heading({ level: 2 })">
             <i-header2 :fill="isActive.heading({ level: 2 }) ? 'orangered' : 'white'" />
           </button>

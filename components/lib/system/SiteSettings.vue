@@ -49,11 +49,25 @@
         </div>
         <div
           class="whppt-settings__tab"
+          :class="selectedTab === 'email' ? 'whppt-settings__tab-selected' : ''"
+          @click="selectedTab = 'email'"
+        >
+          Email
+        </div>
+        <div
+          class="whppt-settings__tab"
           :class="selectedTab === 'categories' ? 'whppt-settings__tab-selected' : ''"
           @click="selectedTab = 'categories'"
         >
           Categories
         </div>
+        <!-- <div
+          class="whppt-settings__tab"
+          :class="selectedTab === 'customListings' ? 'whppt-settings__tab-selected' : ''"
+          @click="selectedTab = 'customListings'"
+        >
+          Custom Listings
+        </div> -->
       </div>
       <form v-show="selectedTab === 'seo'" @submit.prevent>
         <div>
@@ -94,12 +108,34 @@
       <form v-show="selectedTab === 'general'" @submit.prevent>
         <div>
           <fieldset>
-            <button class="whppt-settings__button" style="display: flex" @click="pubNav">
-              Publish Nav
-            </button>
-            <button class="whppt-settings__button" style="display: flex" @click="pubFooter">
-              Publish Footer
-            </button>
+            <div>
+              <label for="email">Email</label>
+              <settings-email :settings="siteSettings"></settings-email>
+            </div>
+            <div>
+              <label for="name">Nav</label>
+              <button class="whppt-settings__button" @click="pubNav">
+                Publish Nav
+              </button>
+            </div>
+            <div>
+              <label for="name">Footer</label>
+              <button class="whppt-settings__button" @click="pubFooter">
+                Publish Footer
+              </button>
+            </div>
+            <div>
+              <label>Mailing List</label>
+              <div>
+                <whppt-text-input
+                  v-model="siteSettings.subscriptionListId"
+                  placeholder="e.g. 12345678"
+                  label="Subscription Mail List ID"
+                  labelColour="black"
+                  info="The ID of the mailing list that users will be subscribed to if they opt in."
+                />
+              </div>
+            </div>
           </fieldset>
         </div>
       </form>
@@ -111,79 +147,83 @@
 
               <button class="whppt-settings__button" @click="addCategory">Add New Category</button>
             </div>
-            <div class="whppt-flex whppt-w-full">
+            <div class="whppt-flex whppt-w-full" style="padding-top: 20px;">
               <div v-if="!selectedCat" class="whppt-flex-1">
                 <div
                   v-for="(category, index) in categories"
                   :key="index"
-                  class="whppt-settings__category whppt-flex-between"
+                  class="whppt-settings__category whppt-flex-between whppt-divider"
+                  style="cursor: pointer; margin-right: 20px;"
+                  @click.stop="selectCat(category, index)"
                 >
-                  <div class="whppt-mb-2" @click="selectCat(category, index)">
+                  <div class="whppt-mb-2 ">
                     {{ category.name }}
                   </div>
                   <div class="whppt-flex-between whppt-align-center">
-                    <div class="whppt-redirects__icon" @click="saveCat(category)">
+                    <div class="whppt-redirects__icon" @click.stop="saveCat(category)">
                       <w-save></w-save>
                     </div>
-                    <div class="whppt-redirects__icon" @click="publishCat(category)">
+                    <div class="whppt-redirects__icon" @click.stop="publishCat(category)">
                       <w-publish></w-publish>
                     </div>
-                    <div class="whppt-redirects__icon" @click="openWarning(category)">
-                      <w-remove></w-remove>
-                    </div>
-                    <div class="whppt-redirects__icon" @click="unpublishCat(category)">
+                    <div class="whppt-redirects__icon" @click.stop="unpublishCat(category)">
                       <w-close></w-close>
+                    </div>
+                    <div class="whppt-redirects__icon" @click.stop="openWarning(category)">
+                      <w-remove></w-remove>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div v-if="selectedCat" class="whppt-settings__category">
-                <div @click="selectedCat = undefined">
-                  close
+              <div v-if="selectedCat" class="whppt-settings__category" style="width: 75%;">
+                <div class="whppt-flex-between whppt-align-center">
+                  <label for="name">Category: </label>
+                  <div class="whppt-redirects__icon" @click="selectedCat = undefined">
+                    <w-close></w-close>
+                  </div>
                 </div>
                 <div>
-                  <label for="name">Category: </label>
-                  <div class="whppt-flex-between whppt-align-center">
-                    <whppt-text-input v-model="selectedCat.name" placeholder="Enter category name" label="Name" />
-                    <button class="whppt-icon whppt-ml-auto" aria-label="Remove Category" @click="openWarning()">
-                      <w-remove></w-remove>
-                    </button>
-                  </div>
-
+                  <whppt-text-input
+                    v-model="selectedCat.name"
+                    labelColour="black"
+                    placeholder="Enter category name"
+                    label="Name"
+                  />
                   <label>Filters: </label>
-                  <div class="whppt-flex-start whppt-align-center whppt-flex-wrap">
+                  <div>
                     <div v-for="(filter, filterIndex) in selectedCat.filters" :key="filterIndex">
-                      <div class="whppt-flex-start whppt-align-center ">
-                        <div>
-                          <button
-                            class="whppt-icon whppt-ml-auto"
-                            :class="selectedCat.filters.length <= 1 ? 'whppt-cursor-default' : ''"
-                            aria-label="Remove Category"
-                            @click="selectedCat.filters.length > 1 ? removeFilter(filterIndex) : ''"
-                          >
-                            <w-remove :class="selectedCat.filters.length <= 1 ? 'whppt-text-gray-500' : ''"></w-remove>
-                          </button>
+                      <div class="whppt-flex-start" style="align-items: flex-start">
+                        <div style="width: 100%;">
                           <whppt-text-input
                             v-model="filter.value"
                             placeholder="Enter categories to filter by"
                             info="event, restaurant, etc."
                           />
                         </div>
-                        <label
-                          v-if="filterIndex < selectedCat.filters.length - 1"
-                          class="whppt-text-gray-500 whppt-mr-4 whppt-ml-4"
-                          >{{ '(AND)' }}</label
+                        <button
+                          class="whppt-redirects__icon"
+                          :class="selectedCat.filters.length <= 1 ? 'whppt-cursor-default' : ''"
+                          aria-label="Remove Category"
+                          @click="selectedCat.filters.length > 1 ? removeFilter(filterIndex) : ''"
                         >
+                          <w-remove :class="selectedCat.filters.length <= 1 ? 'whppt-text-gray-500' : ''"></w-remove>
+                        </button>
                       </div>
+                      <label
+                        v-if="filterIndex < selectedCat.filters.length - 1"
+                        class="whppt-text-gray-500 whppt-mr-4 whppt-ml-4"
+                        style="padding: 0 10px;"
+                        >{{ '(AND)' }}</label
+                      >
                     </div>
-                    <button class="whppt-icon whppt-ml-4" aria-label="Add Category" @click="addOrFilter()">
-                      <w-add-circle></w-add-circle>
-                    </button>
                   </div>
+                  <button class="whppt-redirects__icon" aria-label="Add Category" @click="addOrFilter()">
+                    <w-add-circle></w-add-circle>
+                  </button>
                 </div>
               </div>
-              <div class="whppt-settings__category">
+              <div class="whppt-settings__category" style="text-align: center; width: 25%;">
                 <div class="whppt-font-bold">
                   Tag category fields
                 </div>
@@ -199,6 +239,9 @@
       <form v-show="selectedTab === 'og'" @submit.prevent>
         <settings-open-graph :settings="siteSettings"></settings-open-graph>
       </form>
+      <!-- <form v-show="selectedTab === 'customListings'" @submit.prevent>
+        <custom-listings></custom-listings>
+      </form> -->
 
       <form v-show="selectedTab === 'twitter'" @submit.prevent>
         <settings-twitter :settings="siteSettings"></settings-twitter>
@@ -214,10 +257,14 @@
           @swapPage="swapPage"
         ></settings-redirect>
       </form>
+
+      <form v-show="selectedTab === 'email'" @submit.prevent>
+        <settings-email :settings="siteSettings"></settings-email>
+      </form>
     </div>
     <div v-if="showWarning" class="whppt-settings__content">
-      <div class="whppt-settings__heading">
-        <h1>Site Settings</h1>
+      <div class="whppt-settings__heading whppt-flex-between">
+        <p class="whppt-settings__heading-text">Site Settings</p>
       </div>
       <div v-if="usedListings && usedListings.length" class="whppt-text-center">
         <p>
@@ -261,10 +308,20 @@ import WhpptTextArea from '../whpptComponents/WhpptTextArea';
 import SettingsOpenGraph from './SettingsOG';
 import SettingsTwitter from './SettingsTwitter';
 import SettingsRedirect from './SettingsRedirect';
+import SettingsEmail from './SettingsEmail';
+import CustomListings from './CustomListings';
 
 export default {
   name: 'WhpptSiteSettings',
-  components: { WhpptTextInput, SettingsOpenGraph, SettingsTwitter, SettingsRedirect, WhpptTextArea },
+  components: {
+    WhpptTextInput,
+    SettingsOpenGraph,
+    SettingsTwitter,
+    SettingsRedirect,
+    SettingsEmail,
+    WhpptTextArea,
+    CustomListings,
+  },
   data() {
     return {
       loadedCategories: [],
@@ -476,6 +533,7 @@ export default {
           }),
         };
       });
+      // TODO: need to check the email address is valid (empty is fine)
       this.saveSiteSettings({
         siteSettings: this.siteSettings,
         categories: formattedCategories,
@@ -515,12 +573,12 @@ export default {
   position: relative;
 }
 
-.whppt-settings__category {
+/* .whppt-settings__category {
   border: 1px solid gray;
   margin: 10px;
   padding: 10px;
   flex: 1;
-}
+} */
 
 .whppt-settings__column {
   width: 50%;
