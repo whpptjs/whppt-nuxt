@@ -48,8 +48,4 @@ export default {
   font-size: 14px;
   margin-left: 10px;
 }
-
-.whppt-checkbox:focus {
-  outline: none;
-}
 </style>
