@@ -67,7 +67,7 @@ export default {
 
       const siteTabs = this.options.siteSettings;
 
-      tabs.push(...siteTabs);
+      if (siteTabs && siteTabs.length) tabs.push(...siteTabs);
 
       return tabs;
     },
