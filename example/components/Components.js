@@ -11,6 +11,7 @@ import wCtaButton from './CTAButton';
 import SplitContent from './SplitContent';
 import ContactIcon from './ContactIcon';
 import ImageNavigation from './ImageNavigation';
+import Chapters from './SettingsChapters';
 
 export {
   FeatureBlock,
@@ -25,4 +26,5 @@ export {
   SplitContent,
   ContactIcon,
   ImageNavigation,
+  Chapters,
 };

@@ -78,7 +78,7 @@
                   v-model="siteSettings.title"
                   placeholder="Enter a title"
                   label="Title"
-                  labelColour="black"
+                  label-colour="black"
                   info="This title will be used as a fallback for any page without one. The page title is shown in the browser's tab and used by search engines to match your page with search terms. Search results use the title to list the page."
                 />
               </div>
@@ -87,7 +87,7 @@
                   v-model="siteSettings.keywords"
                   placeholder="keywords (eg. page, simple)"
                   label="Keywords"
-                  labelColour="black"
+                  label-colour="black"
                   info="These keywords will be used as a fallback for any page without them. Keywords are not shown on the page and are used by search engines to match your page with search terms. Comma seperate your values to add multiple."
                 />
               </div>
@@ -305,20 +305,20 @@ import { mapState, mapActions } from 'vuex';
 
 import WhpptTextInput from '../whpptComponents/WhpptTextInput';
 import WhpptTextArea from '../whpptComponents/WhpptTextArea';
-import SettingsOpenGraph from './SettingsOG';
-import SettingsTwitter from './SettingsTwitter';
-import SettingsRedirect from './SettingsRedirect';
-import SettingsEmail from './SettingsEmail';
+// import SettingsOpenGraph from './__SettingsOG';
+// import SettingsTwitter from './__SettingsTwitter';
+// import SettingsRedirect from './__SettingsRedirect';
+// import SettingsEmail from './__SettingsEmail';
 import CustomListings from './CustomListings';
 
 export default {
   name: 'WhpptSiteSettings',
   components: {
     WhpptTextInput,
-    SettingsOpenGraph,
-    SettingsTwitter,
-    SettingsRedirect,
-    SettingsEmail,
+    // SettingsOpenGraph,
+    // SettingsTwitter,
+    // SettingsRedirect,
+    // SettingsEmail,
     WhpptTextArea,
     CustomListings,
   },
@@ -341,14 +341,14 @@ export default {
       limit: 4,
     };
   },
-  computed: {
-    ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
-    orderedAllCats() {
-      return orderBy(this.allCategories);
-    },
-  },
+  // computed: {
+  //   ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
+  //   orderedAllCats() {
+  //     return orderBy(this.allCategories);
+  //   },
+  // },
   mounted() {
-    this.queryCategories();
+    // this.queryCategories();
     this.loadSiteSettings();
     this.loadRedirects();
   },
@@ -360,56 +360,56 @@ export default {
     pubFooter() {
       this.publishFooter();
     },
-    saveCat(category) {
-      const newCat = {
-        name: category.name,
-        _id: category._id,
-        filters: map(category.filters, filter => {
-          return filter.value.split(',');
-        }),
-      };
-      return this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveCategory`, { category: newCat }).then(() => {
-        this.queryCategories();
-        this.$toast.global.editorSuccess('Category Saved');
-      });
-    },
-    publishCat(category) {
-      const newCat = {
-        name: category.name,
-        _id: category._id,
-        filters: map(category.filters, filter => {
-          return filter.value.split(',');
-        }),
-      };
-      const vm = this;
-      return vm.$axios.post(`${vm.baseAPIUrl}/api/siteSettings/publishCategory`, { category: newCat }).then(() => {
-        category.published = true;
-        vm.$toast.global.editorSuccess('Category Published');
-      });
-    },
-    unpublishCat(category) {
-      if (!category.published) return this.$toast.global.editorError("Category isn't published");
-      const vm = this;
-      return vm.$axios.post(`${vm.baseAPIUrl}/api/siteSettings/unpublishCategory`, { _id: category._id }).then(() => {
-        category.published = false;
-        vm.$toast.global.editorSuccess('Category Unpublished');
-      });
-    },
-    deleteCat(_id) {
-      return this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/deleteCategory`, { _id }).then(() => {
-        this.queryCategories();
-      });
-    },
-    queryCategories() {
-      return Promise.all([
-        this.$axios.get(`${this.baseAPIUrl}/api/siteSettings/loadCategories`),
-        this.$axios.get(`${this.baseAPIUrl}/api/listing/fetchCategories`),
-      ]).then(([{ data }, { data: categories }]) => {
-        this.allCategories = categories;
-        this.loadedCategories = data;
-        this.formatCategories();
-      });
-    },
+    // saveCat(category) {
+    //   const newCat = {
+    //     name: category.name,
+    //     _id: category._id,
+    //     filters: map(category.filters, filter => {
+    //       return filter.value.split(',');
+    //     }),
+    //   };
+    //   return this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveCategory`, { category: newCat }).then(() => {
+    //     this.queryCategories();
+    //     this.$toast.global.editorSuccess('Category Saved');
+    //   });
+    // },
+    // publishCat(category) {
+    //   const newCat = {
+    //     name: category.name,
+    //     _id: category._id,
+    //     filters: map(category.filters, filter => {
+    //       return filter.value.split(',');
+    //     }),
+    //   };
+    //   const vm = this;
+    //   return vm.$axios.post(`${vm.baseAPIUrl}/api/siteSettings/publishCategory`, { category: newCat }).then(() => {
+    //     category.published = true;
+    //     vm.$toast.global.editorSuccess('Category Published');
+    //   });
+    // },
+    // unpublishCat(category) {
+    //   if (!category.published) return this.$toast.global.editorError("Category isn't published");
+    //   const vm = this;
+    //   return vm.$axios.post(`${vm.baseAPIUrl}/api/siteSettings/unpublishCategory`, { _id: category._id }).then(() => {
+    //     category.published = false;
+    //     vm.$toast.global.editorSuccess('Category Unpublished');
+    //   });
+    // },
+    // deleteCat(_id) {
+    //   return this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/deleteCategory`, { _id }).then(() => {
+    //     this.queryCategories();
+    //   });
+    // },
+    // queryCategories() {
+    //   return Promise.all([
+    //     this.$axios.get(`${this.baseAPIUrl}/api/siteSettings/loadCategories`),
+    //     this.$axios.get(`${this.baseAPIUrl}/api/listing/fetchCategories`),
+    //   ]).then(([{ data }, { data: categories }]) => {
+    //     this.allCategories = categories;
+    //     this.loadedCategories = data;
+    //     this.formatCategories();
+    //   });
+    // },
     loadSiteSettings() {
       return this.$axios.get(`${this.baseAPIUrl}/api/siteSettings/loadSiteSettings`).then(({ data: siteSettings }) => {
         this.siteSettings = siteSettings || { _id: 'siteSettings' };
@@ -452,77 +452,77 @@ export default {
     addedRedirect(newRedirect) {
       this.loadRedirects();
     },
-    selectCat(category, index) {
-      this.selectedCat = category;
-      this.selectedIndex = index;
-    },
-    formatCategories() {
-      this.categories = map(this.loadedCategories, category => {
-        return {
-          ...category,
-          filters: map(category.filters, filter => {
-            return {
-              value: filter.join(','),
-            };
-          }),
-        };
-      });
-    },
-    addCategory() {
-      let newCat = { name: `New Category ${this.categories.length + 1}`, filters: [{ value: '' }] };
-      newCat = {
-        name: newCat.name,
-        _id: newCat._id,
-        filters: map(newCat.filters, filter => {
-          return filter.value.split(',');
-        }),
-      };
-      return this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveCategory`, { category: newCat }).then(() => {
-        this.queryCategories();
-        this.$toast.global.editorSuccess('Category Added');
-      });
-    },
-    addOrFilter() {
-      this.selectedCat.filters.push({ value: '' });
-    },
-    removeFromList(index) {
-      this.categories.splice(index, 1);
-    },
-    removeFilter(filterIndex) {
-      this.selectedCat.filters.splice(filterIndex, 1);
-    },
-    closeWarning() {
-      this.showWarning = false;
-      this.usedListings = [];
-    },
-    openWarning(category) {
-      if (category.published) return this.$toast.global.editorError('Category has to be unpublished first');
-
-      this.selectedCat = this.selectedCat || category;
-      if (!this.selectedCat._id) {
-        this.removeFromList(this.selectedIndex);
-        this.selectedCat = undefined;
-        this.selectedIndex = undefined;
-      } else {
-        return this.$axios
-          .post(`${this.baseAPIUrl}/api/siteSettings/getWarningInfo`, { _id: this.selectedCat._id })
-          .then(({ data }) => {
-            this.usedListings = data;
-            this.showWarning = true;
-          });
-      }
-    },
-    removeCategory() {
-      const vm = this;
-      return vm.$axios
-        .post(`${vm.baseAPIUrl}/api/siteSettings/deleteCategory`, { _id: vm.selectedCat._id })
-        .then(() => {
-          vm.categories = remove(vm.categories, c => c._id !== vm.selectedCat._id);
-          vm.showWarning = false;
-          vm.selectedCat = undefined;
-          vm.selectedIndex = undefined;
-        });
-    },
+    // selectCat(category, index) {
+    //   this.selectedCat = category;
+    //   this.selectedIndex = index;
+    // },
+    // formatCategories() {
+    //   this.categories = map(this.loadedCategories, category => {
+    //     return {
+    //       ...category,
+    //       filters: map(category.filters, filter => {
+    //         return {
+    //           value: filter.join(','),
+    //         };
+    //       }),
+    //     };
+    //   });
+    // },
+    // addCategory() {
+    //   let newCat = { name: `New Category ${this.categories.length + 1}`, filters: [{ value: '' }] };
+    //   newCat = {
+    //     name: newCat.name,
+    //     _id: newCat._id,
+    //     filters: map(newCat.filters, filter => {
+    //       return filter.value.split(',');
+    //     }),
+    //   };
+    //   return this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveCategory`, { category: newCat }).then(() => {
+    //     this.queryCategories();
+    //     this.$toast.global.editorSuccess('Category Added');
+    //   });
+    // },
+    // addOrFilter() {
+    //   this.selectedCat.filters.push({ value: '' });
+    // },
+    // removeFromList(index) {
+    //   this.categories.splice(index, 1);
+    // },
+    // removeFilter(filterIndex) {
+    //   this.selectedCat.filters.splice(filterIndex, 1);
+    // },
+    // closeWarning() {
+    //   this.showWarning = false;
+    //   this.usedListings = [];
+    // },
+    // openWarning(category) {
+    //   if (category.published) return this.$toast.global.editorError('Category has to be unpublished first');
+    //
+    //   this.selectedCat = this.selectedCat || category;
+    //   if (!this.selectedCat._id) {
+    //     this.removeFromList(this.selectedIndex);
+    //     this.selectedCat = undefined;
+    //     this.selectedIndex = undefined;
+    //   } else {
+    //     return this.$axios
+    //       .post(`${this.baseAPIUrl}/api/siteSettings/getWarningInfo`, { _id: this.selectedCat._id })
+    //       .then(({ data }) => {
+    //         this.usedListings = data;
+    //         this.showWarning = true;
+    //       });
+    //   }
+    // },
+    // removeCategory() {
+    //   const vm = this;
+    //   return vm.$axios
+    //     .post(`${vm.baseAPIUrl}/api/siteSettings/deleteCategory`, { _id: vm.selectedCat._id })
+    //     .then(() => {
+    //       vm.categories = remove(vm.categories, c => c._id !== vm.selectedCat._id);
+    //       vm.showWarning = false;
+    //       vm.selectedCat = undefined;
+    //       vm.selectedIndex = undefined;
+    //     });
+    // },
     saveSettings() {
       const formattedCategories = map(this.categories, category => {
         return {
@@ -563,6 +563,76 @@ export default {
 </script>
 
 <style>
+.whppt-settings {
+  color: black;
+  display: flex;
+  z-index: 52;
+  width: 75%;
+  min-height: 80vh;
+  max-height: 90vh;
+  margin: 1.5rem;
+  position: relative;
+}
+
+.whppt-settings__content {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  overflow-y: auto;
+  width: 100%;
+}
+
+.whppt-settings__heading {
+  align-items: center;
+  font-weight: bold;
+  background: white;
+  position: sticky;
+  top: 0;
+  left: 0;
+  display: flex;
+  width: 100%;
+  padding: 2.5rem 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+  height: 4rem;
+}
+
+.whppt-settings__button {
+  color: #981a31;
+  border-radius: 0.5rem;
+  margin-left: auto;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #981a31;
+}
+
+.whppt-settings__tabs {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  color: #981a31;
+  padding: 1rem 1rem 0 1rem;
+}
+
+.whppt-settings__tab {
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  margin: 0 0.5rem;
+}
+
+.whppt-settings__tab-selected {
+  background: #981a31;
+  color: white;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  margin: 0 0.5rem;
+}
+
+.whppt-settings__heading-text {
+  font-size: 1.75rem;
+  color: #981a31;
+}
+
 .whppt-warning {
   color: black;
   display: flex;
