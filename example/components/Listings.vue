@@ -11,7 +11,12 @@
       <div v-if="items.length" class="flex flex-wrap -mx-2">
         <div>
           <div v-if="items.length" class="flex flex-wrap -mx-2">
-            <div v-for="(item, index) in items" :key="`item-${index}`" v-listing="item._id" class="w-1/2 py-2 px-2">
+            <div
+              v-for="(item, index) in items"
+              :key="`item-${index}`"
+              v-listing="{ id: item._id, refresh: queryListings }"
+              class="w-1/2 py-2 px-2"
+            >
               <whppt-link :to="{ href: getUrl(item) }">
                 <div class="flex flex-col lg:flex-row bg-white h-full">
                   <div class="bg-red-700 w-full lg:w-1/2"></div>
@@ -50,6 +55,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import { map, upperFirst } from 'lodash';
 
 export default {
   name: 'ListingsComponent',
@@ -107,6 +113,25 @@ export default {
       });
   },
   methods: {
+    queryListings() {
+      const filters = { from: this.from || undefined, to: this.to || undefined };
+      return this.$axios
+        .post(`${this.baseAPIUrl}/api/listing/fetch`, {
+          categoryFilterId: this.content.categoryFilter && this.content.categoryFilter._id,
+          filters,
+          hideTours: true,
+          limit: this.limit,
+          currentPage: this.currentPage,
+          checkedCategories: this.checkedCategories,
+        })
+        .then(({ data }) => {
+          this.items = data.listings;
+          this.totalItems = data.totalListings;
+          this.listingCategories = map(data.listingCategories, c => {
+            return upperFirst(c);
+          });
+        });
+    },
     filterItems() {
       const filters = { from: this.from || undefined, to: this.to || undefined };
       const apiUrl = this.baseAPIUrl;
