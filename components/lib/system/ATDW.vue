@@ -413,6 +413,7 @@ export default {
     saveListing() {
       return this.$axios.post(`${this.baseAPIUrl}/api/listing/save`, { listing: this.listing }).then(() => {
         this.$toast.global.editorSuccess('Listing Saved');
+        this.selectedComponent.refresh();
       });
     },
     setStatus(value) {

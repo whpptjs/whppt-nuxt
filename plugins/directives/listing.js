@@ -8,7 +8,10 @@ const ListingComponentClickHandler = ({ store, menuIsInState, MENUSTATES, el, bi
     store.dispatch('whppt-nuxt/editor/clearSelectedComponent');
     store.dispatch('whppt-nuxt/editor/clearSelectedContent');
     const property = el.getAttribute('data-property');
-    store.dispatch('whppt-nuxt/editor/selectComponent', { el, value: { value: binding.value, property } });
+    store.dispatch('whppt-nuxt/editor/selectComponent', {
+      el,
+      value: { value: binding.value, property, refresh: binding.refresh },
+    });
     notifyContent(el);
     store.commit('whppt-nuxt/editor/editInModal', 'atdw');
   };
@@ -16,12 +19,14 @@ const ListingComponentClickHandler = ({ store, menuIsInState, MENUSTATES, el, bi
 export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
   Vue.directive('listing', {
     bind(el, binding) {
+      const value = { value: binding.value.id, refresh: binding.value.refresh };
+
       el.whppthandler = ListingComponentClickHandler({
         store,
         menuIsInState,
         MENUSTATES,
         el,
-        binding,
+        binding: value,
       });
       el.addEventListener('click', el.whppthandler);
       el.addEventListener('mouseover', function(e) {
@@ -37,13 +42,16 @@ export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
       delete el.whppthandler;
     },
     update(el, binding) {
+      const property = el.getAttribute('data-property');
       el.removeEventListener('click', el.whppthandler);
+      const value = { value: binding.value.id, property, refresh: binding.value.refresh };
+
       el.whppthandler = ListingComponentClickHandler({
         store,
         menuIsInState,
         MENUSTATES,
         el,
-        binding,
+        binding: value,
       });
       el.addEventListener('click', el.whppthandler);
     },
