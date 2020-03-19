@@ -45,6 +45,14 @@ const options = JSON.parse(`<%= JSON.stringify(options) %>`);
 export default (context, inject) => {
   const { store } = context;
   const whppt = {
+    savePageCallback: undefined,
+    onSavePage(callback) {
+      this.savePageCallback = callback;
+    },
+    offSavePage() {
+      this.savePageCallback = undefined;
+    },
+    types: options.types,
     editData: undefined,
     publishListing: PublishListing(context),
     loadSiteSettings: LoadSiteSettings(context),

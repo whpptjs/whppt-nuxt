@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { map } from 'lodash';
+import { map, filter, each } from 'lodash';
 import { mapState, mapActions } from 'vuex';
 
 import SEO from './SettingsSEO';
@@ -37,9 +37,17 @@ import OpenGraph from './SettingsOG';
 import General from './SettingsGeneral';
 import Categories from './SettingsCategories';
 
+const components = {};
+const types = $nuxt.$whppt.types;
+const siteSettingTypes = filter(types, t => t.siteSettings);
+each(siteSettingTypes, (comp, type) => {
+  components[type] = comp;
+});
+
 export default {
   name: 'WhpptSiteSettings',
   components: {
+    ...components,
     SEO,
     Redirects,
     General,
