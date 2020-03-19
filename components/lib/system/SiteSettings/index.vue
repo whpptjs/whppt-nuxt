@@ -103,8 +103,6 @@ export default {
         siteSettings: this.siteSettings,
         categories: formattedCategories,
         redirects: this.redirects,
-      }).then(() => {
-        this.queryCategories();
       });
     },
     publishSettings() {
