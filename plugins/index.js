@@ -42,17 +42,20 @@ import PublishListing from './helpers/PublishListing';
 
 const options = JSON.parse(`<%= JSON.stringify(options) %>`);
 
+const whppt = (global.$whppt = {
+  types: options.types,
+  savePageCallback: undefined,
+  onSavePage(callback) {
+    this.savePageCallback = callback;
+  },
+  offSavePage() {
+    this.savePageCallback = undefined;
+  },
+});
+
 export default (context, inject) => {
   const { store } = context;
-  const whppt = {
-    savePageCallback: undefined,
-    onSavePage(callback) {
-      this.savePageCallback = callback;
-    },
-    offSavePage() {
-      this.savePageCallback = undefined;
-    },
-    types: options.types,
+  Object.assign(global.$whppt, {
     editData: undefined,
     publishListing: PublishListing(context),
     loadSiteSettings: LoadSiteSettings(context),
@@ -100,7 +103,7 @@ export default (context, inject) => {
             return 0;
         }
       },
-  };
+  });
 
   const menuIsInState = type => {
     const editorState = store.state[`whppt-nuxt/editor`];

@@ -23,6 +23,9 @@ module.exports = {
   whppt: {
     ...whpptConfig,
     componentPrefix: 'W',
+    types: {
+      book: { siteSettings: { name: 'chapters', label: 'Chapters', component: {} }, components: {} },
+    },
   },
   axios: {
     proxy: true,

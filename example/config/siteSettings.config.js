@@ -1,1 +1,2 @@
-module.exports = [{ name: 'chapters', label: 'Chapters', component: 'chapters' }];
+module.exports = [];
+// { name: 'chapters', label: 'Chapters', component: 'chapters' }
