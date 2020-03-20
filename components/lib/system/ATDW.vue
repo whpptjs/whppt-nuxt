@@ -1,5 +1,5 @@
 <template>
-  <div v-if="listing" class="whppt-atdw">
+  <div v-if="listing" class="whppt-atdw whppt-settings__content">
     <div v-if="showReconnect" class="whppt-atdw__modal">
       <div class="whppt-atdw__content whppt-atdw__modal--inner">
         <div class="whppt-atdw__heading">
@@ -37,30 +37,45 @@
       <div class="whppt-atdw__form">
         <form @submit.prevent>
           <fieldset>
-            <label for="name">Name</label>
+            <whppt-text-input
+              v-model="listing.name.value"
+              placeholder="E.g. Barossa Wine Tour"
+              label="Name"
+              labelColour="black"
+              :disabled="!!listing.name.path"
+              :info="`Linked To: ${listing.name.path}`"
+            />
+            <!-- <label for="name">Name</label>
             <input
               id="name"
               v-model="listing.name.value"
               class="whppt-atdw__form-input"
               :disabled="!!listing.name.path"
               :class="{ 'whppt-atdw__input--disabled': listing.name.path }"
-            />
-            <div class="whppt-atdw__form-controls">
-              <span>Linked To: {{ listing.name.path }}</span>
-              <div>
-                <button v-if="listing.name.path" class="whppt-settings__button" @click="disconnect(listing.name)">
-                  Disconnect
-                </button>
-                <button
-                  v-if="!listing.name.path"
-                  class="whppt-settings__button"
-                  type="button"
-                  @click="openReconnectMenu('name')"
-                >
-                  Reconnect
-                </button>
-              </div>
+            /> -->
+            <!-- <div class="whppt-atdw__form-controls"> -->
+            <!-- <span>Linked To: {{ listing.name.path }}</span> -->
+            <div>
+              <button
+                v-if="listing.name.path"
+                style="display: flex"
+                class="whppt-settings__button"
+                type="button"
+                @click="disconnect(listing.name)"
+              >
+                Disconnect
+              </button>
+              <button
+                v-if="!listing.name.path"
+                style="display: flex"
+                class="whppt-settings__button"
+                type="button"
+                @click="openReconnectMenu('name')"
+              >
+                Reconnect
+              </button>
             </div>
+            <!-- </div> -->
           </fieldset>
           <!-- <label for="slug">Page Slug</label>
           <input id="slug" v-model="listing.slug" class="whppt-atdw__form-input" />
@@ -70,7 +85,7 @@
           </div> -->
 
           <fieldset v-if="listing.listingType === 'product'">
-            <label for="desc">Description</label>
+            <!-- <label for="desc">Description</label>
             <textarea
               id="desc"
               v-model="listing.description.value"
@@ -78,35 +93,47 @@
               rows="5"
               :disabled="!!listing.description.path"
               :class="{ 'whppt-atdw__input--disabled': listing.description.path }"
+            /> -->
+            <whppt-text-area
+              v-model="listing.description.value"
+              placeholder="E.g. A Barossa Wine Tour"
+              label="Description"
+              labelColour="black"
+              rows="5"
+              :disabled="!!listing.description.path"
+              :info="`Linked To: ${listing.description.path}`"
             />
-            <div class="whppt-atdw__form-controls">
-              <span>Linked To: {{ listing.description.path }}</span>
-              <div>
-                <button
-                  v-if="listing.description.path"
-                  class="whppt-settings__button"
-                  @click="disconnect(listing.description)"
-                >
-                  Disconnect
-                </button>
-                <button
-                  v-if="!listing.description.path"
-                  class="whppt-settings__button"
-                  type="button"
-                  @click="openReconnectMenu('description')"
-                >
-                  Reconnect
-                </button>
-              </div>
+            <!-- <div class="whppt-atdw__form-controls">
+              <span>Linked To: {{ listing.description.path }}</span> -->
+            <div>
+              <button
+                v-if="listing.description.path"
+                style="display: flex"
+                class="whppt-settings__button"
+                type="button"
+                @click="disconnect(listing.description)"
+              >
+                Disconnect
+              </button>
+              <button
+                v-if="!listing.description.path"
+                class="whppt-settings__button"
+                style="display: flex"
+                type="button"
+                @click="openReconnectMenu('description')"
+              >
+                Reconnect
+              </button>
             </div>
+            <!-- </div> -->
           </fieldset>
           <fieldset>
-            <label for="status">Active Status</label>
+            <!-- <label for="status">Active Status</label>
             <select
+              v-model="listing.activeStatus.value"
               class="select__input border-1 border-black bg-white"
               :value="listing.activeStatus.value"
-              v-model="listing.activeStatus.value"
-              :disabled="!!listing.activeStatus.path"
+              :disabled="!!listing.activeStatus.path || listing.published"
               :class="{ 'whppt-atdw__input--disabled': listing.activeStatus.path }"
             >
               <option value="ACTIVE">
@@ -115,175 +142,211 @@
               <option value="INACTIVE">
                 INACTIVE
               </option>
+            </select> -->
+            <div class="whppt-select__frequency-label">Active Status</div>
+            <select
+              v-model="listing.activeStatus.value"
+              :disabled="!!listing.activeStatus.path || listing.published"
+              class="whppt-select__frequency-input"
+              :class="{ 'whppt-select__disabled': !!listing.activeStatus.path || listing.published }"
+            >
+              <option value="ACTIVE">
+                ACTIVE
+              </option>
+              <option value="INACTIVE">
+                INACTIVE
+              </option>
             </select>
-            <div class="whppt-atdw__form-controls">
-              <span>Linked To: {{ listing.activeStatus.path }}</span>
-              <div>
-                <button
-                  v-if="listing.activeStatus.path"
-                  class="whppt-settings__button"
-                  @click="disconnect(listing.activeStatus)"
-                >
-                  Disconnect
-                </button>
-                <button
-                  v-if="!listing.activeStatus.path"
-                  class="whppt-settings__button"
-                  type="button"
-                  @click="openReconnectMenu('activeStatus')"
-                >
-                  Reconnect
-                </button>
-              </div>
+            <div class="whppt-select__frequency-info">
+              Linked To: {{ listing.activeStatus.path }}. Whether or not the listing and its corresponding page should
+              be published automatically when its ATDW information is updated.
+            </div>
+            <!-- <div class="whppt-atdw__form-controls">
+              <span>Linked To: {{ listing.activeStatus.path }}</span> -->
+            <div>
+              <button
+                v-if="listing.activeStatus.path"
+                class="whppt-settings__button"
+                style="display: flex"
+                type="button"
+                @click="disconnect(listing.activeStatus)"
+              >
+                Disconnect
+              </button>
+              <button
+                v-if="!listing.activeStatus.path"
+                class="whppt-settings__button"
+                style="display: flex"
+                type="button"
+                @click="openReconnectMenu('activeStatus')"
+              >
+                Reconnect
+              </button>
+              <!-- </div> -->
             </div>
           </fieldset>
           <fieldset v-if="listing.listingType === 'product'">
-            <label for="address">Address</label>
+            <!-- <label for="address">Address</label>
             <input
               id="address"
               v-model="listing.physicalAddress.value"
               class="whppt-atdw__form-input"
               :disabled="!!listing.physicalAddress.path"
               :class="{ 'whppt-atdw__input--disabled': listing.physicalAddress.path }"
+            /> -->
+            <whppt-text-input
+              v-model="listing.physicalAddress.value"
+              placeholder="E.g. 1234 Barossa Street"
+              label="Address"
+              labelColour="black"
+              :disabled="!!listing.physicalAddress.path"
+              :info="`Linked To: ${listing.physicalAddress.path}`"
             />
-            <!-- <label for="street">Street</label>
-          <input
-            id="street"
-            v-model="listing.physicalAddress.value.address_line"
-            class="whppt-atdw__form-input"
-            :disabled="!!listing.physicalAddress.path"
-            :class="{ 'whppt-atdw__input--disabled': listing.physicalAddress.path }"
-          />
-          <label for="city">City</label>
-          <input
-            id="city"
-            v-model="listing.physicalAddress.value.city"
-            class="whppt-atdw__form-input"
-            :disabled="!!listing.physicalAddress.path"
-            :class="{ 'whppt-atdw__input--disabled': listing.physicalAddress.path }"
-          />
-          <label for="state">State</label>
-          <input
-            id="state"
-            v-model="listing.physicalAddress.value.state"
-            class="whppt-atdw__form-input"
-            :disabled="!!listing.physicalAddress.path"
-            :class="{ 'whppt-atdw__input--disabled': listing.physicalAddress.path }"
-          />
-          <label for="postcode">Postcode</label>
-          <input
-            id="postcode"
-            v-model="listing.physicalAddress.value.postcode"
-            class="whppt-atdw__form-input"
-            :disabled="!!listing.physicalAddress.path"
-            :class="{ 'whppt-atdw__input--disabled': listing.physicalAddress.path }"
-          />
-          <label for="country">Country</label>
-          <input
-            id="country"
-            v-model="listing.physicalAddress.value.country"
-            class="whppt-atdw__form-input"
-            :disabled="!!listing.physicalAddress.path"
-            :class="{ 'whppt-atdw__input--disabled': listing.physicalAddress.path }"
-          /> -->
-            <div class="whppt-atdw__form-controls">
-              <span>Linked To: {{ listing.physicalAddress.path }}</span>
-              <div>
-                <button
-                  v-if="listing.physicalAddress.path"
-                  class="whppt-settings__button"
-                  @click="disconnect(listing.physicalAddress)"
-                >
-                  Disconnect
-                </button>
-                <button
-                  v-if="!listing.physicalAddress.path"
-                  class="whppt-settings__button"
-                  type="button"
-                  @click="openReconnectMenu('physicalAddress')"
-                >
-                  Reconnect
-                </button>
-              </div>
-            </div>
+            <!-- <div class="whppt-atdw__form-controls"> -->
+            <!-- <span>Linked To: {{ listing.physicalAddress.path }}</span>
+              <div> -->
+            <button
+              v-if="listing.physicalAddress.path"
+              class="whppt-settings__button"
+              style="display: flex"
+              type="button"
+              @click="disconnect(listing.physicalAddress)"
+            >
+              Disconnect
+            </button>
+            <button
+              v-if="!listing.physicalAddress.path"
+              class="whppt-settings__button"
+              style="display: flex"
+              type="button"
+              @click="openReconnectMenu('physicalAddress')"
+            >
+              Reconnect
+            </button>
+            <!-- </div>
+            </div> -->
           </fieldset>
           <fieldset v-if="listing.listingType === 'product'">
-            <label for="phone">Phone</label>
+            <!-- <label for="phone">Phone</label>
             <input
               id="phone"
               v-model="listing.phone.value"
               class="whppt-atdw__form-input"
               :disabled="!!listing.phone.path"
               :class="{ 'whppt-atdw__input--disabled': listing.phone.path }"
+            /> -->
+            <whppt-text-input
+              v-model="listing.phone.value"
+              placeholder="E.g. 08 1234 5678"
+              label="Phone"
+              labelColour="black"
+              :disabled="!!listing.phone.path"
+              :info="`Linked To: ${listing.phone.path}`"
             />
-            <div class="whppt-atdw__form-controls">
-              <span>Linked To: {{ listing.phone.path }}</span>
-              <div>
-                <button v-if="listing.phone.path" class="whppt-settings__button" @click="disconnect(listing.phone)">
-                  Disconnect
-                </button>
-                <button
-                  v-if="!listing.phone.path"
-                  class="whppt-settings__button"
-                  type="button"
-                  @click="openReconnectMenu('phone')"
-                >
-                  Reconnect
-                </button>
-              </div>
-            </div>
+            <!-- <div class="whppt-atdw__form-controls">
+              <span>Linked To: {{ listing.phone.path }}</span> -->
+            <!-- <div> -->
+            <button
+              v-if="listing.phone.path"
+              style="display: flex"
+              type="button"
+              class="whppt-settings__button"
+              @click="disconnect(listing.phone)"
+            >
+              Disconnect
+            </button>
+            <button
+              v-if="!listing.phone.path"
+              class="whppt-settings__button"
+              style="display: flex"
+              type="button"
+              @click="openReconnectMenu('phone')"
+            >
+              Reconnect
+            </button>
+            <!-- </div>
+            </div> -->
           </fieldset>
           <fieldset v-if="listing.listingType === 'product'">
-            <label for="email">Email</label>
+            <!-- <label for="email">Email</label>
             <input
               id="email"
               v-model="listing.email.value"
               class="whppt-atdw__form-input"
               :disabled="!!listing.email.path"
               :class="{ 'whppt-atdw__input--disabled': listing.email.path }"
+            /> -->
+            <whppt-text-input
+              v-model="listing.email.value"
+              placeholder="E.g. wine@barossa.com"
+              label="Email"
+              labelColour="black"
+              :disabled="!!listing.email.path"
+              :info="`Linked To: ${listing.email.path}`"
             />
-            <div class="whppt-atdw__form-controls">
+            <!-- <div class="whppt-atdw__form-controls">
               <span>Linked To: {{ listing.email.path }}</span>
-              <div>
-                <button v-if="listing.email.path" class="whppt-settings__button" @click="disconnect(listing.email)">
-                  Disconnect
-                </button>
-                <button
-                  v-if="!listing.email.path"
-                  class="whppt-settings__button"
-                  type="button"
-                  @click="openReconnectMenu('email')"
-                >
-                  Reconnect
-                </button>
-              </div>
-            </div>
+              <div> -->
+            <button
+              v-if="listing.email.path"
+              style="display: flex"
+              type="button"
+              class="whppt-settings__button"
+              @click="disconnect(listing.email)"
+            >
+              Disconnect
+            </button>
+            <button
+              v-if="!listing.email.path"
+              class="whppt-settings__button"
+              style="display: flex"
+              type="button"
+              @click="openReconnectMenu('email')"
+            >
+              Reconnect
+            </button>
+            <!-- </div>
+            </div> -->
           </fieldset>
           <fieldset>
-            <label for="image">Image</label>
+            <!-- <label for="image">Image</label>
             <input
               id="image"
               v-model="listing.image.value"
               class="whppt-atdw__form-input"
               :disabled="!!listing.image.path"
               :class="{ 'whppt-atdw__input--disabled': listing.image.path }"
+            /> -->
+            <whppt-text-input
+              v-model="listing.image.value"
+              label="Image"
+              labelColour="black"
+              :disabled="!!listing.image.path"
+              :info="`Linked To: ${listing.image.path}`"
             />
-            <div class="whppt-atdw__form-controls">
+            <!-- <div class="whppt-atdw__form-controls">
               <span>Linked To: {{ listing.image.path }}</span>
-              <div>
-                <button v-if="listing.image.path" class="whppt-settings__button" @click="disconnect(listing.image)">
-                  Disconnect
-                </button>
-                <button
-                  v-if="!listing.image.path"
-                  class="whppt-settings__button"
-                  type="button"
-                  @click="openReconnectMenu('image')"
-                >
-                  Reconnect
-                </button>
-              </div>
-            </div>
+              <div> -->
+            <button
+              v-if="listing.image.path"
+              style="display: flex"
+              type="button"
+              class="whppt-settings__button"
+              @click="disconnect(listing.image)"
+            >
+              Disconnect
+            </button>
+            <button
+              v-if="!listing.image.path"
+              class="whppt-settings__button"
+              style="display: flex"
+              type="button"
+              @click="openReconnectMenu('image')"
+            >
+              Reconnect
+            </button>
+            <!-- </div>
+            </div> -->
           </fieldset>
           <fieldset v-if="listing.atdwCategories">
             <whppt-tags-input label="ATDW Categories" :display-only="true" :tags="listing.atdwCategories.value" />
@@ -307,6 +370,7 @@ import { parse } from 'uri-js';
 
 import WhpptTagsInput from '../whpptComponents/WhpptTagsInput';
 import WhpptTextInput from '../whpptComponents/WhpptTextInput';
+import WhpptTextArea from '../whpptComponents/WhpptTextArea';
 
 const stringFromPath = function(product, path) {
   return get(product, path);
@@ -314,7 +378,7 @@ const stringFromPath = function(product, path) {
 
 export default {
   name: 'WhpptATDW',
-  components: { WhpptTagsInput, WhpptTextInput },
+  components: { WhpptTagsInput, WhpptTextInput, WhpptTextArea },
   data: () => ({
     listing: undefined,
     showReconnect: false,
@@ -355,6 +419,7 @@ export default {
       },
       physicalAddress(product) {
         const address = find(product.addresses, address => address.attributeIdAddress === 'PHYSICAL');
+        console.log('physicalAddress -> address', address);
         if (!address) return '';
         return `${address.addressLine1}, ${address.cityName}, ${address.stateName}, ${address.countryName}`;
         // if(!address) return ''
@@ -424,6 +489,11 @@ export default {
 </script>
 
 <style>
+.whppt-select__disabled {
+  cursor: not-allowed;
+  background-color: #f1f1f1;
+}
+
 .whppt-atdw {
   color: black;
   display: flex;

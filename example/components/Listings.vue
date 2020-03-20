@@ -18,7 +18,10 @@
               class="w-1/2 py-2 px-2"
             >
               <whppt-link :to="{ href: getUrl(item) }">
-                <div class="flex flex-col lg:flex-row bg-white h-full">
+                <div
+                  class="flex flex-col lg:flex-row bg-white h-full"
+                  :class="{ 'bg-gray-300': item.published === false }"
+                >
                   <div class="bg-red-700 w-full lg:w-1/2"></div>
                   <div class="w-full lg:w-1/2 p-2 lg:p-12">
                     <div class="flex flex-col justify-between h-full">
@@ -75,7 +78,7 @@ export default {
     page: false,
   }),
   computed: {
-    ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
+    ...mapState('whppt-nuxt/editor', ['baseAPIUrl', 'draft']),
     canLoadMore() {
       return this.items && this.items.length && this.currentPage * this.limit < this.totalItems;
     },
@@ -103,6 +106,7 @@ export default {
       .post(`${this.baseAPIUrl}/api/listing/fetch`, {
         categoryFilterId: this.content.categoryFilter && this.content.categoryFilter._id,
         hideTours: true,
+        draft: this.draft,
       })
       .then(({ data }) => {
         this.items = data.listings;
@@ -119,6 +123,7 @@ export default {
         .post(`${this.baseAPIUrl}/api/listing/fetch`, {
           categoryFilterId: this.content.categoryFilter && this.content.categoryFilter._id,
           filters,
+          draft: this.draft,
           hideTours: true,
           limit: this.limit,
           currentPage: this.currentPage,
@@ -137,7 +142,12 @@ export default {
       const apiUrl = this.baseAPIUrl;
 
       this.$axios
-        .post(`${apiUrl}/api/listing/fetch`, { filters, limit: this.limit, currentPage: this.currentPage })
+        .post(`${apiUrl}/api/listing/fetch`, {
+          draft: this.draft,
+          filters,
+          limit: this.limit,
+          currentPage: this.currentPage,
+        })
         .then(({ data }) => {
           const { listings, totalListings } = data;
           this.totalItems = totalListings;
@@ -155,7 +165,12 @@ export default {
       const apiUrl = this.baseAPIUrl;
 
       this.$axios
-        .post(`${apiUrl}/api/listing/fetch`, { filters, limit: this.limit, currentPage: this.currentPage })
+        .post(`${apiUrl}/api/listing/fetch`, {
+          draft: this.draft,
+          filters,
+          limit: this.limit,
+          currentPage: this.currentPage,
+        })
         .then(({ data }) => {
           const { listings, totalListings } = data;
           this.totalItems = totalListings;

@@ -6,56 +6,22 @@
         style="background: rgba(0, 0, 0, .5); position: absolute; top: 0; left: 0; right: 0; bottom: 0"
       ></div>
       <div class="whppt-settings__heading" :style="`background: ${showWarning ? 'grey' : 'white'}`">
-        <p class="whppt-settings__heading-text">Slug Settings</p>
-        <button class="whppt-settings__button" @click="saveSettings">Save</button>
+        <p class="whppt-settings__heading-text">Publishing</p>
       </div>
-      <form @submit.prevent="saveSettings">
+      <form @submit.prevent>
         <div>
-          <div v-if="prefix" class="whppt-flex-between whppt-align-center">
-            <whppt-text-input
-              :value="prefix"
-              disabled
-              placeholder="Page Slug Prefix"
-              label="Prefix"
-              labelColour="black"
-              info="This prefix is managed by Whppt and is not editable."
-            />
-            <whppt-text-input
-              :value="slugSuffix"
-              placeholder="Enter a page slug"
-              label="Slug"
-              labelColour="black"
-              @input="confirmSlug"
-              info="The page slug makes up part of the page's url that is shown in the browsers address bar and is used by search engines to match your page with search terms. Your input will be formatted to avoid certain characters."
-            />
-          </div>
-          <div v-if="!prefix">
-            <whppt-text-input
-              v-model="page.slug"
-              placeholder="Enter a page slug"
-              label="Slug"
-              labelColour="black"
-              info="The page slug makes up part of the page's url that is shown in the browsers address bar and is used by search engines to match your page with search terms. Your input will be formatted to avoid certain characters."
-            />
-          </div>
-          <div style="display: flex; align-items: center; justify-content: flex-start">
-            <div style="font-weight: bold; padding-right: 0.5rem;">Output:</div>
-            <div>
-              {{ formattedSlug }}
-            </div>
-          </div>
+          <div>Last Change: {{ formatDate(page.updatedAt) }}</div>
+          <div>Last Published: {{ page.published ? formatDate(page.lastPublished) : 'Not published' }}</div>
           <div v-if="errorMessage" style="color: red; font-style: italic;">{{ errorMessage }}</div>
-          <!-- <button v-if="page.published" type="button" class="whppt-settings__delete-button" @click="unpublish">
+          <button type="button" class="whppt-settings__delete-button" @click="publish">
+            Publish Changes
+          </button>
+          <button type="button" class="whppt-settings__delete-button" @click="unpublish">
             Unpublish Page
           </button>
-          <button
-            v-if="!page.published"
-            type="button"
-            class="whppt-settings__delete-button"
-            @click="showWarning = true"
-          >
+          <button type="button" class="whppt-settings__delete-button" @click="showWarning = true">
             Delete Page
-          </button> -->
+          </button>
         </div>
       </form>
       <div v-if="showWarning" class="whppt-settings__warning-modal">
@@ -93,7 +59,7 @@ import Gallery from './EditImage/Gallery';
 import Cropping from './EditImage/Cropping';
 
 export default {
-  name: 'WhpptSlugSettings',
+  name: 'WhpptPublishSettings',
   props: { prefix: { type: String, default: '' } },
   components: { WhpptTextInput, Gallery, Cropping },
   data() {
@@ -117,7 +83,10 @@ export default {
     },
   },
   methods: {
-    ...mapActions('whppt-nuxt/page', ['savePage', 'unpublishPage', 'deletePage']),
+    ...mapActions('whppt-nuxt/page', ['savePage', 'unpublishPage', 'deletePage', 'publishPage']),
+    formatDate(date) {
+      return new Date(date);
+    },
     confirmSlug(value) {
       value = this.formatSlug(value);
       if (this.prefix) value = `${this.prefix}/${value}`;
@@ -125,16 +94,25 @@ export default {
     },
     deletePageFromDraft() {
       const vm = this;
+      if (vm.page.published) {
+        return vm.$toast.global.editorError('Unpublish the page first');
+      }
       return vm.deletePage().then(() => {
         vm.$router.push(`/`);
         vm.showWarning = false;
         vm.$emit('closeModal');
       });
     },
+    publish() {
+      return this.publishPage().then(() => {
+        this.$emit('closeModal');
+      });
+    },
     unpublish() {
-      const vm = this;
-      return vm.unpublishPage().then(() => {
-        vm.$emit('closeModal');
+      if (!this.page.published) return this.$toast.global.editorError('Page is not published');
+
+      return this.unpublishPage().then(() => {
+        this.$emit('closeModal');
       });
     },
     saveSettings() {
