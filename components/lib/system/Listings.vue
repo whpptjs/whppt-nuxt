@@ -40,9 +40,9 @@ export default {
   mounted() {
     this.$axios.get(`${this.baseAPIUrl}/api/siteSettings/loadCategories`).then(({ data }) => {
       this.filters = map(data, d => {
-        return { title: d.name, _id: d._id };
+        return { title: d.name, _id: d._id, hasDates: d.hasDates };
       });
-      this.filters.push({ title: 'None', _id: 'none' });
+      this.filters.push({ title: 'None', _id: 'none', hasDates: false });
     });
   },
 };
