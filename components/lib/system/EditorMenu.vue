@@ -67,13 +67,21 @@ export default {
           disabled: !this.page || !this.page._id,
           action: () => this.savePage(),
         },
+        // {
+        //   key: 'publishPage',
+        //   label: 'Publish Page',
+        //   icon: 'w-publish',
+        //   group: 'page',
+        //   disabled: !this.page || !this.page._id,
+        //   action: () => this.publishPage(),
+        // },
         {
           key: 'publishPage',
           label: 'Publish Page',
           icon: 'w-publish',
           group: 'page',
           disabled: !this.page || !this.page._id,
-          action: () => this.publishPage(),
+          action: () => this.editInModal('publishSettings'),
         },
         {
           key: 'site-settings',

@@ -62,6 +62,7 @@ import * as Editors from '../system';
 import SiteSettings from '../system/SiteSettings';
 import PageSettings from '../system/PageSettings';
 import SlugSettings from '../system/SlugSettings';
+import PublishSettings from '../system/PublishSettings';
 import WhpptModal from '../whpptComponents/WhpptModal';
 import WhpptTextInput from '../whpptComponents/WhpptTextInput';
 import WhpptButton from '../whpptComponents/WhpptButton';
@@ -80,6 +81,7 @@ export default {
     WhpptTextInput,
     SiteSettings,
     SlugSettings,
+    PublishSettings,
     PageSettings,
     WhpptCheckBox,
     ContentsTree,

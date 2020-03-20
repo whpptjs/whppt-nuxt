@@ -13,7 +13,7 @@
       class="whppt-inputTextArea__input"
       :rows="rows || '1'"
       :style="adjustable ? '' : 'resize: none'"
-      :class="{ 'whppt-editor-disabled': disabled }"
+      :class="{ 'whppt-inputArea__disabled': disabled }"
       :type="$attrs.type || 'text'"
       :placeholder="placeholder"
       :value="value"
@@ -62,5 +62,10 @@ export default {
   font-size: 0.75rem;
   font-style: italic;
   margin-bottom: 0.75rem;
+}
+
+.whppt-inputArea__disabled {
+  cursor: not-allowed;
+  background-color: #f1f1f1;
 }
 </style>
