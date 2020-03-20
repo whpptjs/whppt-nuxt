@@ -39,9 +39,7 @@ const additionalTabs = [];
 const additionalComponents = {};
 
 const types = global.$whppt.types;
-console.log(types);
 const siteSettingTypes = filter(types, t => t.siteSettings);
-console.log('siteSettingTypes', siteSettingTypes);
 
 forEach(siteSettingTypes, type => {
   additionalComponents[type.siteSettings.name] = type.siteSettings.component;
