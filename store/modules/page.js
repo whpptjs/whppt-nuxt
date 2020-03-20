@@ -22,9 +22,13 @@ export default options => ({
       });
     },
     savePage({ state, commit }) {
-      return this.$whppt.savePage(state.page).then(page => {
-        this.$toast.global.editorSuccess('Page Saved');
-      });
+      let p = Promise.resolve();
+      if (this.$whppt.savePageCallback) p = p.then(() => this.$whppt.savePageCallback);
+      return p.then(() =>
+        this.$whppt.savePage(state.page).then(page => {
+          this.$toast.global.editorSuccess('Page Saved');
+        })
+      );
     },
     deletePage({ state, commit }) {
       return this.$whppt.deletePage(state.page._id).then(() => {
