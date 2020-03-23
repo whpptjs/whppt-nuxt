@@ -68,6 +68,9 @@ export default {
           return vm.$whppt.createPage(newPage).then(page => {
             const { slug } = page;
             vm.closeSidebar();
+            if (`/${slug}` === vm.$router.currentRoute.path) {
+              return vm.$router.go();
+            }
             return vm.$router.push(`/${slug}` || '/');
           });
         }
