@@ -83,6 +83,8 @@ export default {
     },
     formatSlug(slug) {
       if (slug.startsWith('/')) slug = slug.replace(/^(\/*)/, '');
+      if (this.pageType && this.pageType.slugPrefix) slug = `${this.pageType.slugPrefix}/${slug}`;
+
       slug = slug.replace(/\/{2,}/g, '/');
 
       slug = slugify(slug, { remove: /[*+~.()'"!:@]/g, lower: true });
