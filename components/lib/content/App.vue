@@ -59,7 +59,7 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import * as Editors from '../system';
-import SiteSettings from '../system/SiteSettings';
+// import SiteSettings from '../system/SiteSettings';
 import PageSettings from '../system/PageSettings';
 import SlugSettings from '../system/SlugSettings';
 import PublishSettings from '../system/PublishSettings';
@@ -79,7 +79,7 @@ export default {
     WhpptButton,
     WhpptModal,
     WhpptTextInput,
-    SiteSettings,
+    SiteSettings: () => import('../system/SiteSettings'),
     SlugSettings,
     PublishSettings,
     PageSettings,
