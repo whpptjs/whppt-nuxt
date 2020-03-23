@@ -92,7 +92,7 @@ export default {
         });
     },
     img(id) {
-      return `${this.baseCdnImageUrl || this.baseImageUrl}/${id}`;
+      return `${this.baseCdnImageUrl || this.baseImageUrl}/w_178|h_100/${id}`;
     },
     upload(e) {
       const file = e.target.files[0];
