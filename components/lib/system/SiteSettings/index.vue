@@ -40,7 +40,6 @@ const additionalComponents = {};
 
 const types = global.$whppt.types;
 
-console.log('types', types);
 const siteSettingTypes = filter(types, t => t.siteSettings);
 
 forEach(siteSettingTypes, type => {
