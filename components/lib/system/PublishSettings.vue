@@ -8,10 +8,12 @@
       <div class="whppt-settings__heading" :style="`background: ${showWarning ? 'grey' : 'white'}`">
         <p class="whppt-settings__heading-text">Publishing</p>
       </div>
-      <form @submit.prevent>
+      <form v-if="page" @submit.prevent>
         <div>
-          <div>Last Change: {{ formatDate(page.updatedAt) }}</div>
-          <div>Last Published: {{ page.published ? formatDate(page.lastPublished) : 'Not published' }}</div>
+          <div style="font-weight: bold">Last Change:</div>
+          <div>{{ page.updatedAt ? formatDate(page.updatedAt) : 'Never updated' }}</div>
+          <div style="font-weight: bold">Last Published:</div>
+          <div>{{ page.published ? formatDate(page.lastPublished) : 'Not published' }}</div>
           <div v-if="errorMessage" style="color: red; font-style: italic;">{{ errorMessage }}</div>
           <button type="button" class="whppt-settings__delete-button" @click="publish">
             Publish Changes
@@ -85,6 +87,7 @@ export default {
   methods: {
     ...mapActions('whppt-nuxt/page', ['savePage', 'unpublishPage', 'deletePage', 'publishPage']),
     formatDate(date) {
+      console.log('formatDate -> date', date);
       return new Date(date);
     },
     confirmSlug(value) {
