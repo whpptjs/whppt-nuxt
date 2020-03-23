@@ -98,14 +98,14 @@ export default {
           disabled: !this.page || !this.page._id,
           action: () => this.editInModal('pageSettings'),
         },
-        {
-          key: 'slug-settings',
-          label: 'Slug Settings',
-          icon: 'w-slugPopup',
-          group: 'slugSettings',
-          disabled: !this.page || !this.page._id,
-          action: () => this.editInModal('slugSettings'),
-        },
+        // {
+        //   key: 'slug-settings',
+        //   label: 'Slug Settings',
+        //   icon: 'w-slugPopup',
+        //   group: 'slugSettings',
+        //   disabled: !this.page || !this.page._id,
+        //   action: () => this.editInModal('slugSettings'),
+        // },
         { key: 'nav', label: 'Nav', icon: 'w-nav', group: 'nav', action: () => this.saveNav() },
         { key: 'footer', label: 'Footer', icon: 'w-footer', group: 'footer', action: () => this.saveFooter() },
       ];

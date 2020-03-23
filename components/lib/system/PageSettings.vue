@@ -1,11 +1,96 @@
 <template>
   <div class="whppt-settings">
     <div class="whppt-settings__content">
-      <div class="whppt-settings__heading">
+      <div
+        v-if="showSlugModal || showWarning"
+        style="background: rgba(0, 0, 0, .5); position: absolute; top: 0; left: 0; right: 0; bottom: 0"
+      ></div>
+      <div v-if="showWarning" class="whppt-settings__warning-modal">
+        <div class="whppt-settings__warning-content">
+          <div style="position: relative; text-align: center;">
+            <div class="whppt-settings__warning-heading">Confirm Delete</div>
+            <div class="whppt-settings__warning-body">
+              <div>
+                Are you sure?
+              </div>
+              <div>
+                This will delete the page and all of its content.
+              </div>
+            </div>
+            <div class="whppt-settings__warning-actions">
+              <button class="whppt-settings__warning-button" @click="deletePageFromDraft()">
+                Delete
+              </button>
+              <button class="whppt-settings__warning-button" @click="showWarning = false">Cancel</button>
+            </div>
+            <div></div>
+          </div>
+        </div>
+      </div>
+      <div v-if="showSlugModal" class="whppt-settings__warning-modal">
+        <div class="whppt-settings__warning-content">
+          <form @submit.prevent style="position: relative; ">
+            <div class="whppt-settings__warning-heading" style="text-align: center;">Edit Slug</div>
+            <div class="whppt-settings__warning-body">
+              <div>
+                <div v-if="prefix" class="whppt-flex-between whppt-align-center">
+                  <whppt-text-input
+                    :value="prefix"
+                    :disabled="true"
+                    placeholder="Page Slug Prefix"
+                    label="Prefix"
+                    labelColour="black"
+                    info="This prefix is managed by Whppt and is not editable."
+                  />
+                  <whppt-text-input
+                    :value="slugSuffix"
+                    placeholder="Enter a page slug"
+                    label="Slug"
+                    labelColour="black"
+                    @input="confirmSlug"
+                    info="The page slug makes up part of the page's url that is shown in the browsers address bar and is used by search engines to match your page with search terms. Your input will be formatted to avoid certain characters."
+                  />
+                </div>
+                <div v-if="!prefix">
+                  <whppt-text-input
+                    v-model="slugCopy"
+                    placeholder="Enter a page slug"
+                    label="Slug"
+                    labelColour="black"
+                    info="The page slug makes up part of the page's url that is shown in the browsers address bar and is used by search engines to match your page with search terms. Your input will be formatted to avoid certain characters."
+                  />
+                </div>
+                <div style="display: flex; align-items: center; justify-content: flex-start">
+                  <div style="font-weight: bold; padding-right: 0.5rem;">Output:</div>
+                  <div>
+                    {{ formattedSlug }}
+                  </div>
+                </div>
+                <div v-if="errorMessage" style="color: red; font-style: italic;">{{ errorMessage }}</div>
+              </div>
+            </div>
+            <div class="whppt-settings__warning-actions">
+              <button class="whppt-settings__warning-button" @click="saveSlug">
+                Save
+              </button>
+              <button class="whppt-settings__warning-button" @click="showSlugModal = false">Close</button>
+            </div>
+            <div></div>
+          </form>
+        </div>
+      </div>
+      <div class="whppt-settings__heading" :style="`background: ${showSlugModal || showWarning ? 'grey' : 'white'}`">
         <h2 class="whppt-settings__heading-text">Page Settings</h2>
         <button class="whppt-settings__button" @click="saveSettings">Save</button>
       </div>
       <div class="whppt-settings__tabs">
+        <div
+          @click="selectedTab = 'general'"
+          class="whppt-settings__tab"
+          :class="selectedTab === 'general' ? 'whppt-settings__tab-selected' : ''"
+        >
+          General
+        </div>
         <div
           @click="selectedTab = 'seo'"
           class="whppt-settings__tab"
@@ -31,6 +116,27 @@
         </div>
       </div>
       <div>
+        <form @submit.prevent v-show="selectedTab === 'general'">
+          <div>
+            <fieldset>
+              <whppt-text-input
+                v-model="page.slug"
+                placeholder="Enter a page slug"
+                label="Slug"
+                :disabled="true"
+                labelColour="black"
+              />
+              <div class="whppt-justify-start whppt-align-center">
+                <button class="whppt-settings__button" @click="openSlugModal">
+                  Change Slug
+                </button>
+                <button type="button" class="whppt-settings__delete-button" @click="showWarning = true">
+                  Delete Page
+                </button>
+              </div>
+            </fieldset>
+          </div>
+        </form>
         <form @submit.prevent v-show="selectedTab === 'seo'">
           <div>
             <fieldset>
@@ -105,6 +211,7 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import { clamp } from 'lodash';
+import slugify from 'slugify';
 
 import WhpptTextInput from '../whpptComponents/WhpptTextInput';
 import WhpptTextArea from '../whpptComponents/WhpptTextArea';
@@ -117,11 +224,14 @@ import SettingsTwitter from './SiteSettings/SettingsTwitter';
 export default {
   name: 'WhpptSiteSettings',
   components: { WhpptTextInput, WhpptSelect, Gallery, Cropping, SettingsOpenGraph, SettingsTwitter, WhpptTextArea },
+  props: { prefix: { type: String, default: '' } },
   data() {
     return {
-      showError: false,
-      selectedTab: 'seo',
+      showWarning: false,
+      selectedTab: 'general',
       errorMessage: '',
+      showSlugModal: false,
+      slugCopy: '',
       frequencies: [
         { value: 'never', id: 'never' },
         { value: 'yearly', id: 'yearly' },
@@ -136,6 +246,13 @@ export default {
   computed: {
     ...mapState('whppt-nuxt/editor', ['baseAPIUrl', 'baseImageUrl']),
     ...mapState('whppt-nuxt/page', ['page']),
+    formattedSlug() {
+      return this.formatSlug(this.slugCopy);
+    },
+    slugSuffix() {
+      if (!this.prefix) return '';
+      return this.slugCopy.replace(`${this.prefix}/`, '');
+    },
   },
   mounted() {
     this.page.og = this.page.og || { title: '', keywords: '', image: { imageId: '', crop: {} } };
@@ -143,22 +260,66 @@ export default {
     this.page.frequency = this.page.frequency || 'yearly';
   },
   methods: {
-    ...mapActions('whppt-nuxt/page', ['savePage']),
+    ...mapActions('whppt-nuxt/page', ['savePage', 'deletePage']),
     select(event) {
       this.page.frequency = event.target.value;
+    },
+    confirmSlug(value) {
+      value = this.formatSlug(value);
+      if (this.prefix) value = `${this.prefix}/${value}`;
+      this.slugCopy = value;
     },
     clampInput(input) {
       input ? (this.page.priority = clamp(input, 0, 1)) : 0.5;
     },
     saveSettings() {
-      // this.errorMessage = '';
-      // if (this.page.priority && (this.page.priority < 0.0 || this.page.priority > 1)) {
-      //   return (this.errorMessage = 'Priority must be between 0.0 and 1.0');
-      // }
       if (this.page.priority) {
         this.page.priority = clamp(this.page.priority, 0, 1);
       }
       return this.savePage();
+    },
+    openSlugModal() {
+      this.showSlugModal = true;
+      this.slugCopy = this.page.slug;
+    },
+    formatSlug(slug) {
+      if (slug.startsWith('/')) slug = slug.replace(/^(\/*)/, '');
+      slug = slug.replace(/\/{2,}/g, '/');
+
+      slug = slugify(slug, { remove: /[*+~.()'"!:@]/g, lower: true });
+      slug = slug.replace(/[#?]/g, '');
+      return slug;
+    },
+    saveSlug() {
+      const vm = this;
+      const newSlug = this.formattedSlug;
+      if (!newSlug) {
+        this.$toast.global.editorError('Cannot use an empty slug');
+        return;
+      }
+      return vm.$whppt.checkSlug({ slug: newSlug, _id: this.page._id }).then(result => {
+        if (result) {
+          this.$toast.global.editorError('Slug already in use');
+          return;
+        } else {
+          vm.page.slug = newSlug;
+          return vm.savePage().then(() => {
+            vm.$router.push(`/${newSlug}`);
+            vm.$emit('closeModal');
+          });
+        }
+      });
+    },
+    deletePageFromDraft() {
+      const vm = this;
+      if (vm.page.published) {
+        return vm.$toast.global.editorError('Unpublish the page first');
+      }
+      return vm.deletePage().then(() => {
+        vm.$router.push(`/`);
+        vm.showWarning = false;
+        vm.$emit('closeModal');
+      });
     },
   },
 };

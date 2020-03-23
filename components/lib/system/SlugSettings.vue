@@ -189,44 +189,6 @@ export default {
   padding-right: 0.5rem;
 }
 
-.whppt-settings__warning-modal {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.whppt-settings__warning-content {
-  margin: 2rem;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  overflow-y: auto;
-}
-
-.whppt-settings__warning-heading {
-  color: #981a31;
-  padding: 1rem;
-}
-
-.whppt-settings__warning-body {
-  border-top: 1px solid #981a31;
-  border-bottom: 1px solid #981a31;
-  padding: 2rem;
-}
-
-.whppt-settings__warning-actions {
-  padding: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
 .whppt-settings__content form {
   display: flex;
   flex-direction: column;
@@ -261,14 +223,6 @@ export default {
   color: #981a31;
   border-radius: 0.5rem;
   padding: 0.5rem 0.75rem;
-  border: 1px solid #981a31;
-}
-
-.whppt-settings__warning-button {
-  color: #981a31;
-  border-radius: 0.5rem;
-  padding: 0.5rem 0.75rem;
-  background: white;
   border: 1px solid #981a31;
 }
 
