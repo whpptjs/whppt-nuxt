@@ -17,15 +17,12 @@ module.exports = {
   },
   loading: { color: '#fff' },
   css: [],
-  plugins: ['plugins/axios.js', 'plugins/components.js'],
+  plugins: ['plugins/axios.js', 'plugins/types.js'],
   buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/tailwindcss'],
   modules: ['@nuxtjs/toast', '@nuxtjs/axios', '@nuxtjs/dotenv', ['../../module.js']],
   whppt: {
     ...whpptConfig,
     componentPrefix: 'W',
-    types: {
-      book: { siteSettings: { name: 'chapters', label: 'Chapters', component: {} }, components: {} },
-    },
   },
   axios: {
     proxy: true,

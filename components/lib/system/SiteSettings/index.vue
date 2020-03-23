@@ -39,6 +39,7 @@ const additionalTabs = [];
 const additionalComponents = {};
 
 const types = global.$whppt.types;
+
 const siteSettingTypes = filter(types, t => t.siteSettings);
 
 forEach(siteSettingTypes, type => {
@@ -64,7 +65,7 @@ export default {
     selectedTab: 'general',
   }),
   computed: {
-    ...mapState('whppt-nuxt/editor', ['options', 'baseAPIUrl']),
+    ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
     tabs() {
       return [
         { name: 'general', label: 'General' },

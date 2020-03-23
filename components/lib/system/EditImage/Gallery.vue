@@ -63,7 +63,7 @@ export default {
     },
   },
   computed: {
-    ...mapState('whppt-nuxt/editor', ['baseImageUrl', 'baseAPIUrl']),
+    ...mapState('whppt-nuxt/editor', ['baseImageUrl', 'baseCdnImageUrl', 'baseAPIUrl']),
   },
   mounted() {
     this.loading = true;
@@ -92,7 +92,7 @@ export default {
         });
     },
     img(id) {
-      return `${this.baseImageUrl}/${id}`;
+      return `${this.baseCdnImageUrl || this.baseImageUrl}/${id}`;
     },
     upload(e) {
       const file = e.target.files[0];

@@ -446,19 +446,6 @@ export default {
   font-size: 0.9rem;
 }
 
-.whppt-settings__content form input,
-/* .whppt-settings__content form textarea {
-  width: 100%;
-  padding: 0.5rem;
-  font-size: 1rem;
-  margin: 0.2rem 0 0.5rem;
-  border-radius: 5px;
-  border: 1px solid rgba(0, 0, 0, 0.5);
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  resize: vertical;
-} */
-
-
 .whppt-settings__warning-button {
   padding: 0.8rem 2rem;
   display: inline-block;

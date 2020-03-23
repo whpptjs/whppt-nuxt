@@ -1,5 +1,5 @@
 import { isEmpty } from 'lodash';
-export default function($whppt, baseImageUrl) {
+export default function($whppt, baseImageUrl, baseCdnImageUrl) {
   function originalImageUrl(imageId) {
     if (!imageId) return '';
     return `${baseImageUrl}/${imageId}`;
@@ -11,7 +11,7 @@ export default function($whppt, baseImageUrl) {
     const { scale, orientation, startX, startY } = crop;
     const format = `x_${startX}|y_${startY}|s_${scale}|o_${orientation}|w_${width}|h_${height}`;
 
-    return `${baseImageUrl}/${format}/${imageId}`;
+    return `${baseCdnImageUrl || baseImageUrl}/${format}/${imageId}`;
   }
 
   $whppt.originalImageUrl = originalImageUrl;
