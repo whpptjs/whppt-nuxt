@@ -3,11 +3,11 @@
     <p class="font-xl">Create a Page</p>
 
     <form class="whppt-page__form" @submit.prevent>
-      <whppt-select v-model="template" :items="templates" label="Page Template:" />
-
+      <whppt-select v-model="template" :items="templates" label="Page Template" />
+      <whppt-select v-model="pageType" :items="pageTypes" label="Page Type" />
       <whppt-text-input
         v-model="slug"
-        label="Page Slug:"
+        label="Page Slug"
         info="Enter any text and we'll turn it into a slug for you!"
       ></whppt-text-input>
       <div class="whppt-info">Your slug: {{ formatSlug(slug) }}</div>
@@ -30,6 +30,7 @@ export default {
   components: { WhpptButton, WhpptSelect, WhpptTextInput },
   data: () => ({
     template: undefined,
+    pageType: undefined,
     slug: '',
     title: '',
     showError: false,
@@ -38,6 +39,9 @@ export default {
     ...mapState('whppt-nuxt/page', ['page']),
     templates() {
       return this.$whppt.templates;
+    },
+    pageTypes() {
+      return this.$whppt.pageTypes;
     },
   },
   mounted() {
@@ -56,9 +60,10 @@ export default {
       const newPage = {
         slug: this.formatSlug(vm.slug),
         template: vm.template.key,
-        ...vm.template.init,
+        pageType: vm.pageType.key,
         og: { title: '', keywords: '', image: { imageId: '', crop: {} } },
         twitter: { title: '', keywords: '', image: { imageId: '', crop: {} } },
+        ...vm.template.init,
       };
 
       return vm.$whppt.checkSlug({ slug: newPage.slug }).then(result => {
@@ -68,6 +73,9 @@ export default {
           return vm.$whppt.createPage(newPage).then(page => {
             const { slug } = page;
             vm.closeSidebar();
+            if (`/${slug}` === vm.$router.currentRoute.path) {
+              return vm.$router.go();
+            }
             return vm.$router.push(`/${slug}` || '/');
           });
         }

@@ -6,7 +6,7 @@ export default options => ({
       baseAPIUrl: process.env.BASE_API_URL,
       baseImageUrl: process.env.BASE_IMAGE_URL,
       baseCdnImageUrl: process.env.BASE_CDN_IMAGE_URL,
-      draft: process.env.DRAFT,
+      draft: process.env.DRAFT === 'true' || process.env.DRAFT === true,
       environment: process.env.NODE_ENV,
       activeMenuItem: undefined,
       editSidebar: false,

@@ -147,8 +147,11 @@
             <select
               v-model="listing.activeStatus.value"
               :disabled="!!listing.activeStatus.path || listing.published"
-              class="whppt-select__frequency-input"
-              :class="{ 'whppt-select__disabled': !!listing.activeStatus.path || listing.published }"
+              class="whppt-select__status-input"
+              :class="{
+                'whppt-select__disabled': !!listing.activeStatus.path || listing.published,
+                'bg-white': !listing.activeStatus.path && !listing.published,
+              }"
             >
               <option value="ACTIVE">
                 ACTIVE
@@ -159,7 +162,8 @@
             </select>
             <div class="whppt-select__frequency-info">
               Linked To: {{ listing.activeStatus.path }}. Whether or not the listing and its corresponding page should
-              be published automatically when its ATDW information is updated.
+              be published automatically when its ATDW information is updated. This cannot be edited unless the
+              listing's page has been unpublished.
             </div>
             <!-- <div class="whppt-atdw__form-controls">
               <span>Linked To: {{ listing.activeStatus.path }}</span> -->
@@ -492,6 +496,19 @@ export default {
 .whppt-select__disabled {
   cursor: not-allowed;
   background-color: #f1f1f1;
+}
+
+.whppt-select__status-input {
+  margin: 0.2rem 0 0.5rem;
+  appearance: none;
+  display: block;
+  width: 100%;
+  color: black;
+  border-radius: 0.25rem;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  padding: 0.75rem 1rem;
+  line-height: 1.25;
+  font-size: 0.75rem;
 }
 
 .whppt-atdw {

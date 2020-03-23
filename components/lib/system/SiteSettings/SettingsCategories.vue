@@ -70,8 +70,13 @@
           <div v-if="selectedCat" class="whppt-settings__category" style="width: 75%;">
             <div class="whppt-flex-between whppt-align-center">
               <label for="name">Category: </label>
-              <div class="whppt-redirects__icon" @click="selectedCat = undefined">
-                <w-close></w-close>
+              <div style="display: flex">
+                <div class="whppt-redirects__icon" @click.stop="saveCat(selectedCat)">
+                  <w-save></w-save>
+                </div>
+                <div class="whppt-redirects__icon" @click.stop="selectedCat = undefined">
+                  <w-close></w-close>
+                </div>
               </div>
             </div>
             <div>
@@ -112,6 +117,20 @@
               <button class="whppt-redirects__icon" aria-label="Add Category" @click="addOrFilter()">
                 <w-add-circle></w-add-circle>
               </button>
+            </div>
+
+            <div class="whppt-select__frequency-label">Show Dates Filters?</div>
+            <select v-model="selectedCat.hasDates" class="whppt-select__frequency-input">
+              <option :value="false">
+                No
+              </option>
+              <option :value="true">
+                Yes
+              </option>
+            </select>
+            <div class="whppt-select__frequency-info">
+              Select yes if the listings in this category have important dates (such as events). This will allow users
+              to filter these listings by date.
             </div>
           </div>
           <div class="whppt-settings__category" style="text-align: center; width: 25%;">
@@ -161,6 +180,7 @@ export default {
       const newCat = {
         name: category.name,
         _id: category._id,
+        hasDates: category.hasDates,
         filters: map(category.filters, filter => {
           return filter.value.split(',');
         }),
@@ -228,6 +248,7 @@ export default {
       newCat = {
         name: newCat.name,
         _id: newCat._id,
+        hasDates: false,
         filters: map(newCat.filters, filter => {
           return filter.value.split(',');
         }),

@@ -4,9 +4,7 @@
       <div class="whppt-settings__heading whppt-flex-between">
         <p class="whppt-settings__heading-text">Site Settings</p>
         <div class="whppt-flex-between whppt-align-center">
-          <button class="whppt-settings__button" style="margin-right: 1rem;" @click="publishSettings">
-            Publish
-          </button>
+          <button class="whppt-settings__button" style="margin-right: 1rem;" @click="publishSettings">Publish</button>
           <button class="whppt-settings__button" @click="saveSettings">Save</button>
         </div>
       </div>
@@ -15,8 +13,8 @@
           v-for="(tab, index) in tabs"
           :key="index"
           class="whppt-settings__tab"
-          :class="selectedTab === tab.component ? 'whppt-settings__tab-selected' : ''"
-          @click="selectedTab = tab.component"
+          :class="selectedTab === tab.name ? 'whppt-settings__tab-selected' : ''"
+          @click="selectedTab = tab.name"
         >
           {{ tab.label }}
         </div>
@@ -27,8 +25,8 @@
 </template>
 
 <script>
-import { map, filter, each } from 'lodash';
-import { mapState, mapActions } from 'vuex';
+import { filter, forEach, map } from 'lodash';
+import { mapActions, mapState } from 'vuex';
 
 import SEO from './SettingsSEO';
 import Redirects from './SettingsRedirect';
@@ -37,17 +35,22 @@ import OpenGraph from './SettingsOG';
 import General from './SettingsGeneral';
 import Categories from './SettingsCategories';
 
-const components = {};
-const types = $nuxt.$whppt.types;
+const additionalTabs = [];
+const additionalComponents = {};
+
+const types = global.$whppt.types;
+
 const siteSettingTypes = filter(types, t => t.siteSettings);
-each(siteSettingTypes, (comp, type) => {
-  components[type] = comp;
+
+forEach(siteSettingTypes, type => {
+  additionalComponents[type.siteSettings.name] = type.siteSettings.component;
+  additionalTabs.push(type.siteSettings);
 });
 
 export default {
   name: 'WhpptSiteSettings',
   components: {
-    ...components,
+    ...additionalComponents,
     SEO,
     Redirects,
     General,
@@ -62,22 +65,17 @@ export default {
     selectedTab: 'general',
   }),
   computed: {
-    ...mapState('whppt-nuxt/editor', ['options', 'baseAPIUrl']),
+    ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
     tabs() {
-      const tabs = [
-        { name: 'general', label: 'General', component: 'general' },
-        { name: 'og', label: 'Open Graph', component: 'open-graph' },
-        { name: 'twitter', label: 'Twitter', component: 'twitter' },
-        { name: 'redirects', label: 'Redirects', component: 'redirects' },
-        { name: 'seo', label: 'SEO', component: 's-e-o' },
-        { name: 'categories', label: 'Categories', component: 'categories' },
+      return [
+        { name: 'general', label: 'General' },
+        { name: 'open-graph', label: 'Open Graph' },
+        { name: 'twitter', label: 'Twitter' },
+        { name: 'redirects', label: 'Redirects' },
+        { name: 's-e-o', label: 'SEO' },
+        { name: 'categories', label: 'Categories' },
+        ...additionalTabs,
       ];
-
-      const siteTabs = this.options.siteSettings;
-
-      if (siteTabs && siteTabs.length) tabs.push(...siteTabs);
-
-      return tabs;
     },
   },
   mounted() {
