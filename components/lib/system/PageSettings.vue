@@ -66,7 +66,6 @@
                     {{ formattedSlug }}
                   </div>
                 </div>
-                <div v-if="errorMessage" style="color: red; font-style: italic;">{{ errorMessage }}</div>
               </div>
             </div>
             <div class="whppt-settings__warning-actions">
@@ -180,7 +179,6 @@
                     labelColour="black"
                     info="Priority lets search engines know which pages you deem most important. Values range from 0.0 to 1.0, with a default value of 0.5."
                   />
-                  <div v-if="errorMessage" style="color: red; font-style: italic;">{{ errorMessage }}</div>
                 </div>
                 <div class="whppt-settings__right-column">
                   <div class="whppt-select__frequency-label">Frequency</div>
@@ -229,7 +227,6 @@ export default {
     return {
       showWarning: false,
       selectedTab: 'general',
-      errorMessage: '',
       showSlugModal: false,
       slugCopy: '',
       frequencies: [
