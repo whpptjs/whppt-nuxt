@@ -27,19 +27,45 @@
                 @click="selectedComponent.value.reversed = !selectedComponent.value.reversed"
               ></whppt-check-box>
               <whppt-check-box
-                v-if="ifExsists(selectedComponent.value.inContainer)"
                 :value="selectedComponent.value.inContainer"
                 label="Put in a Container"
                 @click="selectedComponent.value.inContainer = !selectedComponent.value.inContainer"
               ></whppt-check-box>
               <whppt-text-input
-                v-if="ifExsists(selectedComponent.value.marginTop)"
-                v-model="selectedComponent.value.marginTop"
+                v-model="selectedComponent.value.marginTopLarge"
                 type="number"
                 max="8"
                 min="0"
                 :placeholder="$whppt.defaultMarginTop"
-                label="Margin Top"
+                label="Margin Top - Large Screens (Desktop)"
+                class="marin-top-input"
+              />
+              <!-- <whppt-text-input
+                v-if="ifExsists(selectedComponent.value.marginTopLarge)"
+                v-model="selectedComponent.value.marginTopLarge"
+                type="number"
+                max="8"
+                min="0"
+                :placeholder="$whppt.defaultMarginTop"
+                label="Margin Top - Large Screens (Desktop)"
+                class="marin-top-input"
+              /> -->
+              <whppt-text-input
+                v-model="selectedComponent.value.marginTopMedium"
+                type="number"
+                max="8"
+                min="0"
+                :placeholder="$whppt.defaultMarginTop"
+                label="Margin Top - Medium Screens (Tablet)"
+                class="marin-top-input"
+              />
+              <whppt-text-input
+                v-model="selectedComponent.value.marginTopSmall"
+                type="number"
+                max="8"
+                min="0"
+                :placeholder="$whppt.defaultMarginTop"
+                label="Margin Top - Small Screens (Mobile)"
                 class="marin-top-input"
               />
             </div>
