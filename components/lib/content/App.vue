@@ -59,7 +59,6 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import * as Editors from '../system';
-import PageSettings from '../system/PageSettings';
 import SlugSettings from '../system/SlugSettings';
 import PublishSettings from '../system/PublishSettings';
 import WhpptModal from '../whpptComponents/WhpptModal';
@@ -75,13 +74,13 @@ export default {
   props: { prefix: { type: String, default: '' } },
   components: {
     ...Editors,
+    SiteSettings: () => import('../system/SiteSettings'),
+    PageSettings: () => import('../system/PageSettings'),
     WhpptButton,
     WhpptModal,
     WhpptTextInput,
-    SiteSettings: () => import('../system/SiteSettings'),
     SlugSettings,
     PublishSettings,
-    PageSettings,
     WhpptCheckBox,
     ContentsTree,
     WhpptTab,

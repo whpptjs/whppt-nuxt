@@ -60,7 +60,7 @@ export default {
       const newPage = {
         slug: this.formatSlug(vm.slug),
         template: vm.template.key,
-        pageType: vm.pageType.key,
+        pageType: vm.pageType && vm.pageType.key,
         og: { title: '', keywords: '', image: { imageId: '', crop: {} } },
         twitter: { title: '', keywords: '', image: { imageId: '', crop: {} } },
         ...vm.template.init,
