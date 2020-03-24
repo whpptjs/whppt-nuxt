@@ -13,7 +13,6 @@ import Menu from './Menu';
 import PlainText from './TextBox';
 import RichText from './RichText';
 import SplitContent from './SplitContent';
-import WhpptPage from './WhpptPage';
 import WLink from './Link';
 // import VideoBlock from './_VideoBlock';
 import Youtube from './Youtube';
@@ -34,7 +33,6 @@ export {
   PlainText,
   RichText,
   SplitContent,
-  WhpptPage,
   WLink,
   Youtube,
   // _VideoBlock,

@@ -5,6 +5,10 @@
     <form class="whppt-page__form" @submit.prevent>
       <whppt-select v-model="template" :items="templates" label="Page Template" />
       <whppt-select v-model="pageType" :items="pageTypes" label="Page Type" />
+
+      <div v-for="(component, compIndex) in additionalComponents" :key="compIndex">
+        <component :is="component" v-if="pageType" />
+      </div>
       <whppt-text-input
         v-model="slug"
         label="Page Slug"
@@ -19,16 +23,27 @@
 </template>
 
 <script>
+import { map, filter, forEach } from 'lodash';
 import { mapState, mapActions } from 'vuex';
 import slugify from 'slugify';
 import WhpptButton from '../../../components/lib/whpptComponents/WhpptButton';
 import WhpptTextInput from '../whpptComponents/WhpptTextInput';
 import WhpptSelect from '../whpptComponents/WhpptSelect';
 
+const additionalComponents = {};
+
+const types = global.$whppt.types;
+const pageTypes = filter(types, t => t.pageTypes);
+
+forEach(pageTypes, type => {
+  additionalComponents[type.pageTypes.name] = type.pageTypes.component;
+});
+
 export default {
   name: 'WhpptPage',
-  components: { WhpptButton, WhpptSelect, WhpptTextInput },
+  components: { ...additionalComponents, WhpptButton, WhpptSelect, WhpptTextInput },
   data: () => ({
+    additionalComponents,
     template: undefined,
     pageType: undefined,
     slug: '',
@@ -41,7 +56,7 @@ export default {
       return this.$whppt.templates;
     },
     pageTypes() {
-      return this.$whppt.pageTypes;
+      return map(this.$whppt.types, t => t.pageTypes);
     },
   },
   mounted() {
