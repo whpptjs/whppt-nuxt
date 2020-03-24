@@ -4,33 +4,33 @@
       <div class="whppt-flex-between">
         <div class="whppt-settings__left-column">
           <whppt-text-input
-            v-model="settings.og.title"
-            placeholder="OG title"
+            v-model="settings.twitter.title"
+            placeholder="Twitter title"
             label="Title"
             label-colour="black"
-            info="Open graph title is shown on most social media platforms as the title in a card that is created when this settings url is used. (e.g. Facebook)"
+            info="Twitter title is shown on most social media platforms as the title in a card that is created when this pages url is used."
           />
         </div>
         <div class="whppt-settings__right-column">
           <whppt-text-input
-            v-model="settings.og.keywords"
-            placeholder="OG Keywords (eg. page, blank)"
+            v-model="settings.twitter.keywords"
+            placeholder="keywords, for, twitter"
             label="Keywords"
             label-colour="black"
-            info="Open graph description is shown on most social media platforms as the description in a card that is created when this settings url is used. (e.g. Facebook)"
+            info="Twitter description is shown on most social media platforms as the description in a card that is created when this pages url is used."
           />
         </div>
       </div>
 
-      <div v-if="!settings.og.image.imageId">
+      <div v-if="!settings.twitter.image.imageId">
         <div class="whppt-label">Gallery</div>
         <Gallery :limit="7" image-display-size="25%" @input="openCropper"></Gallery>
       </div>
-      <div v-if="settings.og.image.imageId">
+      <div v-if="settings.twitter.image.imageId">
         <div class="whppt-label">Image</div>
         <cropping
           class="whppt-text-center"
-          :image-options="settings.og.image"
+          :image-options="settings.twitter.image"
           :sizes="sizes"
           @imageRemoved="removeImage"
         />
@@ -40,12 +40,12 @@
 </template>
 
 <script>
-import WhpptTextInput from '../../whpptComponents/WhpptTextInput';
-import Gallery from '../EditImage/Gallery';
-import Cropping from '../EditImage/Cropping';
+import WhpptTextInput from '../../../whpptComponents/WhpptTextInput';
+import Gallery from '../../EditImage/Gallery';
+import Cropping from '../../EditImage/Cropping';
 
 export default {
-  name: 'SettingsOG',
+  name: 'SettingsTwitter',
   components: { WhpptTextInput, Gallery, Cropping },
   props: { settings: { type: Object, default: () => ({}) } },
   data() {
@@ -55,10 +55,10 @@ export default {
   },
   methods: {
     openCropper(id) {
-      this.settings.og.image.imageId = id;
+      this.settings.twitter.image.imageId = id;
     },
     removeImage() {
-      this.settings.og.image.imageId = '';
+      this.settings.twitter.image.imageId = '';
     },
   },
 };

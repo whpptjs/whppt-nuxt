@@ -56,7 +56,7 @@
                     v-model="slugCopy"
                     placeholder="Enter a page slug"
                     label="Slug"
-                    labelColour="black"
+                    label-colour="black"
                     info="The page slug makes up part of the page's url that is shown in the browsers address bar and is used by search engines to match your page with search terms. Your input will be formatted to avoid certain characters."
                   />
                 </div>
@@ -216,8 +216,8 @@ import WhpptTextArea from '../whpptComponents/WhpptTextArea';
 import WhpptSelect from '../whpptComponents/WhpptSelect';
 import Gallery from './EditImage/Gallery';
 import Cropping from './EditImage/Cropping';
-import SettingsOpenGraph from './SiteSettings/SettingsOG';
-import SettingsTwitter from './SiteSettings/SettingsTwitter';
+import SettingsOpenGraph from './SiteSettings/tabs/SettingsOG';
+import SettingsTwitter from './SiteSettings/tabs/SettingsTwitter';
 
 export default {
   name: 'WhpptSiteSettings',

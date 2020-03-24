@@ -1,12 +1,10 @@
 <template>
   <div class="whppt-settings">
     <div class="whppt-settings__content">
-      <div class="whppt-settings__heading whppt-flex-between">
-        <p class="whppt-settings__heading-text">Site Settings</p>
-        <div class="whppt-flex-between whppt-align-center">
-          <button class="whppt-settings__button" style="margin-right: 1rem;" @click="publishSettings">Publish</button>
-          <button class="whppt-settings__button" @click="saveSettings">Save</button>
-        </div>
+      <!--      :style="`background: ${showSlugModal || showWarning ? 'grey' : 'white'}`"-->
+      <div class="whppt-settings__heading">
+        <h2 class="whppt-settings__heading-text">Page Settings</h2>
+        <button class="whppt-settings__button" @click="saveSettings">Save</button>
       </div>
       <div class="whppt-settings__tabs">
         <div
@@ -19,32 +17,30 @@
           {{ tab.label }}
         </div>
       </div>
-      <component :is="selectedTab" :settings="siteSettings" />
+      <component :is="selectedTab" :page="page" :prefix="prefix" />
     </div>
   </div>
 </template>
 
 <script>
-import { filter, forEach, map } from 'lodash';
+import { clamp, filter, forEach } from 'lodash';
 import { mapActions, mapState } from 'vuex';
 
-import SEO from './tabs/SettingsSEO';
-import Redirects from './tabs/SettingsRedirect';
-import Twitter from './tabs/SettingsTwitter';
-import OpenGraph from './tabs/SettingsOG';
-import General from './tabs/SettingsGeneral';
-import Categories from './tabs/SettingsCategories';
+import SEO from './tabs/SEO';
+import Twitter from './tabs/Twitter';
+import OpenGraph from './tabs/OpenGraph';
+import General from './tabs/General';
 
 const additionalTabs = [];
 const additionalComponents = {};
 
 const types = global.$whppt.types;
 
-const siteSettingTypes = filter(types, t => t.siteSettings);
+const pageSettingTypes = filter(types, t => t.pageSettings);
 
-forEach(siteSettingTypes, type => {
-  additionalComponents[type.siteSettings.name] = type.siteSettings.component;
-  additionalTabs.push(type.siteSettings);
+forEach(pageSettingTypes, type => {
+  additionalComponents[type.pageSettings.name] = type.pageSettings.component;
+  additionalTabs.push(type.pageSettings);
 });
 
 export default {
@@ -52,12 +48,11 @@ export default {
   components: {
     ...additionalComponents,
     SEO,
-    Redirects,
     General,
-    OpenGraph,
     Twitter,
-    Categories,
+    OpenGraph,
   },
+  props: { prefix: { type: String, default: '' } },
   data: () => ({
     usedListings: [],
     warningId: undefined,
@@ -66,79 +61,35 @@ export default {
   }),
   computed: {
     ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
+    ...mapState('whppt-nuxt/page', ['page']),
     tabs() {
       return [
         { name: 'general', label: 'General' },
+        { name: 's-e-o', label: 'Seo' },
         { name: 'open-graph', label: 'Open Graph' },
         { name: 'twitter', label: 'Twitter' },
-        { name: 'redirects', label: 'Redirects' },
-        { name: 's-e-o', label: 'SEO' },
-        { name: 'categories', label: 'Categories' },
         ...additionalTabs,
       ];
     },
   },
   mounted() {
-    this.loadSiteSettings();
+    this.page.og = this.page.og || { title: '', keywords: '', image: { imageId: '', crop: {} } };
+    this.page.twitter = this.page.twitter || { title: '', keywords: '', image: { imageId: '', crop: {} } };
+    this.page.frequency = this.page.frequency || 'yearly';
   },
   methods: {
-    ...mapActions('whppt-nuxt/site', ['saveSiteSettings', 'publishSiteSettings']),
-    loadSiteSettings() {
-      return this.$axios.get(`${this.baseAPIUrl}/api/siteSettings/loadSiteSettings`).then(({ data: siteSettings }) => {
-        this.siteSettings = siteSettings || { _id: 'siteSettings' };
-        this.siteSettings.og = this.siteSettings.og || { title: '', keywords: '', image: { imageId: '', crop: {} } };
-        this.siteSettings.twitter = this.siteSettings.twitter || {
-          title: '',
-          keywords: '',
-          image: { imageId: '', crop: {} },
-        };
-      });
-    },
+    ...mapActions('whppt-nuxt/page', ['savePage']),
     saveSettings() {
-      const formattedCategories = map(this.categories, category => {
-        return {
-          name: category.name,
-          _id: category._id,
-          filters: map(category.filters, filter => {
-            return filter.value.split(',');
-          }),
-        };
-      });
-      // TODO: need to check the email address is valid (empty is fine)
-      this.saveSiteSettings({
-        siteSettings: this.siteSettings,
-        categories: formattedCategories,
-        redirects: this.redirects,
-      });
-    },
-    publishSettings() {
-      const formattedCategories = map(this.categories, category => {
-        return {
-          name: category.name,
-          _id: category._id,
-          filters: map(category.filters, filter => {
-            return filter.value.split(',');
-          }),
-        };
-      });
-      this.publishSiteSettings({
-        siteSettings: this.siteSettings,
-        categories: formattedCategories,
-        redirects: this.redirects,
-      });
+      if (this.page.priority) {
+        this.page.priority = clamp(this.page.priority, 0, 1);
+      }
+      return this.savePage();
     },
   },
 };
 </script>
 
 <style>
-/* .whppt-settings__category {
-  border: 1px solid gray;
-  margin: 10px;
-  padding: 10px;
-  flex: 1;
-} */
-
 .whppt-settings__column {
   width: 50%;
 }
