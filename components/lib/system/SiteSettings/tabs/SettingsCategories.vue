@@ -150,7 +150,7 @@
 <script>
 import { map, orderBy, remove } from 'lodash';
 import { mapState } from 'vuex';
-import WhpptTextInput from '../../whpptComponents/WhpptTextInput';
+import WhpptTextInput from '../../../whpptComponents/WhpptTextInput';
 
 export default {
   name: 'SettingsTwitter',

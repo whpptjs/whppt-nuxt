@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import SettingsOpenGraph from '../../SiteSettings/SettingsOG';
+import SettingsOpenGraph from '../../SiteSettings/tabs/SettingsOG';
 
 export default {
   name: 'PageSettingsOpenGraph',

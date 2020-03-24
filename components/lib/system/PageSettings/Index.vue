@@ -17,7 +17,7 @@
           {{ tab.label }}
         </div>
       </div>
-      <component :is="selectedTab" :page="page" />
+      <component :is="selectedTab" :page="page" :prefix="prefix" />
     </div>
   </div>
 </template>
@@ -26,7 +26,6 @@
 import { clamp, filter, forEach } from 'lodash';
 import { mapActions, mapState } from 'vuex';
 
-import slugify from 'slugify';
 import SEO from './tabs/SEO';
 import Twitter from './tabs/Twitter';
 import OpenGraph from './tabs/OpenGraph';
@@ -72,13 +71,6 @@ export default {
         ...additionalTabs,
       ];
     },
-    formattedSlug() {
-      return this.formatSlug(this.slugCopy);
-    },
-    slugSuffix() {
-      if (!this.prefix) return '';
-      return this.slugCopy.replace(`${this.prefix}/`, '');
-    },
   },
   mounted() {
     this.page.og = this.page.og || { title: '', keywords: '', image: { imageId: '', crop: {} } };
@@ -92,38 +84,6 @@ export default {
         this.page.priority = clamp(this.page.priority, 0, 1);
       }
       return this.savePage();
-    },
-    formatSlug(slug) {
-      if (slug.startsWith('/')) slug = slug.replace(/^(\/*)/, '');
-      slug = slug.replace(/\/{2,}/g, '/');
-
-      slug = slugify(slug, { remove: /[*+~.()'"!:@]/g, lower: true });
-      slug = slug.replace(/[#?]/g, '');
-      return slug;
-    },
-    confirmSlug(value) {
-      value = this.formatSlug(value);
-      if (this.prefix) value = `${this.prefix}/${value}`;
-      this.slugCopy = value;
-    },
-    saveSlug() {
-      const vm = this;
-      const newSlug = this.formattedSlug;
-      if (!newSlug) {
-        this.$toast.global.editorError('Cannot use an empty slug');
-        return;
-      }
-      return vm.$whppt.checkSlug({ slug: newSlug, _id: this.page._id }).then(result => {
-        if (result) {
-          this.$toast.global.editorError('Slug already in use');
-        } else {
-          vm.page.slug = newSlug;
-          return vm.savePage().then(() => {
-            vm.$router.push(`/${newSlug}`);
-            vm.$emit('closeModal');
-          });
-        }
-      });
     },
   },
 };

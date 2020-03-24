@@ -216,8 +216,8 @@ import WhpptTextArea from '../whpptComponents/WhpptTextArea';
 import WhpptSelect from '../whpptComponents/WhpptSelect';
 import Gallery from './EditImage/Gallery';
 import Cropping from './EditImage/Cropping';
-import SettingsOpenGraph from './SiteSettings/SettingsOG';
-import SettingsTwitter from './SiteSettings/SettingsTwitter';
+import SettingsOpenGraph from './SiteSettings/tabs/SettingsOG';
+import SettingsTwitter from './SiteSettings/tabs/SettingsTwitter';
 
 export default {
   name: 'WhpptSiteSettings',

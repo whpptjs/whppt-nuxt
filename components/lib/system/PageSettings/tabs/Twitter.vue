@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import SettingsTwitter from '../../SiteSettings/SettingsTwitter';
+import SettingsTwitter from '../../SiteSettings/tabs/SettingsTwitter';
 
 export default {
   name: 'PageSettingsTwitter',

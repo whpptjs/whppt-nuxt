@@ -76,7 +76,7 @@
 import { mapState } from 'vuex';
 
 import { remove } from 'lodash';
-import WhpptTextInput from '../../whpptComponents/WhpptTextInput';
+import WhpptTextInput from '../../../whpptComponents/WhpptTextInput';
 
 export default {
   name: 'SettingsRedirects',

@@ -104,6 +104,7 @@
 <script>
 import { mapActions } from 'vuex';
 import WhpptTextInput from '../../../whpptComponents/WhpptTextInput';
+import slugify from 'slugify';
 
 export default {
   name: 'PageSettingsGeneral',
@@ -112,17 +113,59 @@ export default {
   },
   props: {
     page: { type: Object, required: true },
+    prefix: { type: String, default: () => '' },
   },
   data: () => ({
     showWarning: false,
     showSlugModal: false,
     slugCopy: '',
   }),
+  computed: {
+    formattedSlug() {
+      return this.formatSlug(this.slugCopy);
+    },
+    slugSuffix() {
+      if (!this.prefix) return '';
+      return this.slugCopy.replace(`${this.prefix}/`, '');
+    },
+  },
   methods: {
     ...mapActions('whppt-nuxt/page', ['savePage', 'deletePage']),
     openSlugModal() {
       this.showSlugModal = true;
       this.slugCopy = this.page.slug;
+    },
+    formatSlug(slug) {
+      if (slug.startsWith('/')) slug = slug.replace(/^(\/*)/, '');
+      slug = slug.replace(/\/{2,}/g, '/');
+
+      slug = slugify(slug, { remove: /[*+~.()'"!:@]/g, lower: true });
+      slug = slug.replace(/[#?]/g, '');
+      return slug;
+    },
+    confirmSlug(value) {
+      value = this.formatSlug(value);
+      if (this.prefix) value = `${this.prefix}/${value}`;
+      this.slugCopy = value;
+    },
+    saveSlug() {
+      const vm = this;
+      const newSlug = this.formattedSlug;
+      if (!newSlug) {
+        this.$toast.global.editorError('Cannot use an empty slug');
+        return;
+      }
+      return vm.$whppt.checkSlug({ slug: newSlug, _id: this.page._id }).then(result => {
+        if (result) {
+          this.$toast.global.editorError('Slug already in use');
+        } else {
+          vm.page.slug = newSlug;
+          return vm.savePage().then(() => {
+            vm.$router.push(`/${newSlug}`);
+            vm.$emit('closeModal');
+          });
+        }
+      });
     },
     deletePageFromDraft() {
       const vm = this;

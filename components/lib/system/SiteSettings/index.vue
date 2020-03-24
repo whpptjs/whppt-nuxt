@@ -28,12 +28,12 @@
 import { filter, forEach, map } from 'lodash';
 import { mapActions, mapState } from 'vuex';
 
-import SEO from './SettingsSEO';
-import Redirects from './SettingsRedirect';
-import Twitter from './SettingsTwitter';
-import OpenGraph from './SettingsOG';
-import General from './SettingsGeneral';
-import Categories from './SettingsCategories';
+import SEO from './tabs/SettingsSEO';
+import Redirects from './tabs/SettingsRedirect';
+import Twitter from './tabs/SettingsTwitter';
+import OpenGraph from './tabs/SettingsOG';
+import General from './tabs/SettingsGeneral';
+import Categories from './tabs/SettingsCategories';
 
 const additionalTabs = [];
 const additionalComponents = {};
