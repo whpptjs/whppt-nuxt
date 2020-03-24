@@ -79,11 +79,13 @@
             <div class="whppt-flex-between whppt-align-center">
               <label for="name">Category: </label>
               <div style="display: flex">
-                <div class="whppt-redirects__icon" @click.stop="saveCat(selectedCat)">
-                  <w-save></w-save>
+                <div class="whppt-settings__tooltip whppt-redirects__icon" @click.stop="selectedCat = undefined">
+                  <span class="whppt-settings__tooltip-text">Back</span>
+                  <w-left-triangle></w-left-triangle>
                 </div>
-                <div class="whppt-redirects__icon" @click.stop="selectedCat = undefined">
-                  <w-close></w-close>
+                <div class="whppt-settings__tooltip whppt-redirects__icon" @click.stop="saveCat(selectedCat)">
+                  <span class="whppt-settings__tooltip-text">Save</span>
+                  <w-save></w-save>
                 </div>
               </div>
             </div>

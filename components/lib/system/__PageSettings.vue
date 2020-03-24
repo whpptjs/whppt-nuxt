@@ -333,36 +333,6 @@ export default {
   position: relative;
 }
 
-.whppt-select__frequency-label {
-  display: block;
-  text-transform: uppercase;
-  letter-spacing: 0.025em;
-  font-size: 0.75rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-}
-
-.whppt-select__frequency-info {
-  color: gray;
-  font-size: 0.75rem;
-  font-style: italic;
-  margin-bottom: 0.75rem;
-}
-
-.whppt-select__frequency-input {
-  margin: 0.2rem 0 0.5rem;
-  appearance: none;
-  display: block;
-  width: 100%;
-  background-color: white;
-  color: black;
-  border-radius: 0.25rem;
-  border: 1px solid rgba(0, 0, 0, 0.5);
-  padding: 0.75rem 1rem;
-  line-height: 1.25;
-  font-size: 0.75rem;
-}
-
 .whppt-settings__column {
   width: 50%;
 }
