@@ -185,6 +185,21 @@ export default {
   border-radius: 25px;
 }
 
+.whppt-settings__tooltip .whppt-settings__tooltip-text {
+  visibility: hidden;
+  text-align: center;
+  border: 1px solid #981a31;
+  padding: 2px 6px;
+  position: absolute;
+  z-index: 100;
+  margin-top: -2rem;
+  background: white;
+  border-radius: 0.25rem;
+}
+.whppt-settings__tooltip:hover .whppt-settings__tooltip-text {
+  visibility: visible;
+}
+
 .whppt-icon {
   display: inline-block;
   color: black;

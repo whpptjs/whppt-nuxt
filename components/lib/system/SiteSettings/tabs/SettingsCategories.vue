@@ -51,16 +51,24 @@
                 {{ category.name }}
               </div>
               <div class="whppt-flex-between whppt-align-center">
-                <div class="whppt-redirects__icon" @click.stop="saveCat(category)">
+                <div
+                  class="whppt-settings__tooltip whppt-redirects__icon"
+                  style="position: relative"
+                  @click.stop="saveCat(category)"
+                >
+                  <span class="whppt-settings__tooltip-text">Save</span>
                   <w-save></w-save>
                 </div>
-                <div class="whppt-redirects__icon" @click.stop="publishCat(category)">
+                <div class="whppt-settings__tooltip whppt-redirects__icon" @click.stop="publishCat(category)">
+                  <span class="whppt-settings__tooltip-text">Publish</span>
                   <w-publish></w-publish>
                 </div>
-                <div class="whppt-redirects__icon" @click.stop="unpublishCat(category)">
+                <div class="whppt-settings__tooltip whppt-redirects__icon" @click.stop="unpublishCat(category)">
+                  <span class="whppt-settings__tooltip-text">Unpublish</span>
                   <w-close></w-close>
                 </div>
-                <div class="whppt-redirects__icon" @click.stop="openWarning(category)">
+                <div class="whppt-settings__tooltip whppt-redirects__icon" @click.stop="openWarning(category)">
+                  <span class="whppt-settings__tooltip-text">Delete</span>
                   <w-remove></w-remove>
                 </div>
               </div>

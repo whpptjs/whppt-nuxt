@@ -43,7 +43,7 @@
           </div>
         </div>
       </div>
-      <div v-for="(redirect, index) in redirects" :key="index">
+      <div v-for="(redirect, index) in slicedRedirects" :key="index">
         <div class="whppt-flex-between whppt-align-center">
           <div class="whppt-redirects__left-column">
             <whppt-text-input v-model="redirect.from" placeholder="From Page" label="From" label-colour="black" />
@@ -52,16 +52,20 @@
             <whppt-text-input v-model="redirect.to" placeholder="To Page" label="To" label-colour="black" />
           </div>
           <div class="whppt-redirects__actions-column">
-            <div class="whppt-redirects__icon" @click="save(redirect)">
+            <div class="whppt-settings__tooltip whppt-redirects__icon" @click="save(redirect)">
+              <span class="whppt-settings__tooltip-text">Save</span>
               <w-save></w-save>
             </div>
-            <div class="whppt-redirects__icon" @click="publish(redirect)">
+            <div class="whppt-settings__tooltip whppt-redirects__icon" @click="publish(redirect)">
+              <span class="whppt-settings__tooltip-text">Publish</span>
               <w-publish></w-publish>
             </div>
-            <div class="whppt-redirects__icon" @click="unpublishRedirect(redirect)">
+            <div class="whppt-settings__tooltip whppt-redirects__icon" @click="unpublishRedirect(redirect)">
+              <span class="whppt-settings__tooltip-text">Unpublish</span>
               <w-close></w-close>
             </div>
-            <div class="whppt-redirects__icon" @click="deleteRedirect(redirect)">
+            <div class="whppt-settings__tooltip whppt-redirects__icon" @click="deleteRedirect(redirect)">
+              <span class="whppt-settings__tooltip-text">Delete</span>
               <w-remove></w-remove>
             </div>
           </div>
@@ -74,6 +78,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import slugify from 'slugify';
 
 import { remove } from 'lodash';
 import WhpptTextInput from '../../../whpptComponents/WhpptTextInput';
@@ -88,7 +93,7 @@ export default {
     errorMessage: '',
     pages: 0,
     currentPage: 0,
-    limit: 8,
+    limit: 4,
   }),
   computed: {
     ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
@@ -128,7 +133,8 @@ export default {
     },
     addRedirect() {
       const vm = this;
-
+      this.newRedirect.to = this.formatSlug(this.newRedirect.to);
+      this.newRedirect.from = this.formatSlug(this.newRedirect.from);
       if (!this.newRedirect.to || !this.newRedirect.from)
         return this.$toast.global.editorError('Cannot save an empty redirect');
 
@@ -151,9 +157,18 @@ export default {
             });
         });
     },
+    formatSlug(slug) {
+      if (slug.startsWith('/')) slug = slug.replace(/^(\/*)/, '');
+      slug = slug.replace(/\/{2,}/g, '/');
+
+      slug = slugify(slug, { remove: /[*+~.()'"!:@]/g, lower: true });
+      slug = slug.replace(/[#?]/g, '');
+      return slug;
+    },
     save(redirect) {
       const vm = this;
-
+      redirect.to = this.formatSlug(redirect.to);
+      redirect.from = this.formatSlug(redirect.from);
       if (!redirect.to || !redirect.from) return this.$toast.global.editorError('Cannot save an empty redirect');
       if (redirect.to === redirect.from) return this.$toast.global.editorError('To and From must be different');
       if (!redirect.to.startsWith('/')) redirect.to = `/${redirect.to}`;
@@ -172,6 +187,8 @@ export default {
     },
     publish(redirect) {
       const vm = this;
+      redirect.to = this.formatSlug(redirect.to);
+      redirect.from = this.formatSlug(redirect.from);
       if (!redirect.to || !redirect.from) return this.$toast.global.editorError('Cannot publish an empty redirect');
       if (redirect.to === redirect.from) return this.$toast.global.editorError('To and From must be different');
       if (!redirect.to.startsWith('/')) redirect.to = `/${redirect.to}`;
@@ -195,7 +212,8 @@ export default {
       });
     },
     swapPage(newPage) {
-      this.$emit('swapPage', newPage);
+      this.currentPage = newPage;
+      this.sliceRedirects();
     },
   },
 };
