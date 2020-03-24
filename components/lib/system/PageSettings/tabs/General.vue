@@ -46,10 +46,10 @@
             </div>
           </div>
           <div class="whppt-settings__warning-actions">
-            <button class="whppt-settings__warning-button" @click="saveSlug">
+            <button class="whppt-settings__button" style="margin-left: 0" @click="saveSlug">
               Save
             </button>
-            <button class="whppt-settings__warning-button" @click="showSlugModal = false">Close</button>
+            <button class="whppt-settings__button" @click="showSlugModal = false">Close</button>
           </div>
           <div></div>
         </form>
@@ -68,10 +68,10 @@
             </div>
           </div>
           <div class="whppt-settings__warning-actions">
-            <button class="whppt-settings__warning-button" @click="deletePageFromDraft()">
+            <button class="whppt-settings__button" style="margin-left: 0" @click="deletePageFromDraft()">
               Delete
             </button>
-            <button class="whppt-settings__warning-button" @click="showWarning = false">Cancel</button>
+            <button class="whppt-settings__button" @click="showWarning = false">Cancel</button>
           </div>
           <div></div>
         </div>
