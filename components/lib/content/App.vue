@@ -89,6 +89,7 @@ import SlugSettings from '../system/SlugSettings';
 import PublishSettings from '../system/PublishSettings';
 import WhpptModal from '../whpptComponents/WhpptModal';
 import WhpptTextInput from '../whpptComponents/WhpptTextInput';
+import WhpptButton from '../whpptComponents/WhpptButton';
 import WhpptCheckBox from '../whpptComponents/CheckBox';
 import ContentsTree from '../whpptComponents/ContentsTree';
 import WhpptTab from '../whpptComponents/WhpptTab';
@@ -104,6 +105,7 @@ export default {
     WhpptPage: () => import('../system/WhpptPage'),
     WhpptModal,
     WhpptTextInput,
+    WhpptButton,
     SlugSettings,
     PublishSettings,
     WhpptCheckBox,
