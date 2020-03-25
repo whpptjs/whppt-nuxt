@@ -145,7 +145,7 @@
           </div>
           <div class="whppt-settings__category" style="text-align: center; width: 25%;">
             <div class="whppt-font-bold">
-              Tag category fields
+              All Listing Tags:
             </div>
             <div class="whppt-settings__ordered-cats-container">
               <div v-for="cat in orderedAllCats" :key="cat">{{ cat }}</div>
