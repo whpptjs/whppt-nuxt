@@ -5,9 +5,15 @@
     <form class="whppt-page__form" @submit.prevent>
       <whppt-select v-model="template" :items="templates" label="Page Template" />
       <whppt-select v-model="pageType" :items="pageTypes" label="Page Type" />
-
       <div v-for="(component, compIndex) in additionalComponents" :key="compIndex">
-        <component :is="component" v-if="pageType" />
+        <!-- Maybe use an event here and push into and array or something -->
+        <component
+          :is="component"
+          :page-type="pageType"
+          :slug="slug"
+          :template="template"
+          @applyData="applyCustomData"
+        />
       </div>
       <whppt-text-input
         v-model="slug"
@@ -47,7 +53,6 @@ export default {
     template: undefined,
     pageType: undefined,
     slug: '',
-    title: '',
     showError: false,
   }),
   computed: {
@@ -66,19 +71,28 @@ export default {
   },
   methods: {
     ...mapActions('whppt-nuxt/editor', ['closeSidebar']),
+    applyCustomData(data) {
+      forEach(data, (item, index) => (this[index] = item));
+    },
     saveNewPage() {
       const vm = this;
       vm.showError = false;
-      // TODO: Need to show a message on screen
-      if (!vm.slug || !vm.template) return;
+      if (!vm.slug || !vm.template) {
+        const { slug, template } = vm;
+        this.$toast.global.editorError(
+          `Missing Fields: ${!slug ? 'Slug' : ''}${!vm.slug && !vm.template ? ', ' : ''}${!template ? 'Template' : ''}.`
+        );
+        return;
+      }
 
       const newPage = {
+        ...vm.page,
+        ...vm.template.init,
         slug: this.formatSlug(vm.slug),
         template: vm.template.key,
-        pageType: vm.pageType && vm.pageType.key,
+        pageType: this.pageType && this.pageType.name,
         og: { title: '', keywords: '', image: { imageId: '', crop: {} } },
         twitter: { title: '', keywords: '', image: { imageId: '', crop: {} } },
-        ...vm.template.init,
       };
 
       return vm.$whppt.checkSlug({ slug: newPage.slug }).then(result => {
@@ -91,6 +105,7 @@ export default {
             if (`/${slug}` === vm.$router.currentRoute.path) {
               return vm.$router.go();
             }
+            this.$toast.global.editorSuccess('Page Successfully Created!');
             return vm.$router.push(`/${slug}` || '/');
           });
         }
