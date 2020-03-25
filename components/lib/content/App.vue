@@ -92,6 +92,7 @@ import WhpptTextInput from '../whpptComponents/WhpptTextInput';
 import WhpptCheckBox from '../whpptComponents/CheckBox';
 import ContentsTree from '../whpptComponents/ContentsTree';
 import WhpptTab from '../whpptComponents/WhpptTab';
+import WhpptButton from '../whpptComponents/WhpptButton';
 import WhpptTabs from '../whpptComponents/WhpptTabs';
 
 export default {
@@ -102,6 +103,7 @@ export default {
     SiteSettings: () => import('../system/SiteSettings'),
     PageSettings: () => import('../system/PageSettings'),
     WhpptPage: () => import('../system/WhpptPage'),
+    WhpptButton,
     WhpptModal,
     WhpptTextInput,
     SlugSettings,
