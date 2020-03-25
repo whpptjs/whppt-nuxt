@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-chapter-links="page">
     This is a Chapters Page!
   </div>
 </template>
@@ -12,6 +12,7 @@ import meta from '~/components/mixins/meta';
 export default {
   name: 'WildCardPage',
   components: { ...DisplayComponents },
+
   mixins: [meta],
   computed: {
     ...mapState('whppt-nuxt/page', ['page']),

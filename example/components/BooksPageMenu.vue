@@ -1,5 +1,5 @@
 <template>
-  <div v-if="pageType.name === 'chapters'" class="whppt-select">
+  <div class="whppt-select">
     <label for="bookSelect" class="whppt-select__label">
       Associate this page to a Book
     </label>
@@ -11,16 +11,11 @@
 </template>
 
 <script>
-import { forEach } from 'lodash';
 import { mapState } from 'vuex';
 
 export default {
   name: 'ChaptersPageTypes',
   props: {
-    pageType: {
-      type: [Object, String],
-      default: () => ({}),
-    },
     slug: {
       type: String,
       default: () => '',
@@ -47,14 +42,6 @@ export default {
     },
     selectBook(event) {
       Object.assign(this.page, { book: { ...this.books[event.target.value] } });
-      const slugParts = this.slug.split('/');
-
-      let slug = `${(this.page.book && this.page.book.slug) || 'testing-concat'}`;
-      forEach(slugParts, part => {
-        slug += `/${part}`;
-      });
-
-      this.$emit('applyData', { slug });
     },
   },
 };

@@ -5,16 +5,7 @@
     <form class="whppt-page__form" @submit.prevent>
       <whppt-select v-model="template" :items="templates" label="Page Template" />
       <whppt-select v-model="pageType" :items="pageTypes" label="Page Type" />
-      <div v-for="(component, compIndex) in additionalComponents" :key="compIndex">
-        <!-- Maybe use an event here and push into and array or something -->
-        <component
-          :is="component"
-          :page-type="pageType"
-          :slug="slug"
-          :template="template"
-          @applyData="applyCustomData"
-        />
-      </div>
+      <component :is="pageType.name" v-if="pageType" />
       <whppt-text-input
         v-model="slug"
         label="Page Slug"
@@ -71,9 +62,6 @@ export default {
   },
   methods: {
     ...mapActions('whppt-nuxt/editor', ['closeSidebar']),
-    applyCustomData(data) {
-      forEach(data, (item, index) => (this[index] = item));
-    },
     saveNewPage() {
       const vm = this;
       vm.showError = false;
@@ -113,13 +101,13 @@ export default {
     },
     formatSlug(slug) {
       if (slug.startsWith('/')) slug = slug.replace(/^(\/*)/, '');
-      if (this.pageType && this.pageType.slugPrefix) slug = `${this.pageType.slugPrefix}/${slug}`;
 
       slug = slug.replace(/\/{2,}/g, '/');
 
       slug = slugify(slug, { remove: /[*+~.()'"!:@]/g, lower: true });
       slug = slug.replace(/[#?]/g, '');
 
+      if (this.pageType && this.pageType.formatSlug) return this.pageType.formatSlug({ page: this.page, slug });
       return slug;
     },
   },

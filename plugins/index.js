@@ -1,3 +1,4 @@
+import { filter, flatMap, forEach } from 'lodash';
 import { Components } from './Components';
 
 import contentDirective from './directives/content';
@@ -14,6 +15,7 @@ import listingDirective from './directives/listing';
 import editImageDirective from './directives/editImage';
 import anchorDirective from './directives/anchor';
 import contactIconDirective from './directives/contactIcon';
+import dynamicDirective from './directives/dynamic';
 // import _videoBlockDirective from './directives/_videoBlock';
 import youtubeDirective from './directives/youtube';
 
@@ -78,6 +80,7 @@ export default (context, inject) => {
   };
 
   const { store } = context;
+
   Object.assign(global.$whppt, {
     editData: undefined,
     publishListing: PublishListing(context),
@@ -140,4 +143,19 @@ export default (context, inject) => {
   contactIconDirective({ ...context, menuIsInState, MENUSTATES });
   // _videoBlockDirective({ ...context, menuIsInState, MENUSTATES });
   youtubeDirective({ ...context, menuIsInState, MENUSTATES });
+
+  const types = global.$whppt.types;
+  const editors = flatMap(
+    filter(types, t => t.editors),
+    t => t.editors
+  );
+
+  forEach(editors, editor => {
+    dynamicDirective({
+      ...context,
+      menuIsInState,
+      MENUSTATES,
+      definition: editor,
+    });
+  });
 };
