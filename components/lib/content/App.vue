@@ -11,74 +11,7 @@
     <div class="whppt-content">
       <slot></slot>
     </div>
-    <div v-if="isDraft" class="whppt-sidebar" :class="{ 'whppt-openEditor': editSidebar }">
-      <div class="whppt-sidebar__inner">
-        <whppt-tabs>
-          <whppt-tab title="Selected Component">
-            <component :is="editSidebarType"></component>
-            <div
-              v-if="selectedComponent && selectedComponent.value && selectedContent"
-              class="whppt__default-container"
-            >
-              <whppt-check-box
-                v-if="selectedComponent.value.hasOwnProperty('reversed')"
-                :value="selectedComponent.value.reversed"
-                label="Reversed"
-                @click="selectedComponent.value.reversed = !selectedComponent.value.reversed"
-              ></whppt-check-box>
-              <whppt-check-box
-                :value="selectedComponent.value.inContainer"
-                label="Put in a Container"
-                @click="selectedComponent.value.inContainer = !selectedComponent.value.inContainer"
-              ></whppt-check-box>
-              <whppt-text-input
-                v-model="selectedComponent.value.marginTopLarge"
-                type="number"
-                max="8"
-                min="0"
-                :placeholder="$whppt.defaultMarginTop"
-                label="Margin Top - Large Screens (Desktop)"
-                class="marin-top-input"
-              />
-              <!-- <whppt-text-input
-                v-if="ifExsists(selectedComponent.value.marginTopLarge)"
-                v-model="selectedComponent.value.marginTopLarge"
-                type="number"
-                max="8"
-                min="0"
-                :placeholder="$whppt.defaultMarginTop"
-                label="Margin Top - Large Screens (Desktop)"
-                class="marin-top-input"
-              /> -->
-              <whppt-text-input
-                v-model="selectedComponent.value.marginTopMedium"
-                type="number"
-                max="8"
-                min="0"
-                :placeholder="$whppt.defaultMarginTop"
-                label="Margin Top - Medium Screens (Tablet)"
-                class="marin-top-input"
-              />
-              <whppt-text-input
-                v-model="selectedComponent.value.marginTopSmall"
-                type="number"
-                max="8"
-                min="0"
-                :placeholder="$whppt.defaultMarginTop"
-                label="Margin Top - Small Screens (Mobile)"
-                class="marin-top-input"
-              />
-            </div>
-          </whppt-tab>
-          <whppt-tab v-if="selectedContent" title="Contents Tree">
-            <contents-tree></contents-tree>
-          </whppt-tab>
-        </whppt-tabs>
-        <whppt-button class="whppt-button__close" @click="closeSidebar">
-          Close
-        </whppt-button>
-      </div>
-    </div>
+    <whppt-sidebar />
   </div>
 </template>
 
@@ -103,6 +36,7 @@ export default {
     SiteSettings: () => import('../system/SiteSettings'),
     PageSettings: () => import('../system/PageSettings'),
     WhpptPage: () => import('../system/WhpptPage'),
+    WhpptSidebar: () => import('../system/WhpptSidebar'),
     WhpptButton,
     WhpptModal,
     WhpptTextInput,
