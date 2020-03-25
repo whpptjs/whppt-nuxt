@@ -44,7 +44,7 @@ forEach(pageSettingTypes, type => {
 });
 
 export default {
-  name: 'WhpptSiteSettings',
+  name: 'WhpptPageSettings',
   components: {
     ...additionalComponents,
     SEO,
