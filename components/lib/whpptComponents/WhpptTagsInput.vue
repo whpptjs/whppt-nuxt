@@ -10,7 +10,6 @@
       </div>
     </div>
     <div class="whppt-tags" :class="{ 'whppt-tags__display-only': displayOnly }">
-      <!-- <div @click="test">TEST</div> -->
       <div class="whppt-tags__container">
         <span class="whppt-tags__spacer">:</span>
         <span v-for="(tag, index) in tags" :key="index" class="whppt-tags__tag">
@@ -49,24 +48,11 @@ export default {
     error: '',
   }),
   methods: {
-    test() {
-      if (!this.newTag) return;
-      if (find(this.tags, tag => tag === this.newTag)) return;
-
-      console.log('addTag -> this.tags', this.tags);
-      console.log('addTag -> this.newTag', this.newTag);
-      this.tags.push(toUpper(this.newTag));
-      console.log('addTag -> this.tags', this.tags);
-      this.newTag = '';
-    },
     addTag() {
       if (!this.newTag) return;
-      if (find(this.tags, tag => tag === this.newTag)) return;
+      if (find(this.tags, tag => tag === toUpper(this.newTag))) return;
 
-      console.log('addTag -> this.tags', this.tags);
-      console.log('addTag -> this.newTag', this.newTag);
       this.tags.push(toUpper(this.newTag));
-      console.log('addTag -> this.tags', this.tags);
       this.newTag = '';
     },
     deleteTag(tag) {
