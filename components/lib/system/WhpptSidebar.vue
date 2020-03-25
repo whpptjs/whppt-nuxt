@@ -59,6 +59,7 @@
 <script>
 import { filter, flatMap, forEach } from 'lodash';
 import { mapActions, mapState } from 'vuex';
+import * as Editors from '../system';
 import WhpptTabs from '../whpptComponents/WhpptTabs';
 import ContentsTree from '../whpptComponents/ContentsTree';
 import WhpptTab from '../whpptComponents/WhpptTab';
@@ -76,12 +77,12 @@ forEach(editors, editor => {
   additionalComponents[editor.name] = editor.component;
 });
 
-console.log(editors);
-
 export default {
   name: 'WhpptSidebar',
   components: {
     ...additionalComponents,
+    ...Editors,
+    WhpptPage: () => import('../system/WhpptPage'),
     WhpptTabs,
     ContentsTree,
     WhpptTab,

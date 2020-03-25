@@ -35,7 +35,6 @@ export default {
     ...Editors,
     SiteSettings: () => import('../system/SiteSettings'),
     PageSettings: () => import('../system/PageSettings'),
-    WhpptPage: () => import('../system/WhpptPage'),
     WhpptSidebar: () => import('../system/WhpptSidebar'),
     WhpptButton,
     WhpptModal,
