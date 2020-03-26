@@ -5,6 +5,7 @@ import contentDirective from './directives/content';
 import coloursDirective from './directives/colours';
 import splitContentDirective from './directives/splitContent';
 import richTextDirective from './directives/richText';
+import formattedTextDirective from './directives/formattedText';
 import defaultDirective from './directives/default';
 import listDirective from './directives/list';
 import plainTextDirective from './directives/plainText';
@@ -134,6 +135,7 @@ export default (context, inject) => {
   defaultDirective({ ...context, menuIsInState, MENUSTATES });
   listDirective({ ...context, menuIsInState, MENUSTATES });
   richTextDirective({ ...context, menuIsInState, MENUSTATES });
+  formattedTextDirective({ ...context, menuIsInState, MENUSTATES });
   menuDirective({ ...context, menuIsInState, MENUSTATES });
   linkDirective({ ...context, menuIsInState, MENUSTATES });
   listingsDirective({ ...context, menuIsInState, MENUSTATES });
