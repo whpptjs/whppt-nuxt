@@ -6,6 +6,7 @@ import Default from './Default';
 import EContent from './Content';
 import EditImage from './EditImage';
 import EditorMenu from './EditorMenu';
+import FormattedText from './FormattedText';
 import LinkSidebar from './LinkSidebar';
 import List from './List';
 import Listings from './Listings';
@@ -26,6 +27,7 @@ export {
   EContent,
   EditImage,
   EditorMenu,
+  FormattedText,
   LinkSidebar,
   List,
   Listings,

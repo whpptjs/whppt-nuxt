@@ -1,6 +1,7 @@
 import WPlainText from './PlainText';
 
 import WRichText from './RichText';
+import WFormattedText from './FormattedText';
 import WCarousel from './Carousel';
 import WLinkGroup from './LinkGroup';
 import WListings from './Listings';
@@ -17,6 +18,7 @@ export {
   FeatureBlock,
   WPlainText,
   WRichText,
+  WFormattedText,
   WCarousel,
   WLinkGroup,
   WListings,
