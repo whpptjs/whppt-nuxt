@@ -67,6 +67,8 @@ import WhpptButton from '../whpptComponents/WhpptButton';
 
 const additionalComponents = {};
 
+// global.$whppt.getPlugins('editors')
+
 const types = global.$whppt.types;
 const editors = flatMap(
   filter(types, t => t.editors),

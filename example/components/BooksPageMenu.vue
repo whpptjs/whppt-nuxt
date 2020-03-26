@@ -11,37 +11,26 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-
 export default {
   name: 'ChaptersPageTypes',
   props: {
-    slug: {
-      type: String,
-      default: () => '',
-    },
-    template: {
+    newPage: {
       type: Object,
-      default: () => ({}),
+      required: true,
     },
   },
   data: () => ({
     books: [],
   }),
-  computed: {
-    ...mapState('whppt-nuxt/page', ['page']),
-  },
   mounted() {
     this.loadBooks();
   },
   methods: {
     loadBooks() {
-      this.$axios.get(`${process.env.BASE_API_URL}/api/obj/book`).then(response => {
-        this.books = response.data;
-      });
+      this.$axios.get(`${process.env.BASE_API_URL}/api/obj/book`).then(response => (this.books = response.data));
     },
     selectBook(event) {
-      Object.assign(this.page, { book: { ...this.books[event.target.value] } });
+      this.newPage.book = this.books[event.target.value];
     },
   },
 };
