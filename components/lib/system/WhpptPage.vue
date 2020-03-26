@@ -78,6 +78,7 @@ export default {
       }
 
       const newPage = {
+        ...vm.pageForm,
         ...vm.pageForm.template.init,
         slug: this.formatSlug(vm.pageForm.slug),
         template: vm.pageForm.template.key,
