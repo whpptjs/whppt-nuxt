@@ -1,8 +1,15 @@
 <template>
   <div>
     <label class="whppt-tags__label">{{ label }}</label>
+    <div v-if="!displayOnly" class="whppt-flex-start">
+      <input v-model="newTag" placeholder="Add New Tag" style="width: 50%" @keydown.enter.prevent="addTag" />
+      <div style="padding-left: 1rem;">
+        <button class="whppt-settings__button" style="display: flex;" type="button" @click="addTag">
+          Add Tag
+        </button>
+      </div>
+    </div>
     <div class="whppt-tags" :class="{ 'whppt-tags__display-only': displayOnly }">
-      <input v-if="!displayOnly" v-model="newTag" placeholder="Add New Tag" @keydown.enter="addTag" />
       <div class="whppt-tags__container">
         <span class="whppt-tags__spacer">:</span>
         <span v-for="(tag, index) in tags" :key="index" class="whppt-tags__tag">
@@ -43,7 +50,7 @@ export default {
   methods: {
     addTag() {
       if (!this.newTag) return;
-      if (find(this.tags, tag => tag === this.newTag)) return;
+      if (find(this.tags, tag => tag === toUpper(this.newTag))) return;
 
       this.tags.push(toUpper(this.newTag));
       this.newTag = '';
@@ -61,6 +68,7 @@ export default {
   border-radius: 3px;
   width: 100%;
   padding-bottom: 0.5rem;
+  padding-top: 0.5rem;
 }
 
 .whppt-tags__label {

@@ -23,7 +23,7 @@ export default options => ({
     },
     savePage({ state, commit }) {
       let p = Promise.resolve();
-      if (this.$whppt.savePageCallback) p = p.then(() => this.$whppt.savePageCallback);
+      if (this.$whppt.savePageCallback) p = p.then(() => this.$whppt.savePageCallback());
       return p.then(() =>
         this.$whppt.savePage(state.page).then(page => {
           this.$toast.global.editorSuccess('Page Saved');
@@ -53,14 +53,22 @@ export default options => ({
       });
     },
     loadPage({ commit }, { slug }) {
-      return this.$whppt.loadPage({ slug }).then(page => {
-        commitTimeout(() => commit('pageLoaded', page));
-      });
+      return this.$whppt
+        .loadPage({
+          slug,
+        })
+        .then(page => {
+          commitTimeout(() => commit('pageLoaded', page));
+        });
     },
     loadListing({ commit }, { slug }) {
-      return this.$whppt.loadListing({ slug }).then(({ listing }) => {
-        commitTimeout(() => commit('listingLoaded', listing));
-      });
+      return this.$whppt
+        .loadListing({
+          slug,
+        })
+        .then(({ listing }) => {
+          commitTimeout(() => commit('listingLoaded', listing));
+        });
     },
   },
   mutations: {

@@ -1,19 +1,21 @@
 <template>
   <div class="whppt-select">
-    <label v-if="label" class="whppt-select__label">{{ label }}</label>
-    <select
-      class="whppt-select__input"
-      :class="{ 'whppt-select__input_alt_bg': white }"
-      @change="select"
-      :value="selectedIndex"
-    >
-      <option :value="-1">
-        {{ action }}
-      </option>
-      <option v-for="(item, index) in items" :key="index" :value="index">
-        {{ getValue(item, valueProp) || `Item #${index + 1}` }}
-      </option>
-    </select>
+    <label v-if="label" :for="label" class="whppt-select__label"
+      >{{ label }}
+      <select
+        class="whppt-select__input"
+        :class="{ 'whppt-select__input_alt_bg': dark }"
+        :value="selectedIndex"
+        @change="select"
+      >
+        <option :value="-1">
+          {{ action }}
+        </option>
+        <option v-for="(item, index) in items" :key="index" :value="index">
+          {{ getValue(item, valueProp) || `Item #${index + 1}` }}
+        </option>
+      </select>
+    </label>
   </div>
 </template>
 <script>
@@ -27,7 +29,7 @@ export default {
     value: { type: [Object, String, Number], default: () => undefined },
     keyProp: { type: String, default: () => '' },
     valueProp: { type: String, default: () => '' },
-    white: { type: Boolean, default: () => false },
+    dark: { type: Boolean, default: () => false },
   },
   computed: {
     selectedIndex() {
@@ -64,8 +66,6 @@ export default {
 .whppt-select__input {
   height: 2.6rem;
   width: 100%;
-  background: black;
-  color: white;
   border-radius: 0.25rem;
   padding: 0.75rem 1rem;
   line-height: 1.25;
@@ -74,10 +74,12 @@ export default {
   border: 1px solid rgba(0, 0, 0, 0.5);
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   resize: vertical;
+  background: white;
+  color: black;
 }
 
 .whppt-select__input_alt_bg {
-  background: white;
-  color: black;
+  background: black;
+  color: white;
 }
 </style>

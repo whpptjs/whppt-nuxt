@@ -35,11 +35,18 @@
                           </span>
                         </div>
                       </div> -->
-                      <button
+                      <!-- <button
                         v-if="item.bookEasy"
                         class="mt-4 mr-2 bg-red-500 w-12 h-12 flex justify-center items-center"
                       >
                         <span class="text-white">BE</span>
+                      </button> -->
+                      <button
+                        v-if="item.bookEasy && item.bookEasy.OperatorID"
+                        class="mt-4 mr-2 bg-red-500 w-12 h-12 flex justify-center items-center"
+                        aria-label="Purchase Tickets"
+                      >
+                        <icon icon="ticket" class="text-white w-6 h-6" />
                       </button>
                     </div>
                   </div>

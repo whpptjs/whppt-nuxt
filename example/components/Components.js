@@ -1,6 +1,7 @@
 import WPlainText from './PlainText';
 
 import WRichText from './RichText';
+import WFormattedText from './FormattedText';
 import WCarousel from './Carousel';
 import WLinkGroup from './LinkGroup';
 import WListings from './Listings';
@@ -11,12 +12,13 @@ import wCtaButton from './CTAButton';
 import SplitContent from './SplitContent';
 import ContactIcon from './ContactIcon';
 import ImageNavigation from './ImageNavigation';
-import Chapters from './SettingsChapters';
+import Chapters from './SiteSettingsChapters';
 
 export {
   FeatureBlock,
   WPlainText,
   WRichText,
+  WFormattedText,
   WCarousel,
   WLinkGroup,
   WListings,

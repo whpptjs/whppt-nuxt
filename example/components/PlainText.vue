@@ -3,7 +3,6 @@
     v-plain-text="value"
     :data-property="value.property"
     :style="{
-      'margin-top': `${value.marginTop || $whppt.defaultMarginTop}px`,
       'text-align': `${value.alignment.value}`,
     }"
   >

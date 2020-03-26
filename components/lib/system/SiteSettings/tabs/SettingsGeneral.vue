@@ -40,8 +40,8 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 
-import WhpptTextInput from '../../whpptComponents/WhpptTextInput';
-import WhpptSelect from '../../whpptComponents/WhpptSelect';
+import WhpptTextInput from '../../../whpptComponents/WhpptTextInput';
+import WhpptSelect from '../../../whpptComponents/WhpptSelect';
 
 export default {
   name: 'SettingsGeneral',
