@@ -38,7 +38,7 @@ import Categories from './tabs/SettingsCategories';
 const additionalTabs = [];
 const additionalComponents = {};
 
-const types = global.$whppt.types;
+const types = global.$whppt.plugins;
 
 const siteSettingTypes = filter(types, t => t.siteSettings);
 

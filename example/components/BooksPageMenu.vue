@@ -1,7 +1,7 @@
 <template>
   <div class="whppt-select">
     <label for="bookSelect" class="whppt-select__label">
-      Associate this page to a Book
+      Associate this page to a Story
     </label>
     <select id="bookSelect" class="whppt-select__input" @change="selectBook">
       <option value="-1" selected>Please Select...</option>

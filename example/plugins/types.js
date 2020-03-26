@@ -8,8 +8,8 @@ const formatSlug = ({ page, slug }) => {
   return `chapters/${page.book._id}/${slug}`;
 };
 
-global.$whppt.types = {
-  book: {
+global.$whppt.plugins = {
+  story: {
     siteSettings: { name: 'chapters', label: 'Chapters', component: SiteSettingsChapters },
     pageSettings: { name: 'chapters', label: 'Chapters', component: PageSettingsChapters },
     pageTypes: { name: 'chapters', label: 'Chapters', component: BooksPageMenu, formatSlug },

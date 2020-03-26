@@ -34,7 +34,7 @@ import General from './tabs/General';
 const additionalTabs = [];
 const additionalComponents = {};
 
-const types = global.$whppt.types;
+const types = global.$whppt.plugins;
 
 const pageSettingTypes = filter(types, t => t.pageSettings);
 

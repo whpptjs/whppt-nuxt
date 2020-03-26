@@ -15,11 +15,3 @@ for (const name in components) {
     extends: components[name],
   });
 }
-
-// const types = {
-//   Book: {
-//     pageType: 'book',
-//     components: [],
-//     pageSetting: {}, // component for page settings tab
-//   },
-// };

@@ -144,7 +144,7 @@ export default (context, inject) => {
   // _videoBlockDirective({ ...context, menuIsInState, MENUSTATES });
   youtubeDirective({ ...context, menuIsInState, MENUSTATES });
 
-  const types = global.$whppt.types;
+  const types = global.$whppt.plugins;
   const editors = flatMap(
     filter(types, t => t.editors),
     t => t.editors

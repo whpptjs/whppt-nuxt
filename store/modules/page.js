@@ -16,17 +16,12 @@ export default options => ({
     listing: undefined,
   }),
   actions: {
-    createPage({
-      commit
-    }, _page) {
+    createPage({ commit }, _page) {
       return this.$whppt.createPage(_page).then(page => {
         commit('pageLoaded', page);
       });
     },
-    savePage({
-      state,
-      commit
-    }) {
+    savePage({ state, commit }) {
       let p = Promise.resolve();
       if (this.$whppt.savePageCallback) p = p.then(() => this.$whppt.savePageCallback());
       return p.then(() =>
@@ -35,10 +30,7 @@ export default options => ({
         })
       );
     },
-    deletePage({
-      state,
-      commit
-    }) {
+    deletePage({ state, commit }) {
       return this.$whppt.deletePage(state.page._id).then(() => {
         commit('pageDeleted');
       });
@@ -48,45 +40,35 @@ export default options => ({
     //     this.$toast.global.editorSuccess('Listing & Listing Page Published');
     //   });
     // },
-    publishPage({
-      state
-    }) {
+    publishPage({ state }) {
       return this.$whppt.publishPage(state.page).then(() => {
         state.page.published = true;
         this.$toast.global.editorSuccess('Page Published');
       });
     },
-    unpublishPage({
-      state
-    }) {
+    unpublishPage({ state }) {
       return this.$whppt.unpublishPage(state.page._id).then(() => {
         state.page.published = false;
         this.$toast.global.editorSuccess('Page Unpublished');
       });
     },
-    loadPage({
-      commit
-    }, {
-      slug
-    }) {
-      return this.$whppt.loadPage({
-        slug
-      }).then(page => {
-        commitTimeout(() => commit('pageLoaded', page));
-      });
+    loadPage({ commit }, { slug }) {
+      return this.$whppt
+        .loadPage({
+          slug,
+        })
+        .then(page => {
+          commitTimeout(() => commit('pageLoaded', page));
+        });
     },
-    loadListing({
-      commit
-    }, {
-      slug
-    }) {
-      return this.$whppt.loadListing({
-        slug
-      }).then(({
-        listing
-      }) => {
-        commitTimeout(() => commit('listingLoaded', listing));
-      });
+    loadListing({ commit }, { slug }) {
+      return this.$whppt
+        .loadListing({
+          slug,
+        })
+        .then(({ listing }) => {
+          commitTimeout(() => commit('listingLoaded', listing));
+        });
     },
   },
   mutations: {

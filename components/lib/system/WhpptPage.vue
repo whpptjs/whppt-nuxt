@@ -29,8 +29,8 @@ import WhpptSelect from '../whpptComponents/WhpptSelect';
 
 const additionalComponents = {};
 
-const types = global.$whppt.types;
-const pageTypes = filter(types, t => t.pageTypes);
+const plugins = global.$whppt.plugins;
+const pageTypes = filter(plugins, t => t.pageTypes);
 
 forEach(pageTypes, type => {
   additionalComponents[type.pageTypes.name] = type.pageTypes.component;
@@ -54,7 +54,7 @@ export default {
       return this.$whppt.templates;
     },
     pageTypes() {
-      return map(this.$whppt.types, t => t.pageTypes);
+      return map(this.$whppt.plugins, t => t.pageTypes);
     },
   },
   // mounted() {

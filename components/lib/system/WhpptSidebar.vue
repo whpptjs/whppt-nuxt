@@ -64,12 +64,14 @@ import WhpptTabs from '../whpptComponents/WhpptTabs';
 import ContentsTree from '../whpptComponents/ContentsTree';
 import WhpptTab from '../whpptComponents/WhpptTab';
 import WhpptButton from '../whpptComponents/WhpptButton';
+import WhpptCheckBox from '../whpptComponents/CheckBox';
+import WhpptTextInput from '../whpptComponents/WhpptTextInput';
 
 const additionalComponents = {};
 
 // global.$whppt.getPlugins('editors')
 
-const types = global.$whppt.types;
+const types = global.$whppt.plugins;
 const editors = flatMap(
   filter(types, t => t.editors),
   t => t.editors
@@ -86,7 +88,9 @@ export default {
     ...Editors,
     WhpptPage: () => import('../system/WhpptPage'),
     WhpptTabs,
+    WhpptCheckBox,
     ContentsTree,
+    WhpptTextInput,
     WhpptTab,
     WhpptButton,
   },
