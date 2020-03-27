@@ -59,6 +59,7 @@ export default options => ({
         })
         .then(page => {
           commitTimeout(() => commit('pageLoaded', page));
+          return page;
         });
     },
     loadListing({ commit }, { slug }) {
