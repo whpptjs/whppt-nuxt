@@ -110,4 +110,10 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style>
+@media (max-width: 640px) {
+  .whppt-sidebar {
+    display: none;
+  }
+}
+</style>

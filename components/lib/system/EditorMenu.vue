@@ -160,6 +160,12 @@ export default {
   border-radius: 100px;
 }
 
+@media (max-width: 640px) {
+  .whppt-menu {
+    display: none;
+  }
+}
+
 .whppt-menu__item--active {
   border-radius: 100%;
   background-color: #262626;
