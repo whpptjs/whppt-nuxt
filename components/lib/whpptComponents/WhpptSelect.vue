@@ -1,6 +1,6 @@
 <template>
   <div class="whppt-select">
-    <label v-if="label" :for="label" class="whppt-select__label"
+    <label class="whppt-select__label"
       >{{ label }}
       <select
         class="whppt-select__input"
@@ -70,7 +70,7 @@ export default {
   padding: 0.75rem 1rem;
   line-height: 1.25;
   font-size: 0.75rem;
-  margin: 0.2rem 0 0.5rem;
+  margin: 0.2rem 0 0;
   border: 1px solid rgba(0, 0, 0, 0.5);
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   resize: vertical;
