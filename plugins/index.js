@@ -9,8 +9,8 @@ import listDirective from './directives/list';
 import plainTextDirective from './directives/plainText';
 import menuDirective from './directives/menu';
 import linkDirective from './directives/link';
-import listingsDirective from './directives/listings';
-import listingDirective from './directives/listing';
+// import listingsDirective from './directives/listings';
+// import listingDirective from './directives/listing';
 import editImageDirective from './directives/editImage';
 import anchorDirective from './directives/anchor';
 import contactIconDirective from './directives/contactIcon';
@@ -32,13 +32,13 @@ import PublishNav from './helpers/PublishNav';
 import LoadNav from './helpers/LoadNav';
 import CreatePage from './helpers/CreatePage';
 import LoadPage from './helpers/LoadPage';
-import LoadListing from './helpers/LoadListing';
+// import LoadListing from './helpers/LoadListing';
 import CheckSlug from './helpers/CheckSlug';
 import Select from './helpers/editors/Select';
 import Hover from './helpers/editors/Hover';
 import Image from './helpers/Image';
 
-import PublishListing from './helpers/PublishListing';
+// import PublishListing from './helpers/PublishListing';
 
 const options = JSON.parse(`<%= JSON.stringify(options) %>`);
 
@@ -80,7 +80,7 @@ export default (context, inject) => {
   const { store } = context;
   Object.assign(global.$whppt, {
     editData: undefined,
-    publishListing: PublishListing(context),
+    // publishListing: PublishListing(context),
     loadSiteSettings: LoadSiteSettings(context),
     saveSiteSettings: SaveSiteSettings(context),
     publishSiteSettings: PublishSiteSettings(context),
@@ -90,7 +90,7 @@ export default (context, inject) => {
     unpublishPage: UnpublishPage(context),
     deletePage: DeletePage(context),
     loadPage: LoadPage(context),
-    loadListing: LoadListing(context),
+    // loadListing: LoadListing(context),
     checkSlug: CheckSlug(context),
     loadFooter: LoadFooter(context),
     saveFooter: SaveFooter(context),
@@ -133,8 +133,8 @@ export default (context, inject) => {
   richTextDirective({ ...context, menuIsInState, MENUSTATES });
   menuDirective({ ...context, menuIsInState, MENUSTATES });
   linkDirective({ ...context, menuIsInState, MENUSTATES });
-  listingsDirective({ ...context, menuIsInState, MENUSTATES });
-  listingDirective({ ...context, menuIsInState, MENUSTATES });
+  // listingsDirective({ ...context, menuIsInState, MENUSTATES });
+  // listingDirective({ ...context, menuIsInState, MENUSTATES });
   editImageDirective({ ...context, menuIsInState, MENUSTATES });
   anchorDirective({ ...context, menuIsInState, MENUSTATES });
   contactIconDirective({ ...context, menuIsInState, MENUSTATES });
