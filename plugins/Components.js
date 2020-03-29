@@ -17,6 +17,14 @@ const Components = options => [
     property: 'text',
   },
   {
+    key: 'FormattedText',
+    name: 'Formatted Text',
+    editorType: 'wFormattedText',
+    displayType: 'wFormattedText',
+    text: '',
+    property: 'text',
+  },
+  {
     key: 'Link',
     name: 'Link',
     editorType: 'wLink',

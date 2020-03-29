@@ -84,7 +84,7 @@
             will no longer work. Adding a redirect from this page's old url to its new one would resolve this.
           </div> -->
 
-          <fieldset v-if="listing.listingType === 'product'">
+          <fieldset>
             <!-- <label for="desc">Description</label>
             <textarea
               id="desc"
@@ -143,7 +143,7 @@
                 INACTIVE
               </option>
             </select> -->
-            <div class="whppt-select__frequency-label">Active Status</div>
+            <div class="whppt-select__status-label">Active Status</div>
             <select
               v-model="listing.activeStatus.value"
               :disabled="!!listing.activeStatus.path || listing.published"
@@ -160,7 +160,7 @@
                 INACTIVE
               </option>
             </select>
-            <div class="whppt-select__frequency-info">
+            <div class="whppt-select__status-info">
               Linked To: {{ listing.activeStatus.path }}. Whether or not the listing and its corresponding page should
               be published automatically when its ATDW information is updated. This cannot be edited unless the
               listing's page has been unpublished.
@@ -391,6 +391,7 @@ export default {
     // TODO: work out a way of sharing atdwFields with api/nuxt
     serviceAtdwFields: {
       serviceName: stringFromPath,
+      serviceDescription: stringFromPath,
       status: stringFromPath,
       image(product) {
         const img = get(product, 'serviceMultimedia[0].serverPath');
@@ -509,6 +510,22 @@ export default {
   padding: 0.75rem 1rem;
   line-height: 1.25;
   font-size: 0.75rem;
+}
+
+.whppt-select__status-label {
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.whppt-select__status-info {
+  color: gray;
+  font-size: 0.75rem;
+  font-style: italic;
+  margin-bottom: 0.75rem;
 }
 
 .whppt-atdw {

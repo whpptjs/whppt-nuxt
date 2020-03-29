@@ -1,9 +1,11 @@
+import { filter, flatMap, forEach } from 'lodash';
 import { Components } from './Components';
 
 import contentDirective from './directives/content';
 import coloursDirective from './directives/colours';
 import splitContentDirective from './directives/splitContent';
 import richTextDirective from './directives/richText';
+import formattedTextDirective from './directives/formattedText';
 import defaultDirective from './directives/default';
 import listDirective from './directives/list';
 import plainTextDirective from './directives/plainText';
@@ -14,6 +16,7 @@ import linkDirective from './directives/link';
 import editImageDirective from './directives/editImage';
 import anchorDirective from './directives/anchor';
 import contactIconDirective from './directives/contactIcon';
+import dynamicDirective from './directives/dynamic';
 // import _videoBlockDirective from './directives/_videoBlock';
 import youtubeDirective from './directives/youtube';
 
@@ -78,6 +81,7 @@ export default (context, inject) => {
   };
 
   const { store } = context;
+
   Object.assign(global.$whppt, {
     editData: undefined,
     // publishListing: PublishListing(context),
@@ -131,6 +135,7 @@ export default (context, inject) => {
   defaultDirective({ ...context, menuIsInState, MENUSTATES });
   listDirective({ ...context, menuIsInState, MENUSTATES });
   richTextDirective({ ...context, menuIsInState, MENUSTATES });
+  formattedTextDirective({ ...context, menuIsInState, MENUSTATES });
   menuDirective({ ...context, menuIsInState, MENUSTATES });
   linkDirective({ ...context, menuIsInState, MENUSTATES });
   // listingsDirective({ ...context, menuIsInState, MENUSTATES });
@@ -140,4 +145,27 @@ export default (context, inject) => {
   contactIconDirective({ ...context, menuIsInState, MENUSTATES });
   // _videoBlockDirective({ ...context, menuIsInState, MENUSTATES });
   youtubeDirective({ ...context, menuIsInState, MENUSTATES });
+
+  const types = global.$whppt.plugins;
+  const editors = flatMap(
+    filter(types, t => t.editors),
+    t => t.editors
+  );
+
+  forEach(editors, editor => {
+    if (editor.directive)
+      return editor.directive({
+        ...context,
+        menuIsInState,
+        MENUSTATES,
+        definition: editor,
+      });
+
+    dynamicDirective({
+      ...context,
+      menuIsInState,
+      MENUSTATES,
+      definition: editor,
+    });
+  });
 };

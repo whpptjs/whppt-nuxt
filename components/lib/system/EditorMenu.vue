@@ -98,14 +98,14 @@ export default {
           disabled: !this.page || !this.page._id,
           action: () => this.editInModal('pageSettings'),
         },
-        {
-          key: 'slug-settings',
-          label: 'Slug Settings',
-          icon: 'w-slugPopup',
-          group: 'slugSettings',
-          disabled: !this.page || !this.page._id,
-          action: () => this.editInModal('slugSettings'),
-        },
+        // {
+        //   key: 'slug-settings',
+        //   label: 'Slug Settings',
+        //   icon: 'w-slugPopup',
+        //   group: 'slugSettings',
+        //   disabled: !this.page || !this.page._id,
+        //   action: () => this.editInModal('slugSettings'),
+        // },
         { key: 'nav', label: 'Nav', icon: 'w-nav', group: 'nav', action: () => this.saveNav() },
         { key: 'footer', label: 'Footer', icon: 'w-footer', group: 'footer', action: () => this.saveFooter() },
       ];
@@ -158,6 +158,12 @@ export default {
   top: 20px;
   left: 20px;
   border-radius: 100px;
+}
+
+@media (max-width: 640px) {
+  .whppt-menu {
+    display: none;
+  }
 }
 
 .whppt-menu__item--active {

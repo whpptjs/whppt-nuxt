@@ -28,17 +28,17 @@
 import { filter, forEach, map } from 'lodash';
 import { mapActions, mapState } from 'vuex';
 
-import SEO from './SettingsSEO';
-import Redirects from './SettingsRedirect';
-import Twitter from './SettingsTwitter';
-import OpenGraph from './SettingsOG';
-import General from './SettingsGeneral';
-import Categories from './SettingsCategories';
+import SEO from './tabs/SettingsSEO';
+import Redirects from './tabs/SettingsRedirect';
+import Twitter from './tabs/SettingsTwitter';
+import OpenGraph from './tabs/SettingsOG';
+import General from './tabs/SettingsGeneral';
+import Categories from './tabs/SettingsCategories';
 
 const additionalTabs = [];
 const additionalComponents = {};
 
-const types = global.$whppt.types;
+const types = global.$whppt.plugins;
 
 const siteSettingTypes = filter(types, t => t.siteSettings);
 
@@ -132,92 +132,42 @@ export default {
 </script>
 
 <style>
-.whppt-settings {
-  color: black;
-  display: flex;
-  z-index: 52;
-  width: 75%;
-  min-height: 80vh;
-  max-height: 90vh;
-  margin: 1.5rem;
-  position: relative;
-}
-
-.whppt-settings__content {
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  overflow-y: auto;
-  width: 100%;
-}
-
-.whppt-settings__heading {
-  align-items: center;
-  font-weight: bold;
-  background: white;
-  position: sticky;
-  top: 0;
-  left: 0;
-  display: flex;
-  width: 100%;
-  padding: 2.5rem 1rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
-  height: 4rem;
-}
-
-.whppt-settings__button {
-  color: #981a31;
-  border-radius: 0.5rem;
-  margin-left: auto;
-  padding: 0.5rem 0.75rem;
-  border: 1px solid #981a31;
-}
-
-.whppt-settings__tabs {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  color: #981a31;
-  padding: 1rem 1rem 0 1rem;
-}
-
-.whppt-settings__tab {
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  margin: 0 0.5rem;
-}
-
-.whppt-settings__tab-selected {
-  background: #981a31;
-  color: white;
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  margin: 0 0.5rem;
-}
-
-.whppt-settings__heading-text {
-  font-size: 1.75rem;
-  color: #981a31;
-}
-
-.whppt-warning {
-  color: black;
-  display: flex;
-  z-index: 53;
-  width: 100%;
-  height: 80vh;
-  margin: 1.5rem;
-  position: relative;
-}
-
 /* .whppt-settings__category {
   border: 1px solid gray;
   margin: 10px;
   padding: 10px;
   flex: 1;
 } */
+
+.whppt-select__frequency-label {
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.whppt-select__frequency-info {
+  color: gray;
+  font-size: 0.75rem;
+  font-style: italic;
+  margin-bottom: 0.75rem;
+}
+
+.whppt-select__frequency-input {
+  margin: 0.2rem 0 0.5rem;
+  appearance: none;
+  display: block;
+  width: 100%;
+  background-color: white;
+  color: black;
+  border-radius: 0.25rem;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  padding: 0.75rem 1rem;
+  line-height: 1.25;
+  font-size: 0.75rem;
+}
 
 .whppt-settings__column {
   width: 50%;
@@ -263,6 +213,21 @@ export default {
   color: white;
   background-color: black;
   border-radius: 25px;
+}
+
+.whppt-settings__tooltip .whppt-settings__tooltip-text {
+  visibility: hidden;
+  text-align: center;
+  border: 1px solid #981a31;
+  padding: 2px 6px;
+  position: absolute;
+  z-index: 100;
+  margin-top: -2rem;
+  background: white;
+  border-radius: 0.25rem;
+}
+.whppt-settings__tooltip:hover .whppt-settings__tooltip-text {
+  visibility: visible;
 }
 
 .whppt-icon {

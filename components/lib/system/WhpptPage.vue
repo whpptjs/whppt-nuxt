@@ -3,14 +3,15 @@
     <p class="font-xl">Create a Page</p>
 
     <form class="whppt-page__form" @submit.prevent>
-      <whppt-select v-model="template" :items="templates" label="Page Template" />
-      <whppt-select v-model="pageType" :items="pageTypes" label="Page Type" />
+      <whppt-select v-model="pageForm.template" :items="templates" label="Page Template" />
+      <whppt-select v-model="pageForm.pageType" :items="pageTypes" label="Page Type" />
+      <component :is="pageForm.pageType.name" v-if="pageForm.pageType" :new-page="pageForm" />
       <whppt-text-input
-        v-model="slug"
+        v-model="pageForm.slug"
         label="Page Slug"
         info="Enter any text and we'll turn it into a slug for you!"
       ></whppt-text-input>
-      <div class="whppt-info">Your slug: {{ formatSlug(slug) }}</div>
+      <div class="whppt-info">Your slug: {{ formatSlug(pageForm.slug) }}</div>
       <div v-if="showError">A page with that slug already exists, please select another.</div>
 
       <whppt-button @click="saveNewPage">Create Page</whppt-button>
@@ -19,21 +20,33 @@
 </template>
 
 <script>
+import { map, filter, forEach } from 'lodash';
 import { mapState, mapActions } from 'vuex';
 import slugify from 'slugify';
 import WhpptButton from '../../../components/lib/whpptComponents/WhpptButton';
 import WhpptTextInput from '../whpptComponents/WhpptTextInput';
 import WhpptSelect from '../whpptComponents/WhpptSelect';
 
+const additionalComponents = {};
+
+const plugins = global.$whppt.plugins;
+const pageTypes = filter(plugins, t => t.pageTypes);
+
+forEach(pageTypes, type => {
+  additionalComponents[type.pageTypes.name] = type.pageTypes.component;
+});
+
 export default {
   name: 'WhpptPage',
-  components: { WhpptButton, WhpptSelect, WhpptTextInput },
+  components: { ...additionalComponents, WhpptButton, WhpptSelect, WhpptTextInput },
   data: () => ({
-    template: undefined,
-    pageType: undefined,
-    slug: '',
-    title: '',
+    additionalComponents,
     showError: false,
+    pageForm: {
+      slug: '',
+      template: '',
+      pageType: '',
+    },
   }),
   computed: {
     ...mapState('whppt-nuxt/page', ['page']),
@@ -41,29 +54,37 @@ export default {
       return this.$whppt.templates;
     },
     pageTypes() {
-      return this.$whppt.pageTypes;
+      return map(this.$whppt.plugins, t => t.pageTypes);
     },
   },
-  mounted() {
-    if (!this.page || !this.page._id) {
-      this.slug = this.formatSlug(this.$router.currentRoute.path);
-    }
-  },
+  // mounted() {
+  //   if (!this.page || !this.page._id) {
+  //     this.pageForm.slug = this.formatSlug(this.$router.currentRoute.path);
+  //   }
+  // },
   methods: {
     ...mapActions('whppt-nuxt/editor', ['closeSidebar']),
     saveNewPage() {
       const vm = this;
       vm.showError = false;
-      // TODO: Need to show a message on screen
-      if (!vm.slug || !vm.template) return;
+      if (!vm.pageForm.slug || !vm.pageForm.template) {
+        const { slug, template } = vm.pageForm``;
+        this.$toast.global.editorError(
+          `Missing Fields: ${!slug ? 'Slug' : ''}${!vm.pageForm.slug && !vm.pageForm.template ? ', ' : ''}${
+            !template ? 'Template' : ''
+          }.`
+        );
+        return;
+      }
 
       const newPage = {
-        slug: this.formatSlug(vm.slug),
-        template: vm.template.key,
-        pageType: vm.pageType.key,
+        ...vm.pageForm,
+        ...vm.pageForm.template.init,
+        slug: this.formatSlug(vm.pageForm.slug),
+        template: vm.pageForm.template.key,
+        pageType: this.pageForm.pageType && this.pageForm.pageType.name,
         og: { title: '', keywords: '', image: { imageId: '', crop: {} } },
         twitter: { title: '', keywords: '', image: { imageId: '', crop: {} } },
-        ...vm.template.init,
       };
 
       return vm.$whppt.checkSlug({ slug: newPage.slug }).then(result => {
@@ -76,6 +97,7 @@ export default {
             if (`/${slug}` === vm.$router.currentRoute.path) {
               return vm.$router.go();
             }
+            this.$toast.global.editorSuccess('Page Successfully Created!');
             return vm.$router.push(`/${slug}` || '/');
           });
         }
@@ -83,11 +105,15 @@ export default {
     },
     formatSlug(slug) {
       if (slug.startsWith('/')) slug = slug.replace(/^(\/*)/, '');
+
       slug = slug.replace(/\/{2,}/g, '/');
 
       slug = slugify(slug, { remove: /[*+~.()'"!:@]/g, lower: true });
       slug = slug.replace(/[#?]/g, '');
 
+      if (this.pageForm.pageType && this.pageForm.pageType.formatSlug)
+        // issue here with this.page
+        return this.pageForm.pageType.formatSlug({ page: this.pageForm, slug });
       return slug;
     },
   },

@@ -106,4 +106,84 @@ export default {
   height: 100%;
   width: 100%;
 }
+
+.whppt-settings {
+  color: black;
+  display: flex;
+  z-index: 52;
+  width: 75%;
+  min-height: 80vh;
+  max-height: 90vh;
+  margin: 1.5rem;
+  position: relative;
+}
+
+.whppt-settings__content {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  overflow-y: auto;
+  width: 100%;
+}
+
+.whppt-settings__heading {
+  align-items: center;
+  font-weight: bold;
+  background: white;
+  position: sticky;
+  top: 0;
+  left: 0;
+  display: flex;
+  width: 100%;
+  padding: 2.5rem 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+  height: 4rem;
+}
+
+.whppt-settings__button {
+  color: #981a31;
+  border-radius: 0.5rem;
+  margin-left: auto;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #981a31;
+}
+
+.whppt-settings__tabs {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  color: #981a31;
+  padding: 1rem 1rem 0 1rem;
+}
+
+.whppt-settings__tab {
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  margin: 0 0.5rem;
+}
+
+.whppt-settings__tab-selected {
+  background: #981a31;
+  color: white;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  margin: 0 0.5rem;
+}
+
+.whppt-settings__heading-text {
+  font-size: 1.75rem;
+  color: #981a31;
+}
+
+.whppt-warning {
+  color: black;
+  display: flex;
+  z-index: 53;
+  width: 100%;
+  height: 80vh;
+  margin: 1.5rem;
+  position: relative;
+}
 </style>

@@ -1,5 +1,5 @@
 module.exports = {
-  defaultMarginTop: '40',
+  defaultMarginTop: '5',
   colours: {
     background: {
       'Red Lighter': '#E52F2F',

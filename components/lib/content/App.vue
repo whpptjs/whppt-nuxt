@@ -11,63 +11,21 @@
     <div class="whppt-content">
       <slot></slot>
     </div>
-    <div v-if="isDraft" class="whppt-sidebar" :class="{ 'whppt-openEditor': editSidebar }">
-      <div class="whppt-sidebar__inner">
-        <whppt-tabs>
-          <whppt-tab title="Selected Component">
-            <component :is="editSidebarType"></component>
-            <div
-              v-if="selectedComponent && selectedComponent.value && selectedContent"
-              class="whppt__default-container"
-            >
-              <whppt-check-box
-                v-if="selectedComponent.value.hasOwnProperty('reversed')"
-                :value="selectedComponent.value.reversed"
-                label="Reversed"
-                @click="selectedComponent.value.reversed = !selectedComponent.value.reversed"
-              ></whppt-check-box>
-              <whppt-check-box
-                v-if="ifExsists(selectedComponent.value.inContainer)"
-                :value="selectedComponent.value.inContainer"
-                label="Put in a Container"
-                @click="selectedComponent.value.inContainer = !selectedComponent.value.inContainer"
-              ></whppt-check-box>
-              <whppt-text-input
-                v-if="ifExsists(selectedComponent.value.marginTop)"
-                v-model="selectedComponent.value.marginTop"
-                type="number"
-                max="8"
-                min="0"
-                :placeholder="$whppt.defaultMarginTop"
-                label="Margin Top"
-                class="marin-top-input"
-              />
-            </div>
-          </whppt-tab>
-          <whppt-tab v-if="selectedContent" title="Contents Tree">
-            <contents-tree></contents-tree>
-          </whppt-tab>
-        </whppt-tabs>
-        <whppt-button class="whppt-button__close" @click="closeSidebar">
-          Close
-        </whppt-button>
-      </div>
-    </div>
+    <whppt-sidebar />
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex';
 import * as Editors from '../system';
-import PageSettings from '../system/PageSettings';
 import SlugSettings from '../system/SlugSettings';
 import PublishSettings from '../system/PublishSettings';
 import WhpptModal from '../whpptComponents/WhpptModal';
 import WhpptTextInput from '../whpptComponents/WhpptTextInput';
-import WhpptButton from '../whpptComponents/WhpptButton';
 import WhpptCheckBox from '../whpptComponents/CheckBox';
 import ContentsTree from '../whpptComponents/ContentsTree';
 import WhpptTab from '../whpptComponents/WhpptTab';
+import WhpptButton from '../whpptComponents/WhpptButton';
 import WhpptTabs from '../whpptComponents/WhpptTabs';
 
 export default {
@@ -75,13 +33,14 @@ export default {
   props: { prefix: { type: String, default: '' } },
   components: {
     ...Editors,
+    SiteSettings: () => import('../system/SiteSettings'),
+    PageSettings: () => import('../system/PageSettings'),
+    WhpptSidebar: () => import('../system/WhpptSidebar'),
     WhpptButton,
     WhpptModal,
     WhpptTextInput,
-    SiteSettings: () => import('../system/SiteSettings'),
     SlugSettings,
     PublishSettings,
-    PageSettings,
     WhpptCheckBox,
     ContentsTree,
     WhpptTab,

@@ -15,16 +15,28 @@
       </div>
       <div class="my-8">
         <h2 id="contents" class="font-bold underline">Content Example</h2>
-        <div v-content="page.contents" data-blacklist="" class="p-8">
+        <div v-content="page.contents" data-blacklist="" class="p-8 whppt-contents">
           <component
             :is="content.displayType"
             v-for="(content, contentKey) in page.contents"
             :key="`content-${contentKey}`"
             :value="content"
             :content="content"
-            :class="{ container: content.inContainer, 'mx-auto': content.inContainer }"
-            :style="{ 'margin-top': `${content.marginTop || $whppt.defaultMarginTop}px` }"
+            :class="
+              ({ container: content.inContainer, 'mx-auto': content.inContainer },
+              `mt-${(content.marginTopSmall || $whppt.defaultMarginTop) * 4} sm:mt-${(content.marginTopMedium ||
+                $whppt.defaultMarginTop) * 4} lg:mt-${(content.marginTopLarge || $whppt.defaultMarginTop) * 4} `)
+            "
           ></component>
+          <!-- <component
+            :is="content.displayType"
+            v-for="(content, contentKey) in page.contents"
+            :key="`content-${contentKey}`"
+            :value="content"
+            :content="content"
+            :class="{ container: content.inContainer, 'mx-auto': content.inContainer }"
+            :style="{ 'margin-top': `${content.marginTop || $whppt.defaultMarginTop}rem` }"
+          ></component> -->
         </div>
       </div>
     </div>

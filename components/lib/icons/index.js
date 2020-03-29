@@ -4,6 +4,7 @@ import ArrowUp from './ArrowUp';
 import Draggable from './Draggable';
 import Edit from './Edit';
 import Globe from './Globe';
+import LeftTriangle from './LeftTriangle';
 import NewPage from './NewPage';
 import Preview from './Preview';
 import Publish from './Publish';
@@ -27,6 +28,7 @@ export default {
   Draggable,
   Edit,
   Globe,
+  LeftTriangle,
   NewPage,
   Preview,
   Publish,
