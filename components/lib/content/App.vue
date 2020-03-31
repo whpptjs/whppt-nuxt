@@ -125,6 +125,11 @@ export default {
   justify-content: flex-start;
 }
 
+.whppt-flex-end {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .whppt-align-center {
   align-items: center;
 }
