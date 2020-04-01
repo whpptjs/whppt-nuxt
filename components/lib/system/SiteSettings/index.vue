@@ -33,7 +33,7 @@ import Redirects from './tabs/SettingsRedirect';
 import Twitter from './tabs/SettingsTwitter';
 import OpenGraph from './tabs/SettingsOG';
 import General from './tabs/SettingsGeneral';
-import Categories from './tabs/SettingsCategories';
+// import Categories from './tabs/SettingsCategories';
 
 const additionalTabs = [];
 const additionalComponents = {};
@@ -56,12 +56,12 @@ export default {
     General,
     OpenGraph,
     Twitter,
-    Categories,
+    // Categories,
   },
   data: () => ({
     usedListings: [],
     warningId: undefined,
-    siteSettings: { og: { image: {} }, twitter: { image: {} } },
+    siteSettings: { og: { image: { imageId: '', crop: {} } }, twitter: { image: { imageId: '', crop: {} } } },
     selectedTab: 'general',
   }),
   computed: {
@@ -73,7 +73,7 @@ export default {
         { name: 'twitter', label: 'Twitter' },
         { name: 'redirects', label: 'Redirects' },
         { name: 's-e-o', label: 'SEO' },
-        { name: 'categories', label: 'Categories' },
+        // { name: 'categories', label: 'Categories' },
         ...additionalTabs,
       ];
     },
@@ -85,13 +85,22 @@ export default {
     ...mapActions('whppt-nuxt/site', ['saveSiteSettings', 'publishSiteSettings']),
     loadSiteSettings() {
       return this.$axios.get(`${this.baseAPIUrl}/api/siteSettings/loadSiteSettings`).then(({ data: siteSettings }) => {
-        this.siteSettings = siteSettings || { _id: 'siteSettings' };
-        this.siteSettings.og = this.siteSettings.og || { title: '', keywords: '', image: { imageId: '', crop: {} } };
-        this.siteSettings.twitter = this.siteSettings.twitter || {
-          title: '',
-          keywords: '',
-          image: { imageId: '', crop: {} },
-        };
+        siteSettings = siteSettings || { _id: 'siteSettings' };
+        siteSettings.og = siteSettings.og || {};
+        siteSettings.og.image =
+          siteSettings.og.image && siteSettings.og.image.imageId
+            ? siteSettings.og.image
+            : { imageId: '', crop: { desktop: {} } };
+        siteSettings.og.keywords = siteSettings.og.keywords || '';
+        siteSettings.og.title = siteSettings.og.title || '';
+        siteSettings.twitter = siteSettings.twitter || {};
+        siteSettings.twitter.image =
+          siteSettings.twitter.image && siteSettings.twitter.image.imageId
+            ? siteSettings.twitter.image
+            : { imageId: '', crop: { desktop: {} } };
+        siteSettings.twitter.keywords = siteSettings.twitter.keywords || '';
+        siteSettings.twitter.title = siteSettings.twitter.title || '';
+        this.siteSettings = siteSettings;
       });
     },
     saveSettings() {

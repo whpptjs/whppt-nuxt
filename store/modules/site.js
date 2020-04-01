@@ -49,12 +49,21 @@ export default options => ({
     loadSiteSettings({ commit }) {
       return this.$whppt.loadSiteSettings().then(siteSettings => {
         siteSettings = siteSettings || { _id: 'siteSettings' };
-        siteSettings.og = siteSettings.og || { title: '', keywords: '', image: { imageId: '', crop: {} } };
-        siteSettings.twitter = siteSettings.twitter || {
-          title: '',
-          keywords: '',
-          image: { imageId: '', crop: {} },
-        };
+        siteSettings.og = siteSettings.og || {};
+        siteSettings.og.image =
+          siteSettings.og.image && siteSettings.og.image.imageId
+            ? siteSettings.og.image
+            : { imageId: '', crop: { desktop: {} } };
+        siteSettings.og.keywords = siteSettings.og.keywords || '';
+        siteSettings.og.title = siteSettings.og.title || '';
+        siteSettings.twitter = siteSettings.twitter || {};
+        siteSettings.twitter.image =
+          siteSettings.twitter.image && siteSettings.twitter.image.imageId
+            ? siteSettings.twitter.image
+            : { imageId: '', crop: { desktop: {} } };
+        siteSettings.twitter.keywords = siteSettings.twitter.keywords || '';
+        siteSettings.twitter.title = siteSettings.twitter.title || '';
+        this.siteSettings = siteSettings;
         commit('siteSettingsLoaded', siteSettings);
       });
     },
