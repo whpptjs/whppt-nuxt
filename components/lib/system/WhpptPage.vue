@@ -68,7 +68,7 @@ export default {
       const vm = this;
       vm.showError = false;
       if (!vm.pageForm.slug || !vm.pageForm.template) {
-        const { slug, template } = vm.pageForm``;
+        const { slug, template } = vm.pageForm;
         this.$toast.global.editorError(
           `Missing Fields: ${!slug ? 'Slug' : ''}${!vm.pageForm.slug && !vm.pageForm.template ? ', ' : ''}${
             !template ? 'Template' : ''

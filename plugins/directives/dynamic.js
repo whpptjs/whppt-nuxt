@@ -2,7 +2,7 @@ import Vue from 'vue';
 import SimpleComponentClickHandler from './_simpleComponentClickHandler';
 
 export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES, definition }) => {
-  Vue.directive(definition.directive, {
+  Vue.directive(definition.name, {
     bind(el, binding) {
       const value = { value: binding.value };
       el.whppthandler = SimpleComponentClickHandler({
