@@ -1,6 +1,7 @@
 import ArrowDown from './ArrowDown';
 import AddCircle from './AddCircle';
 import ArrowUp from './ArrowUp';
+import Colour from './Colour';
 import Draggable from './Draggable';
 import Edit from './Edit';
 import Globe from './Globe';
@@ -25,6 +26,7 @@ export default {
   ArrowDown,
   ArrowUp,
   AddCircle,
+  Colour,
   Draggable,
   Edit,
   Globe,
