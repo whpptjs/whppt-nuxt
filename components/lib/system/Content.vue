@@ -13,7 +13,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import { filter, includes } from 'lodash';
+import { filter, includes, orderBy } from 'lodash';
 import WhpptButton from '../whpptComponents/WhpptButton';
 
 export default {
@@ -30,15 +30,17 @@ export default {
     componentList() {
       if (!this.selectedComponent) return;
 
+      let componentList = this.$whppt.components;
+
       if (this.selectedComponent.whitelist) {
-        return filter(this.$whppt.components, c => includes(this.selectedComponent.whitelist, c.displayType));
+        componentList = filter(this.$whppt.components, c => includes(this.selectedComponent.whitelist, c.displayType));
       }
 
       if (this.selectedComponent.blacklist) {
-        return filter(this.$whppt.components, c => !includes(this.selectedComponent.blacklist, c.displayType));
+        componentList = filter(this.$whppt.components, c => !includes(this.selectedComponent.blacklist, c.displayType));
       }
 
-      return this.$whppt.components;
+      return orderBy(componentList, ['key']);
     },
   },
   methods: {
