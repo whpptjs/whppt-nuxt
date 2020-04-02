@@ -136,4 +136,8 @@ export default {
 .whppt-editor__header {
   margin-bottom: 5px;
 }
+
+.whppt-formatted-content p:not(:first-child) {
+  padding-top: 2rem;
+}
 </style>
