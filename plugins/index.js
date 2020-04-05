@@ -107,6 +107,7 @@ export default (context, inject) => {
     marginTop: options.marginTop,
     components: Components(options),
     defaultMarginTop: options.defaultMarginTop,
+    defaultMargins: options.defaultMargins || { base: 0, sm: 2, lg: 4 },
     spacing: options.spacing || setSize,
   });
 
