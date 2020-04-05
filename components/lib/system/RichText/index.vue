@@ -210,7 +210,49 @@ export default {
   margin-bottom: 5px;
 }
 
-.whppt-rich-content p:not(:first-child) {
+/* .whppt-rich-content p:not(:first-child) {
   padding-top: 2rem;
+} */
+
+.whppt-rich-content p:not(:first-child),
+h2:not(:first-child) {
+  padding-top: 2rem;
+}
+
+.whppt-rich-content a {
+  text-decoration: underline;
+}
+
+.whppt-rich-content h3:not(:first-child),
+ol:not(:first-child),
+ul:not(:first-child) {
+  padding-top: 1rem;
+}
+
+.whppt-rich-content ol {
+  list-style-position: inside;
+  list-style-type: decimal;
+}
+.whppt-rich-content ul {
+  list-style-position: inside;
+  list-style-type: disc;
+}
+
+.whppt-rich-content ul p,
+.whppt-rich-content ol p {
+  padding-top: 0rem;
+  display: inline;
+}
+
+.whppt-rich-content h1 {
+  @apply text-4xl;
+}
+
+.whppt-rich-content h2 {
+  @apply text-2xl;
+}
+
+.whppt-rich-content h3 {
+  @apply text-lg;
 }
 </style>

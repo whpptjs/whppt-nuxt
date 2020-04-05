@@ -41,8 +41,6 @@ import Select from './helpers/editors/Select';
 import Hover from './helpers/editors/Hover';
 import Image from './helpers/Image';
 
-// import PublishListing from './helpers/PublishListing';
-
 const options = JSON.parse(`<%= JSON.stringify(options) %>`);
 
 const whppt = (global.$whppt = {
@@ -84,7 +82,6 @@ export default (context, inject) => {
 
   Object.assign(global.$whppt, {
     editData: undefined,
-    // publishListing: PublishListing(context),
     loadSiteSettings: LoadSiteSettings(context),
     saveSiteSettings: SaveSiteSettings(context),
     publishSiteSettings: PublishSiteSettings(context),

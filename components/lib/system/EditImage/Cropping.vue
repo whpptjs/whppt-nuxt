@@ -25,6 +25,7 @@
         />
       </div>
       <whppt-button class="whppt-cropper__apply-change" @click="applyChanges">Apply</whppt-button>
+      <whppt-text-input v-model="imageOptions.alt" placeholder="e.g. Article Heading Image" label="Image alt text" />
     </div>
   </div>
 </template>
@@ -34,9 +35,11 @@ import { forEach, cloneDeep } from 'lodash';
 import Croppa from 'vue-croppa';
 import 'vue-croppa/dist/vue-croppa.css';
 import WhpptButton from '../../whpptComponents/WhpptButton';
+import WhpptTextInput from '../../whpptComponents/WhpptTextInput';
+
 export default {
   name: 'EditorImageCropping',
-  components: { croppa: Croppa.component, WhpptButton },
+  components: { croppa: Croppa.component, WhpptButton, WhpptTextInput },
   props: {
     imageOptions: {
       type: Object,

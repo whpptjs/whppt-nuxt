@@ -8,7 +8,7 @@
     <div v-for="(item, key) in selectedComponent.value[selectedComponent.property]" :key="key">
       <div class="whppt-contents__item-container">
         <span>
-          {{ item.title || `Item #${key + 1}` }}
+          {{ typeof item !== 'object' ? item : item.title || item.name || `Item #${key + 1}` }}
         </span>
         <div class="whppt-contents__actions">
           <button class="whppt-contents__actions-remove" @click="removeItem(item)">
