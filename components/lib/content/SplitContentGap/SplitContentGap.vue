@@ -4,7 +4,7 @@
       v-split-gap="content"
       :data-property="content.property"
       class="splitContent flex flex-col sm:flex-row"
-      :class="{ 'py-4': activeMenuItem }"
+      :class="{ 'py-4': activeMenuItem, container }"
     >
       <split-column
         :class="`sm:w-${content.width}/12`"
@@ -33,6 +33,7 @@ export default {
       type: Object,
       default: () => ({ left: [], right: [], inContainer: false, width: 5, gap: 0 }),
     },
+    container: Boolean,
     whitelistLeftSplit: {
       type: String,
       default: '',
@@ -45,18 +46,5 @@ export default {
   computed: {
     ...mapState('whppt-nuxt/editor', ['activeMenuItem']),
   },
-  // beforeMount() {
-  //   this.content.data = this.content.data || {}
-  //   this.content.data.width = this.content.data.width || 5
-  //   this.content.data.gap = this.content.data.gap || 2
-  //   this.content.data.contents = this.content.data.contents || {}
-  //   this.content.data.contents.left = this.content.data.contents.left || []
-  //   this.content.data.contents.right = this.content.data.contents.right || []
-  // },
-  // computed: {
-  //   splitContent() {
-  //     return this.content.data
-  //   }
-  // }
 };
 </script>
