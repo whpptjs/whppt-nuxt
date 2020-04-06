@@ -24,6 +24,7 @@
               :placeholder="$whppt.defaultMarginTop"
               label="Margin Top - Large Screens (Desktop)"
               class="marin-top-input"
+              @input="clampInput($event, 'marginTopLarge')"
             />
             <whppt-text-input
               v-model="selectedComponent.value.marginTopMedium"
@@ -33,6 +34,7 @@
               :placeholder="$whppt.defaultMarginTop"
               label="Margin Top - Medium Screens (Tablet)"
               class="marin-top-input"
+              @input="clampInput($event, 'marginTopMedium')"
             />
             <whppt-text-input
               v-model="selectedComponent.value.marginTopSmall"
@@ -42,6 +44,7 @@
               :placeholder="$whppt.defaultMarginTop"
               label="Margin Top - Small Screens (Mobile)"
               class="marin-top-input"
+              @input="clampInput($event, 'marginTopSmall')"
             />
           </div>
         </whppt-tab>
@@ -57,7 +60,7 @@
 </template>
 
 <script>
-import { filter, flatMap, forEach } from 'lodash';
+import { filter, flatMap, forEach, clamp } from 'lodash';
 import { mapActions, mapState } from 'vuex';
 import * as Editors from '../system';
 import WhpptTabs from '../whpptComponents/WhpptTabs';
@@ -106,6 +109,9 @@ export default {
   },
   methods: {
     ...mapActions('whppt-nuxt/editor', ['closeSidebar', 'closeModal']),
+    clampInput(input, property) {
+      this.selectedComponent.value[property] = clamp(input, 0, 8);
+    },
   },
 };
 </script>

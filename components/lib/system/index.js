@@ -14,6 +14,7 @@ import Menu from './Menu';
 import PlainText from './TextBox';
 import RichText from './RichText';
 import SplitContent from './SplitContent';
+import SplitGap from './SplitContentGap';
 import WLink from './Link';
 // import VideoBlock from './_VideoBlock';
 import Youtube from './Youtube';
@@ -35,6 +36,7 @@ export {
   PlainText,
   RichText,
   SplitContent,
+  SplitGap,
   WLink,
   Youtube,
   // _VideoBlock,

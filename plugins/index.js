@@ -4,6 +4,7 @@ import { Components } from './Components';
 import contentDirective from './directives/content';
 import coloursDirective from './directives/colours';
 import splitContentDirective from './directives/splitContent';
+import splitGapDirective from './directives/splitGap';
 import richTextDirective from './directives/richText';
 import formattedTextDirective from './directives/formattedText';
 import defaultDirective from './directives/default';
@@ -129,6 +130,7 @@ export default (context, inject) => {
   contentDirective({ ...context, menuIsInState, MENUSTATES });
   coloursDirective({ ...context, menuIsInState, MENUSTATES });
   splitContentDirective({ ...context, menuIsInState, MENUSTATES });
+  splitGapDirective({ ...context, menuIsInState, MENUSTATES });
   plainTextDirective({ ...context, menuIsInState, MENUSTATES });
   defaultDirective({ ...context, menuIsInState, MENUSTATES });
   listDirective({ ...context, menuIsInState, MENUSTATES });
