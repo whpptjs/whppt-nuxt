@@ -97,7 +97,8 @@ const Components = options => [
     displayType: 'wSplitContent',
     property: 'width',
     contents: { left: [], right: [] },
-    width: '6',
+    width: 6,
+    gap: 0,
   },
   {
     key: 'Anchor',

@@ -27,6 +27,8 @@
               `mt-${(content.marginTopSmall || $whppt.defaultMarginTop) * 4} sm:mt-${(content.marginTopMedium ||
                 $whppt.defaultMarginTop) * 4} lg:mt-${(content.marginTopLarge || $whppt.defaultMarginTop) * 4} `)
             "
+            whitelist-left-split="wPlainText, Anchor"
+            whitelist-right-split="wRichText"
           ></component>
           <!-- <component
             :is="content.displayType"
