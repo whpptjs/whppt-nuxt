@@ -13,8 +13,6 @@ global.$whppt.plugins = {
     siteSettings: { name: 'chapters', label: 'Chapters', component: SiteSettingsChapters },
     pageSettings: { name: 'chapters', label: 'Chapters', component: PageSettingsChapters },
     pageTypes: { name: 'chapters', label: 'Chapters', component: BooksPageMenu, formatSlug },
-    editors: [
-      { name: 'chapter-links', label: 'Chapter Links', directive: 'chapter-links', component: ChapterLinksMenu },
-    ],
+    editors: [{ name: 'chapter-links', label: 'Chapter Links', component: ChapterLinksMenu }],
   },
 };
