@@ -30,6 +30,8 @@ const Components = options => [
     editorType: 'wLink',
     displayType: 'wLink',
     type: 'page',
+    fileId: '',
+    text: '',
     showOnDesktop: true,
     showOnTablet: true,
     showOnMobile: true,
@@ -57,6 +59,7 @@ const Components = options => [
       type: 'page',
       text: '',
       href: '',
+      fileId: '',
     },
     property: 'items',
     items: [
@@ -70,6 +73,7 @@ const Components = options => [
           icon: undefined,
           href: '',
           type: 'page',
+          fileId: '',
         },
         image: {
           imageId: undefined,

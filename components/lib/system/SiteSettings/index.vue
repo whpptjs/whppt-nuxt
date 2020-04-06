@@ -33,6 +33,7 @@ import Redirects from './tabs/SettingsRedirect';
 import Twitter from './tabs/SettingsTwitter';
 import OpenGraph from './tabs/SettingsOG';
 import General from './tabs/SettingsGeneral';
+import Files from './tabs/SettingsFiles';
 // import Categories from './tabs/SettingsCategories';
 
 const additionalTabs = [];
@@ -56,6 +57,7 @@ export default {
     General,
     OpenGraph,
     Twitter,
+    Files,
     // Categories,
   },
   data: () => ({
@@ -73,6 +75,7 @@ export default {
         { name: 'twitter', label: 'Twitter' },
         { name: 'redirects', label: 'Redirects' },
         { name: 's-e-o', label: 'SEO' },
+        { name: 'files', label: 'Files' },
         // { name: 'categories', label: 'Categories' },
         ...additionalTabs,
       ];
