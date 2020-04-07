@@ -215,7 +215,7 @@ export default {
 } */
 
 .whppt-rich-content p:not(:first-child),
-h2:not(:first-child) {
+.whppt-rich-content h2:not(:first-child) {
   padding-top: 2rem;
 }
 
@@ -224,8 +224,8 @@ h2:not(:first-child) {
 }
 
 .whppt-rich-content h3:not(:first-child),
-ol:not(:first-child),
-ul:not(:first-child) {
+.whppt-rich-content ol:not(:first-child),
+.whppt-rich-content ul:not(:first-child) {
   padding-top: 1rem;
 }
 
