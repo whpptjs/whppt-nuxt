@@ -39,12 +39,12 @@ export default {
     ...mapState('whppt-nuxt/editor', ['selectedComponent']),
   },
   mounted() {
-    this.selectedComponent.width = this.selectedComponent.width || 5;
-    this.selectedComponent.gap = this.selectedComponent.gap || 0;
+    this.selectedComponent.width = this.selectedComponent.width || '5';
+    this.selectedComponent.gap = this.selectedComponent.gap || '0';
   },
   methods: {
     clampInput(input, property, min, max) {
-      this.selectedComponent.value[property] = clamp(input, min, max);
+      if (input) this.selectedComponent.value[property] = `${clamp(input, min, max)}`;
     },
   },
 };

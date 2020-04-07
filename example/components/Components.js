@@ -9,7 +9,7 @@ import WEditImage from './EditImage';
 import WLink from './Link';
 import FeatureBlock from './FeatureBlock';
 import wCtaButton from './CTAButton';
-import SplitContent from './SplitContent';
+import wSplitContent from './SplitContent/SplitContent';
 import ContactIcon from './ContactIcon';
 import ImageNavigation from './ImageNavigation';
 import Chapters from './SiteSettingsChapters';
@@ -25,7 +25,7 @@ export {
   WEditImage,
   WLink,
   wCtaButton,
-  SplitContent,
+  wSplitContent,
   ContactIcon,
   ImageNavigation,
   Chapters,

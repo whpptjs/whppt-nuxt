@@ -110,7 +110,7 @@ export default {
   methods: {
     ...mapActions('whppt-nuxt/editor', ['closeSidebar', 'closeModal']),
     clampInput(input, property) {
-      this.selectedComponent.value[property] = clamp(input, 0, 8);
+      if (input) this.selectedComponent.value[property] = `${clamp(input, 0, 8)}`;
     },
   },
 };
