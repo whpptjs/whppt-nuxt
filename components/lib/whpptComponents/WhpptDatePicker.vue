@@ -15,7 +15,14 @@
       @change="$emit('change', $event)"
     >
       <div slot-scope="{ inputProps, inputEvents }" class="relative appearance-none">
-        <whppt-text-input v-bind="inputProps" :placeholder="placeholder" v-on="inputEvents" :label="label" />
+        <whppt-text-input
+          v-bind="inputProps"
+          :placeholder="placeholder"
+          v-on="inputEvents"
+          :label="label"
+          readonly
+          class="whppt-cursor-pointer"
+        />
       </div>
     </v-date-picker>
   </div>
@@ -41,3 +48,8 @@ export default {
   }),
 };
 </script>
+<style>
+.whppt-cursor-pointer {
+  cursor: pointer !important;
+}
+</style>
