@@ -5,8 +5,8 @@
       class="whppt-inputText__label"
       :style="labelColour ? `color: ${labelColour}` : 'color: white'"
       :for="id"
-      >{{ label }}</label
-    >
+      >{{ label }}
+    </label>
     <input
       :id="id"
       v-bind="$attrs"
