@@ -34,7 +34,9 @@
                   placeholder="Enter a page slug"
                   label="Slug"
                   label-colour="black"
-                  info="The page slug makes up part of the page's url that is shown in the browsers address bar and is used by search engines to match your page with search terms. Your input will be formatted to avoid certain characters."
+                  :info="
+                    `The page slug makes up part of the page's url that is shown in the browsers address bar and is used by search engines to match your page with search terms. \nYour input will be formatted according to the page type setting and to avoid certain characters.`
+                  "
                 />
               </div>
               <div style="display: flex; align-items: center; justify-content: flex-start">
@@ -51,7 +53,6 @@
             </button>
             <button class="whppt-settings__button" @click="showSlugModal = false">Close</button>
           </div>
-          <div></div>
         </form>
       </div>
     </div>
@@ -73,21 +74,22 @@
             </button>
             <button class="whppt-settings__button" @click="showWarning = false">Cancel</button>
           </div>
-          <div></div>
         </div>
       </div>
     </div>
     <form @submit.prevent>
       <div>
         <fieldset>
-          <whppt-text-input
+          <label class="whppt-inputText__label">Page Formatted Slug</label>
+          <div style="color: #981a31;">{{ page.slug }}</div>
+          <!-- <whppt-text-input
             v-model="page.slug"
             placeholder="Enter a page slug"
             label="Slug"
-            :disabled="true"
+            readonly
             label-colour="black"
-          />
-          <div class="whppt-justify-start whppt-align-center">
+          /> -->
+          <div class="whppt-flex-between whppt-align-center">
             <button class="whppt-settings__button" @click="openSlugModal">
               Change Slug
             </button>
@@ -95,6 +97,18 @@
               Delete Page
             </button>
           </div>
+
+          <div class="whppt-divider" />
+          <whppt-select
+            v-model="pageTypeObj"
+            @input="selectPageType"
+            label="Page Type"
+            :items="pageTypes"
+            keyProp="name"
+          />
+          <button class="whppt-settings__button" @click="changePageType">
+            Change Page Type
+          </button>
         </fieldset>
       </div>
     </form>
@@ -102,14 +116,17 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-import WhpptTextInput from '../../../whpptComponents/WhpptTextInput';
 import slugify from 'slugify';
+import { mapActions } from 'vuex';
+import { map, find, get, compact } from 'lodash';
+import WhpptTextInput from '../../../whpptComponents/WhpptTextInput';
+import WhpptSelect from '../../../whpptComponents/WhpptSelect';
 
 export default {
   name: 'PageSettingsGeneral',
   components: {
     WhpptTextInput,
+    WhpptSelect,
   },
   props: {
     page: { type: Object, required: true },
@@ -119,21 +136,59 @@ export default {
     showWarning: false,
     showSlugModal: false,
     slugCopy: '',
+    pageTypeObj: undefined,
+    rawSlug: '',
   }),
+  mounted() {
+    this.pageTypeObj = find(this.pageTypes, t => get(t, 'name') === this.page.pageType) || {};
+    if (!this.pageTypeObj.stripSlug) return (this.rawSlug = this.page.slug);
+    this.rawSlug = this.pageTypeObj.stripSlug({ slug: this.page.slug });
+  },
   computed: {
     formattedSlug() {
-      return this.formatSlug(this.slugCopy);
+      if (!this.pageTypeObj || !this.pageTypeObj.formatSlug) return this.formatSlug(this.slugCopy);
+      else return this.formatSlug(this.pageTypeObj.formatSlug({ slug: this.slugCopy }));
     },
     slugSuffix() {
       if (!this.prefix) return '';
       return this.slugCopy.replace(`${this.prefix}/`, '');
     },
+    pageTypes() {
+      return compact(map(this.$whppt.plugins, t => t.pageTypes));
+    },
   },
   methods: {
     ...mapActions('whppt-nuxt/page', ['savePage', 'deletePage']),
+    selectPageType(selectedPageType) {
+      if (!selectedPageType) this.page.pageType = '';
+      else this.page.pageType = selectedPageType.name;
+    },
+    changePageType() {
+      let newSlug = '';
+      if (this.pageTypeObj && this.pageTypeObj.formatSlug)
+        newSlug = this.pageTypeObj.formatSlug({ slug: this.rawSlug });
+      else newSlug = this.rawSlug;
+      if (!this.rawSlug || !newSlug) {
+        this.$toast.global.editorError('Cannot use an empty slug');
+        return;
+      }
+      return this.$whppt.checkSlug({ slug: newSlug, _id: this.page._id }).then(result => {
+        if (result) {
+          this.showSlugModal = true;
+          this.$toast.global.editorError('Slug already in use');
+        } else {
+          this.page.slug = newSlug;
+          return this.savePage().then(() => {
+            this.$router.push(`/${newSlug}`);
+            this.$emit('closeModal');
+          });
+        }
+      });
+    },
     openSlugModal() {
       this.showSlugModal = true;
-      this.slugCopy = this.page.slug;
+      // this.slugCopy = this.page.slug;
+      this.slugCopy = this.rawSlug;
     },
     formatSlug(slug) {
       if (slug.startsWith('/')) slug = slug.replace(/^(\/*)/, '');
@@ -181,3 +236,11 @@ export default {
   },
 };
 </script>
+<style>
+.whppt-divider {
+  margin: 30px 0;
+  width: 100%;
+  height: 1px;
+  background: lightgray;
+}
+</style>
