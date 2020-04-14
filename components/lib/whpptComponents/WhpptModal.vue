@@ -154,6 +154,7 @@ export default {
   align-items: center;
   color: #981a31;
   padding: 1rem 1rem 0 1rem;
+  overflow: scroll;
 }
 
 .whppt-settings__tab {
