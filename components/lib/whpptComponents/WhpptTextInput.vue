@@ -5,8 +5,8 @@
       class="whppt-inputText__label"
       :style="labelColour ? `color: ${labelColour}` : 'color: white'"
       :for="id"
-      >{{ label }}</label
-    >
+      >{{ label }}
+    </label>
     <input
       :id="id"
       v-bind="$attrs"
@@ -32,7 +32,7 @@ export default {
   props: ['id', 'label', 'value', 'info', 'placeholder', 'disabled', 'labelColour'],
 };
 </script>
-<style scoped>
+<style>
 .whppt-inputText__label {
   /* color: white; */
   display: block;
@@ -60,6 +60,7 @@ export default {
   font-size: 0.75rem;
   font-style: italic;
   margin-bottom: 0.75rem;
+  white-space: pre-line;
 }
 
 .whppt-inputText__disabled {

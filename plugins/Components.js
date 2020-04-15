@@ -83,14 +83,6 @@ const Components = options => [
     ],
   },
   {
-    key: 'Listings',
-    name: 'Listings',
-    editorType: 'wListings',
-    displayType: 'wListings',
-    property: 'categoryFilter',
-    categoryFilter: {},
-  },
-  {
     key: 'SplitContent',
     name: 'Split Content',
     editorType: 'wSplitContent',

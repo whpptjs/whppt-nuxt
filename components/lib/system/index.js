@@ -16,6 +16,7 @@ import RichText from './RichText';
 import SplitContent from './SplitContent';
 import SplitGap from './SplitContentGap';
 import WLink from './Link';
+import Date from './Date';
 // import VideoBlock from './_VideoBlock';
 import Youtube from './Youtube';
 
@@ -39,5 +40,6 @@ export {
   SplitGap,
   WLink,
   Youtube,
+  Date,
   // _VideoBlock,
 };

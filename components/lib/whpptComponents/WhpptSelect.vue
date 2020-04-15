@@ -1,21 +1,19 @@
 <template>
   <div class="whppt-select">
-    <label class="whppt-select__label"
-      >{{ label }}
-      <select
-        class="whppt-select__input"
-        :class="{ 'whppt-select__input_alt_bg': dark }"
-        :value="selectedIndex"
-        @change="select"
-      >
-        <option :value="-1">
-          {{ action }}
-        </option>
-        <option v-for="(item, index) in items" :key="index" :value="index">
-          {{ getValue(item, valueProp) || `Item #${index + 1}` }}
-        </option>
-      </select>
-    </label>
+    <label class="whppt-select__label">{{ label }} </label>
+    <select
+      class="whppt-select__input"
+      :class="{ 'whppt-select__input_alt_bg': dark }"
+      :value="selectedIndex"
+      @change="select"
+    >
+      <option :value="-1">
+        {{ action }}
+      </option>
+      <option v-for="(item, index) in items" :key="index" :value="index">
+        {{ getValue(item, valueProp) || `Item #${index + 1}` }}
+      </option>
+    </select>
   </div>
 </template>
 <script>

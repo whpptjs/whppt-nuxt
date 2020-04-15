@@ -237,14 +237,6 @@ export default {
   resize: vertical;
 }
 
-.whppt-settings__delete-button {
-  margin-top: 1rem;
-  color: #981a31;
-  border-radius: 0.5rem;
-  padding: 0.5rem 0.75rem;
-  border: 1px solid #981a31;
-}
-
 .whppt-settings__warning-button {
   color: #981a31;
   border-radius: 0.5rem;

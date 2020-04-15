@@ -20,6 +20,7 @@ import contactIconDirective from './directives/contactIcon';
 import dynamicDirective from './directives/dynamic';
 // import _videoBlockDirective from './directives/_videoBlock';
 import youtubeDirective from './directives/youtube';
+import dateDirective from './directives/date';
 
 import LoadSiteSettings from './helpers/LoadSiteSettings';
 import SaveSiteSettings from './helpers/SaveSiteSettings';
@@ -145,6 +146,7 @@ export default (context, inject) => {
   contactIconDirective({ ...context, menuIsInState, MENUSTATES });
   // _videoBlockDirective({ ...context, menuIsInState, MENUSTATES });
   youtubeDirective({ ...context, menuIsInState, MENUSTATES });
+  dateDirective({ ...context, menuIsInState, MENUSTATES });
 
   const types = global.$whppt.plugins;
   const editors = flatMap(
