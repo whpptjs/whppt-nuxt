@@ -54,6 +54,7 @@ export default {
             _id: 'emailerConfig',
             config: { secure: false, requireTLS: true, auth: {} },
           };
+          this.$toast.global.editorSuccess('Emailer Settings Saved');
         });
     },
     saveEmailerSettings() {
