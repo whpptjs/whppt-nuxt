@@ -19,7 +19,7 @@
           </div>
         </div>
         <button class="whppt-settings__button" style="display: flex" @click="saveEmailerSettings">
-          Save Emailer Settings
+          Save Email Settings
         </button>
       </fieldset>
     </div>
