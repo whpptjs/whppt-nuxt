@@ -20,11 +20,11 @@ export default options => ({
         commit('pageLoaded', page);
       });
     },
-    savePage({ state, commit }) {
+    savePage({ state, commit }, _page) {
       let p = Promise.resolve();
       if (this.$whppt.savePageCallback) p = p.then(() => this.$whppt.savePageCallback());
       return p.then(() =>
-        this.$whppt.savePage(state.page).then(page => {
+        this.$whppt.savePage(_page || state.page).then(page => {
           this.$toast.global.editorSuccess('Page Saved');
         })
       );

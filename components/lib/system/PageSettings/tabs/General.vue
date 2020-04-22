@@ -1,9 +1,41 @@
 <template>
   <div>
     <div
-      v-if="showSlugModal || showWarning"
+      v-if="showDupModal || showSlugModal || showWarning"
       style="background: rgba(0, 0, 0, .5); position: absolute; top: 0; left: 0; right: 0; bottom: 0"
     ></div>
+    <div v-if="showDupModal" class="whppt-settings__warning-modal">
+      <div class="whppt-settings__warning-content">
+        <form style="position: relative; " @submit.prevent>
+          <div class="whppt-settings__warning-heading" style="text-align: center;">Duplicate Page</div>
+          <div class="whppt-settings__warning-body">
+            <div>
+              <whppt-text-input
+                v-model="slugCopy"
+                placeholder="Enter a new slug for the duplicate"
+                label="Slug"
+                label-colour="black"
+                :info="
+                  `The page slug makes up part of the page's url that is shown in the browsers address bar and is used by search engines to match your page with search terms. \nYour input will be formatted according to the page type setting and to avoid certain characters.`
+                "
+              />
+              <div style="display: flex; align-items: center; justify-content: flex-start">
+                <div style="font-weight: bold; padding-right: 0.5rem;">Output:</div>
+                <div>
+                  {{ formattedSlug }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="whppt-settings__warning-actions">
+            <button class="whppt-settings__button" style="margin-left: 0" @click="saveDup">
+              Save
+            </button>
+            <button class="whppt-settings__button" @click="showDupModal = false">Close</button>
+          </div>
+        </form>
+      </div>
+    </div>
     <div v-if="showSlugModal" class="whppt-settings__warning-modal">
       <div class="whppt-settings__warning-content">
         <form style="position: relative; " @submit.prevent>
@@ -110,6 +142,10 @@
             Change Page Type
           </button>
         </fieldset>
+        <div class="whppt-divider" />
+        <button class="whppt-settings__button" @click="openDupModal">
+          Duplicate Page
+        </button>
       </div>
     </form>
   </div>
@@ -135,6 +171,7 @@ export default {
   data: () => ({
     showWarning: false,
     showSlugModal: false,
+    showDupModal: false,
     slugCopy: '',
     pageTypeObj: undefined,
     rawSlug: '',
@@ -190,6 +227,11 @@ export default {
       // this.slugCopy = this.page.slug;
       this.slugCopy = this.rawSlug;
     },
+    openDupModal() {
+      this.showDupModal = true;
+      // this.slugCopy = this.page.slug;
+      this.slugCopy = '';
+    },
     formatSlug(slug) {
       if (slug.startsWith('/')) slug = slug.replace(/^(\/*)/, '');
       slug = slug.replace(/\/{2,}/g, '/');
@@ -217,6 +259,26 @@ export default {
           vm.page.slug = newSlug;
           return vm.savePage().then(() => {
             vm.$router.push(`/${newSlug}`);
+            vm.$emit('closeModal');
+          });
+        }
+      });
+    },
+    saveDup() {
+      const vm = this;
+      const newSlug = this.formattedSlug;
+      if (!newSlug) {
+        this.$toast.global.editorError('Cannot use an empty slug');
+        return;
+      }
+      return vm.$whppt.checkSlug({ slug: newSlug }).then(result => {
+        if (result) {
+          this.$toast.global.editorError('Slug already in use');
+        } else {
+          vm.page.slug = newSlug;
+          return vm.savePage({ ...this.page, _id: undefined }).then(() => {
+            vm.$router.push(`/${newSlug}`);
+            this.showDupModal = false;
             vm.$emit('closeModal');
           });
         }
