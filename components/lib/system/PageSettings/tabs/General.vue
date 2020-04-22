@@ -69,7 +69,12 @@
             </div>
           </div>
           <div class="whppt-settings__warning-actions">
-            <button class="whppt-settings__button" style="margin-left: 0" @click="deletePageFromDraft()">
+            <button
+              class="whppt-settings__button"
+              :disabled="isHomePage"
+              style="margin-left: 0"
+              @click="deletePageFromDraft()"
+            >
               Delete
             </button>
             <button class="whppt-settings__button" @click="showWarning = false">Cancel</button>
@@ -155,6 +160,11 @@ export default {
     },
     pageTypes() {
       return compact(map(this.$whppt.plugins, t => t.pageTypes));
+    },
+    isHomePage() {
+      console.log('isHomePage -> this.$router.currentRoute.path', this.$router.currentRoute.path);
+      console.log("isHomePage -> this.$router.currentRoute.path === '/'", this.$router.currentRoute.path === '/');
+      return this.$router.currentRoute.path === '/';
     },
   },
   methods: {
