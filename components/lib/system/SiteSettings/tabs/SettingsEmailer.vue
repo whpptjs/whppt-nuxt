@@ -15,11 +15,18 @@
             <whppt-text-input v-model="emailerConfig.config.auth.user" label="Username" label-colour="black" />
           </div>
           <div class="whppt-settings__right-column" style="width: 100%; padding-left: 2rem;">
-            <whppt-text-input v-model="emailerConfig.config.auth.pass" label="Password" label-colour="black" />
+            <whppt-text-input
+              v-model="newPassword"
+              type="password"
+              :placeholder="emailerConfig.config.auth.pass ? 'Password Hidden' : ''"
+              label="Password"
+              label-colour="black"
+              info="For security purposes, the SMTP password can be set or changed here, but is never shown."
+            />
           </div>
         </div>
         <button class="whppt-settings__button" style="display: flex" @click="saveEmailerSettings">
-          Save Emailer Settings
+          Save Email Settings
         </button>
       </fieldset>
     </div>
@@ -36,7 +43,8 @@ export default {
   components: { WhpptTextInput },
   data() {
     return {
-      emailerConfig: { _id: 'emailerConfig', config: { secure: false, requireTLS: true, auth: {} } },
+      emailerConfig: { config: { secure: false, requireTLS: true, auth: {} } },
+      newPassword: '',
     };
   },
   computed: {
@@ -54,13 +62,18 @@ export default {
             _id: 'emailerConfig',
             config: { secure: false, requireTLS: true, auth: {} },
           };
-          this.$toast.global.editorSuccess('Emailer Settings Saved');
         });
     },
     saveEmailerSettings() {
-      return this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveEmailerConfig`, {
-        emailerConfig: this.emailerConfig,
-      });
+      const newConfig = this.emailerConfig;
+      newConfig.config.auth.pass = this.newPassword || undefined;
+      return this.$axios
+        .post(`${this.baseAPIUrl}/api/siteSettings/saveEmailerConfig`, {
+          emailerConfig: newConfig,
+        })
+        .then(() => {
+          this.$toast.global.editorSuccess('Emailer Settings Saved');
+        });
     },
   },
 };

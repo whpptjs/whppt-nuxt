@@ -128,7 +128,6 @@ export default {
       return vm.$whppt.checkSlug({ slug: newSlug, _id: this.page._id }).then(result => {
         if (result) {
           this.$toast.global.editorError('Slug already in use');
-          return;
         } else {
           vm.page.slug = newSlug;
           return vm.savePage().then(() => {

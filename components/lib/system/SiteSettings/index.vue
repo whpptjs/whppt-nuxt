@@ -78,7 +78,7 @@ export default {
         { name: 'redirects', label: 'Redirects' },
         { name: 's-e-o', label: 'SEO' },
         { name: 'files', label: 'Files' },
-        { name: 'emailer', label: 'Emailer' },
+        { name: 'emailer', label: 'Email (SMTP)' },
         // { name: 'categories', label: 'Categories' },
         ...additionalTabs,
       ];
