@@ -103,10 +103,15 @@ export default (context, inject) => {
     publishNav: PublishNav(context),
     templates: options.templates,
     pageTypes: options.pageTypes,
-    marginTop: options.marginTop,
     components: Components(options),
-    defaultMarginTop: options.defaultMarginTop,
-    defaultMargins: options.defaultMargins || { base: 0, sm: 2, lg: 4 },
+    defaultPadding: {
+      top: (options.defaultPadding && options.defaultPadding.top) || { base: 0, sm: 0, lg: 0 },
+      bottom: (options.defaultPadding && options.defaultPadding.bottom) || { base: 0, sm: 0, lg: 0 },
+    },
+    defaultMargin: {
+      top: (options.defaultMargin && options.defaultMargin.top) || { base: 0, sm: 2, lg: 4 },
+      bottom: (options.defaultMargin && options.defaultMargin.bottom) || { base: 0, sm: 2, lg: 4 },
+    },
     spacing: options.spacing || setSize,
   });
 
