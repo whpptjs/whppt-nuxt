@@ -47,7 +47,7 @@
         <form v-if="editingLink" @submit.prevent="link(commands.link)">
           <div style="display: flex; justify-content: space-between; align-items: center;">
             <p class="font-xl whppt-editor__header" style="padding-top:1rem;">Link Details</p>
-            <div class="whppt-menubar__close-button" @click="closeLink()"><w-close></w-close></div>
+            <button class="whppt-menubar__close-button" @click="closeLink()"><w-close></w-close></button>
           </div>
           <div class="whppt-menubar__link-form">
             <div style="display: flex; justify-content: space-between;">
