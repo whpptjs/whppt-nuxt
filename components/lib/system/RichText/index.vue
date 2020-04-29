@@ -47,7 +47,7 @@
         <form v-if="editingLink" @submit.prevent="link(commands.link)">
           <div style="display: flex; justify-content: space-between; align-items: center;">
             <p class="font-xl whppt-editor__header" style="padding-top:1rem;">Link Details</p>
-            <button class="whppt-menubar__close-button" @click="closeLink()"><w-close></w-close></button>
+            <button class="whppt-menubar__close-button" type="button" @click="closeLink()"><w-close></w-close></button>
           </div>
           <div class="whppt-menubar__link-form">
             <div style="display: flex; justify-content: space-between;">
@@ -56,7 +56,7 @@
                 type="text"
                 class="whppt-menubar__input"
                 label="href"
-                placeholder="https://"
+                :placeholder="editingLink.type === 'external' ? 'https://www.mysite.com.au' : '/myPage'"
               />
               <whppt-select
                 v-model="editingLink.type"
@@ -66,10 +66,10 @@
               ></whppt-select>
             </div>
             <div class="whppt-flex-between" style="padding-top: 1rem;">
-              <whppt-button @click="link(commands.link)">
+              <whppt-button type="button" @click="link(commands.link)">
                 Apply
               </whppt-button>
-              <whppt-button @click="removeLink(commands.link)">
+              <whppt-button type="button" @click="removeLink(commands.link)">
                 Remove
               </whppt-button>
             </div>
