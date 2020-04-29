@@ -1,46 +1,80 @@
 <template>
   <div class="whppt-editor">
     <p class="font-xl whppt-editor__header">Rich Text Editor</p>
+
     <editor-menu-bar v-if="!selectedComponent.hideMenu" :editor="editor">
-      <div slot-scope="{ commands, isActive, getMarkAttrs }" class="whppt-menubar" style="top: -52px">
-        <div v-if="!selectedComponent.hideStyle" class="whppt-menubar__section">
-          <button aria-label="Bold" @click="commands.bold">
-            <i-bold :fill="isActive.bold() ? 'orangered' : 'white'" />
-          </button>
-          <button aria-label="Italic" @click="commands.italic">
-            <i-italic :fill="isActive.italic() ? 'orangered' : 'white'" />
-          </button>
-          <button aria-label="Underline" @click="commands.underline">
-            <i-underline :fill="isActive.underline() ? 'orangered' : 'white'" />
-          </button>
-        </div>
-        <div v-if="!selectedComponent.hideHeaders" class="whppt-menubar__section">
-          <button aria-label="Paragraph" @click="commands.paragraph">
-            <i-paragraph :fill="isActive.paragraph() ? 'orangered' : 'white'" />
-          </button>
-          <!-- <button aria-label="Header Size 1" @click="commands.heading({ level: 1 })">
+      <div slot-scope="{ commands, isActive, getMarkAttrs }">
+        <div class="whppt-menubar" style="top: -52px">
+          <div v-if="!selectedComponent.hideStyle" class="whppt-menubar__section">
+            <button aria-label="Bold" @click="commands.bold">
+              <i-bold :fill="isActive.bold() ? 'orangered' : 'white'" />
+            </button>
+            <button aria-label="Italic" @click="commands.italic">
+              <i-italic :fill="isActive.italic() ? 'orangered' : 'white'" />
+            </button>
+            <button aria-label="Underline" @click="commands.underline">
+              <i-underline :fill="isActive.underline() ? 'orangered' : 'white'" />
+            </button>
+          </div>
+          <div v-if="!selectedComponent.hideHeaders" class="whppt-menubar__section">
+            <button aria-label="Paragraph" @click="commands.paragraph">
+              <i-paragraph :fill="isActive.paragraph() ? 'orangered' : 'white'" />
+            </button>
+            <!-- <button aria-label="Header Size 1" @click="commands.heading({ level: 1 })">
             <i-header1 :fill="isActive.heading({ level: 1 }) ? 'orangered' : 'white'" />
           </button> -->
-          <button aria-label="Header Size 2" @click="commands.heading({ level: 2 })">
-            <i-header2 :fill="isActive.heading({ level: 2 }) ? 'orangered' : 'white'" />
-          </button>
-          <button aria-label="Header Size 3" @click="commands.heading({ level: 3 })">
-            <i-header3 :fill="isActive.heading({ level: 3 }) ? 'orangered' : 'white'" />
-          </button>
+            <button aria-label="Header Size 2" @click="commands.heading({ level: 2 })">
+              <i-header2 :fill="isActive.heading({ level: 2 }) ? 'orangered' : 'white'" />
+            </button>
+            <button aria-label="Header Size 3" @click="commands.heading({ level: 3 })">
+              <i-header3 :fill="isActive.heading({ level: 3 }) ? 'orangered' : 'white'" />
+            </button>
+          </div>
+          <div v-if="!selectedComponent.hideLists" class="whppt-menubar__section">
+            <button aria-label="Bullet List" @click="commands.bullet_list">
+              <i-bullet-list :fill="isActive.bullet_list() ? 'orangered' : 'white'" />
+            </button>
+            <button aria-label="Ordered List" @click="commands.ordered_list">
+              <i-ordered-list :fill="isActive.ordered_list() ? 'orangered' : 'white'" />
+            </button>
+          </div>
+          <div v-if="!selectedComponent.hideLinks" class="whppt-menubar__section">
+            <button aria-label="Create Link" @click="showLink(getMarkAttrs('link'))">
+              <i-link :fill="isActive.link() ? 'orangered' : 'white'" />
+            </button>
+          </div>
         </div>
-        <div v-if="!selectedComponent.hideLists" class="whppt-menubar__section">
-          <button aria-label="Bullet List" @click="commands.bullet_list">
-            <i-bullet-list :fill="isActive.bullet_list() ? 'orangered' : 'white'" />
-          </button>
-          <button aria-label="Ordered List" @click="commands.ordered_list">
-            <i-ordered-list :fill="isActive.ordered_list() ? 'orangered' : 'white'" />
-          </button>
-        </div>
-        <div v-if="!selectedComponent.hideLinks" class="whppt-menubar__section">
-          <button aria-label="Create Link" @click="showLink(getMarkAttrs('link'))">
-            <i-link :fill="isActive.link() ? 'orangered' : 'white'" />
-          </button>
-        </div>
+        <form v-if="editingLink" @submit.prevent="link(commands.link)">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <p class="font-xl whppt-editor__header" style="padding-top:1rem;">Link Details</p>
+            <div class="whppt-menubar__close-button" @click="closeLink()"><w-close></w-close></div>
+          </div>
+          <div class="whppt-menubar__link-form">
+            <div style="display: flex; justify-content: space-between;">
+              <WhpptTextInput
+                v-model="editingLink.href"
+                type="text"
+                class="whppt-menubar__input"
+                label="href"
+                placeholder="https://"
+              />
+              <whppt-select
+                v-model="editingLink.type"
+                label="Link Type"
+                class="whppt-menubar__input"
+                :items="linkTypes"
+              ></whppt-select>
+            </div>
+            <div class="whppt-flex-between" style="padding-top: 1rem;">
+              <whppt-button @click="link(commands.link)">
+                Apply
+              </whppt-button>
+              <whppt-button @click="removeLink(commands.link)">
+                Remove
+              </whppt-button>
+            </div>
+          </div>
+        </form>
       </div>
     </editor-menu-bar>
     <editor-content class="whppt-rich-content" :editor="editor" />
@@ -54,16 +88,21 @@ import {
   HardBreak,
   Heading,
   Italic,
-  Link,
+  // Link,
   ListItem,
   OrderedList,
   Underline,
 } from 'tiptap-extensions';
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap';
 import { mapState } from 'vuex';
+import WhpptSelect from '../../whpptComponents/WhpptSelect';
+import WhpptTextInput from '../../whpptComponents/WhpptTextInput';
+import WhpptButton from '../../whpptComponents/WhpptButton';
+
+import Link from './CustomLink';
 import IBold from './icons/Bold';
 import IItalic from './icons/Italic';
-import IHeader1 from './icons/Header1';
+// import IHeader1 from './icons/Header1';
 import IHeader2 from './icons/Header2';
 import IHeader3 from './icons/Header3';
 import IParagraph from './icons/Paragraph';
@@ -83,7 +122,7 @@ export default {
     EditorMenuBar,
     IBold,
     IItalic,
-    IHeader1,
+    // IHeader1,
     IHeader2,
     IHeader3,
     IParagraph,
@@ -91,11 +130,16 @@ export default {
     IOrderedList,
     IUnderline,
     ILink,
+    WhpptSelect,
+    WhpptTextInput,
+    WhpptButton,
   },
   data() {
     return {
       editor: null,
       internal: undefined,
+      editingLink: undefined,
+      linkTypes: ['external', 'page'],
     };
   },
   computed: mapState('whppt-nuxt/editor', ['richTextWatcher', 'selectedComponent']),
@@ -141,14 +185,25 @@ export default {
   },
   methods: {
     link(linkCommand) {
-      linkCommand(this.editingLink);
-      this.editingLink = {};
+      linkCommand({ ...this.editingLink, target: this.editingLink.type === 'external' ? '_blank' : '' });
+      this.editingLink = undefined;
+    },
+    removeLink(linkCommand) {
+      linkCommand({});
+      this.editingLink = undefined;
     },
     showLink(attrs) {
-      this.editingLink = { type: 'page', href: '', text: '', openOnClick: false, ...attrs };
+      if (!window.getSelection().toString()) return;
+      this.editingLink = {
+        type: attrs.target === '_blank' ? 'external' : 'page',
+        href: '',
+        text: '',
+        openOnClick: false,
+        ...attrs,
+      };
     },
     closeLink() {
-      this.editingLink = {};
+      this.editingLink = undefined;
     },
   },
 };
@@ -176,6 +231,21 @@ export default {
 
 .whppt-menubar--active {
   color: orangered !important;
+}
+.whppt-menubar__close-button {
+  width: 25px;
+  height: 25px;
+  border-radius: 12.5px;
+  color: black;
+  font: 12px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-width: 1px;
+  border-style: solid;
+  background-color: linen;
+  border-color: linen;
+  cursor: pointer;
 }
 
 .whppt-menubar__section {
@@ -213,6 +283,15 @@ export default {
 /* .whppt-rich-content p:not(:first-child) {
   padding-top: 2rem;
 } */
+.whppt-menubar__link-form {
+  border: 1px solid white;
+  padding: 1rem;
+}
+
+.whppt-menubar__input {
+  width: 45%;
+  background: transparent;
+}
 
 .whppt-rich-content p:not(:first-child),
 .whppt-rich-content h2:not(:first-child) {
