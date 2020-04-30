@@ -1,10 +1,10 @@
 <template>
   <div class="whppt-full ">
-    <h1>Contact icon</h1>
+    <h2 class="text-xl">Contact icon</h2>
     <whppt-select
       v-model="selectedComponent.value.contactIcon"
       :value="selectedComponent.value.contactIcon"
-      label="Text Align"
+      label="Select an Icon"
       :items="items"
     ></whppt-select>
   </div>
