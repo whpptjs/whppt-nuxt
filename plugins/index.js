@@ -57,6 +57,11 @@ const whppt = (global.$whppt = {
 });
 
 export default (context, inject) => {
+  // global.richTextNavigate = function(to) {
+  //   console.log('global.richTextNavigate -> to', to);
+  //   context.app.router.push(to)
+  //   return false;
+  // };
   const setSize = function(size) {
     switch (Number(size)) {
       case 1:
