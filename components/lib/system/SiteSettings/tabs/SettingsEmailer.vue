@@ -25,9 +25,14 @@
             />
           </div>
         </div>
-        <button class="whppt-settings__button" style="display: flex" @click="saveEmailerSettings">
-          Save Email Settings
-        </button>
+        <div class="whppt-flex">
+          <button class="whppt-settings__button" style="display: flex" @click="publishEmailerSettings">
+            Publish Email Settings
+          </button>
+          <button class="whppt-settings__button" style="display: flex; margin-left: 1rem;" @click="saveEmailerSettings">
+            Save Email Settings
+          </button>
+        </div>
       </fieldset>
     </div>
   </form>
@@ -73,6 +78,17 @@ export default {
         })
         .then(() => {
           this.$toast.global.editorSuccess('Emailer Settings Saved');
+        });
+    },
+    publishEmailerSettings() {
+      const newConfig = this.emailerConfig;
+      newConfig.config.auth.pass = this.newPassword || undefined;
+      return this.$axios
+        .post(`${this.baseAPIUrl}/api/siteSettings/publishEmailerConfig`, {
+          emailerConfig: newConfig,
+        })
+        .then(() => {
+          this.$toast.global.editorSuccess('Emailer Settings Published');
         });
     },
   },
