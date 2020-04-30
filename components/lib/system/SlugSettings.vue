@@ -147,7 +147,6 @@ export default {
       return vm.$whppt.checkSlug({ slug: newSlug, _id: this.page._id }).then(result => {
         if (result) {
           this.$toast.global.editorError('Slug already in use');
-          return;
         } else {
           vm.page.slug = newSlug;
           return vm.savePage().then(() => {
@@ -220,10 +219,11 @@ export default {
 
 .whppt-settings__delete-button {
   margin-top: 1rem;
-  color: #981a31;
+  color: white;
   border-radius: 0.5rem;
   padding: 0.5rem 0.75rem;
   border: 1px solid #981a31;
+  background: #981a31;
 }
 
 .whppt-ml-auto {

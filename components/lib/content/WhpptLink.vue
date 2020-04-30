@@ -2,9 +2,12 @@
   <div v-if="!isLinkActive || !to.href">
     <slot></slot>
   </div>
-  <nuxt-link v-else-if="to.type === 'page'" :to="to.href">
+  <nuxt-link v-else-if="to.type === 'page' && !exactPath" :to="to.href">
     <slot></slot>
   </nuxt-link>
+  <a v-else-if="to.type === 'page' && exactPath" :href="to.href">
+    <slot></slot>
+  </a>
   <a v-else-if="to.type === 'anchor'" :href="to.href" @click.prevent="navigateToAnchor(to.href)">
     <slot></slot>
   </a>
@@ -33,6 +36,9 @@ export default {
     ...mapState('whppt-nuxt/editor', ['activeMenuItem']),
     isLinkActive() {
       return !this.activeMenuItem;
+    },
+    exactPath() {
+      return this.$route.fullPath === this.to.href;
     },
   },
   methods: {

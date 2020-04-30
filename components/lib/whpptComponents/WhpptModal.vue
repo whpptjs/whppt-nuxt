@@ -130,6 +130,7 @@ export default {
   align-items: center;
   font-weight: bold;
   background: white;
+  z-index: 2;
   position: sticky;
   top: 0;
   left: 0;
@@ -141,9 +142,10 @@ export default {
 }
 
 .whppt-settings__button {
+  margin-top: 1rem;
   color: #981a31;
   border-radius: 0.5rem;
-  margin-left: auto;
+  /* margin-left: auto; */
   padding: 0.5rem 0.75rem;
   border: 1px solid #981a31;
 }
@@ -154,6 +156,7 @@ export default {
   align-items: center;
   color: #981a31;
   padding: 1rem 1rem 0 1rem;
+  overflow: scroll;
 }
 
 .whppt-settings__tab {

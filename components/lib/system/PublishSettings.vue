@@ -128,7 +128,6 @@ export default {
       return vm.$whppt.checkSlug({ slug: newSlug, _id: this.page._id }).then(result => {
         if (result) {
           this.$toast.global.editorError('Slug already in use');
-          return;
         } else {
           vm.page.slug = newSlug;
           return vm.savePage().then(() => {
@@ -235,14 +234,6 @@ export default {
   border: 1px solid rgba(0, 0, 0, 0.5);
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   resize: vertical;
-}
-
-.whppt-settings__delete-button {
-  margin-top: 1rem;
-  color: #981a31;
-  border-radius: 0.5rem;
-  padding: 0.5rem 0.75rem;
-  border: 1px solid #981a31;
 }
 
 .whppt-settings__warning-button {

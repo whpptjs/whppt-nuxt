@@ -1,7 +1,11 @@
 {
   "name": "@whppt/nuxt",
   "description": "Whppt nuxt module",
+<<<<<<< HEAD
   "version": "0.0.130",
+=======
+  "version": "0.0.134",
+>>>>>>> b66d0275aba6e77bcdc661e37305eafed2233aca
   "author": "Svelte Studios (https://www.npmjs.com/settings/svelte-studios/packages)",
   "main": "module.js",
   "scripts": {
@@ -35,8 +39,8 @@
     "@nuxtjs/toast": "^3.3.0",
     "lodash": "^4.17.15",
     "slugify": "^1.3.6",
-    "tiptap": "^1.26.6",
-    "tiptap-extensions": "^1.28.6",
+    "tiptap": "^1.27.1",
+    "tiptap-extensions": "^1.29.1",
     "v-calendar": "^1.0.0-beta.23",
     "vue": "^2.6.11",
     "vue-advanced-cropper": "^0.16.1",

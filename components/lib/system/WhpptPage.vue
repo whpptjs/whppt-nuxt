@@ -54,7 +54,7 @@ export default {
       return this.$whppt.templates;
     },
     pageTypes() {
-      return map(this.$whppt.plugins, t => t.pageTypes);
+      return map(pageTypes, t => t.pageTypes);
     },
   },
   // mounted() {

@@ -17,7 +17,7 @@
           {{ tab.label }}
         </div>
       </div>
-      <component :is="selectedTab" :page="page" :prefix="prefix" />
+      <component :is="selectedTab" :page="page" :prefix="prefix" @closeModal="$emit('closeModal')" />
     </div>
   </div>
 </template>
