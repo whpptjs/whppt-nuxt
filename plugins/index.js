@@ -15,6 +15,7 @@ import linkDirective from './directives/link';
 // import listingsDirective from './directives/listings';
 // import listingDirective from './directives/listing';
 import editImageDirective from './directives/editImage';
+import editImage2Directive from './directives/editImage2';
 import anchorDirective from './directives/anchor';
 import contactIconDirective from './directives/contactIcon';
 import dynamicDirective from './directives/dynamic';
@@ -142,6 +143,7 @@ export default (context, inject) => {
   // listingsDirective({ ...context, menuIsInState, MENUSTATES });
   // listingDirective({ ...context, menuIsInState, MENUSTATES });
   editImageDirective({ ...context, menuIsInState, MENUSTATES });
+  editImage2Directive({ ...context, menuIsInState, MENUSTATES });
   anchorDirective({ ...context, menuIsInState, MENUSTATES });
   contactIconDirective({ ...context, menuIsInState, MENUSTATES });
   // _videoBlockDirective({ ...context, menuIsInState, MENUSTATES });
