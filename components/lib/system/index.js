@@ -5,6 +5,7 @@ import ContactIcon from './ContactIcon';
 import Default from './Default';
 import EContent from './Content';
 import EditImage from './EditImage';
+import EditImage2 from './EditImage2';
 import EditorMenu from './EditorMenu';
 import FormattedText from './FormattedText';
 import LinkSidebar from './LinkSidebar';
@@ -28,6 +29,7 @@ export {
   Default,
   EContent,
   EditImage,
+  EditImage2,
   EditorMenu,
   FormattedText,
   LinkSidebar,
