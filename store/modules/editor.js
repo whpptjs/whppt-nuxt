@@ -3,6 +3,7 @@ export default options => ({
   state: () => {
     return {
       options,
+      baseFileUrl: process.env.BASE_FILE_URL,
       baseAPIUrl: process.env.BASE_API_URL,
       baseImageUrl: process.env.BASE_IMAGE_URL,
       baseCdnImageUrl: process.env.BASE_CDN_IMAGE_URL,

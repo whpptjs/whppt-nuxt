@@ -126,11 +126,11 @@ export default {
     };
   },
   computed: {
-    ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
+    ...mapState('whppt-nuxt/editor', ['baseAPIUrl', 'baseFileUrl']),
   },
   methods: {
     selectFile(item) {
-      this.data.href = `${this.baseAPIUrl}/file/getFile/${item._id}`;
+      this.data.href = `${this.baseFileUrl ? this.baseFileUrl : ''}/file/getFile/${item._id}`;
       this.data.fileId = item._id;
     },
     isTypeOf(value) {

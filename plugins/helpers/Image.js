@@ -1,5 +1,5 @@
 import { isEmpty } from 'lodash';
-export default function($whppt, baseImageUrl, baseCdnImageUrl) {
+export default function($whppt, baseImageUrl, baseCdnImageUrl, baseImageUrl2, baseCdnImageUrl2) {
   function originalImageUrl(imageId) {
     if (!imageId) return '';
     return `${baseImageUrl}/${imageId}`;
@@ -16,6 +16,17 @@ export default function($whppt, baseImageUrl, baseCdnImageUrl) {
     return `${baseCdnImageUrl || baseImageUrl}/${format}/${imageId}`;
   }
 
+  function getImage2(imageId, width, height, crop, blur) {
+    if (!crop || isEmpty(crop)) return ''; // Empty crop setting means image just changed, shouldn't apply the change yet
+    if (!imageId) return '';
+    const format = `cx=${crop.top}&cy=${crop.left}&cw=${crop.width}&ch=${crop.height}&w=${width}&h=${height}${
+      blur ? `&b=${blur}` : ''
+    }`;
+
+    return `${baseCdnImageUrl2 || baseImageUrl2}/${imageId}?${format}`;
+  }
+
   $whppt.originalImageUrl = originalImageUrl;
   $whppt.getImage = getImage;
+  $whppt.getImage2 = getImage2;
 }

@@ -133,7 +133,13 @@ export default (context, inject) => {
   };
 
   Select(whppt);
-  Image(whppt, store.state[`whppt-nuxt/editor`].baseImageUrl, store.state[`whppt-nuxt/editor`].baseCdnImageUrl);
+  Image(
+    whppt,
+    store.state[`whppt-nuxt/editor`].baseImageUrl,
+    store.state[`whppt-nuxt/editor`].baseCdnImageUrl,
+    store.state[`whppt-nuxt/editor`].baseImageUrl2,
+    store.state[`whppt-nuxt/editor`].baseCdnImageUrl2
+  );
   Hover(whppt);
 
   context.app.$whppt = whppt;

@@ -65,6 +65,7 @@ export default options => ({
         siteSettings.twitter.title = siteSettings.twitter.title || '';
         this.siteSettings = siteSettings;
         commit('siteSettingsLoaded', siteSettings);
+        return siteSettings;
       });
     },
     saveSiteSettings({ commit }, { siteSettings, redirects, categories }) {

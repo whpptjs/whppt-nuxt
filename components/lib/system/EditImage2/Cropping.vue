@@ -2,9 +2,7 @@
   <div>
     <div v-for="(canvas, canvasName) in sizes" :key="canvasName">
       <label class="whppt-cropper-label">{{ canvas.name }}</label>
-      {{ imageOptions }}
-      {{ canvas }}
-      {{ width }}
+      image Options: {{ imageOptions }} Canvas: {{ canvas }} Width: {{ width }}
       <!-- :canvas="false" -->
       <!-- :style="{ width: `${width}px` }" -->
       <cropper
@@ -80,6 +78,8 @@ export default {
       };
     },
     defaultSize({ canvasName }, { imageWidth, imageHeight }) {
+      console.log('defaultSize -> canvasName', canvasName);
+      console.log('defaultSize -> imageOptions[canvasName]', this.imageOptions[canvasName]);
       if (!this.imageOptions[canvasName])
         this.$set(this.imageOptions, canvasName, {
           top: 0,
