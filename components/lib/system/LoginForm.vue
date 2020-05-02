@@ -18,7 +18,7 @@
         <p v-if="error" class="error">{{ error }}</p>
       </form>
     </div>
-    <p class="copywrite">&copy;{{ new Date().getFullYear() }} Svelte Studios. All rights reserved.</p>
+    <p class="whppt-copywrite">&copy;{{ new Date().getFullYear() }} Svelte Studios. All rights reserved.</p>
   </div>
 </template>
 
@@ -171,7 +171,7 @@ button.close:focus {
   color: white;
 }
 
-.copywrite {
+.whppt-copywrite {
   font-size: 12px;
   margin-bottom: 8px;
   color: white;
