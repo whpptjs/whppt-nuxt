@@ -21,6 +21,8 @@ import Circle from './Circle';
 import Close from './Close';
 import Footer from './Footer';
 import Nav from './Nav';
+import Login from './Login';
+import Logout from './Logout';
 
 export default {
   ArrowDown,
@@ -46,4 +48,6 @@ export default {
   Close,
   Footer,
   Nav,
+  Login,
+  Logout,
 };

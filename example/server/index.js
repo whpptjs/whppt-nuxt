@@ -2,11 +2,13 @@ require('dotenv').config();
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const consola = require('consola');
 const { Nuxt, Builder } = require('nuxt');
-const Whppt = require('@whppt/api-express');
+const Whppt = require('../../../api-express');
 
 const app = express();
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -14,8 +16,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const config = require('../nuxt.config.js');
 config.dev = process.env.NODE_ENV !== 'production';
 
+const security = require('./security');
+const whpptConfig = { security };
+
 async function start() {
-  const whppt = await Whppt();
+  const whppt = await Whppt(whpptConfig);
   const nuxt = new Nuxt(config);
 
   const { host, port } = nuxt.options.server;
