@@ -1,15 +1,15 @@
 <template>
   <div v-if="active" class="whppt-login">
     <button class="close" @click="close"><w-close /></button>
-    <div class="form-container">
+    <div class="whppt-form-container">
       <form>
         <label>
           <input v-model="data.username" type="text" required />
-          <div class="label-text">Username / Email</div>
+          <div class="whppt-label-text">Username / Email</div>
         </label>
         <label>
           <input v-model="data.password" type="password" required />
-          <div class="label-text">Password</div>
+          <div class="whppt-label-text">Password</div>
         </label>
         <button :disabled="busy" @click.stop.prevent="doLogin">
           <span v-if="!busy">Submit</span>
@@ -78,7 +78,7 @@ export default {
   align-content: center;
 }
 
-.form-container {
+.whppt-form-container {
   flex: 1;
   display: flex;
   align-items: center;
@@ -96,7 +96,7 @@ label {
   text-align: center;
 }
 
-label .label-text {
+label .whppt-label-text {
   color: #9b9b9b;
   cursor: text;
   font-size: 20px;
