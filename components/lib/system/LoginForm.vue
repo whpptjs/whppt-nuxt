@@ -124,13 +124,13 @@ label input:focus {
   width: 400px;
 }
 
-label input:focus + .label-text {
+label input:focus + .whppt-label-text {
   color: #f0f0f0;
   font-size: 13px;
   transform: translateY(-80px);
 }
 
-label input:valid + .label-text {
+label input:valid + .whppt-label-text {
   font-size: 13px;
   transform: translateY(-80px);
 }
