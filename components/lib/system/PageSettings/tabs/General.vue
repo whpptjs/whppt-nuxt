@@ -181,15 +181,10 @@ export default {
     pageTypeObj: undefined,
     rawSlug: '',
   }),
-  mounted() {
-    this.pageTypeObj = find(this.pageTypes, t => get(t, 'name') === this.page.pageType) || {};
-    if (!this.pageTypeObj.stripSlug) return (this.rawSlug = this.page.slug);
-    this.rawSlug = this.pageTypeObj.stripSlug({ slug: this.page.slug });
-  },
   computed: {
     formattedSlug() {
       if (!this.pageTypeObj || !this.pageTypeObj.formatSlug) return this.formatSlug(this.slugCopy);
-      else return this.formatSlug(this.pageTypeObj.formatSlug({ slug: this.slugCopy }));
+      else return this.formatSlug(this.pageTypeObj.formatSlug({ slug: this.slugCopy, page: this.page }));
     },
     slugSuffix() {
       if (!this.prefix) return '';
@@ -199,10 +194,13 @@ export default {
       return compact(map(this.$whppt.plugins, t => t.pageTypes));
     },
     isHomePage() {
-      console.log('isHomePage -> this.$router.currentRoute.path', this.$router.currentRoute.path);
-      console.log("isHomePage -> this.$router.currentRoute.path === '/'", this.$router.currentRoute.path === '/');
       return this.$router.currentRoute.path === '/';
     },
+  },
+  mounted() {
+    this.pageTypeObj = find(this.pageTypes, t => get(t, 'name') === this.page.pageType) || {};
+    if (!this.pageTypeObj.stripSlug) return (this.rawSlug = this.page.slug);
+    this.rawSlug = this.pageTypeObj.stripSlug({ slug: this.page.slug, page: this.page });
   },
   methods: {
     ...mapActions('whppt-nuxt/page', ['savePage', 'deletePage']),
@@ -213,7 +211,7 @@ export default {
     changePageType() {
       let newSlug = '';
       if (this.pageTypeObj && this.pageTypeObj.formatSlug)
-        newSlug = this.pageTypeObj.formatSlug({ slug: this.rawSlug });
+        newSlug = this.pageTypeObj.formatSlug({ slug: this.rawSlug, page: this.page });
       else newSlug = this.rawSlug;
       if (!this.rawSlug || !newSlug) {
         this.$toast.global.editorError('Cannot use an empty slug');
