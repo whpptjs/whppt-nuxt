@@ -13,7 +13,7 @@ const mixin = {
         (page.header && page.header.heading) ||
         (site && site.title) ||
         '',
-      titleTemplate: '%s | Barossa',
+      titleTemplate: '%s',
       meta: [
         {
           hid: 'description',
