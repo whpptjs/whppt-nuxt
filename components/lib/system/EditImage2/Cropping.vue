@@ -2,12 +2,13 @@
   <div>
     <div v-for="(canvas, canvasName) in sizes" :key="canvasName">
       <label class="whppt-cropper-label">{{ canvas.name }}</label>
-      image Options: {{ imageOptions }} Canvas: {{ canvas }} Width: {{ width }}
+      <!-- image Options: {{ imageOptions }} Canvas: {{ canvas }} Width: {{ width }} -->
       <!-- :canvas="false" -->
       <!-- :style="{ width: `${width}px` }" -->
       <cropper
-        style="background: #000;"
-        :style="{ width: canvas.width / canvas.quality, height: canvas.height / canvas.quality }"
+        :style="
+          `background: #000; width:${canvas.width / canvas.quality}px; height: ${canvas.height / canvas.quality}px`
+        "
         :wheel-resize="false"
         :default-position="vals => defaultPosition({ canvas, canvasName }, vals)"
         :default-size="vals => defaultSize({ canvas, canvasName }, vals)"
@@ -62,9 +63,7 @@ export default {
       this.imageOptions[canvasName].height = coordinates.height;
     },
     defaultPosition({ canvasName }, { imageWidth, imageHeight }) {
-      console.log('defaultPosition -> imageWidth', imageWidth);
       this.width = imageWidth;
-      console.log('defaultPosition -> this.width', this.width);
       if (!this.imageOptions[canvasName])
         this.$set(this.imageOptions, canvasName, {
           top: 0,
@@ -78,8 +77,6 @@ export default {
       };
     },
     defaultSize({ canvasName }, { imageWidth, imageHeight }) {
-      console.log('defaultSize -> canvasName', canvasName);
-      console.log('defaultSize -> imageOptions[canvasName]', this.imageOptions[canvasName]);
       if (!this.imageOptions[canvasName])
         this.$set(this.imageOptions, canvasName, {
           top: 0,
