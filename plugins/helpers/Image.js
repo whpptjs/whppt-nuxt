@@ -17,7 +17,7 @@ export default function($whppt, baseImageUrl, baseCdnImageUrl, baseImageUrl2, ba
   }
 
   function getImage2(imageId, width, height, crop, blur) {
-    if (!crop || isEmpty(crop)) return ''; // Empty crop setting means image just changed, shouldn't apply the change yet
+    if (!crop || isEmpty(crop)) return `${baseCdnImageUrl2 || baseImageUrl2}/${imageId}`;
     if (!imageId) return '';
     const format = `cx=${crop.left}&cy=${crop.top}&cw=${crop.width}&ch=${crop.height}&w=${width}&h=${height}${
       blur ? `&b=${blur}` : ''
