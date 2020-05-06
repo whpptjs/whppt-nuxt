@@ -19,11 +19,8 @@
         class="whppt-gallery-item-container"
         :style="`flex-basis: ${imageDisplaySize}`"
       >
-        <div
-          class="whppt-gallery-item"
-          :style="{ 'background-image': `url('${img(image._id)}')` }"
-          @click="$emit('input', image._id)"
-        >
+        <!-- :style="{ 'background-image': `url('${}')` }" -->
+        <div v-lazy:background-image="img(image._id)" class="whppt-gallery-item" @click="$emit('input', image._id)">
           <div class="whppt-gallery-item__remove" @click.stop="remove(image._id)">
             <trash class="whppt-gallery-item__remove-icon" />
           </div>

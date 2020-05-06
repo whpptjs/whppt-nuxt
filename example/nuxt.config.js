@@ -17,7 +17,7 @@ module.exports = {
   },
   loading: { color: '#fff' },
   css: [],
-  plugins: ['plugins/axios.js', 'plugins/components'],
+  plugins: ['plugins/axios.js', 'plugins/components', 'plugins/lazyLoad.js'],
   buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/tailwindcss'],
   modules: ['@nuxtjs/toast', '@nuxtjs/axios', '@nuxtjs/dotenv', ['../../module.js']],
   whppt: {

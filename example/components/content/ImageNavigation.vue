@@ -8,7 +8,7 @@
         <div class="w-full lg:w-7/12">
           <div
             v-edit-image-2="content"
-            data-sizes='{ "desktop": { "width": 800, "height": 800, "quality": 3, "aspectRatio": 1.33333 } }'
+            data-sizes='{ "desktop": { "width": 800, "height": 800, "quality": 3, "aspectRatio": 1.33333 }, "mobile": { "width": 800, "height": 800, "quality": 3, "aspectRatio": 1.33333 }  }'
             class="relative bg-cover bg-no-repeat bg-center pb-56 bg-red-500"
             :style="
               `background-image: url(${$whppt.getImage2(content.image.imageId, 800, 800, content.image.desktop)})`
