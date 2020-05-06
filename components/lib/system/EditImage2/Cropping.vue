@@ -12,7 +12,7 @@
         :wheel-resize="false"
         :default-position="vals => defaultPosition({ canvas, canvasName }, vals)"
         :default-size="vals => defaultSize({ canvas, canvasName }, vals)"
-        :src="`${baseCdnImageUrl2 || baseImageUrl2}/${imageOptions.imageId}?o=true`"
+        :src="`${baseImageUrl2}/${imageOptions.imageId}?o=true`"
         :stencil-props="{
           aspectRatio: canvas.aspectRatio,
         }"
