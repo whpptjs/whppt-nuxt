@@ -54,7 +54,9 @@ export default {
     ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
   },
   mounted() {
-    this.$axios.get(`${this.baseAPIUrl}/api/siteSettings/getVerifiedDomains`).then(({ data }) => (this.domains = data));
+    this.$axios
+      .get(`${this.baseAPIUrl}/${this.$whppt.apiPrefix}/siteSettings/getVerifiedDomains`)
+      .then(({ data }) => (this.domains = data));
   },
   methods: {
     ...mapActions('whppt-nuxt/site', ['saveSiteSettings', 'publishSiteSettings', 'publishNav', 'publishFooter']),

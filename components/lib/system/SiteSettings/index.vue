@@ -90,24 +90,26 @@ export default {
   methods: {
     ...mapActions('whppt-nuxt/site', ['saveSiteSettings', 'publishSiteSettings']),
     loadSiteSettings() {
-      return this.$axios.get(`${this.baseAPIUrl}/api/siteSettings/loadSiteSettings`).then(({ data: siteSettings }) => {
-        siteSettings = siteSettings || { _id: 'siteSettings' };
-        siteSettings.og = siteSettings.og || {};
-        siteSettings.og.image =
-          siteSettings.og.image && siteSettings.og.image.imageId
-            ? siteSettings.og.image
-            : { imageId: '', crop: { desktop: {} } };
-        siteSettings.og.keywords = siteSettings.og.keywords || '';
-        siteSettings.og.title = siteSettings.og.title || '';
-        siteSettings.twitter = siteSettings.twitter || {};
-        siteSettings.twitter.image =
-          siteSettings.twitter.image && siteSettings.twitter.image.imageId
-            ? siteSettings.twitter.image
-            : { imageId: '', crop: { desktop: {} } };
-        siteSettings.twitter.keywords = siteSettings.twitter.keywords || '';
-        siteSettings.twitter.title = siteSettings.twitter.title || '';
-        this.siteSettings = siteSettings;
-      });
+      return this.$axios
+        .get(`${this.baseAPIUrl}/${this.$whppt.apiPrefix}/siteSettings/loadSiteSettings`)
+        .then(({ data: siteSettings }) => {
+          siteSettings = siteSettings || { _id: 'siteSettings' };
+          siteSettings.og = siteSettings.og || {};
+          siteSettings.og.image =
+            siteSettings.og.image && siteSettings.og.image.imageId
+              ? siteSettings.og.image
+              : { imageId: '', crop: { desktop: {} } };
+          siteSettings.og.keywords = siteSettings.og.keywords || '';
+          siteSettings.og.title = siteSettings.og.title || '';
+          siteSettings.twitter = siteSettings.twitter || {};
+          siteSettings.twitter.image =
+            siteSettings.twitter.image && siteSettings.twitter.image.imageId
+              ? siteSettings.twitter.image
+              : { imageId: '', crop: { desktop: {} } };
+          siteSettings.twitter.keywords = siteSettings.twitter.keywords || '';
+          siteSettings.twitter.title = siteSettings.twitter.title || '';
+          this.siteSettings = siteSettings;
+        });
     },
     saveSettings() {
       const formattedCategories = map(this.categories, category => {

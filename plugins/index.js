@@ -55,6 +55,7 @@ const whppt = (global.$whppt = {
   offSavePage() {
     this.savePageCallback = undefined;
   },
+  apiPrefix: options.apiPrefix,
 });
 
 export default (context, inject) => {

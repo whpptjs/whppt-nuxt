@@ -126,7 +126,7 @@ export default {
     loadFiles(currentPage) {
       this.currentPage = currentPage || 1;
       return this.$axios
-        .get(`${this.baseAPIUrl}/api/file/loadFiles`, {
+        .get(`${this.baseAPIUrl}/${this.$whppt.apiPrefix}/file/loadFiles`, {
           params: { currentPage: this.currentPage, limit: this.limit },
         })
         .then(({ data: { files } }) => {

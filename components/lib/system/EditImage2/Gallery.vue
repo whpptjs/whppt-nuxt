@@ -80,7 +80,7 @@ export default {
     loadGallery(currentPage) {
       this.currentPage = currentPage;
       return this.$axios
-        .get(`${this.baseAPIUrl}/api/image/loadGallery`, {
+        .get(`${this.baseAPIUrl}/${this.$whppt.apiPrefix}/image/loadGallery`, {
           params: { limit: this.limit, currentPage: this.currentPage },
         })
         .then(({ data: { images, total } }) => {
@@ -109,7 +109,7 @@ export default {
     },
     remove(id) {
       return this.$axios
-        .post(`${this.baseAPIUrl}/api/image/remove`, { id })
+        .post(`${this.baseAPIUrl}/${this.$whppt.apiPrefix}/image/remove`, { id })
         .then(() => this.loadGallery(this.currentPage));
     },
   },
