@@ -12,13 +12,15 @@
         <div>
           <div style="font-weight: bold">Last Change:</div>
           <div>{{ page.updatedAt ? formatDate(page.updatedAt) : 'Never updated' }}</div>
-          <div style="font-weight: bold">Last Published:</div>
-          <div>{{ page.published ? formatDate(page.lastPublished) : 'Not published' }}</div>
+          <div v-if="publishing">
+            <div style="font-weight: bold">Last Published:</div>
+            <div>{{ page.published ? formatDate(page.lastPublished) : 'Not published' }}</div>
+          </div>
           <div v-if="errorMessage" style="color: red; font-style: italic;">{{ errorMessage }}</div>
-          <button type="button" class="whppt-settings__delete-button" @click="publish">
+          <button v-if="publishing" type="button" class="whppt-settings__delete-button" @click="publish">
             Publish Changes
           </button>
-          <button type="button" class="whppt-settings__delete-button" @click="unpublish">
+          <button v-if="publishing" type="button" class="whppt-settings__delete-button" @click="unpublish">
             Unpublish Page
           </button>
           <button type="button" class="whppt-settings__delete-button" @click="showWarning = true">
@@ -82,6 +84,9 @@ export default {
     slugSuffix() {
       if (!this.prefix) return '';
       return this.page.slug.replace(`${this.prefix}/`, '');
+    },
+    publishing() {
+      return !this.$whppt.disablePublishing;
     },
   },
   methods: {

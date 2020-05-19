@@ -17,7 +17,7 @@ const config = require('../nuxt.config.js');
 config.dev = process.env.NODE_ENV !== 'production';
 
 const security = require('./security');
-const whpptConfig = { security, apiPrefix: 'testprefix' };
+const whpptConfig = { security, apiPrefix: 'testprefix', disablePublishing: true };
 
 async function start() {
   const whppt = await Whppt(whpptConfig);

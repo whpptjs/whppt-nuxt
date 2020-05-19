@@ -56,11 +56,15 @@
               <span class="whppt-settings__tooltip-text">Save</span>
               <w-save></w-save>
             </div>
-            <div class="whppt-settings__tooltip whppt-redirects__icon" @click="publish(redirect)">
+            <div v-if="publishing" class="whppt-settings__tooltip whppt-redirects__icon" @click="publish(redirect)">
               <span class="whppt-settings__tooltip-text">Publish</span>
               <w-publish></w-publish>
             </div>
-            <div class="whppt-settings__tooltip whppt-redirects__icon" @click="unpublishRedirect(redirect)">
+            <div
+              v-if="publishing"
+              class="whppt-settings__tooltip whppt-redirects__icon"
+              @click="unpublishRedirect(redirect)"
+            >
               <span class="whppt-settings__tooltip-text">Unpublish</span>
               <w-close></w-close>
             </div>
@@ -97,6 +101,9 @@ export default {
   }),
   computed: {
     ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
+    publishing() {
+      return !this.$whppt.disablePublishing;
+    },
   },
   mounted() {
     this.loadRedirects();

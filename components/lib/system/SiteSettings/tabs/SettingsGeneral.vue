@@ -25,7 +25,7 @@
           />
         </div>
       </div>
-      <div>
+      <div v-if="publishing">
         <button class="whppt-settings__button" @click="pubNav">
           Publish Nav
         </button>
@@ -52,6 +52,9 @@ export default {
   }),
   computed: {
     ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
+    publishing() {
+      return !this.$whppt.disablePublishing;
+    },
   },
   mounted() {
     this.$axios

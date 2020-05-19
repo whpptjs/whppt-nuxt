@@ -28,6 +28,7 @@ module.exports = {
       {
         ...whpptConfig,
         apiPrefix: 'testprefix',
+        disablePublishing: true,
         componentPrefix: 'W',
       },
     ],

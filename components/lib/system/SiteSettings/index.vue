@@ -4,7 +4,9 @@
       <div class="whppt-settings__heading whppt-flex-between">
         <p class="whppt-settings__heading-text">Site Settings</p>
         <div class="whppt-flex-between whppt-align-center">
-          <button class="whppt-settings__button" style="margin-right: 1rem;" @click="publishSettings">Publish</button>
+          <button v-if="publishing" class="whppt-settings__button" style="margin-right: 1rem;" @click="publishSettings">
+            Publish
+          </button>
           <button class="whppt-settings__button" @click="saveSettings">Save</button>
         </div>
       </div>
@@ -82,6 +84,9 @@ export default {
         // { name: 'categories', label: 'Categories' },
         ...additionalTabs,
       ];
+    },
+    publishing() {
+      return !this.$whppt.disablePublishing;
     },
   },
   mounted() {

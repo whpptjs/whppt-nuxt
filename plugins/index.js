@@ -56,6 +56,7 @@ const whppt = (global.$whppt = {
     this.savePageCallback = undefined;
   },
   apiPrefix: options.apiPrefix,
+  disablePublishing: options.disablePublishing,
 });
 
 export default (context, inject) => {

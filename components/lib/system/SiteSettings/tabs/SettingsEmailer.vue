@@ -26,7 +26,12 @@
           </div>
         </div>
         <div class="whppt-flex">
-          <button class="whppt-settings__button" style="display: flex" @click="publishEmailerSettings">
+          <button
+            v-if="publishing"
+            class="whppt-settings__button"
+            style="display: flex"
+            @click="publishEmailerSettings"
+          >
             Publish Email Settings
           </button>
           <button class="whppt-settings__button" style="display: flex; margin-left: 1rem;" @click="saveEmailerSettings">
@@ -54,6 +59,9 @@ export default {
   },
   computed: {
     ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
+    publishing() {
+      return !this.$whppt.disablePublishing;
+    },
   },
   mounted() {
     this.loadEmailerSettings();
