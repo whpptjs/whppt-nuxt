@@ -19,35 +19,35 @@ export default options => ({
   actions: {
     publishPage({ state }, { page } = {}) {
       const _page = page || state.page;
-      const pageTypePlugin = find(this.$whppt.plugins, plugin => (plugin.pageType.name = _page.pageType));
+      const pageTypePlugin = find(this.$whppt.plugins, plugin => plugin.pageType.name === _page.pageType);
       return pageTypePlugin.pageType.publishPage(this.$whppt.context, { page: _page }).then(() => {
         this.$toast.global.editorSuccess('Page Published');
       });
     },
     savePage({ state }, { page } = {}) {
       const _page = page || state.page;
-      const pageTypePlugin = find(this.$whppt.plugins, plugin => (plugin.pageType.name = _page.pageType));
+      const pageTypePlugin = find(this.$whppt.plugins, plugin => plugin.pageType.name === _page.pageType);
       return pageTypePlugin.pageType.savePage(this.$whppt.context, { page: _page }).then(() => {
         this.$toast.global.editorSuccess('Page Saved');
       });
     },
     deletePage({ state }, { page } = {}) {
       const _page = page || state.page;
-      const pageTypePlugin = find(this.$whppt.plugins, plugin => (plugin.pageType.name = _page.pageType));
+      const pageTypePlugin = find(this.$whppt.plugins, plugin => plugin.pageType.name === _page.pageType);
       return pageTypePlugin.pageType.deletePage(this.$whppt.context, { _id: _page._id }).then(() => {
         this.$toast.global.editorSuccess('Page Deleted');
       });
     },
     unpublishPage({ state }, { page } = {}) {
       const _page = page || state.page;
-      const pageTypePlugin = find(this.$whppt.plugins, plugin => (plugin.pageType.name = _page.pageType));
+      const pageTypePlugin = find(this.$whppt.plugins, plugin => plugin.pageType.name === _page.pageType);
       return pageTypePlugin.pageType.unpublishPage(this.$whppt.context, { _id: _page._id }).then(() => {
         state.page.published = false;
         this.$toast.global.editorSuccess('Page Unpublished');
       });
     },
     loadPage({ commit }, { slug, pageType = 'page' }) {
-      const pageTypePlugin = find(this.$whppt.plugins, plugin => (plugin.pageType.name = pageType));
+      const pageTypePlugin = find(this.$whppt.plugins, plugin => plugin.pageType.name === pageType);
       return pageTypePlugin.pageType.loadPage(this.$whppt.context, { slug }).then(page => {
         commitTimeout(() => commit('pageLoaded', page));
         return page;

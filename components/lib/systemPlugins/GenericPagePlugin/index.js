@@ -2,39 +2,25 @@ import { assign } from 'lodash';
 
 import GenericPage from './GenericPage';
 
-const formatSlug = ({ slug }) => {
-  return slug;
-};
+const formatSlug = ({ slug }) => slug;
 
-const stripSlug = ({ slug }) => {
-  return slug;
-};
+const stripSlug = ({ slug }) => slug;
 
-const createPage = ({ $axios }, { page, form }) => {
+const createPage = ({ $api }, { page, form }) => {
   assign(page, form.template.init);
   page.template = form.template.key;
-  return $axios.$post(`/page/save`, { page });
+  return $api.$post(`//page/save`, { page });
 };
 
-const deletePage = ({ $axios }, { _id }) => {
-  return $axios.$post(`/page/delete`, { _id });
-};
+const deletePage = ({ $api }, { _id }) => $api.$post(`/page/delete`, { _id });
 
-const loadPage = ({ $axios }, { slug }) => {
-  return $axios.$get(`/page/load?slug=${slug}`);
-};
+const loadPage = ({ $api }, { slug }) => $api.$get(`/page/load?slug=${slug}`);
 
-const savePage = ({ $axios }, { page }) => {
-  return $axios.$post(`/page/save`, { page });
-};
+const savePage = ({ $api }, { page }) => $api.$post(`/page/save`, { page });
 
-const publishPage = ({ $axios }, { page }) => {
-  return $axios.$post(`/page/publishPage`, { page });
-};
+const publishPage = ({ $api }, { page }) => $api.$post(`/page/publishPage`, { page });
 
-const unpublishPage = ({ $axios }, { _id }) => {
-  return $axios.$post(`/page/unpublishPage`, { _id });
-};
+const unpublishPage = ({ $api }, { _id }) => $api.$post(`/page/unpublishPage`, { _id });
 
 export default ({ templates }) => ({
   pageType: {

@@ -1,4 +1,6 @@
+import axios from 'axios';
 import { filter, flatMap, forEach } from 'lodash';
+import GenericPage from '../components/lib/systemPlugins/GenericPagePlugin';
 import { Components } from './Components';
 
 import contentDirective from './directives/content';
@@ -48,6 +50,7 @@ const options = JSON.parse(`<%= JSON.stringify(options) %>`);
 
 export default (context, inject) => {
   const whppt = (global.$whppt = {
+    availablePlugins: { GenericPage },
     context,
     plugins: {},
     types: options.types,
@@ -61,7 +64,28 @@ export default (context, inject) => {
     apiPrefix: options.apiPrefix,
     disablePublishing: options.disablePublishing,
     addPlugins(plugins) {
-      forEach(plugins, (p, k) => (this.plugins[k] = p));
+      forEach(plugins, (p, k) => {
+        this.plugins[k] = p;
+
+        if (p.editors) {
+          forEach(p.editors, e => {
+            if (e.directive)
+              return e.directive({
+                ...context,
+                menuIsInState,
+                MENUSTATES,
+                definition: e,
+              });
+
+            dynamicDirective({
+              ...context,
+              menuIsInState,
+              MENUSTATES,
+              definition: e,
+            });
+          });
+        }
+      });
     },
   });
   // global.richTextNavigate = function(to) {
@@ -151,6 +175,15 @@ export default (context, inject) => {
   context.app.$whppt = whppt;
   inject('whppt', whppt);
 
+  const $api = axios.create({
+    baseURL: `${store.state['whppt-nuxt/editor'].baseAPIUrl}/${whppt.apiPrefix}`,
+    timeout: 6000,
+  });
+  $api.$get = url => $api.get(url).then(res => res.data);
+  $api.$post = (url, args) => $api.post(url, args).then(res => res.data);
+  context.$api = $api;
+  inject('api', $api);
+
   contentDirective({ ...context, menuIsInState, MENUSTATES });
   coloursDirective({ ...context, menuIsInState, MENUSTATES });
   splitContentDirective({ ...context, menuIsInState, MENUSTATES });
@@ -171,27 +204,4 @@ export default (context, inject) => {
   // _videoBlockDirective({ ...context, menuIsInState, MENUSTATES });
   youtubeDirective({ ...context, menuIsInState, MENUSTATES });
   dateDirective({ ...context, menuIsInState, MENUSTATES });
-
-  const types = global.$whppt.plugins;
-  const editors = flatMap(
-    filter(types, t => t.editors),
-    t => t.editors
-  );
-
-  forEach(editors, editor => {
-    if (editor.directive)
-      return editor.directive({
-        ...context,
-        menuIsInState,
-        MENUSTATES,
-        definition: editor,
-      });
-
-    dynamicDirective({
-      ...context,
-      menuIsInState,
-      MENUSTATES,
-      definition: editor,
-    });
-  });
 };
