@@ -36,7 +36,7 @@ import LoadFooter from './helpers/LoadFooter';
 import SaveNav from './helpers/SaveNav';
 import PublishNav from './helpers/PublishNav';
 import LoadNav from './helpers/LoadNav';
-import CreatePage from './helpers/CreatePage';
+// import CreatePage from './helpers/CreatePage';
 import LoadPage from './helpers/LoadPage';
 // import LoadListing from './helpers/LoadListing';
 import CheckSlug from './helpers/CheckSlug';
@@ -46,20 +46,24 @@ import Image from './helpers/Image';
 
 const options = JSON.parse(`<%= JSON.stringify(options) %>`);
 
-const whppt = (global.$whppt = {
-  types: options.types,
-  savePageCallback: undefined,
-  onSavePage(callback) {
-    this.savePageCallback = callback;
-  },
-  offSavePage() {
-    this.savePageCallback = undefined;
-  },
-  apiPrefix: options.apiPrefix,
-  disablePublishing: options.disablePublishing,
-});
-
 export default (context, inject) => {
+  const whppt = (global.$whppt = {
+    context,
+    plugins: {},
+    types: options.types,
+    savePageCallback: undefined,
+    onSavePage(callback) {
+      this.savePageCallback = callback;
+    },
+    offSavePage() {
+      this.savePageCallback = undefined;
+    },
+    apiPrefix: options.apiPrefix,
+    disablePublishing: options.disablePublishing,
+    addPlugins(plugins) {
+      forEach(plugins, (p, k) => (this.plugins[k] = p));
+    },
+  });
   // global.richTextNavigate = function(to) {
   //   console.log('global.richTextNavigate -> to', to);
   //   context.app.router.push(to)
@@ -95,7 +99,7 @@ export default (context, inject) => {
     loadSiteSettings: LoadSiteSettings(context),
     saveSiteSettings: SaveSiteSettings(context),
     publishSiteSettings: PublishSiteSettings(context),
-    createPage: CreatePage(context),
+    // createPage: CreatePage(context),
     savePage: SavePage(context),
     publishPage: PublishPage(context),
     unpublishPage: UnpublishPage(context),

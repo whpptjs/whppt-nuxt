@@ -2,9 +2,9 @@
   <div class="whppt-select">
     <label class="whppt-select__label">{{ label }} </label>
     <select
-      class="whppt-select__input"
-      :class="{ 'whppt-select__input_alt_bg': dark }"
       :value="selectedIndex"
+      :class="{ 'whppt-select__input_alt_bg': dark }"
+      class="whppt-select__input"
       @change="select"
     >
       <option :value="-1">

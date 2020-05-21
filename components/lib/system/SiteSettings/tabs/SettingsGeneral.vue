@@ -58,7 +58,7 @@ export default {
   },
   mounted() {
     this.$axios
-      .get(`${this.baseAPIUrl}/${this.$whppt.apiPrefix}/siteSettings/getVerifiedDomains`)
+      .get(`/siteSettings/getVerifiedDomains`)
       .then(({ data }) => (this.domains = data));
   },
   methods: {

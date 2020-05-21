@@ -138,7 +138,7 @@ export default {
     },
     queryFilesList() {
       return this.$axios
-        .get(`${this.baseAPIUrl}/${this.$whppt.apiPrefix}/file/searchFiles`, {
+        .get(`/file/searchFiles`, {
           params: { search: this.search },
         })
         .then(({ data: { files } }) => {

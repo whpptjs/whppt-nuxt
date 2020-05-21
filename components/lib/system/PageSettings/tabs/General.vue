@@ -191,7 +191,7 @@ export default {
       return this.slugCopy.replace(`${this.prefix}/`, '');
     },
     pageTypes() {
-      return compact(map(this.$whppt.plugins, t => t.pageTypes));
+      return compact(map(this.$whppt.plugins, t => t.pageType));
     },
     isHomePage() {
       return this.$router.currentRoute.path === '/';
@@ -223,10 +223,16 @@ export default {
           this.$toast.global.editorError('Slug already in use');
         } else {
           this.page.slug = newSlug;
-          return this.savePage().then(() => {
-            this.$router.push(`/${newSlug}`);
-            this.$emit('closeModal');
+          return this.savePage({ page: { ...this.page, pageType: this.pageTypeObj.name } }).then(() => {
+            return this.deletePage().then(() => {
+              this.$router.push(`/${newSlug}`);
+              this.$emit('closeModal');
+            });
           });
+          // return this.savePage().then(() => {
+          //   this.$router.push(`/${newSlug}`);
+          //   this.$emit('closeModal');
+          // });
         }
       });
     },
@@ -284,7 +290,7 @@ export default {
           this.$toast.global.editorError('Slug already in use');
         } else {
           vm.page.slug = newSlug;
-          return vm.savePage({ ...this.page, _id: undefined }).then(() => {
+          return vm.savePage({ page: { ...this.page, _id: undefined } }).then(() => {
             vm.$router.push(`/${newSlug}`);
             this.showDupModal = false;
             vm.$emit('closeModal');

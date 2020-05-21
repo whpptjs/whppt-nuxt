@@ -38,7 +38,7 @@ export default {
     ...mapState('whppt-nuxt/editor', ['baseAPIUrl', 'selectedComponent']),
   },
   mounted() {
-    this.$axios.get(`${this.baseAPIUrl}/api/siteSettings/loadCategories`).then(({ data }) => {
+    this.$axios.get(`/api/siteSettings/loadCategories`).then(({ data }) => {
       this.filters = map(data, d => {
         return { title: d.name, _id: d._id, hasDates: d.hasDates };
       });

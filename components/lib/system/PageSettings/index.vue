@@ -60,7 +60,6 @@ export default {
     selectedTab: 'general',
   }),
   computed: {
-    ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
     ...mapState('whppt-nuxt/page', ['page']),
     tabs() {
       return [

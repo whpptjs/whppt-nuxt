@@ -3,8 +3,13 @@
     <p class="font-xl">Create a Page</p>
 
     <form class="whppt-page__form" @submit.prevent>
-      <whppt-select v-model="pageForm.template" :items="templates" label="Page Template" />
       <whppt-select v-model="pageForm.pageType" :items="pageTypes" label="Page Type" />
+      <!-- <whppt-select
+        v-if="pageForm.pageType.templates && pageForm.pageType.templates.length > 1"
+        v-model="pageForm.template"
+        :items="pageForm.pageType.templates"
+        label="Page Template"
+      /> -->
       <component :is="pageForm.pageType.name" v-if="pageForm.pageType" :new-page="pageForm" />
       <whppt-text-input
         v-model="pageForm.slug"
@@ -23,17 +28,17 @@
 import { map, filter, forEach } from 'lodash';
 import { mapState, mapActions } from 'vuex';
 import slugify from 'slugify';
-import WhpptButton from '../../../components/lib/whpptComponents/WhpptButton';
-import WhpptTextInput from '../whpptComponents/WhpptTextInput';
-import WhpptSelect from '../whpptComponents/WhpptSelect';
+import WhpptButton from '../../../../components/lib/whpptComponents/WhpptButton';
+import WhpptTextInput from '../../whpptComponents/WhpptTextInput';
+import WhpptSelect from '../../whpptComponents/WhpptSelect';
 
 const additionalComponents = {};
 
 const plugins = global.$whppt.plugins;
-const pageTypes = filter(plugins, t => t.pageTypes);
+const pageTypePlugins = filter(plugins, t => t.pageType);
 
-forEach(pageTypes, type => {
-  additionalComponents[type.pageTypes.name] = type.pageTypes.component;
+forEach(pageTypePlugins, plugin => {
+  if (plugin.pageType.component) additionalComponents[plugin.pageType.name] = plugin.pageType.component;
 });
 
 export default {
@@ -54,7 +59,7 @@ export default {
       return this.$whppt.templates;
     },
     pageTypes() {
-      return map(pageTypes, t => t.pageTypes);
+      return map(pageTypePlugins, t => t.pageType);
     },
   },
   // mounted() {
@@ -67,39 +72,55 @@ export default {
     saveNewPage() {
       const vm = this;
       vm.showError = false;
-      if (!vm.pageForm.slug || !vm.pageForm.template) {
-        const { slug, template } = vm.pageForm;
-        this.$toast.global.editorError(
-          `Missing Fields: ${!slug ? 'Slug' : ''}${!vm.pageForm.slug && !vm.pageForm.template ? ', ' : ''}${
-            !template ? 'Template' : ''
-          }.`
-        );
+      if (!vm.pageForm.slug) {
+        const { slug } = vm.pageForm;
+        this.$toast.global.editorError(`Missing Fields: ${!slug ? 'Slug' : ''}.`);
+        return;
+      }
+      if (!vm.pageForm.pageType) {
+        const { pageType } = vm.pageForm;
+        this.$toast.global.editorError(`Missing Fields: ${!pageType ? 'Page Type' : ''}.`);
         return;
       }
 
       const newPage = {
-        ...vm.pageForm,
-        ...vm.pageForm.template.init,
+        // ...vm.pageForm,
+        // ...vm.pageForm.template.init,
         slug: this.formatSlug(vm.pageForm.slug),
-        template: vm.pageForm.template.key,
+        // template: vm.pageForm.template.key,
         pageType: this.pageForm.pageType && this.pageForm.pageType.name,
         og: { title: '', keywords: '', image: { imageId: '', crop: {} } },
         twitter: { title: '', keywords: '', image: { imageId: '', crop: {} } },
       };
 
+      // if (vm.pageForm.template) {
+      //   newPage = { ...newPage, ...vm.pageForm.template.init };
+      // }
+
       return vm.$whppt.checkSlug({ slug: newPage.slug }).then(result => {
         if (result) {
           vm.showError = true;
         } else {
-          return vm.$whppt.createPage(newPage).then(page => {
-            const { slug } = page;
-            vm.closeSidebar();
-            if (`/${slug}` === vm.$router.currentRoute.path) {
-              return vm.$router.go();
-            }
-            this.$toast.global.editorSuccess('Page Successfully Created!');
-            return vm.$router.push(`/${slug}` || '/');
-          });
+          return this.pageForm.pageType
+            .createPage(vm.$whppt.context, { page: newPage, form: vm.pageForm })
+            .then(page => {
+              const { slug } = page;
+              vm.closeSidebar();
+              if (`/${slug}` === vm.$router.currentRoute.path) {
+                return vm.$router.go();
+              }
+              this.$toast.global.editorSuccess('Page Successfully Created!');
+              return vm.$router.push(`/${slug}` || '/');
+            });
+          // return vm.$whppt.createPage(newPage).then(page => {
+          //   const { slug } = page;
+          //   vm.closeSidebar();
+          //   if (`/${slug}` === vm.$router.currentRoute.path) {
+          //     return vm.$router.go();
+          //   }
+          //   this.$toast.global.editorSuccess('Page Successfully Created!');
+          //   return vm.$router.push(`/${slug}` || '/');
+          // });
         }
       });
     },

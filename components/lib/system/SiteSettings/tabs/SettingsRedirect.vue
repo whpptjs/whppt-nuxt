@@ -125,7 +125,7 @@ export default {
     loadRedirects() {
       const vm = this;
       return this.$axios
-        .get(`${vm.baseAPIUrl}/${this.$whppt.apiPrefix}/siteSettings/loadRedirects`)
+        .get(`${vm.baseAPIUrl}/siteSettings/loadRedirects`)
         .then(({ data: redirects }) => {
           if (!redirects || !redirects.length) return;
           vm.redirects = redirects;
@@ -136,7 +136,7 @@ export default {
       if (redirect.published) return this.$toast.global.editorError('Redirect has to be unpublished first');
       const vm = this;
       return this.$axios
-        .post(`${vm.baseAPIUrl}/${this.$whppt.apiPrefix}/siteSettings/deleteRedirect`, { _id: redirect._id })
+        .post(`${vm.baseAPIUrl}/siteSettings/deleteRedirect`, { _id: redirect._id })
         .then(() => {
           vm.redirects = remove(vm.redirects, r => r._id !== redirect._id);
           vm.sliceRedirects();
@@ -156,13 +156,13 @@ export default {
       if (!this.newRedirect.from.startsWith('/')) this.newRedirect.from = `/${this.newRedirect.from}`;
 
       return this.$axios
-        .post(`${vm.baseAPIUrl}/${this.$whppt.apiPrefix}/siteSettings/checkDuplicateRedirect`, {
+        .post(`${vm.baseAPIUrl}/siteSettings/checkDuplicateRedirect`, {
           redirect: this.newRedirect,
         })
         .then(({ data: alreadyExists }) => {
           if (alreadyExists) return this.$toast.global.editorError('Redirect already exists');
           return this.$axios
-            .post(`${vm.baseAPIUrl}/${this.$whppt.apiPrefix}/siteSettings/saveRedirect`, { redirect: this.newRedirect })
+            .post(`${vm.baseAPIUrl}/siteSettings/saveRedirect`, { redirect: this.newRedirect })
             .then(() => {
               this.loadRedirects();
               this.$toast.global.editorSuccess('Redirect Successfully Added');
@@ -188,11 +188,11 @@ export default {
       if (!redirect.from.startsWith('/')) redirect.from = `/${redirect.from}`;
 
       return this.$axios
-        .post(`${vm.baseAPIUrl}/${this.$whppt.apiPrefix}/siteSettings/checkDuplicateRedirect`, { redirect })
+        .post(`${vm.baseAPIUrl}/siteSettings/checkDuplicateRedirect`, { redirect })
         .then(({ data: alreadyExists }) => {
           if (alreadyExists) return this.$toast.global.editorError('Redirect already exists');
           return this.$axios
-            .post(`${vm.baseAPIUrl}/${this.$whppt.apiPrefix}/siteSettings/saveRedirect`, { redirect })
+            .post(`${vm.baseAPIUrl}/siteSettings/saveRedirect`, { redirect })
             .then(({ data: redirect }) => {
               this.$toast.global.editorSuccess('Redirect Saved');
             });
@@ -207,11 +207,11 @@ export default {
       if (!redirect.to.startsWith('/')) redirect.to = `/${redirect.to}`;
       if (!redirect.from.startsWith('/')) redirect.from = `/${redirect.from}`;
       return this.$axios
-        .post(`${vm.baseAPIUrl}/${this.$whppt.apiPrefix}/siteSettings/checkDuplicatePublishedRedirect`, { redirect })
+        .post(`${vm.baseAPIUrl}/siteSettings/checkDuplicatePublishedRedirect`, { redirect })
         .then(({ data: alreadyExists }) => {
           if (alreadyExists) return vm.$toast.global.editorError('Redirect already exists');
           return vm.$axios
-            .post(`${vm.baseAPIUrl}/${this.$whppt.apiPrefix}/siteSettings/publishRedirect`, { redirect })
+            .post(`${vm.baseAPIUrl}/siteSettings/publishRedirect`, { redirect })
             .then(() => {
               redirect.published = true;
               vm.$toast.global.editorSuccess('Redirect Published');
@@ -222,7 +222,7 @@ export default {
       if (!redirect.published) return this.$toast.global.editorError("Redirect isn't published");
       const vm = this;
       return vm.$axios
-        .post(`${vm.baseAPIUrl}/${this.$whppt.apiPrefix}/siteSettings/unpublishRedirect`, { _id: redirect._id })
+        .post(`${vm.baseAPIUrl}/siteSettings/unpublishRedirect`, { _id: redirect._id })
         .then(() => {
           redirect.published = false;
           vm.$toast.global.editorSuccess('Redirect Unpublished');

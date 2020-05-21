@@ -96,7 +96,7 @@ export default {
   methods: {
     remove() {
       const vm = this;
-      return this.$axios.post(`${this.baseAPIUrl}/file/removeFile`, { _id: this.itemToBeRemoved._id }).then(() => {
+      return this.$axios.post(`/file/removeFile`, { _id: this.itemToBeRemoved._id }).then(() => {
         vm.itemToBeRemoved = undefined;
         vm.loadFiles();
       });
@@ -112,7 +112,7 @@ export default {
       formData.append('file', this.file.formData);
       formData.append('description', this.file.description);
       return this.$axios
-        .post(`${this.baseAPIUrl}/file/uploadFile`, formData, {
+        .post(`/file/uploadFile`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
@@ -126,7 +126,7 @@ export default {
     loadFiles(currentPage) {
       this.currentPage = currentPage || 1;
       return this.$axios
-        .get(`${this.baseAPIUrl}/${this.$whppt.apiPrefix}/file/loadFiles`, {
+        .get(`/file/loadFiles`, {
           params: { currentPage: this.currentPage, limit: this.limit },
         })
         .then(({ data: { files } }) => {

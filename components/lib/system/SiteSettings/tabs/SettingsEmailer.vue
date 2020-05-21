@@ -69,7 +69,7 @@ export default {
   methods: {
     loadEmailerSettings() {
       return this.$axios
-        .get(`${this.baseAPIUrl}/${this.$whppt.apiPrefix}/siteSettings/loadEmailerConfig`)
+        .get(`/siteSettings/loadEmailerConfig`)
         .then(({ data: emailerConfig }) => {
           this.emailerConfig = emailerConfig || {
             _id: 'emailerConfig',
@@ -81,7 +81,7 @@ export default {
       const newConfig = this.emailerConfig;
       newConfig.config.auth.pass = this.newPassword || undefined;
       return this.$axios
-        .post(`${this.baseAPIUrl}/${this.$whppt.apiPrefix}/siteSettings/saveEmailerConfig`, {
+        .post(`/siteSettings/saveEmailerConfig`, {
           emailerConfig: newConfig,
         })
         .then(() => {
@@ -92,7 +92,7 @@ export default {
       const newConfig = this.emailerConfig;
       newConfig.config.auth.pass = this.newPassword || undefined;
       return this.$axios
-        .post(`${this.baseAPIUrl}/${this.$whppt.apiPrefix}/siteSettings/publishEmailerConfig`, {
+        .post(`/siteSettings/publishEmailerConfig`, {
           emailerConfig: newConfig,
         })
         .then(() => {

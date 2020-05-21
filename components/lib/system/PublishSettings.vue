@@ -73,7 +73,6 @@ export default {
     };
   },
   computed: {
-    ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
     ...mapState('whppt-nuxt/page', ['page']),
     formattedSlug() {
       return this.formatSlug(this.page.slug);
@@ -92,7 +91,6 @@ export default {
   methods: {
     ...mapActions('whppt-nuxt/page', ['savePage', 'unpublishPage', 'deletePage', 'publishPage']),
     formatDate(date) {
-      console.log('formatDate -> date', date);
       return new Date(date);
     },
     confirmSlug(value) {
@@ -112,8 +110,10 @@ export default {
       });
     },
     publish() {
-      return this.publishPage().then(() => {
-        this.$emit('closeModal');
+      return this.savePage().then(() => {
+        return this.publishPage().then(() => {
+          this.$emit('closeModal');
+        });
       });
     },
     unpublish() {

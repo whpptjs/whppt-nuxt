@@ -63,7 +63,7 @@ export default {
     },
   },
   computed: {
-    ...mapState('whppt-nuxt/editor', ['baseImageUrl', 'baseCdnImageUrl', 'baseAPIUrl']),
+    ...mapState('whppt-nuxt/editor', ['baseImageUrl', 'baseCdnImageUrl']),
   },
   mounted() {
     this.loading = true;
@@ -83,7 +83,7 @@ export default {
     loadGallery(currentPage) {
       this.currentPage = currentPage;
       return this.$axios
-        .get(`${this.baseAPIUrl}/${this.$whppt.apiPrefix}/image/loadGallery`, {
+        .get(`/image/loadGallery`, {
           params: { limit: this.limit, currentPage: this.currentPage },
         })
         .then(({ data: { images, total } }) => {
@@ -111,9 +111,7 @@ export default {
         });
     },
     remove(id) {
-      return this.$axios
-        .post(`${this.baseAPIUrl}/${this.$whppt.apiPrefix}/image/remove`, { id })
-        .then(() => this.loadGallery(this.currentPage));
+      return this.$axios.post(`/image/remove`, { id }).then(() => this.loadGallery(this.currentPage));
     },
   },
 };

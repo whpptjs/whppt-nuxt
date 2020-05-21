@@ -2,7 +2,6 @@ import Cookies from 'js-cookie';
 
 export default options => {
   options.security = options.security || {};
-  const apiPrefix = options.apiPrefix || 'api';
   return {
     namespaced: true,
     state: () => ({
@@ -10,9 +9,9 @@ export default options => {
     }),
     actions: {
       login({ commit }, { username, password }) {
-        return this.$axios.$post(`/${apiPrefix}/user/login`, { username, password }).then(({ token }) => {
+        return this.$axios.$post(`/user/login`, { username, password }).then(({ token }) => {
           Cookies.set('authToken', token, { expires: options.security.expires || 3 }); // expires is set in days
-          return this.$axios.$post(`/${apiPrefix}/user/me`).then(({ user }) => {
+          return this.$axios.$post(`/user/me`).then(({ user }) => {
             commit('LOGIN_USER', user);
           });
         });
@@ -22,7 +21,7 @@ export default options => {
         return Promise.resolve().then(() => {
           const token = Cookies.get('authToken');
           if (!token) return commit('LOGIN_USER', null);
-          return this.$axios.$post(`/${apiPrefix}/user/me`).then(({ user }) => {
+          return this.$axios.$post(`/user/me`).then(({ user }) => {
             commit('LOGIN_USER', user);
           });
         });
