@@ -96,7 +96,7 @@ export default {
   methods: {
     remove() {
       const vm = this;
-      return this.$axios.post(`/file/removeFile`, { _id: this.itemToBeRemoved._id }).then(() => {
+      return this.$api.post(`/file/removeFile`, { _id: this.itemToBeRemoved._id }).then(() => {
         vm.itemToBeRemoved = undefined;
         vm.loadFiles();
       });
@@ -125,7 +125,7 @@ export default {
     },
     loadFiles(currentPage) {
       this.currentPage = currentPage || 1;
-      return this.$axios
+      return this.$api
         .get(`/file/loadFiles`, {
           params: { currentPage: this.currentPage, limit: this.limit },
         })

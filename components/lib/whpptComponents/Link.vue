@@ -137,7 +137,7 @@ export default {
       return typeof value !== 'undefined';
     },
     queryFilesList() {
-      return this.$axios
+      return this.$api
         .get(`/file/searchFiles`, {
           params: { search: this.search },
         })

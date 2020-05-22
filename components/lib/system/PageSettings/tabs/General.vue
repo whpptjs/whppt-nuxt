@@ -205,8 +205,8 @@ export default {
   methods: {
     ...mapActions('whppt-nuxt/page', ['savePage', 'deletePage']),
     selectPageType(selectedPageType) {
-      if (!selectedPageType) this.page.pageType = '';
-      else this.page.pageType = selectedPageType.name;
+      // if (!selectedPageType) this.page.pageType = '';
+      // else this.page.pageType = selectedPageType.name;
     },
     changePageType() {
       let newSlug = '';

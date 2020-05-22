@@ -9,7 +9,7 @@ const stripSlug = ({ slug }) => slug;
 const createPage = ({ $api }, { page, form }) => {
   assign(page, form.template.init);
   page.template = form.template.key;
-  return $api.$post(`//page/save`, { page });
+  return $api.$post(`/page/save`, { page });
 };
 
 const deletePage = ({ $api }, { _id }) => $api.$post(`/page/delete`, { _id });

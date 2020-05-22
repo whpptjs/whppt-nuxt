@@ -124,23 +124,19 @@ export default {
     },
     loadRedirects() {
       const vm = this;
-      return this.$axios
-        .get(`${vm.baseAPIUrl}/siteSettings/loadRedirects`)
-        .then(({ data: redirects }) => {
-          if (!redirects || !redirects.length) return;
-          vm.redirects = redirects;
-          vm.sliceRedirects();
-        });
+      return this.$api.get(`/siteSettings/loadRedirects`).then(({ data: redirects }) => {
+        if (!redirects || !redirects.length) return;
+        vm.redirects = redirects;
+        vm.sliceRedirects();
+      });
     },
     deleteRedirect(redirect) {
       if (redirect.published) return this.$toast.global.editorError('Redirect has to be unpublished first');
       const vm = this;
-      return this.$axios
-        .post(`${vm.baseAPIUrl}/siteSettings/deleteRedirect`, { _id: redirect._id })
-        .then(() => {
-          vm.redirects = remove(vm.redirects, r => r._id !== redirect._id);
-          vm.sliceRedirects();
-        });
+      return this.$api.post(`/siteSettings/deleteRedirect`, { _id: redirect._id }).then(() => {
+        vm.redirects = remove(vm.redirects, r => r._id !== redirect._id);
+        vm.sliceRedirects();
+      });
     },
     addRedirect() {
       const vm = this;
@@ -155,19 +151,17 @@ export default {
       if (!this.newRedirect.to.startsWith('/')) this.newRedirect.to = `/${this.newRedirect.to}`;
       if (!this.newRedirect.from.startsWith('/')) this.newRedirect.from = `/${this.newRedirect.from}`;
 
-      return this.$axios
-        .post(`${vm.baseAPIUrl}/siteSettings/checkDuplicateRedirect`, {
+      return this.$api
+        .post(`/siteSettings/checkDuplicateRedirect`, {
           redirect: this.newRedirect,
         })
         .then(({ data: alreadyExists }) => {
           if (alreadyExists) return this.$toast.global.editorError('Redirect already exists');
-          return this.$axios
-            .post(`${vm.baseAPIUrl}/siteSettings/saveRedirect`, { redirect: this.newRedirect })
-            .then(() => {
-              this.loadRedirects();
-              this.$toast.global.editorSuccess('Redirect Successfully Added');
-              this.newRedirect = { to: '', from: '' };
-            });
+          return this.$api.post(`/siteSettings/saveRedirect`, { redirect: this.newRedirect }).then(() => {
+            this.loadRedirects();
+            this.$toast.global.editorSuccess('Redirect Successfully Added');
+            this.newRedirect = { to: '', from: '' };
+          });
         });
     },
     formatSlug(slug) {
@@ -187,16 +181,12 @@ export default {
       if (!redirect.to.startsWith('/')) redirect.to = `/${redirect.to}`;
       if (!redirect.from.startsWith('/')) redirect.from = `/${redirect.from}`;
 
-      return this.$axios
-        .post(`${vm.baseAPIUrl}/siteSettings/checkDuplicateRedirect`, { redirect })
-        .then(({ data: alreadyExists }) => {
-          if (alreadyExists) return this.$toast.global.editorError('Redirect already exists');
-          return this.$axios
-            .post(`${vm.baseAPIUrl}/siteSettings/saveRedirect`, { redirect })
-            .then(({ data: redirect }) => {
-              this.$toast.global.editorSuccess('Redirect Saved');
-            });
+      return this.$api.post(`/siteSettings/checkDuplicateRedirect`, { redirect }).then(({ data: alreadyExists }) => {
+        if (alreadyExists) return this.$toast.global.editorError('Redirect already exists');
+        return this.$api.post(`/siteSettings/saveRedirect`, { redirect }).then(({ data: redirect }) => {
+          this.$toast.global.editorSuccess('Redirect Saved');
         });
+      });
     },
     publish(redirect) {
       const vm = this;
@@ -206,27 +196,23 @@ export default {
       if (redirect.to === redirect.from) return this.$toast.global.editorError('To and From must be different');
       if (!redirect.to.startsWith('/')) redirect.to = `/${redirect.to}`;
       if (!redirect.from.startsWith('/')) redirect.from = `/${redirect.from}`;
-      return this.$axios
-        .post(`${vm.baseAPIUrl}/siteSettings/checkDuplicatePublishedRedirect`, { redirect })
+      return this.$api
+        .post(`/siteSettings/checkDuplicatePublishedRedirect`, { redirect })
         .then(({ data: alreadyExists }) => {
           if (alreadyExists) return vm.$toast.global.editorError('Redirect already exists');
-          return vm.$axios
-            .post(`${vm.baseAPIUrl}/siteSettings/publishRedirect`, { redirect })
-            .then(() => {
-              redirect.published = true;
-              vm.$toast.global.editorSuccess('Redirect Published');
-            });
+          return vm.$api.post(`/siteSettings/publishRedirect`, { redirect }).then(() => {
+            redirect.published = true;
+            vm.$toast.global.editorSuccess('Redirect Published');
+          });
         });
     },
     unpublishRedirect(redirect) {
       if (!redirect.published) return this.$toast.global.editorError("Redirect isn't published");
       const vm = this;
-      return vm.$axios
-        .post(`${vm.baseAPIUrl}/siteSettings/unpublishRedirect`, { _id: redirect._id })
-        .then(() => {
-          redirect.published = false;
-          vm.$toast.global.editorSuccess('Redirect Unpublished');
-        });
+      return vm.$api.post(`/siteSettings/unpublishRedirect`, { _id: redirect._id }).then(() => {
+        redirect.published = false;
+        vm.$toast.global.editorSuccess('Redirect Unpublished');
+      });
     },
     swapPage(newPage) {
       this.currentPage = newPage;

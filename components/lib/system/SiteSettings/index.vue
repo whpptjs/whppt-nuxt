@@ -94,7 +94,7 @@ export default {
   methods: {
     ...mapActions('whppt-nuxt/site', ['saveSiteSettings', 'publishSiteSettings']),
     loadSiteSettings() {
-      return this.$axios.get(`/siteSettings/loadSiteSettings`).then(({ data: siteSettings }) => {
+      return this.$api.get(`/siteSettings/loadSiteSettings`).then(({ data: siteSettings }) => {
         siteSettings = siteSettings || { _id: 'siteSettings' };
         siteSettings.og = siteSettings.og || {};
         siteSettings.og.image =

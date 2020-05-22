@@ -175,6 +175,7 @@ export default {
 }
 
 .whppt-settings__warning-modal {
+  z-index: 2;
   position: absolute;
   top: 0;
   bottom: 0;

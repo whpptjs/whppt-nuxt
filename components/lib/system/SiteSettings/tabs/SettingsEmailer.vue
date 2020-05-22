@@ -68,19 +68,17 @@ export default {
   },
   methods: {
     loadEmailerSettings() {
-      return this.$axios
-        .get(`/siteSettings/loadEmailerConfig`)
-        .then(({ data: emailerConfig }) => {
-          this.emailerConfig = emailerConfig || {
-            _id: 'emailerConfig',
-            config: { secure: false, requireTLS: true, auth: {} },
-          };
-        });
+      return this.$api.get(`/siteSettings/loadEmailerConfig`).then(({ data: emailerConfig }) => {
+        this.emailerConfig = emailerConfig || {
+          _id: 'emailerConfig',
+          config: { secure: false, requireTLS: true, auth: {} },
+        };
+      });
     },
     saveEmailerSettings() {
       const newConfig = this.emailerConfig;
       newConfig.config.auth.pass = this.newPassword || undefined;
-      return this.$axios
+      return this.$api
         .post(`/siteSettings/saveEmailerConfig`, {
           emailerConfig: newConfig,
         })
@@ -91,7 +89,7 @@ export default {
     publishEmailerSettings() {
       const newConfig = this.emailerConfig;
       newConfig.config.auth.pass = this.newPassword || undefined;
-      return this.$axios
+      return this.$api
         .post(`/siteSettings/publishEmailerConfig`, {
           emailerConfig: newConfig,
         })

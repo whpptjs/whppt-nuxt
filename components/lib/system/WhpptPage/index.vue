@@ -73,13 +73,19 @@ export default {
       const vm = this;
       vm.showError = false;
       if (!vm.pageForm.slug) {
-        const { slug } = vm.pageForm;
-        this.$toast.global.editorError(`Missing Fields: ${!slug ? 'Slug' : ''}.`);
+        // const { slug } = vm.pageForm;
+        this.$toast.global.editorError(`Missing Field: Slug.`);
         return;
       }
       if (!vm.pageForm.pageType) {
-        const { pageType } = vm.pageForm;
-        this.$toast.global.editorError(`Missing Fields: ${!pageType ? 'Page Type' : ''}.`);
+        // const { pageType } = vm.pageForm;
+        this.$toast.global.editorError(`Missing Fields: Page Type.`);
+        return;
+      }
+
+      if (vm.pageForm.pageType.name === 'page' && !vm.pageForm.template) {
+        // const { pageType } = vm.pageForm;
+        this.$toast.global.editorError(`Missing Field: Template.`);
         return;
       }
 

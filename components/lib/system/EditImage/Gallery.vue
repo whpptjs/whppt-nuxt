@@ -82,7 +82,7 @@ export default {
   methods: {
     loadGallery(currentPage) {
       this.currentPage = currentPage;
-      return this.$axios
+      return this.$api
         .get(`/image/loadGallery`, {
           params: { limit: this.limit, currentPage: this.currentPage },
         })
@@ -99,7 +99,7 @@ export default {
       const formData = new FormData();
       formData.append('file', file);
       this.newImageLoading = true;
-      return this.$axios
+      return this.$api
         .post(`${this.baseImageUrl}/upload`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
@@ -111,7 +111,7 @@ export default {
         });
     },
     remove(id) {
-      return this.$axios.post(`/image/remove`, { id }).then(() => this.loadGallery(this.currentPage));
+      return this.$api.post(`/image/remove`, { id }).then(() => this.loadGallery(this.currentPage));
     },
   },
 };
