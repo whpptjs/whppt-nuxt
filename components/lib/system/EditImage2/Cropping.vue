@@ -6,9 +6,7 @@
       <!-- :canvas="false" -->
       <!-- :style="{ width: `${width}px` }" -->
       <cropper
-        :style="
-          `background: #000; width:${canvas.width / canvas.quality}px; height: ${canvas.height / canvas.quality}px`
-        "
+        :style="`background: #000; width:${canvas.width / canvas.quality}px;`"
         :wheel-resize="false"
         :default-position="vals => defaultPosition({ canvas, canvasName }, vals)"
         :default-size="vals => defaultSize({ canvas, canvasName }, vals)"
