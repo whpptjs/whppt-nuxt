@@ -65,6 +65,12 @@ export default options => ({
         return page;
       });
     },
+    checkSlug({ commit }, { slug, _id, pageType = 'page' }) {
+      const pageTypePlugin = find(this.$whppt.plugins, plugin => plugin.pageType && plugin.pageType.name === pageType);
+      return pageTypePlugin.pageType.checkSlug(this.$whppt.context, { slug, _id }).then(slugExists => {
+        return slugExists;
+      });
+    },
   },
   mutations: {
     pageLoaded(state, page) {
