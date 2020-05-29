@@ -107,20 +107,19 @@ export default {
       return vm.checkSlug({ slug: newPage.slug, pageType: newPage.pageType }).then(result => {
         if (result) {
           vm.showError = true;
+        } else {
+          return this.pageForm.pageType
+            .createPage(vm.$whppt.context, { page: newPage, form: vm.pageForm })
+            .then(page => {
+              const { slug } = page;
+              vm.closeSidebar();
+              if (`/${slug}` === vm.$router.currentRoute.path) {
+                return vm.$router.go();
+              }
+              this.$toast.global.editorSuccess('Page Successfully Created!');
+              return vm.$router.push(`/${slug}` || '/');
+            });
         }
-        // else {
-        //   return this.pageForm.pageType
-        //     .createPage(vm.$whppt.context, { page: newPage, form: vm.pageForm })
-        //     .then(page => {
-        //       const { slug } = page;
-        //       vm.closeSidebar();
-        //       if (`/${slug}` === vm.$router.currentRoute.path) {
-        //         return vm.$router.go();
-        //       }
-        //       this.$toast.global.editorSuccess('Page Successfully Created!');
-        //       return vm.$router.push(`/${slug}` || '/');
-        //     });
-        // }
       });
     },
     formatSlug(slug) {
