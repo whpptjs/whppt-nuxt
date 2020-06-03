@@ -12,6 +12,8 @@ const createPage = ({ $api }, { page, form }) => {
   return $api.$post(`/page/save`, { page });
 };
 
+const checkSlug = ({ $api }, { slug, _id }) => $api.$get(`/page/checkSlug?slug=${slug}&_id=${_id}`);
+
 const deletePage = ({ $api }, { _id }) => $api.$post(`/page/delete`, { _id });
 
 const loadPage = ({ $api }, { slug }) => $api.$get(`/page/load?slug=${slug}`);
@@ -36,5 +38,6 @@ export default ({ templates }) => ({
     publishPage,
     deletePage,
     unpublishPage,
+    checkSlug,
   },
 });

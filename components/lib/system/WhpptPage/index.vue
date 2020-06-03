@@ -69,6 +69,7 @@ export default {
   // },
   methods: {
     ...mapActions('whppt-nuxt/editor', ['closeSidebar']),
+    ...mapActions('whppt-nuxt/page', ['checkSlug']),
     saveNewPage() {
       const vm = this;
       vm.showError = false;
@@ -103,7 +104,7 @@ export default {
       //   newPage = { ...newPage, ...vm.pageForm.template.init };
       // }
 
-      return vm.$whppt.checkSlug({ slug: newPage.slug }).then(result => {
+      return vm.checkSlug({ slug: newPage.slug, pageType: newPage.pageType }).then(result => {
         if (result) {
           vm.showError = true;
         } else {
@@ -118,15 +119,6 @@ export default {
               this.$toast.global.editorSuccess('Page Successfully Created!');
               return vm.$router.push(`/${slug}` || '/');
             });
-          // return vm.$whppt.createPage(newPage).then(page => {
-          //   const { slug } = page;
-          //   vm.closeSidebar();
-          //   if (`/${slug}` === vm.$router.currentRoute.path) {
-          //     return vm.$router.go();
-          //   }
-          //   this.$toast.global.editorSuccess('Page Successfully Created!');
-          //   return vm.$router.push(`/${slug}` || '/');
-          // });
         }
       });
     },

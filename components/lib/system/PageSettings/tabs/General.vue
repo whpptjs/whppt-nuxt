@@ -203,7 +203,7 @@ export default {
     this.rawSlug = this.pageTypeObj.stripSlug({ slug: this.page.slug, page: this.page });
   },
   methods: {
-    ...mapActions('whppt-nuxt/page', ['savePage', 'deletePage']),
+    ...mapActions('whppt-nuxt/page', ['savePage', 'deletePage', 'checkSlug']),
     selectPageType(selectedPageType) {
       // if (!selectedPageType) this.page.pageType = '';
       // else this.page.pageType = selectedPageType.name;
@@ -217,7 +217,7 @@ export default {
         this.$toast.global.editorError('Cannot use an empty slug');
         return;
       }
-      return this.$whppt.checkSlug({ slug: newSlug, _id: this.page._id }).then(result => {
+      return this.checkSlug({ slug: newSlug, _id: this.page._id, pageType: this.page.pageType }).then(result => {
         if (result) {
           this.showSlugModal = true;
           this.$toast.global.editorError('Slug already in use');
@@ -266,7 +266,7 @@ export default {
         this.$toast.global.editorError('Cannot use an empty slug');
         return;
       }
-      return vm.$whppt.checkSlug({ slug: newSlug, _id: this.page._id }).then(result => {
+      return vm.checkSlug({ slug: newSlug, _id: this.page._id, pageType: this.page.pageType }).then(result => {
         if (result) {
           this.$toast.global.editorError('Slug already in use');
         } else {
@@ -285,7 +285,7 @@ export default {
         this.$toast.global.editorError('Cannot use an empty slug');
         return;
       }
-      return vm.$whppt.checkSlug({ slug: newSlug }).then(result => {
+      return vm.checkSlug({ slug: newSlug, pageType: vm.page.pageType }).then(result => {
         if (result) {
           this.$toast.global.editorError('Slug already in use');
         } else {
