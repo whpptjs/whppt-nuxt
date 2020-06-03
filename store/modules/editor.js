@@ -17,6 +17,7 @@ export default options => ({
       editSidebarType: undefined,
       editInModalType: undefined,
       richTextWatcher: 0,
+      formattedTextWatcher: 0,
       selectedComponent: undefined,
       selectedContent: undefined,
       selectedContentWhitelist: undefined,
@@ -90,6 +91,7 @@ export default options => ({
       state.editSidebar = true;
       state.editSidebarType = type;
       state.richTextWatcher = state.richTextWatcher + 1;
+      state.formattedTextWatcher = state.formattedTextWatcher + 1;
     },
     editInModal(state, type) {
       state.editInModal = true;

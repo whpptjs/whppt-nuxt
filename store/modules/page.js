@@ -19,6 +19,7 @@ export default options => ({
   actions: {
     publishPage({ state }, { page } = {}) {
       const _page = page || state.page;
+      _page.pageType = _page.pageType || 'page';
       const pageTypePlugin = find(
         this.$whppt.plugins,
         plugin => plugin.pageType && plugin.pageType.name === _page.pageType
@@ -29,6 +30,7 @@ export default options => ({
     },
     savePage({ state }, { page } = {}) {
       const _page = page || state.page;
+      _page.pageType = _page.pageType || 'page';
       const pageTypePlugin = find(
         this.$whppt.plugins,
         plugin => plugin.pageType && plugin.pageType.name === _page.pageType
@@ -39,6 +41,7 @@ export default options => ({
     },
     deletePage({ state }, { page } = {}) {
       const _page = page || state.page;
+      _page.pageType = _page.pageType || 'page';
       const pageTypePlugin = find(
         this.$whppt.plugins,
         plugin => plugin.pageType && plugin.pageType.name === _page.pageType
@@ -49,6 +52,7 @@ export default options => ({
     },
     unpublishPage({ state }, { page } = {}) {
       const _page = page || state.page;
+      _page.pageType = _page.pageType || 'page';
       const pageTypePlugin = find(
         this.$whppt.plugins,
         plugin => plugin.pageType && plugin.pageType.name === _page.pageType
