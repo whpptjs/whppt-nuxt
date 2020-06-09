@@ -17,13 +17,19 @@
           {{ tab.label }}
         </div>
       </div>
-      <component :is="selectedTab" :page="page" :prefix="prefix" @closeModal="$emit('closeModal')" />
+      <component
+        :is="selectedTab"
+        :page="page"
+        :prefix="prefix"
+        :info="selectedTabInfo"
+        @closeModal="$emit('closeModal')"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import { clamp, filter, forEach } from 'lodash';
+import { clamp, filter, forEach, find } from 'lodash';
 import { mapActions, mapState } from 'vuex';
 
 import SEO from './tabs/SEO';
@@ -69,6 +75,10 @@ export default {
         { name: 'twitter', label: 'Twitter' },
         ...additionalTabs,
       ];
+    },
+    selectedTabInfo() {
+      const selectedTab = find(this.tabs, t => t.name == this.selectedTab);
+      return (selectedTab && selectedTab.info) || {};
     },
   },
   mounted() {
