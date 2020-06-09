@@ -77,7 +77,7 @@ export default {
       ];
     },
     selectedTabInfo() {
-      const selectedTab = find(this.tabs, t => t.name == this.selectedTab);
+      const selectedTab = find(this.tabs, t => t.name === this.selectedTab);
       return (selectedTab && selectedTab.info) || {};
     },
   },
