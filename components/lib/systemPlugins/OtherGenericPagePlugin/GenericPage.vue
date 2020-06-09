@@ -5,6 +5,7 @@
       :items="newPage.pageType.templates"
       label="Page Template"
       value-prop="label"
+      key-prop="key"
     />
   </div>
 </template>

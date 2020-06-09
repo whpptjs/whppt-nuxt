@@ -3,7 +3,7 @@
     <p class="font-xl">Create a Page</p>
 
     <form class="whppt-page__form" @submit.prevent>
-      <whppt-select v-model="pageForm.pageType" :items="pageTypes" label="Page Type" />
+      <whppt-select v-model="pageForm.pageType" :items="pageTypes" label="Page Type" key-prop="pageType" />
       <!-- <whppt-select
         v-if="pageForm.pageType.templates && pageForm.pageType.templates.length > 1"
         v-model="pageForm.template"
