@@ -17,13 +17,20 @@
       style="padding-top: 2rem"
     />
     <div>
-      <button class="whppt-settings__button" @click="applyTemplate">Apply Template</button>
+      <button
+        v-if="template"
+        class="whppt-settings__button"
+        :class="{ disabled: !template.initTo }"
+        @click="applyTemplate"
+      >
+        Apply Template
+      </button>
     </div>
   </div>
 </template>
 
 <script>
-import { defaults, find } from 'lodash';
+import { find } from 'lodash';
 import WhpptSelect from '../../whpptComponents/WhpptSelectValue';
 
 export default {
@@ -45,16 +52,24 @@ export default {
     newTemplate: '',
     showError: false,
   }),
+  computed: {
+    template() {
+      return find(this.info.templates, t => t.key === this.newTemplate);
+    },
+  },
   methods: {
     applyTemplate() {
-      const _newTemplate = find(this.info.templates, t => t.key === this.newTemplate);
-      console.log('applyTemplate -> _newTemplate', _newTemplate);
-      _newTemplate.initTo(this, this.page);
-      console.log('applyTemplate -> this.page', this.page);
+      if (!this.template.initTo) return;
+      this.template.initTo(this, this.page);
       this.page.template = this.newTemplate;
     },
   },
 };
 </script>
 
-<style></style>
+<style scoped>
+.disabled {
+  color: gray;
+  border-color: gray;
+}
+</style>

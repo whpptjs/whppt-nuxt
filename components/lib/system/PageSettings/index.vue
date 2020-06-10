@@ -68,12 +68,16 @@ export default {
   computed: {
     ...mapState('whppt-nuxt/page', ['page']),
     tabs() {
+      const conditionalTabs = filter(additionalTabs, tab => {
+        if (tab.condition) return tab.condition({ page: this.page });
+        return true;
+      });
       return [
         { name: 'general', label: 'General' },
         { name: 's-e-o', label: 'Seo' },
         { name: 'open-graph', label: 'Open Graph' },
         { name: 'twitter', label: 'Twitter' },
-        ...additionalTabs,
+        ...conditionalTabs,
       ];
     },
     selectedTabInfo() {
