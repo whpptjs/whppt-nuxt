@@ -1,6 +1,7 @@
 import { assign } from 'lodash';
 
 import GenericPage from './GenericPage';
+import ChangeTemplate from './ChangeTemplate';
 
 const formatSlug = ({ slug }) => slug;
 
@@ -40,4 +41,5 @@ export default ({ templates }) => ({
     unpublishPage,
     checkSlug,
   },
+  pageSettings: { name: 'page_template', label: 'Template', component: ChangeTemplate, info: { templates } },
 });

@@ -17,13 +17,19 @@
           {{ tab.label }}
         </div>
       </div>
-      <component :is="selectedTab" :page="page" :prefix="prefix" @closeModal="$emit('closeModal')" />
+      <component
+        :is="selectedTab"
+        :page="page"
+        :prefix="prefix"
+        :info="selectedTabInfo"
+        @closeModal="$emit('closeModal')"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import { clamp, filter, forEach } from 'lodash';
+import { clamp, filter, forEach, find } from 'lodash';
 import { mapActions, mapState } from 'vuex';
 
 import SEO from './tabs/SEO';
@@ -62,13 +68,21 @@ export default {
   computed: {
     ...mapState('whppt-nuxt/page', ['page']),
     tabs() {
+      const conditionalTabs = filter(additionalTabs, tab => {
+        if (tab.condition) return tab.condition({ page: this.page });
+        return true;
+      });
       return [
         { name: 'general', label: 'General' },
         { name: 's-e-o', label: 'Seo' },
         { name: 'open-graph', label: 'Open Graph' },
         { name: 'twitter', label: 'Twitter' },
-        ...additionalTabs,
+        ...conditionalTabs,
       ];
+    },
+    selectedTabInfo() {
+      const selectedTab = find(this.tabs, t => t.name === this.selectedTab);
+      return (selectedTab && selectedTab.info) || {};
     },
   },
   mounted() {
