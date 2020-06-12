@@ -8,7 +8,9 @@
     <div v-for="(item, index) in selectedComponent.value[selectedComponent.property]" :key="index">
       <div class="whppt-contents__item-container">
         <span>
-          {{ typeof item !== 'object' ? item : item.name || item.title || `Item #${index + 1}` }}
+          {{
+            typeof item !== 'object' ? item || `Item #${index + 1}` : item.name || item.title || `Item #${index + 1}`
+          }}
         </span>
         <div class="whppt-contents__actions">
           <button :disabled="index === 0" @click="moveUp(item, index)">
