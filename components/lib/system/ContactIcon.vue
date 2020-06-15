@@ -1,11 +1,12 @@
 <template>
-  <div class="whppt-full ">
+  <div class="whppt-full">
     <h2 class="text-xl">Contact icon</h2>
     <whppt-select
       v-model="selectedComponent.value.contactIcon"
       :value="selectedComponent.value.contactIcon"
       label="Select an Icon"
       :items="items"
+      key-prop="label"
     ></whppt-select>
   </div>
 </template>
