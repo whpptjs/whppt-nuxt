@@ -37,12 +37,8 @@
       </div>
       <div v-if="settings.og.image.imageId">
         <div class="whppt-label">Image</div>
-        <cropping
-          class="whppt-text-center"
-          :image-options="settings.og.image"
-          :sizes="sizes"
-          @imageRemoved="removeImage"
-        />
+        <cropping :image-options="settings.og.image" :sizes="sizes" @imageRemoved="removeImage" />
+        <button @click="removeImage">Select Another Image</button>
       </div>
     </fieldset>
   </form>
@@ -50,8 +46,8 @@
 
 <script>
 import WhpptTextInput from '../../../whpptComponents/WhpptTextInput';
-import Gallery from '../../EditImage/Gallery';
-import Cropping from '../../EditImage/Cropping';
+import Gallery from '../../EditImage2/Gallery';
+import Cropping from '../../EditImage2/Cropping';
 import WhpptTextArea from '../../../whpptComponents/WhpptTextArea';
 
 export default {
@@ -60,7 +56,7 @@ export default {
   props: { settings: { type: Object, default: () => ({}) } },
   data() {
     return {
-      sizes: { desktop: { width: 400, height: 209, quality: 1 } },
+      sizes: { desktop: { width: 400, height: 209, quality: 1, aspectRatio: 400 / 209 } },
     };
   },
   methods: {
