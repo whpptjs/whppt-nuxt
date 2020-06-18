@@ -142,8 +142,7 @@ export default {
       const vm = this;
       this.newRedirect.to = this.formatSlug(this.newRedirect.to);
       this.newRedirect.from = this.formatSlug(this.newRedirect.from);
-      if (!this.newRedirect.to || !this.newRedirect.from)
-        return this.$toast.global.editorError('Cannot save an empty redirect');
+      if (!this.newRedirect.from) return this.$toast.global.editorError('Cannot save with an empty "from"');
 
       if (this.newRedirect.to === this.newRedirect.from)
         return this.$toast.global.editorError('To and From must be different');
@@ -176,7 +175,7 @@ export default {
       const vm = this;
       redirect.to = this.formatSlug(redirect.to);
       redirect.from = this.formatSlug(redirect.from);
-      if (!redirect.to || !redirect.from) return this.$toast.global.editorError('Cannot save an empty redirect');
+      if (!redirect.from) return this.$toast.global.editorError('Cannot save with an empty "from"');
       if (redirect.to === redirect.from) return this.$toast.global.editorError('To and From must be different');
       if (!redirect.to.startsWith('/')) redirect.to = `/${redirect.to}`;
       if (!redirect.from.startsWith('/')) redirect.from = `/${redirect.from}`;
@@ -192,7 +191,7 @@ export default {
       const vm = this;
       redirect.to = this.formatSlug(redirect.to);
       redirect.from = this.formatSlug(redirect.from);
-      if (!redirect.to || !redirect.from) return this.$toast.global.editorError('Cannot publish an empty redirect');
+      if (!redirect.from) return this.$toast.global.editorError('Cannot publish with an empty "from"');
       if (redirect.to === redirect.from) return this.$toast.global.editorError('To and From must be different');
       if (!redirect.to.startsWith('/')) redirect.to = `/${redirect.to}`;
       if (!redirect.from.startsWith('/')) redirect.from = `/${redirect.from}`;
