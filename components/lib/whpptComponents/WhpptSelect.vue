@@ -44,6 +44,7 @@ export default {
       this.$emit('input', this.items[event.target.value]);
     },
     getValue(item, path) {
+      if (typeof item === 'string') return item;
       if (!path) return item.title || item.label;
       return get(item, path);
     },
