@@ -1,6 +1,8 @@
 <template>
-  <div :id="content.id" v-whppt-anchor="content" data-property="id">
-    <p v-if="activeMenuItem"><span class="whppt-hash">#</span> {{ content.id }}</p>
+  <div :class="{ container }">
+    <div :id="content.id" v-whppt-anchor="content" data-property="id">
+      <p v-if="activeMenuItem"><span class="whppt-hash">#</span> {{ content.id }}</p>
+    </div>
   </div>
 </template>
 
@@ -13,6 +15,10 @@ export default {
     content: {
       type: Object,
       required: true,
+    },
+    container: {
+      type: Boolean,
+      default: true,
     },
   },
   computed: {
