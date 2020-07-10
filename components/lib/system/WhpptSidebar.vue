@@ -16,36 +16,8 @@
               label="Put in a Container"
               @click="selectedComponent.value.inContainer = !selectedComponent.value.inContainer"
             ></whppt-check-box>
-            <whppt-text-input
-              v-model="selectedComponent.value.marginTopLarge"
-              type="number"
-              max="8"
-              min="0"
-              :placeholder="$whppt.defaultMarginTop"
-              label="Margin Top - Large Screens (Desktop)"
-              class="marin-top-input"
-              @input="clampInput($event, 'marginTopLarge')"
-            />
-            <whppt-text-input
-              v-model="selectedComponent.value.marginTopMedium"
-              type="number"
-              max="8"
-              min="0"
-              :placeholder="$whppt.defaultMarginTop"
-              label="Margin Top - Medium Screens (Tablet)"
-              class="marin-top-input"
-              @input="clampInput($event, 'marginTopMedium')"
-            />
-            <whppt-text-input
-              v-model="selectedComponent.value.marginTopSmall"
-              type="number"
-              max="8"
-              min="0"
-              :placeholder="$whppt.defaultMarginTop"
-              label="Margin Top - Small Screens (Mobile)"
-              class="marin-top-input"
-              @input="clampInput($event, 'marginTopSmall')"
-            />
+            <div class="mt-8">Spacing</div>
+            <spacing-controls :selected-component="selectedComponent" :clamp-input="clampInput"></spacing-controls>
           </div>
         </whppt-tab>
         <whppt-tab v-if="selectedContent" title="Contents Tree">
@@ -65,6 +37,7 @@ import { mapActions, mapState } from 'vuex';
 import * as Editors from '../system';
 import WhpptTabs from '../whpptComponents/WhpptTabs';
 import ContentsTree from '../whpptComponents/ContentsTree';
+import SpacingControls from '../whpptComponents/SpacingControls';
 import WhpptTab from '../whpptComponents/WhpptTab';
 import WhpptButton from '../whpptComponents/WhpptButton';
 import WhpptCheckBox from '../whpptComponents/CheckBox';
@@ -93,6 +66,7 @@ export default {
     WhpptTabs,
     WhpptCheckBox,
     ContentsTree,
+    SpacingControls,
     WhpptTextInput,
     WhpptTab,
     WhpptButton,

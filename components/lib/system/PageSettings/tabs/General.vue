@@ -1,9 +1,41 @@
 <template>
   <div>
     <div
-      v-if="showSlugModal || showWarning"
+      v-if="showDupModal || showSlugModal || showWarning"
       style="background: rgba(0, 0, 0, .5); position: absolute; top: 0; left: 0; right: 0; bottom: 0"
     ></div>
+    <div v-if="showDupModal" class="whppt-settings__warning-modal">
+      <div class="whppt-settings__warning-content">
+        <form style="position: relative; " @submit.prevent>
+          <div class="whppt-settings__warning-heading" style="text-align: center;">Duplicate Page</div>
+          <div class="whppt-settings__warning-body">
+            <div>
+              <whppt-text-input
+                v-model="slugCopy"
+                placeholder="Enter a new slug for the duplicate"
+                label="Slug"
+                label-colour="black"
+                :info="
+                  `The page slug makes up part of the page's url that is shown in the browsers address bar and is used by search engines to match your page with search terms. \nYour input will be formatted according to the page type setting and to avoid certain characters.`
+                "
+              />
+              <div style="display: flex; align-items: center; justify-content: flex-start">
+                <div style="font-weight: bold; padding-right: 0.5rem;">Output:</div>
+                <div>
+                  {{ formattedSlug }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="whppt-settings__warning-actions">
+            <button class="whppt-settings__button" style="margin-left: 0" @click="saveDup">
+              Save
+            </button>
+            <button class="whppt-settings__button" @click="showDupModal = false">Close</button>
+          </div>
+        </form>
+      </div>
+    </div>
     <div v-if="showSlugModal" class="whppt-settings__warning-modal">
       <div class="whppt-settings__warning-content">
         <form style="position: relative; " @submit.prevent>
@@ -69,7 +101,12 @@
             </div>
           </div>
           <div class="whppt-settings__warning-actions">
-            <button class="whppt-settings__button" style="margin-left: 0" @click="deletePageFromDraft()">
+            <button
+              class="whppt-settings__button"
+              :disabled="isHomePage"
+              style="margin-left: 0"
+              @click="deletePageFromDraft()"
+            >
               Delete
             </button>
             <button class="whppt-settings__button" @click="showWarning = false">Cancel</button>
@@ -110,6 +147,10 @@
             Change Page Type
           </button>
         </fieldset>
+        <div class="whppt-divider" />
+        <button class="whppt-settings__button" @click="openDupModal">
+          Duplicate Page
+        </button>
       </div>
     </form>
   </div>
@@ -135,53 +176,63 @@ export default {
   data: () => ({
     showWarning: false,
     showSlugModal: false,
+    showDupModal: false,
     slugCopy: '',
     pageTypeObj: undefined,
     rawSlug: '',
   }),
-  mounted() {
-    this.pageTypeObj = find(this.pageTypes, t => get(t, 'name') === this.page.pageType) || {};
-    if (!this.pageTypeObj.stripSlug) return (this.rawSlug = this.page.slug);
-    this.rawSlug = this.pageTypeObj.stripSlug({ slug: this.page.slug });
-  },
   computed: {
     formattedSlug() {
       if (!this.pageTypeObj || !this.pageTypeObj.formatSlug) return this.formatSlug(this.slugCopy);
-      else return this.formatSlug(this.pageTypeObj.formatSlug({ slug: this.slugCopy }));
+      else return this.formatSlug(this.pageTypeObj.formatSlug({ slug: this.slugCopy, page: this.page }));
     },
     slugSuffix() {
       if (!this.prefix) return '';
       return this.slugCopy.replace(`${this.prefix}/`, '');
     },
     pageTypes() {
-      return compact(map(this.$whppt.plugins, t => t.pageTypes));
+      return compact(map(this.$whppt.plugins, t => t.pageType));
+    },
+    isHomePage() {
+      return this.$router.currentRoute.path === '/';
     },
   },
+  mounted() {
+    this.pageTypeObj = find(this.pageTypes, t => get(t, 'name') === this.page.pageType) || {};
+    if (!this.pageTypeObj.stripSlug) return (this.rawSlug = this.page.slug);
+    this.rawSlug = this.pageTypeObj.stripSlug({ slug: this.page.slug, page: this.page });
+  },
   methods: {
-    ...mapActions('whppt-nuxt/page', ['savePage', 'deletePage']),
+    ...mapActions('whppt-nuxt/page', ['savePage', 'deletePage', 'checkSlug']),
     selectPageType(selectedPageType) {
-      if (!selectedPageType) this.page.pageType = '';
-      else this.page.pageType = selectedPageType.name;
+      // if (!selectedPageType) this.page.pageType = '';
+      // else this.page.pageType = selectedPageType.name;
     },
     changePageType() {
       let newSlug = '';
       if (this.pageTypeObj && this.pageTypeObj.formatSlug)
-        newSlug = this.pageTypeObj.formatSlug({ slug: this.rawSlug });
+        newSlug = this.pageTypeObj.formatSlug({ slug: this.rawSlug, page: this.page });
       else newSlug = this.rawSlug;
       if (!this.rawSlug || !newSlug) {
         this.$toast.global.editorError('Cannot use an empty slug');
         return;
       }
-      return this.$whppt.checkSlug({ slug: newSlug, _id: this.page._id }).then(result => {
+      return this.checkSlug({ slug: newSlug, _id: this.page._id, pageType: this.page.pageType }).then(result => {
         if (result) {
           this.showSlugModal = true;
           this.$toast.global.editorError('Slug already in use');
         } else {
           this.page.slug = newSlug;
-          return this.savePage().then(() => {
-            this.$router.push(`/${newSlug}`);
-            this.$emit('closeModal');
+          return this.savePage({ page: { ...this.page, pageType: this.pageTypeObj.name } }).then(() => {
+            return this.deletePage().then(() => {
+              this.$router.push(`/${newSlug}`);
+              this.$emit('closeModal');
+            });
           });
+          // return this.savePage().then(() => {
+          //   this.$router.push(`/${newSlug}`);
+          //   this.$emit('closeModal');
+          // });
         }
       });
     },
@@ -189,6 +240,11 @@ export default {
       this.showSlugModal = true;
       // this.slugCopy = this.page.slug;
       this.slugCopy = this.rawSlug;
+    },
+    openDupModal() {
+      this.showDupModal = true;
+      // this.slugCopy = this.page.slug;
+      this.slugCopy = '';
     },
     formatSlug(slug) {
       if (slug.startsWith('/')) slug = slug.replace(/^(\/*)/, '');
@@ -210,13 +266,33 @@ export default {
         this.$toast.global.editorError('Cannot use an empty slug');
         return;
       }
-      return vm.$whppt.checkSlug({ slug: newSlug, _id: this.page._id }).then(result => {
+      return vm.checkSlug({ slug: newSlug, _id: this.page._id, pageType: this.page.pageType }).then(result => {
         if (result) {
           this.$toast.global.editorError('Slug already in use');
         } else {
           vm.page.slug = newSlug;
           return vm.savePage().then(() => {
             vm.$router.push(`/${newSlug}`);
+            vm.$emit('closeModal');
+          });
+        }
+      });
+    },
+    saveDup() {
+      const vm = this;
+      const newSlug = this.formattedSlug;
+      if (!newSlug) {
+        this.$toast.global.editorError('Cannot use an empty slug');
+        return;
+      }
+      return vm.checkSlug({ slug: newSlug, pageType: vm.page.pageType }).then(result => {
+        if (result) {
+          this.$toast.global.editorError('Slug already in use');
+        } else {
+          vm.page.slug = newSlug;
+          return vm.savePage({ page: { ...this.page, _id: undefined } }).then(() => {
+            vm.$router.push(`/${newSlug}`);
+            this.showDupModal = false;
             vm.$emit('closeModal');
           });
         }

@@ -3,9 +3,12 @@ export default options => ({
   state: () => {
     return {
       options,
+      baseFileUrl: process.env.BASE_FILE_URL,
       baseAPIUrl: process.env.BASE_API_URL,
       baseImageUrl: process.env.BASE_IMAGE_URL,
       baseCdnImageUrl: process.env.BASE_CDN_IMAGE_URL,
+      baseImageUrl2: process.env.BASE_IMAGE_URL2,
+      baseCdnImageUrl2: process.env.BASE_CDN_IMAGE_URL2,
       draft: process.env.DRAFT === 'true' || process.env.DRAFT === true,
       environment: process.env.NODE_ENV,
       activeMenuItem: undefined,
@@ -14,6 +17,7 @@ export default options => ({
       editSidebarType: undefined,
       editInModalType: undefined,
       richTextWatcher: 0,
+      formattedTextWatcher: 0,
       selectedComponent: undefined,
       selectedContent: undefined,
       selectedContentWhitelist: undefined,
@@ -87,6 +91,7 @@ export default options => ({
       state.editSidebar = true;
       state.editSidebarType = type;
       state.richTextWatcher = state.richTextWatcher + 1;
+      state.formattedTextWatcher = state.formattedTextWatcher + 1;
     },
     editInModal(state, type) {
       state.editInModal = true;

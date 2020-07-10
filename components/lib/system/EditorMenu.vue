@@ -1,32 +1,48 @@
 <template>
   <!-- https://vuejsexamples.com/a-vue-component-that-create-moveable-and-resizable/ -->
-  <div class="whppt-menu">
-    <div
-      v-for="(item, index) in menuItems"
-      :key="index"
-      class="whppt-menu__item"
-      :class="{ 'whppt-menu__item--active': item.isActive && item.isActive() }"
-    >
-      <button v-if="item.action && !item.disabled" @click="item.action()" :aria-label="item.label">
-        <component :is="item.icon" />
-      </button>
-      <button v-else aria-label="">
-        <component :is="item.icon" style="color: grey" />
-      </button>
+  <div>
+    <login-form ref="loginForm"></login-form>
+    <div class="whppt-menu">
+      <div v-if="!userCanEdit">
+        <div class="whppt-menu__item">
+          <button @click="showLogin()" aria-label="login">
+            <component :is="`w-login`" />
+          </button>
+        </div>
+      </div>
+      <div v-if="userCanEdit">
+        <div
+          v-for="(item, index) in menuItems"
+          :key="index"
+          class="whppt-menu__item"
+          :class="{ 'whppt-menu__item--active': item.isActive && item.isActive() }"
+        >
+          <button v-if="item.action && !item.disabled" @click="item.action()" :aria-label="item.label">
+            <component :is="item.icon" />
+          </button>
+          <button v-else aria-label="">
+            <component :is="item.icon" style="color: grey" />
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { mapMutations, mapState, mapActions } from 'vuex';
+import LoginForm from './LoginForm';
+
 export default {
   name: 'EditorMenu',
+  components: { LoginForm },
   data: () => ({
     currentAction: undefined,
   }),
   computed: {
     ...mapState('whppt-nuxt/editor', ['activeMenuItem', 'selectedContent', 'selectedComponent', 'environment']),
     ...mapState('whppt-nuxt/page', ['page']),
+    ...mapState('whppt-nuxt/security', ['authUser']),
     menuItems() {
       return [
         {
@@ -108,10 +124,18 @@ export default {
         // },
         { key: 'nav', label: 'Nav', icon: 'w-nav', group: 'nav', action: () => this.saveNav() },
         { key: 'footer', label: 'Footer', icon: 'w-footer', group: 'footer', action: () => this.saveFooter() },
+        { key: 'logout', label: 'Log out', icon: 'w-logout', group: 'security', action: () => this.logout() },
       ];
     },
+    userCanEdit() {
+      return this.authUser && this.authUser.roles.editor;
+    },
+  },
+  mounted() {
+    this.verifyUser();
   },
   methods: {
+    ...mapActions('whppt-nuxt/security', ['verifyUser', 'logout']),
     ...mapActions('whppt-nuxt/site', ['saveFooter', 'saveNav', 'publishFooter', 'publishNav']),
     ...mapActions('whppt-nuxt/page', ['savePage', 'publishPage']),
     ...mapActions('whppt-nuxt/editor', [
@@ -144,6 +168,9 @@ export default {
     },
     editATDW() {
       return this.editInModal('atdw');
+    },
+    showLogin() {
+      this.$refs.loginForm.show();
     },
   },
 };

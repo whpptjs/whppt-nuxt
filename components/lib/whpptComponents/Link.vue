@@ -126,19 +126,19 @@ export default {
     };
   },
   computed: {
-    ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
+    ...mapState('whppt-nuxt/editor', ['baseAPIUrl', 'baseFileUrl']),
   },
   methods: {
     selectFile(item) {
-      this.data.href = `${this.baseAPIUrl}/file/getFile/${item._id}`;
+      this.data.href = `${this.baseFileUrl ? this.baseFileUrl : ''}/file/getFile/${item._id}`;
       this.data.fileId = item._id;
     },
     isTypeOf(value) {
       return typeof value !== 'undefined';
     },
     queryFilesList() {
-      return this.$axios
-        .get(`${this.baseAPIUrl}/api/file/searchFiles`, {
+      return this.$api
+        .get(`/file/searchFiles`, {
           params: { search: this.search },
         })
         .then(({ data: { files } }) => {

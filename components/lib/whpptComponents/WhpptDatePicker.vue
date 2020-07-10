@@ -30,11 +30,15 @@
 
 <script>
 import WhpptTextInput from './WhpptTextInput';
-
+let VDatePicker;
+if (process.client) {
+  VDatePicker = require('v-calendar/lib/components/date-picker.umd');
+}
 export default {
   name: 'WhpptDatePicker',
   components: {
     WhpptTextInput,
+    VDatePicker,
   },
   props: {
     label: String,

@@ -2,7 +2,12 @@
   <div>
     <label class="whppt-tags__label">{{ label }}</label>
     <div v-if="!displayOnly" class="whppt-flex-start">
-      <input v-model="newTag" placeholder="Add New Tag" style="width: 50%" @keydown.enter.prevent="addTag" />
+      <input
+        v-model="newTag"
+        placeholder="Add New Tag"
+        style="width: 50%; text-transform: uppercase;"
+        @keydown.enter.prevent="addTag"
+      />
       <div style="padding-left: 1rem;">
         <button class="whppt-settings__button" style="display: flex;" type="button" @click="addTag">
           Add Tag

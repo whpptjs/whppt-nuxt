@@ -457,7 +457,7 @@ export default {
   mounted() {
     if (!this.selectedComponent || !this.selectedComponent.value) return;
 
-    this.$axios.get(`${this.baseAPIUrl}/api/listing/findById?id=${this.selectedComponent.value}`).then(({ data }) => {
+    this.$axios.get(`/api/listing/findById?id=${this.selectedComponent.value}`).then(({ data }) => {
       this.listing = data.listing;
       this.oldSlug = data.listing && data.listing.slug;
     });
@@ -481,7 +481,7 @@ export default {
       this.propToReconnect = property;
     },
     saveListing() {
-      return this.$axios.post(`${this.baseAPIUrl}/api/listing/save`, { listing: this.listing }).then(() => {
+      return this.$axios.post(`/api/listing/save`, { listing: this.listing }).then(() => {
         this.$toast.global.editorSuccess('Listing Saved');
         this.selectedComponent.refresh();
       });

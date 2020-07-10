@@ -130,6 +130,7 @@ export default {
   align-items: center;
   font-weight: bold;
   background: white;
+  z-index: 2;
   position: sticky;
   top: 0;
   left: 0;

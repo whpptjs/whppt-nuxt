@@ -4,11 +4,13 @@
       v-model="selectedComponent.value.backgroundColour"
       label="Background Colour"
       :items="availableBackgroundColours"
+      key-prop="value"
     ></whppt-select>
     <whppt-select
       v-model="selectedComponent.value.fontColour"
       label="Font Colour"
       :items="availableTextColours"
+      key-prop="value"
     ></whppt-select>
   </div>
 </template>

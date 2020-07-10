@@ -12,13 +12,15 @@
         <div>
           <div style="font-weight: bold">Last Change:</div>
           <div>{{ page.updatedAt ? formatDate(page.updatedAt) : 'Never updated' }}</div>
-          <div style="font-weight: bold">Last Published:</div>
-          <div>{{ page.published ? formatDate(page.lastPublished) : 'Not published' }}</div>
+          <div v-if="publishing">
+            <div style="font-weight: bold">Last Published:</div>
+            <div>{{ page.published ? formatDate(page.lastPublished) : 'Not published' }}</div>
+          </div>
           <div v-if="errorMessage" style="color: red; font-style: italic;">{{ errorMessage }}</div>
-          <button type="button" class="whppt-settings__delete-button" @click="publish">
+          <button v-if="publishing" type="button" class="whppt-settings__delete-button" @click="publish">
             Publish Changes
           </button>
-          <button type="button" class="whppt-settings__delete-button" @click="unpublish">
+          <button v-if="publishing" type="button" class="whppt-settings__delete-button" @click="unpublish">
             Unpublish Page
           </button>
           <button type="button" class="whppt-settings__delete-button" @click="showWarning = true">
@@ -71,7 +73,6 @@ export default {
     };
   },
   computed: {
-    ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
     ...mapState('whppt-nuxt/page', ['page']),
     formattedSlug() {
       return this.formatSlug(this.page.slug);
@@ -83,11 +84,13 @@ export default {
       if (!this.prefix) return '';
       return this.page.slug.replace(`${this.prefix}/`, '');
     },
+    publishing() {
+      return !this.$whppt.disablePublishing;
+    },
   },
   methods: {
     ...mapActions('whppt-nuxt/page', ['savePage', 'unpublishPage', 'deletePage', 'publishPage']),
     formatDate(date) {
-      console.log('formatDate -> date', date);
       return new Date(date);
     },
     confirmSlug(value) {
@@ -107,8 +110,10 @@ export default {
       });
     },
     publish() {
-      return this.publishPage().then(() => {
-        this.$emit('closeModal');
+      return this.savePage().then(() => {
+        return this.publishPage().then(() => {
+          this.$emit('closeModal');
+        });
       });
     },
     unpublish() {
@@ -128,7 +133,6 @@ export default {
       return vm.$whppt.checkSlug({ slug: newSlug, _id: this.page._id }).then(result => {
         if (result) {
           this.$toast.global.editorError('Slug already in use');
-          return;
         } else {
           vm.page.slug = newSlug;
           return vm.savePage().then(() => {
@@ -171,6 +175,7 @@ export default {
 }
 
 .whppt-settings__warning-modal {
+  z-index: 2;
   position: absolute;
   top: 0;
   bottom: 0;

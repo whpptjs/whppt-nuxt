@@ -195,10 +195,12 @@ export default {
           return filter.value.split(',');
         }),
       };
-      return this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveCategory`, { category: newCat }).then(() => {
-        this.queryCategories();
-        this.$toast.global.editorSuccess('Category Saved');
-      });
+      return this.$axios
+        .post(`/siteSettings/saveCategory`, { category: newCat })
+        .then(() => {
+          this.queryCategories();
+          this.$toast.global.editorSuccess('Category Saved');
+        });
     },
     publishCat(category) {
       const newCat = {
@@ -209,28 +211,34 @@ export default {
         }),
       };
       const vm = this;
-      return vm.$axios.post(`${vm.baseAPIUrl}/api/siteSettings/publishCategory`, { category: newCat }).then(() => {
-        category.published = true;
-        vm.$toast.global.editorSuccess('Category Published');
-      });
+      return vm.$axios
+        .post(`${vm.baseAPIUrl}/siteSettings/publishCategory`, { category: newCat })
+        .then(() => {
+          category.published = true;
+          vm.$toast.global.editorSuccess('Category Published');
+        });
     },
     unpublishCat(category) {
       if (!category.published) return this.$toast.global.editorError("Category isn't published");
       const vm = this;
-      return vm.$axios.post(`${vm.baseAPIUrl}/api/siteSettings/unpublishCategory`, { _id: category._id }).then(() => {
-        category.published = false;
-        vm.$toast.global.editorSuccess('Category Unpublished');
-      });
+      return vm.$axios
+        .post(`${vm.baseAPIUrl}/siteSettings/unpublishCategory`, { _id: category._id })
+        .then(() => {
+          category.published = false;
+          vm.$toast.global.editorSuccess('Category Unpublished');
+        });
     },
     deleteCat(_id) {
-      return this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/deleteCategory`, { _id }).then(() => {
-        this.queryCategories();
-      });
+      return this.$axios
+        .post(`/siteSettings/deleteCategory`, { _id })
+        .then(() => {
+          this.queryCategories();
+        });
     },
     queryCategories() {
       return Promise.all([
-        this.$axios.get(`${this.baseAPIUrl}/api/siteSettings/loadCategories`),
-        this.$axios.get(`${this.baseAPIUrl}/api/listing/fetchCategories`),
+        this.$axios.get(`/siteSettings/loadCategories`),
+        this.$axios.get(`/listing/fetchCategories`),
       ]).then(([{ data }, { data: categories }]) => {
         this.allCategories = categories;
         this.loadedCategories = data;
@@ -263,15 +271,17 @@ export default {
           return filter.value.split(',');
         }),
       };
-      return this.$axios.post(`${this.baseAPIUrl}/api/siteSettings/saveCategory`, { category: newCat }).then(() => {
-        this.queryCategories();
-        this.$toast.global.editorSuccess('Category Added');
-      });
+      return this.$axios
+        .post(`/siteSettings/saveCategory`, { category: newCat })
+        .then(() => {
+          this.queryCategories();
+          this.$toast.global.editorSuccess('Category Added');
+        });
     },
     removeCategory() {
       const vm = this;
       return vm.$axios
-        .post(`${vm.baseAPIUrl}/api/siteSettings/deleteCategory`, { _id: vm.selectedCat._id })
+        .post(`${vm.baseAPIUrl}/siteSettings/deleteCategory`, { _id: vm.selectedCat._id })
         .then(() => {
           vm.categories = remove(vm.categories, c => c._id !== vm.selectedCat._id);
           vm.showWarning = false;
@@ -302,7 +312,9 @@ export default {
         this.selectedIndex = undefined;
       } else {
         return this.$axios
-          .post(`${this.baseAPIUrl}/api/siteSettings/getWarningInfo`, { _id: this.selectedCat._id })
+          .post(`/siteSettings/getWarningInfo`, {
+            _id: this.selectedCat._id,
+          })
           .then(({ data }) => {
             this.usedListings = data;
             this.showWarning = true;

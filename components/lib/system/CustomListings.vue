@@ -194,7 +194,7 @@ export default {
   },
   methods: {
     queryCustomListings() {
-      return this.$axios.get(`${this.baseAPIUrl}/api/listing/fetchCustomListings`).then(({ data }) => {
+      return this.$axios.get(`/api/listing/fetchCustomListings`).then(({ data }) => {
         console.log('queryCustomListings -> listings', data);
         this.listings = data;
         console.log('queryCustomListings -> this.listings', this.listings);
@@ -263,7 +263,7 @@ export default {
         if (result) {
           this.$toast.global.editorError('Slug already in use');
         } else {
-          return this.$axios.post(`${this.baseAPIUrl}/api/listing/save`, { listing: newListing }).then(({ data }) => {
+          return this.$axios.post(`/api/listing/save`, { listing: newListing }).then(({ data }) => {
             return vm.$whppt.savePage({ ...newPage, listingId: data._id, _id: data._id }).then(() => {
               this.listings.push(data);
               this.placeholder = { name: { value: '' } };
@@ -277,13 +277,13 @@ export default {
       this.selectedListing.customCategories.value = map(this.catsString.split(','), cat => {
         return toUpper(cat.trim());
       });
-      return this.$axios.post(`${this.baseAPIUrl}/api/listing/save`, { listing: this.selectedListing }).then(() => {
+      return this.$axios.post(`/api/listing/save`, { listing: this.selectedListing }).then(() => {
         this.$toast.global.editorSuccess('Listing Saved');
       });
     },
     deleteListing() {
       return this.$axios
-        .post(`${this.baseAPIUrl}/api/listing/deleteListing`, { _id: this.selectedListing._id })
+        .post(`/api/listing/deleteListing`, { _id: this.selectedListing._id })
         .then(() => {
           this.listings = remove(this.listings, l => l._id !== this.selectedListing._id);
           this.selectedListing = undefined;
@@ -291,7 +291,7 @@ export default {
         });
     },
     publish() {
-      return this.$axios.post(`${this.baseAPIUrl}/api/listing/publish`, { listing: this.selectedListing }).then(() => {
+      return this.$axios.post(`/api/listing/publish`, { listing: this.selectedListing }).then(() => {
         this.selectedListing.published = true;
         this.$toast.global.editorSuccess('Listing Published');
       });

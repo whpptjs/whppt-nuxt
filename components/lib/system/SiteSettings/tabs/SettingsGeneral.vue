@@ -25,7 +25,7 @@
           />
         </div>
       </div>
-      <div>
+      <div v-if="publishing">
         <button class="whppt-settings__button" @click="pubNav">
           Publish Nav
         </button>
@@ -52,9 +52,14 @@ export default {
   }),
   computed: {
     ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
+    publishing() {
+      return !this.$whppt.disablePublishing;
+    },
   },
   mounted() {
-    this.$axios.get(`${this.baseAPIUrl}/api/siteSettings/getVerifiedDomains`).then(({ data }) => (this.domains = data));
+    this.$axios
+      .get(`/siteSettings/getVerifiedDomains`)
+      .then(({ data }) => (this.domains = data));
   },
   methods: {
     ...mapActions('whppt-nuxt/site', ['saveSiteSettings', 'publishSiteSettings', 'publishNav', 'publishFooter']),

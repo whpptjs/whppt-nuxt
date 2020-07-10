@@ -1,3 +1,5 @@
+import { find } from 'lodash';
+
 function commitTimeout(f) {
   if (process.client) {
     setTimeout(() => {
@@ -15,51 +17,63 @@ export default options => ({
     page: undefined,
   }),
   actions: {
-    createPage({ commit }, _page) {
-      return this.$whppt.createPage(_page).then(page => {
-        commit('pageLoaded', page);
-      });
-    },
-    savePage({ state, commit }) {
-      let p = Promise.resolve();
-      if (this.$whppt.savePageCallback) p = p.then(() => this.$whppt.savePageCallback());
-      return p.then(() =>
-        this.$whppt.savePage(state.page).then(page => {
-          this.$toast.global.editorSuccess('Page Saved');
-        })
+    publishPage({ state }, { page } = {}) {
+      const _page = page || state.page;
+      _page.pageType = _page.pageType || 'page';
+      const pageTypePlugin = find(
+        this.$whppt.plugins,
+        plugin => plugin.pageType && plugin.pageType.name === _page.pageType
       );
-    },
-    deletePage({ state, commit }) {
-      return this.$whppt.deletePage(state.page._id).then(() => {
-        commit('pageDeleted');
-      });
-    },
-    // publishListing({ state }, listing) {
-    //   return this.$whppt.publishListing(listing).then(() => {
-    //     this.$toast.global.editorSuccess('Listing & Listing Page Published');
-    //   });
-    // },
-    publishPage({ state }) {
-      return this.$whppt.publishPage(state.page).then(() => {
-        state.page.published = true;
+      return pageTypePlugin.pageType.publishPage(this.$whppt.context, { page: _page }).then(() => {
         this.$toast.global.editorSuccess('Page Published');
       });
     },
-    unpublishPage({ state }) {
-      return this.$whppt.unpublishPage(state.page._id).then(() => {
+    savePage({ state }, { page } = {}) {
+      const _page = page || state.page;
+      _page.pageType = _page.pageType || 'page';
+      const pageTypePlugin = find(
+        this.$whppt.plugins,
+        plugin => plugin.pageType && plugin.pageType.name === _page.pageType
+      );
+      return pageTypePlugin.pageType.savePage(this.$whppt.context, { page: _page }).then(() => {
+        this.$toast.global.editorSuccess('Page Saved');
+      });
+    },
+    deletePage({ state }, { page } = {}) {
+      const _page = page || state.page;
+      _page.pageType = _page.pageType || 'page';
+      const pageTypePlugin = find(
+        this.$whppt.plugins,
+        plugin => plugin.pageType && plugin.pageType.name === _page.pageType
+      );
+      return pageTypePlugin.pageType.deletePage(this.$whppt.context, { _id: _page._id }).then(() => {
+        this.$toast.global.editorSuccess('Page Deleted');
+      });
+    },
+    unpublishPage({ state }, { page } = {}) {
+      const _page = page || state.page;
+      _page.pageType = _page.pageType || 'page';
+      const pageTypePlugin = find(
+        this.$whppt.plugins,
+        plugin => plugin.pageType && plugin.pageType.name === _page.pageType
+      );
+      return pageTypePlugin.pageType.unpublishPage(this.$whppt.context, { _id: _page._id }).then(() => {
         state.page.published = false;
         this.$toast.global.editorSuccess('Page Unpublished');
       });
     },
-    loadPage({ commit }, { slug }) {
-      return this.$whppt
-        .loadPage({
-          slug,
-        })
-        .then(page => {
-          commitTimeout(() => commit('pageLoaded', page));
-          return page;
-        });
+    loadPage({ commit }, { slug, pageType = 'page' }) {
+      const pageTypePlugin = find(this.$whppt.plugins, plugin => plugin.pageType && plugin.pageType.name === pageType);
+      return pageTypePlugin.pageType.loadPage(this.$whppt.context, { slug }).then(page => {
+        commitTimeout(() => commit('pageLoaded', page));
+        return page;
+      });
+    },
+    checkSlug({ commit }, { slug, _id, pageType = 'page' }) {
+      const pageTypePlugin = find(this.$whppt.plugins, plugin => plugin.pageType && plugin.pageType.name === pageType);
+      return pageTypePlugin.pageType.checkSlug(this.$whppt.context, { slug, _id }).then(slugExists => {
+        return slugExists;
+      });
     },
   },
   mutations: {

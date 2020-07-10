@@ -1,10 +1,11 @@
 <template>
   <div class="whppt-select">
-    <label class="whppt-select__label">{{ label }} </label>
+    <label class="whppt-select__label" for="select">{{ label }} </label>
     <select
-      class="whppt-select__input"
-      :class="{ 'whppt-select__input_alt_bg': dark }"
+      id="select"
       :value="selectedIndex"
+      :class="{ 'whppt-select__input_alt_bg': dark }"
+      class="whppt-select__input"
       @change="select"
     >
       <option :value="-1">
@@ -25,7 +26,7 @@ export default {
     action: { type: String, default: () => 'Please select ...' },
     label: { type: String, default: () => '' },
     value: { type: [Object, String, Number], default: () => undefined },
-    keyProp: { type: String, default: () => '' },
+    keyProp: { type: String, required: true },
     valueProp: { type: String, default: () => '' },
     dark: { type: Boolean, default: () => false },
   },
@@ -33,7 +34,7 @@ export default {
     selectedIndex() {
       if (!this.value) return -1;
       return this.items.findIndex(item => {
-        if (typeof item === 'object') return item[this.keyProp || 'key'] === this.value[this.keyProp || 'key'];
+        if (typeof item === 'object') return item[this.keyProp] === this.value[this.keyProp];
         return item === this.value;
       });
     },
@@ -43,9 +44,8 @@ export default {
       this.$emit('input', this.items[event.target.value]);
     },
     getValue(item, path) {
-      if (typeof item !== 'object') return item;
+      if (typeof item === 'string') return item;
       if (!path) return item.title || item.label;
-
       return get(item, path);
     },
   },

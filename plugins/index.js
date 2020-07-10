@@ -1,4 +1,6 @@
+import axios from 'axios';
 import { filter, flatMap, forEach } from 'lodash';
+import GenericPage from '../components/lib/systemPlugins/GenericPagePlugin';
 import { Components } from './Components';
 
 import contentDirective from './directives/content';
@@ -15,6 +17,7 @@ import linkDirective from './directives/link';
 // import listingsDirective from './directives/listings';
 // import listingDirective from './directives/listing';
 import editImageDirective from './directives/editImage';
+import editImage2Directive from './directives/editImage2';
 import anchorDirective from './directives/anchor';
 import contactIconDirective from './directives/contactIcon';
 import dynamicDirective from './directives/dynamic';
@@ -35,7 +38,7 @@ import LoadFooter from './helpers/LoadFooter';
 import SaveNav from './helpers/SaveNav';
 import PublishNav from './helpers/PublishNav';
 import LoadNav from './helpers/LoadNav';
-import CreatePage from './helpers/CreatePage';
+// import CreatePage from './helpers/CreatePage';
 import LoadPage from './helpers/LoadPage';
 // import LoadListing from './helpers/LoadListing';
 import CheckSlug from './helpers/CheckSlug';
@@ -45,18 +48,51 @@ import Image from './helpers/Image';
 
 const options = JSON.parse(`<%= JSON.stringify(options) %>`);
 
-const whppt = (global.$whppt = {
-  types: options.types,
-  savePageCallback: undefined,
-  onSavePage(callback) {
-    this.savePageCallback = callback;
-  },
-  offSavePage() {
-    this.savePageCallback = undefined;
-  },
-});
-
 export default (context, inject) => {
+  const whppt = (global.$whppt = {
+    availablePlugins: { GenericPage },
+    context,
+    plugins: {},
+    types: options.types,
+    savePageCallback: undefined,
+    onSavePage(callback) {
+      this.savePageCallback = callback;
+    },
+    offSavePage() {
+      this.savePageCallback = undefined;
+    },
+    apiPrefix: options.apiPrefix,
+    disablePublishing: options.disablePublishing,
+    addPlugins(plugins) {
+      forEach(plugins, (p, k) => {
+        this.plugins[k] = p;
+
+        if (p.editors) {
+          forEach(p.editors, e => {
+            if (e.directive)
+              return e.directive({
+                ...context,
+                menuIsInState,
+                MENUSTATES,
+                definition: e,
+              });
+
+            dynamicDirective({
+              ...context,
+              menuIsInState,
+              MENUSTATES,
+              definition: e,
+            });
+          });
+        }
+      });
+    },
+  });
+  // global.richTextNavigate = function(to) {
+  //   console.log('global.richTextNavigate -> to', to);
+  //   context.app.router.push(to)
+  //   return false;
+  // };
   const setSize = function(size) {
     switch (Number(size)) {
       case 1:
@@ -87,7 +123,7 @@ export default (context, inject) => {
     loadSiteSettings: LoadSiteSettings(context),
     saveSiteSettings: SaveSiteSettings(context),
     publishSiteSettings: PublishSiteSettings(context),
-    createPage: CreatePage(context),
+    // createPage: CreatePage(context),
     savePage: SavePage(context),
     publishPage: PublishPage(context),
     unpublishPage: UnpublishPage(context),
@@ -103,10 +139,15 @@ export default (context, inject) => {
     publishNav: PublishNav(context),
     templates: options.templates,
     pageTypes: options.pageTypes,
-    marginTop: options.marginTop,
     components: Components(options),
-    defaultMarginTop: options.defaultMarginTop,
-    defaultMargins: options.defaultMargins || { base: 0, sm: 2, lg: 4 },
+    defaultPadding: {
+      top: (options.defaultPadding && options.defaultPadding.top) || { base: 0, sm: 0, lg: 0 },
+      bottom: (options.defaultPadding && options.defaultPadding.bottom) || { base: 0, sm: 0, lg: 0 },
+    },
+    defaultMargin: {
+      top: (options.defaultMargin && options.defaultMargin.top) || { base: 0, sm: 2, lg: 4 },
+      bottom: (options.defaultMargin && options.defaultMargin.bottom) || { base: 0, sm: 2, lg: 4 },
+    },
     spacing: options.spacing || setSize,
   });
 
@@ -122,11 +163,26 @@ export default (context, inject) => {
   };
 
   Select(whppt);
-  Image(whppt, store.state[`whppt-nuxt/editor`].baseImageUrl, store.state[`whppt-nuxt/editor`].baseCdnImageUrl);
+  Image(
+    whppt,
+    store.state[`whppt-nuxt/editor`].baseImageUrl,
+    store.state[`whppt-nuxt/editor`].baseCdnImageUrl,
+    store.state[`whppt-nuxt/editor`].baseImageUrl2,
+    store.state[`whppt-nuxt/editor`].baseCdnImageUrl2
+  );
   Hover(whppt);
 
   context.app.$whppt = whppt;
   inject('whppt', whppt);
+
+  const $api = axios.create({
+    baseURL: `${store.state['whppt-nuxt/editor'].baseAPIUrl}/${whppt.apiPrefix}`,
+    timeout: 6000,
+  });
+  $api.$get = url => $api.get(url).then(res => res.data);
+  $api.$post = (url, args) => $api.post(url, args).then(res => res.data);
+  context.$api = $api;
+  inject('api', $api);
 
   contentDirective({ ...context, menuIsInState, MENUSTATES });
   coloursDirective({ ...context, menuIsInState, MENUSTATES });
@@ -142,32 +198,10 @@ export default (context, inject) => {
   // listingsDirective({ ...context, menuIsInState, MENUSTATES });
   // listingDirective({ ...context, menuIsInState, MENUSTATES });
   editImageDirective({ ...context, menuIsInState, MENUSTATES });
+  editImage2Directive({ ...context, menuIsInState, MENUSTATES });
   anchorDirective({ ...context, menuIsInState, MENUSTATES });
   contactIconDirective({ ...context, menuIsInState, MENUSTATES });
   // _videoBlockDirective({ ...context, menuIsInState, MENUSTATES });
   youtubeDirective({ ...context, menuIsInState, MENUSTATES });
   dateDirective({ ...context, menuIsInState, MENUSTATES });
-
-  const types = global.$whppt.plugins;
-  const editors = flatMap(
-    filter(types, t => t.editors),
-    t => t.editors
-  );
-
-  forEach(editors, editor => {
-    if (editor.directive)
-      return editor.directive({
-        ...context,
-        menuIsInState,
-        MENUSTATES,
-        definition: editor,
-      });
-
-    dynamicDirective({
-      ...context,
-      menuIsInState,
-      MENUSTATES,
-      definition: editor,
-    });
-  });
 };

@@ -4,7 +4,9 @@
       <div class="whppt-settings__heading whppt-flex-between">
         <p class="whppt-settings__heading-text">Site Settings</p>
         <div class="whppt-flex-between whppt-align-center">
-          <button class="whppt-settings__button" style="margin-right: 1rem;" @click="publishSettings">Publish</button>
+          <button v-if="publishing" class="whppt-settings__button" style="margin-right: 1rem;" @click="publishSettings">
+            Publish
+          </button>
           <button class="whppt-settings__button" @click="saveSettings">Save</button>
         </div>
       </div>
@@ -34,6 +36,7 @@ import Twitter from './tabs/SettingsTwitter';
 import OpenGraph from './tabs/SettingsOG';
 import General from './tabs/SettingsGeneral';
 import Files from './tabs/SettingsFiles';
+import Emailer from './tabs/SettingsEmailer';
 // import Categories from './tabs/SettingsCategories';
 
 const additionalTabs = [];
@@ -58,6 +61,7 @@ export default {
     OpenGraph,
     Twitter,
     Files,
+    Emailer,
     // Categories,
   },
   data: () => ({
@@ -67,7 +71,6 @@ export default {
     selectedTab: 'general',
   }),
   computed: {
-    ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
     tabs() {
       return [
         { name: 'general', label: 'General' },
@@ -76,9 +79,13 @@ export default {
         { name: 'redirects', label: 'Redirects' },
         { name: 's-e-o', label: 'SEO' },
         { name: 'files', label: 'Files' },
+        { name: 'emailer', label: 'Email (SMTP)' },
         // { name: 'categories', label: 'Categories' },
         ...additionalTabs,
       ];
+    },
+    publishing() {
+      return !this.$whppt.disablePublishing;
     },
   },
   mounted() {
@@ -87,7 +94,7 @@ export default {
   methods: {
     ...mapActions('whppt-nuxt/site', ['saveSiteSettings', 'publishSiteSettings']),
     loadSiteSettings() {
-      return this.$axios.get(`${this.baseAPIUrl}/api/siteSettings/loadSiteSettings`).then(({ data: siteSettings }) => {
+      return this.$api.get(`/siteSettings/loadSiteSettings`).then(({ data: siteSettings }) => {
         siteSettings = siteSettings || { _id: 'siteSettings' };
         siteSettings.og = siteSettings.og || {};
         siteSettings.og.image =
