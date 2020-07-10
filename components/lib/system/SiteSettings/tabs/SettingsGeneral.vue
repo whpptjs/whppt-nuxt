@@ -57,10 +57,7 @@ export default {
     },
   },
   mounted() {
-    this.$axios.get(`/siteSettings/getVerifiedDomains`).then(res => {
-      console.log(res);
-      this.domains = res.data;
-    });
+    this.$api.get(`/siteSettings/getVerifiedDomains`).then(({ data }) => (this.domains = data));
   },
   methods: {
     ...mapActions('whppt-nuxt/site', ['saveSiteSettings', 'publishSiteSettings', 'publishNav', 'publishFooter']),
