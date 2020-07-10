@@ -9,7 +9,14 @@ export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
       const value = { value: binding.value };
       value.sizes = sizes;
 
-      el.whppthandler = SimpleComponentClickHandler({ store, menuIsInState, MENUSTATES, name: 'editImage2', el, value });
+      el.whppthandler = SimpleComponentClickHandler({
+        store,
+        menuIsInState,
+        MENUSTATES,
+        name: 'editImage2',
+        el,
+        value,
+      });
       el.addEventListener('click', el.whppthandler);
       el.addEventListener('mouseover', function(e) {
         if (!menuIsInState(MENUSTATES.SELECT)) return;
@@ -29,7 +36,14 @@ export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
       const sizes = _sizes ? JSON.parse(_sizes) : {};
       const value = { value: binding.value };
       value.sizes = sizes;
-      el.whppthandler = SimpleComponentClickHandler({ store, menuIsInState, MENUSTATES, name: 'editImage2', el, value });
+      el.whppthandler = SimpleComponentClickHandler({
+        store,
+        menuIsInState,
+        MENUSTATES,
+        name: 'editImage2',
+        el,
+        value,
+      });
       el.addEventListener('click', el.whppthandler);
     },
   });

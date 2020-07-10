@@ -179,8 +179,10 @@ export default (context, inject) => {
     baseURL: `${store.state['whppt-nuxt/editor'].baseAPIUrl}/${whppt.apiPrefix}`,
     timeout: 6000,
   });
+
   $api.$get = url => $api.get(url).then(res => res.data);
   $api.$post = (url, args) => $api.post(url, args).then(res => res.data);
+
   context.$api = $api;
   inject('api', $api);
 

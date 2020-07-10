@@ -19,30 +19,35 @@
         >
           Close
         </button>
-        <!-- <button @click="$refs.fileInput.click()">
-          <input ref="fileInput" type="file" style="display: none;" @input="upload" />
-          <span>+</span>
-        </button> -->
       </div>
       <div v-if="!itemToBeRemoved">
-        <table style="margin-top:10px; width: 100%;" v-if="!openEditor">
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Actions</th>
-          </tr>
-          <tr></tr>
-          <tr v-for="(file, index) in files" :key="index" style="padding: 5px">
-            <td>{{ file.name }}</td>
-            <td>{{ file.description }}</td>
-            <td>
-              <button @click="itemToBeRemoved = file">
-                <span>Remove</span>
-              </button>
-            </td>
-          </tr>
+        <table v-if="!openEditor">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(file, index) in files" :key="index">
+              <td>
+                <input type="text" class="whppt-table__input" placeholder="–" v-model="file.name" />
+              </td>
+              <td>
+                <input type="text" class="whppt-table__input" placeholder="–" v-model="file.description" />
+              </td>
+              <td>
+                <button @click="saveFileDetails(file)">
+                  <save />
+                </button>
+                <button @click="itemToBeRemoved = file">
+                  <remove />
+                </button>
+              </td>
+            </tr>
+          </tbody>
         </table>
-
         <div v-if="openEditor" style="margin-top: 30px;">
           <whppt-text-input v-model="file.description" placeholder="File description" class="whppt-full" />
           <button class="whppt-settings__button" @click="$refs.fileInput.click()">
@@ -56,7 +61,6 @@
           </div>
         </div>
       </div>
-
       <div v-if="itemToBeRemoved">
         Are you sure you want to delete this item?
         <button class="whppt-settings__button" style="display: flex" @click="remove">
@@ -70,6 +74,8 @@
 <script>
 import { mapState } from 'vuex';
 import WhpptTextInput from '../../../whpptComponents/WhpptTextInput';
+import Save from '../../../icons/Save';
+import Remove from '../../../icons/Remove';
 
 export default {
   name: 'test',
@@ -89,6 +95,8 @@ export default {
   },
   components: {
     WhpptTextInput,
+    Save,
+    Remove,
   },
   computed: {
     ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
@@ -123,6 +131,9 @@ export default {
           vm.loadFiles();
         });
     },
+    saveFileDetails(file) {
+      this.$api.post('/file/saveFileDetails', file).then(() => console.log('saved'));
+    },
     loadFiles(currentPage) {
       this.currentPage = currentPage || 1;
       return this.$api
@@ -136,3 +147,24 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.whppt-table__input {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+table {
+  width: 100%;
+}
+
+table tr th,
+table tr td {
+  padding: 0.5rem 0.2rem;
+}
+
+table tbody tr:nth-child(odd) {
+  background: #efefef;
+}
+</style>

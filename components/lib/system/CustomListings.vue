@@ -282,13 +282,11 @@ export default {
       });
     },
     deleteListing() {
-      return this.$axios
-        .post(`/api/listing/deleteListing`, { _id: this.selectedListing._id })
-        .then(() => {
-          this.listings = remove(this.listings, l => l._id !== this.selectedListing._id);
-          this.selectedListing = undefined;
-          this.$toast.global.editorSuccess('Listing Deleted');
-        });
+      return this.$axios.post(`/api/listing/deleteListing`, { _id: this.selectedListing._id }).then(() => {
+        this.listings = remove(this.listings, l => l._id !== this.selectedListing._id);
+        this.selectedListing = undefined;
+        this.$toast.global.editorSuccess('Listing Deleted');
+      });
     },
     publish() {
       return this.$axios.post(`/api/listing/publish`, { listing: this.selectedListing }).then(() => {
