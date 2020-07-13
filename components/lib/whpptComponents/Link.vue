@@ -52,14 +52,7 @@
       </div>
       <div v-if="data.type === 'anchor'">
         <div class="whppt-flex">
-          <whppt-text-input
-            v-model="data.href"
-            class="whppt-input-half"
-            placeholder="e.g. #museum"
-            label="Hyperlink"
-            info
-            text-
-          />
+          <whppt-text-input v-model="data.href" class="whppt-input-half" placeholder="e.g. #museum" label="Hyperlink" />
           <whppt-text-input
             id="linkText"
             v-model="data.text"
@@ -76,31 +69,30 @@
       <div v-if="data.type === 'file'">
         <div class="whppt-input-half">Selected File Url:</div>
         <div class="whppt-input-half" style="margin-bottom: 30px;">{{ data.href }}</div>
-        <whppt-text-input v-model="data.text" class="whppt-input-half" placeholder="Link Text" label="Link Text" info />
+        <whppt-text-input v-model="data.text" class="whppt-input-half" placeholder="Link Text" label="Link Text" />
         <whppt-text-input
           v-model="search"
           class="whppt-input-half"
           style="margin-top: 40px;"
           placeholder="file"
           label="Search File"
-          info
         />
-        <table style="margin: 10px 0; width: 100%">
-          <tr>
-            <th>File Name</th>
-          </tr>
+        <table class="whppt-files">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+            </tr>
+          </thead>
           <tr
             v-for="(file, index) in files"
             :key="index"
-            @click="selectFile(file)"
             class="selectedRow"
             :class="{ selectedRowHover: file._id === data.fileId }"
+            @click="selectFile(file)"
           >
-            <button style="width: 100%;padding: 5px;">
-              <td>
-                {{ file.name }}
-              </td>
-            </button>
+            <td>{{ file.name }}</td>
+            <td>{{ file.fileType ? file.fileType.ext : '–' }}</td>
           </tr>
         </table>
       </div>
@@ -113,24 +105,30 @@ import { mapState } from 'vuex';
 import { debounce } from 'lodash';
 import ETab from './Tab';
 import WhpptTextInput from './WhpptTextInput';
-import WhpptCheckBox from './CheckBox';
 
 export default {
   name: 'EditorLinkEdit',
-  components: { WhpptTextInput, ETab, WhpptCheckBox },
+  components: { WhpptTextInput, ETab },
   props: ['data'],
-  data() {
-    return {
-      search: '',
-      files: [],
-    };
-  },
+  data: () => ({
+    search: '',
+    files: [],
+  }),
   computed: {
     ...mapState('whppt-nuxt/editor', ['baseAPIUrl', 'baseFileUrl']),
   },
+  watch: {
+    search() {
+      this.filterList();
+    },
+  },
+  mounted() {
+    this.filterList = debounce(() => this.queryFilesList(), 600);
+    this.filterList();
+  },
   methods: {
     selectFile(item) {
-      this.data.href = `${this.baseFileUrl ? this.baseFileUrl : ''}/file/getFile/${item._id}`;
+      this.data.href = `${this.baseFileUrl ? this.baseFileUrl : ''}/file/${item._id}/${item.name}`;
       this.data.fileId = item._id;
     },
     isTypeOf(value) {
@@ -146,17 +144,9 @@ export default {
         });
     },
   },
-  mounted() {
-    this.filterList = debounce(() => this.queryFilesList(), 600);
-    this.filterList();
-  },
-  watch: {
-    search() {
-      this.filterList();
-    },
-  },
 };
 </script>
+
 <style scoped>
 .whppt-tabs {
   display: flex;
@@ -176,11 +166,20 @@ export default {
   padding: 0 0.5rem;
 }
 
-.selectedRow :hover {
+.whppt-files {
+  margin: 10px;
+}
+
+.selectedRow:nth-child(even) {
+  background-color: #5a5a5a;
+}
+
+.selectedRow:hover {
   color: black;
   background-color: white;
 }
-.selectedRowHover {
+
+.whppt-files .selectedRowHover {
   color: black;
   background-color: white;
 }

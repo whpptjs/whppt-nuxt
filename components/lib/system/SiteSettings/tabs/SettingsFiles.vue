@@ -32,10 +32,10 @@
           <tbody>
             <tr v-for="(file, index) in files" :key="index">
               <td>
-                <input type="text" class="whppt-table__input" placeholder="–" v-model="file.name" />
+                <input v-model="file.name" type="text" class="whppt-table__input" placeholder="–" />
               </td>
               <td>
-                <input type="text" class="whppt-table__input" placeholder="–" v-model="file.description" />
+                <input v-model="file.description" type="text" class="whppt-table__input" placeholder="–" />
               </td>
               <td>
                 <button @click="saveFileDetails(file)">
@@ -78,10 +78,11 @@ import Save from '../../../icons/Save';
 import Remove from '../../../icons/Remove';
 
 export default {
-  name: 'test',
-  mounted() {
-    this.loading = true;
-    return this.loadFiles().then(() => (this.loading = false));
+  name: 'Test',
+  components: {
+    WhpptTextInput,
+    Save,
+    Remove,
   },
   data() {
     return {
@@ -93,13 +94,12 @@ export default {
       file: { description: undefined, formData: undefined },
     };
   },
-  components: {
-    WhpptTextInput,
-    Save,
-    Remove,
-  },
   computed: {
     ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
+  },
+  mounted() {
+    this.loading = true;
+    return this.loadFiles().then(() => (this.loading = false));
   },
   methods: {
     remove() {
@@ -132,7 +132,9 @@ export default {
         });
     },
     saveFileDetails(file) {
-      this.$api.post('/file/saveFileDetails', file).then(() => console.log('saved'));
+      this.$api.post('/file/saveFileDetails', file).then(() => {
+        this.$toast.global.editorSuccess('File Details Updated');
+      });
     },
     loadFiles(currentPage) {
       this.currentPage = currentPage || 1;
