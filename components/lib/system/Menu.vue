@@ -41,13 +41,33 @@
         label="Featured"
         @click="selectKey.featured = !selectKey.featured"
       ></whppt-check-box>
+
+      <button
+        :disabled="isTop(selectKey)"
+        class="whppt-icon-button flex"
+        aria-label="Move Up"
+        @click="moveUp(selectKey)"
+      >
+        <w-arrow-up></w-arrow-up>
+        Move Up
+      </button>
+
+      <button
+        :disabled="isBottom(selectKey)"
+        class="whppt-icon-button flex"
+        aria-label="Move Up"
+        @click="moveDown(selectKey)"
+      >
+        <w-arrow-down></w-arrow-down>
+        Move Down
+      </button>
     </div>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
-import { without } from 'lodash';
+import { without, findIndex } from 'lodash';
 import WhpptCheckBox from '../whpptComponents/CheckBox';
 import WhpptSelect from '../whpptComponents/WhpptSelect';
 import ELink from '../whpptComponents/Link';
@@ -79,6 +99,25 @@ export default {
         this.selectKey = undefined;
       }
     },
+    isTop(item) {
+      return findIndex(this.selectedComponent.value.links, l => l === item) === 0;
+    },
+    isBottom(item) {
+      return (
+        findIndex(this.selectedComponent.value.links, l => l === item) >= this.selectedComponent.value.links.length - 1
+      );
+    },
+    moveUp(item) {
+      const index = findIndex(this.selectedComponent.value.links, l => l === item);
+      this.selectedComponent.value.links.splice(index, 1);
+      this.selectedComponent.value.links.splice(index - 1, 0, item);
+    },
+    moveDown(item) {
+      const index = findIndex(this.selectedComponent.value.links, l => l === item);
+
+      this.selectedComponent.value.links.splice(index, 1);
+      this.selectedComponent.value.links.splice(index + 1, 0, item);
+    },
   },
 };
 </script>
@@ -88,5 +127,8 @@ export default {
   border-bottom-width: 1px;
   border-bottom-style: outset;
   margin-bottom: 2rem;
+}
+button:disabled {
+  color: grey;
 }
 </style>
