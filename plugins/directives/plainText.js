@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import SimpleComponentClickHandler from './_simpleComponentClickHandler';
-// export default ({ store }, whppt) => {
 
 export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
   Vue.directive('plainText', {

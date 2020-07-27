@@ -1,19 +1,11 @@
 <template>
   <div>
-    <div @click="$emit('click')" class="whppt-checkbox">
+    <div class="whppt-checkbox" @click="$emit('click')">
       <w-check v-if="value" class="whppt-checkbox-icon"></w-check>
       <w-circle v-if="!value"></w-circle>
       <span class="whppt-checkbox__title">{{ label }}</span>
     </div>
   </div>
-  <!-- <button v-if="value" class="whppt-checkbox whppt-icon-button" @click="$emit('click')">
-    <w-check></w-check>
-    <span class="whppt-checkbox__title">{{ label }}</span>
-  </button>
-  <button v-else class="whppt-checkbox whppt-icon-button" @click="$emit('click')">
-    <w-circle></w-circle>
-    <span class="whppt-checkbox__title">{{ label }}</span>
-  </button> -->
 </template>
 
 <script>
@@ -22,10 +14,11 @@ export default {
   props: {
     value: {
       type: Boolean,
-      required: true,
+      default: () => false,
     },
     label: {
       type: String,
+      default: () => '',
     },
   },
 };
