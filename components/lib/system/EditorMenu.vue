@@ -5,7 +5,7 @@
     <div class="whppt-menu">
       <div v-if="!userCanEdit">
         <div class="whppt-menu__item">
-          <button @click="showLogin()" aria-label="login">
+          <button aria-label="login" @click="showLogin()">
             <component :is="`w-login`" />
           </button>
         </div>
@@ -17,10 +17,15 @@
           class="whppt-menu__item"
           :class="{ 'whppt-menu__item--active': item.isActive && item.isActive() }"
         >
-          <button v-if="item.action && !item.disabled" @click="item.action()" :aria-label="item.label">
+          <button
+            v-if="item.action && !item.disabled"
+            v-v-tooltip.right="item.label"
+            :aria-label="item.label"
+            @click="item.action()"
+          >
             <component :is="item.icon" />
           </button>
-          <button v-else aria-label="">
+          <button v-else v-v-tooltip.right="item.label" aria-label="">
             <component :is="item.icon" style="color: grey" />
           </button>
         </div>
@@ -31,11 +36,15 @@
 
 <script>
 import { mapMutations, mapState, mapActions } from 'vuex';
+import { VTooltip } from 'v-tooltip';
 import LoginForm from './LoginForm';
 
 export default {
   name: 'EditorMenu',
   components: { LoginForm },
+  directives: {
+    VTooltip,
+  },
   data: () => ({
     currentAction: undefined,
   }),
@@ -47,7 +56,7 @@ export default {
       return [
         {
           key: 'select',
-          label: 'Select',
+          label: 'Select Component',
           icon: 'w-pointer',
           group: '',
           action: () => this.selectMenuItem('select'),
@@ -55,45 +64,39 @@ export default {
         },
         {
           key: 'remove',
-          label: 'Remove',
+          label: 'Remove Component',
           icon: 'w-trash',
           group: '',
           action: () => this.removeLink(),
         },
-        { key: 'up', label: 'Up', icon: 'w-arrow-up', group: '', action: () => this.moveComponentUp() },
+        { key: 'up', label: 'Move Component Up', icon: 'w-arrow-up', group: '', action: () => this.moveComponentUp() },
         {
           key: 'down',
-          label: 'Down',
+          label: 'Move Component Down',
           icon: 'w-arrow-down',
           group: '',
           action: () => this.moveComponentDown(),
         },
         {
           key: 'new-page',
-          label: 'New Page',
+          label: 'Create New Page',
           icon: 'w-new-page',
           group: 'page',
           action: () => this.newPage(),
         },
         {
           key: 'save',
-          label: 'Save Page',
+          label: 'Save Current Page',
           icon: 'w-save',
           group: 'page',
           disabled: !this.page || !this.page._id,
           action: () => this.savePage(),
         },
-        // {
-        //   key: 'publishPage',
-        //   label: 'Publish Page',
-        //   icon: 'w-publish',
-        //   group: 'page',
-        //   disabled: !this.page || !this.page._id,
-        //   action: () => this.publishPage(),
-        // },
+        { key: 'nav', label: 'Save Navigation', icon: 'w-nav', group: 'nav', action: () => this.saveNav() },
+        { key: 'footer', label: 'Save Footer', icon: 'w-footer', group: 'footer', action: () => this.saveFooter() },
         {
           key: 'publishPage',
-          label: 'Publish Page',
+          label: 'Publish Current Page',
           icon: 'w-publish',
           group: 'page',
           disabled: !this.page || !this.page._id,
@@ -101,29 +104,19 @@ export default {
         },
         {
           key: 'site-settings',
-          label: 'Site Settings',
+          label: 'Open Site Settings',
           icon: 'w-globe',
           group: 'site',
           action: () => this.editInModal('siteSettings'),
         },
         {
           key: 'page-settings',
-          label: 'Page Settings',
+          label: 'Open Page Settings',
           icon: 'w-settings',
           group: 'pageSettings',
           disabled: !this.page || !this.page._id,
           action: () => this.editInModal('pageSettings'),
         },
-        // {
-        //   key: 'slug-settings',
-        //   label: 'Slug Settings',
-        //   icon: 'w-slugPopup',
-        //   group: 'slugSettings',
-        //   disabled: !this.page || !this.page._id,
-        //   action: () => this.editInModal('slugSettings'),
-        // },
-        { key: 'nav', label: 'Nav', icon: 'w-nav', group: 'nav', action: () => this.saveNav() },
-        { key: 'footer', label: 'Footer', icon: 'w-footer', group: 'footer', action: () => this.saveFooter() },
         { key: 'logout', label: 'Log out', icon: 'w-logout', group: 'security', action: () => this.logout() },
       ];
     },
@@ -199,15 +192,16 @@ export default {
 }
 
 .whppt-menu__item button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: none;
   color: white;
   background-color: transparent;
   cursor: pointer;
   border-radius: 50%;
-  width: 36px;
-  height: 36px;
-  display: flex;
-  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
 }
 .whppt-menu__item:first-child {
   margin-top: 0.25rem;
@@ -232,5 +226,113 @@ export default {
 .whppt-menu__item,
 .whppt-menu__item--active svg {
   fill: currentColor;
+}
+</style>
+
+<style>
+.tooltip {
+  display: block !important;
+  z-index: 10000;
+}
+
+.tooltip .tooltip-inner {
+  background: black;
+  color: white;
+  border-radius: 16px;
+  padding: 5px 10px 4px;
+}
+
+.tooltip .tooltip-arrow {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  position: absolute;
+  margin: 5px;
+  border-color: black;
+  z-index: 1;
+}
+
+.tooltip[x-placement^='top'] {
+  margin-bottom: 5px;
+}
+
+.tooltip[x-placement^='top'] .tooltip-arrow {
+  border-width: 5px 5px 0 5px;
+  border-left-color: transparent !important;
+  border-right-color: transparent !important;
+  border-bottom-color: transparent !important;
+  bottom: -5px;
+  left: calc(50% - 5px);
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.tooltip[x-placement^='bottom'] {
+  margin-top: 5px;
+}
+
+.tooltip[x-placement^='bottom'] .tooltip-arrow {
+  border-width: 0 5px 5px 5px;
+  border-left-color: transparent !important;
+  border-right-color: transparent !important;
+  border-top-color: transparent !important;
+  top: -5px;
+  left: calc(50% - 5px);
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.tooltip[x-placement^='right'] {
+  margin-left: 5px;
+}
+
+.tooltip[x-placement^='right'] .tooltip-arrow {
+  border-width: 5px 5px 5px 0;
+  border-left-color: transparent !important;
+  border-top-color: transparent !important;
+  border-bottom-color: transparent !important;
+  left: -4px;
+  top: calc(50% - 5px);
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.tooltip[x-placement^='left'] {
+  margin-right: 5px;
+}
+
+.tooltip[x-placement^='left'] .tooltip-arrow {
+  border-width: 5px 0 5px 5px;
+  border-top-color: transparent !important;
+  border-right-color: transparent !important;
+  border-bottom-color: transparent !important;
+  right: -5px;
+  top: calc(50% - 5px);
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.tooltip.popover .popover-inner {
+  background: #f9f9f9;
+  color: black;
+  padding: 24px;
+  border-radius: 5px;
+  box-shadow: 0 5px 30px rgba(black, 0.1);
+}
+
+.tooltip.popover .popover-arrow {
+  border-color: #f9f9f9;
+}
+
+.tooltip[aria-hidden='true'] {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.15s, visibility 0.15s;
+}
+
+.tooltip[aria-hidden='false'] {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.15s;
 }
 </style>

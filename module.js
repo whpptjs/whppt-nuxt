@@ -2,7 +2,6 @@ const { resolve, join } = require('path');
 const glob = require('glob');
 
 export default function WhpptNuxtModule(moduleOptions) {
-  console.log('WhpptNuxtModule -> moduleOptions', moduleOptions);
   moduleOptions.apiPrefix = moduleOptions.apiPrefix || 'api';
 
   const options = {

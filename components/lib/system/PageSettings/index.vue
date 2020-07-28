@@ -1,7 +1,6 @@
 <template>
   <div class="whppt-settings">
     <div class="whppt-settings__content">
-      <!--      :style="`background: ${showSlugModal || showWarning ? 'grey' : 'white'}`"-->
       <div class="whppt-settings__heading">
         <h2 class="whppt-settings__heading-text">Page Settings</h2>
         <button class="whppt-settings__button" @click="saveSettings">Save</button>
@@ -48,6 +47,8 @@ forEach(pageSettingTypes, type => {
   additionalComponents[type.pageSettings.name] = type.pageSettings.component;
   additionalTabs.push(type.pageSettings);
 });
+
+console.log('additionalComponents', additionalComponents);
 
 export default {
   name: 'WhpptPageSettings',

@@ -30,7 +30,6 @@
       <div class="whppt-atdw__heading">
         <h1>Edit Listing</h1>
         <div class="whppt-flex-between whppt-align-center">
-          <!-- <button class="whppt-settings__button" style="margin-right: 1rem;" @click="publish">Publish</button> -->
           <button class="whppt-settings__button" @click="saveListing">Save</button>
         </div>
       </div>
@@ -41,20 +40,10 @@
               v-model="listing.name.value"
               placeholder="E.g. Barossa Wine Tour"
               label="Name"
-              labelColour="black"
+              label-colour="black"
               :disabled="!!listing.name.path"
               :info="`Linked To: ${listing.name.path}`"
             />
-            <!-- <label for="name">Name</label>
-            <input
-              id="name"
-              v-model="listing.name.value"
-              class="whppt-atdw__form-input"
-              :disabled="!!listing.name.path"
-              :class="{ 'whppt-atdw__input--disabled': listing.name.path }"
-            /> -->
-            <!-- <div class="whppt-atdw__form-controls"> -->
-            <!-- <span>Linked To: {{ listing.name.path }}</span> -->
             <div>
               <button
                 v-if="listing.name.path"
@@ -75,36 +64,17 @@
                 Reconnect
               </button>
             </div>
-            <!-- </div> -->
           </fieldset>
-          <!-- <label for="slug">Page Slug</label>
-          <input id="slug" v-model="listing.slug" class="whppt-atdw__form-input" />
-          <div style="font-style: italic; color: grey; padding-bottom: 1rem;">
-            NOTE: Changing this slug will modify the url of the page. If any user had this page bookmarked, their link
-            will no longer work. Adding a redirect from this page's old url to its new one would resolve this.
-          </div> -->
-
           <fieldset>
-            <!-- <label for="desc">Description</label>
-            <textarea
-              id="desc"
-              v-model="listing.description.value"
-              class="whppt-atdw__form-textarea"
-              rows="5"
-              :disabled="!!listing.description.path"
-              :class="{ 'whppt-atdw__input--disabled': listing.description.path }"
-            /> -->
             <whppt-text-area
               v-model="listing.description.value"
               placeholder="E.g. A Barossa Wine Tour"
               label="Description"
-              labelColour="black"
+              label-colour="black"
               rows="5"
               :disabled="!!listing.description.path"
               :info="`Linked To: ${listing.description.path}`"
             />
-            <!-- <div class="whppt-atdw__form-controls">
-              <span>Linked To: {{ listing.description.path }}</span> -->
             <div>
               <button
                 v-if="listing.description.path"
@@ -125,24 +95,8 @@
                 Reconnect
               </button>
             </div>
-            <!-- </div> -->
           </fieldset>
           <fieldset>
-            <!-- <label for="status">Active Status</label>
-            <select
-              v-model="listing.activeStatus.value"
-              class="select__input border-1 border-black bg-white"
-              :value="listing.activeStatus.value"
-              :disabled="!!listing.activeStatus.path || listing.published"
-              :class="{ 'whppt-atdw__input--disabled': listing.activeStatus.path }"
-            >
-              <option value="ACTIVE">
-                ACTIVE
-              </option>
-              <option value="INACTIVE">
-                INACTIVE
-              </option>
-            </select> -->
             <div class="whppt-select__status-label">Active Status</div>
             <select
               v-model="listing.activeStatus.value"
@@ -165,8 +119,6 @@
               be published automatically when its ATDW information is updated. This cannot be edited unless the
               listing's page has been unpublished.
             </div>
-            <!-- <div class="whppt-atdw__form-controls">
-              <span>Linked To: {{ listing.activeStatus.path }}</span> -->
             <div>
               <button
                 v-if="listing.activeStatus.path"
@@ -186,29 +138,17 @@
               >
                 Reconnect
               </button>
-              <!-- </div> -->
             </div>
           </fieldset>
           <fieldset v-if="listing.listingType === 'product'">
-            <!-- <label for="address">Address</label>
-            <input
-              id="address"
-              v-model="listing.physicalAddress.value"
-              class="whppt-atdw__form-input"
-              :disabled="!!listing.physicalAddress.path"
-              :class="{ 'whppt-atdw__input--disabled': listing.physicalAddress.path }"
-            /> -->
             <whppt-text-input
               v-model="listing.physicalAddress.value"
               placeholder="E.g. 1234 Barossa Street"
               label="Address"
-              labelColour="black"
+              label-colour="black"
               :disabled="!!listing.physicalAddress.path"
               :info="`Linked To: ${listing.physicalAddress.path}`"
             />
-            <!-- <div class="whppt-atdw__form-controls"> -->
-            <!-- <span>Linked To: {{ listing.physicalAddress.path }}</span>
-              <div> -->
             <button
               v-if="listing.physicalAddress.path"
               class="whppt-settings__button"
@@ -227,29 +167,16 @@
             >
               Reconnect
             </button>
-            <!-- </div>
-            </div> -->
           </fieldset>
           <fieldset v-if="listing.listingType === 'product'">
-            <!-- <label for="phone">Phone</label>
-            <input
-              id="phone"
-              v-model="listing.phone.value"
-              class="whppt-atdw__form-input"
-              :disabled="!!listing.phone.path"
-              :class="{ 'whppt-atdw__input--disabled': listing.phone.path }"
-            /> -->
             <whppt-text-input
               v-model="listing.phone.value"
               placeholder="E.g. 08 1234 5678"
               label="Phone"
-              labelColour="black"
+              label-colour="black"
               :disabled="!!listing.phone.path"
               :info="`Linked To: ${listing.phone.path}`"
             />
-            <!-- <div class="whppt-atdw__form-controls">
-              <span>Linked To: {{ listing.phone.path }}</span> -->
-            <!-- <div> -->
             <button
               v-if="listing.phone.path"
               style="display: flex"
@@ -268,29 +195,16 @@
             >
               Reconnect
             </button>
-            <!-- </div>
-            </div> -->
           </fieldset>
           <fieldset v-if="listing.listingType === 'product'">
-            <!-- <label for="email">Email</label>
-            <input
-              id="email"
-              v-model="listing.email.value"
-              class="whppt-atdw__form-input"
-              :disabled="!!listing.email.path"
-              :class="{ 'whppt-atdw__input--disabled': listing.email.path }"
-            /> -->
             <whppt-text-input
               v-model="listing.email.value"
               placeholder="E.g. wine@barossa.com"
               label="Email"
-              labelColour="black"
+              label-colour="black"
               :disabled="!!listing.email.path"
               :info="`Linked To: ${listing.email.path}`"
             />
-            <!-- <div class="whppt-atdw__form-controls">
-              <span>Linked To: {{ listing.email.path }}</span>
-              <div> -->
             <button
               v-if="listing.email.path"
               style="display: flex"
@@ -309,28 +223,15 @@
             >
               Reconnect
             </button>
-            <!-- </div>
-            </div> -->
           </fieldset>
           <fieldset>
-            <!-- <label for="image">Image</label>
-            <input
-              id="image"
-              v-model="listing.image.value"
-              class="whppt-atdw__form-input"
-              :disabled="!!listing.image.path"
-              :class="{ 'whppt-atdw__input--disabled': listing.image.path }"
-            /> -->
             <whppt-text-input
               v-model="listing.image.value"
               label="Image"
-              labelColour="black"
+              label-colour="black"
               :disabled="!!listing.image.path"
               :info="`Linked To: ${listing.image.path}`"
             />
-            <!-- <div class="whppt-atdw__form-controls">
-              <span>Linked To: {{ listing.image.path }}</span>
-              <div> -->
             <button
               v-if="listing.image.path"
               style="display: flex"
@@ -349,8 +250,6 @@
             >
               Reconnect
             </button>
-            <!-- </div>
-            </div> -->
           </fieldset>
           <fieldset v-if="listing.atdwCategories">
             <whppt-tags-input label="ATDW Categories" :display-only="true" :tags="listing.atdwCategories.value" />
@@ -399,14 +298,7 @@ export default {
 
         const { scheme, host, path } = parse(img);
         return `${scheme}://${host}${path}`;
-        // const { scheme, host, path } = parse(serviceImage);
-        // return `${scheme}://${host}${path}`;
       },
-      // atdwCategories(product) {
-      //   const tags = map(product.verticalClassifications, category => category.productTypeId);
-      //   tags.push(product.productCategoryId);
-      //   return tags;
-      // },
     },
     atdwFields: {
       productName: stringFromPath,
@@ -424,26 +316,15 @@ export default {
       },
       physicalAddress(product) {
         const address = find(product.addresses, address => address.attributeIdAddress === 'PHYSICAL');
-        console.log('physicalAddress -> address', address);
         if (!address) return '';
         return `${address.addressLine1}, ${address.cityName}, ${address.stateName}, ${address.countryName}`;
-        // if(!address) return ''
-        // return `${address.address_line}, ${address.city}, ${address.state}, ${address.postcode}, ${address.country}`
       },
-      // postalAddress(product) {
-      //   return find(product.addresses, address => address.address_type === 'POSTAL');
-      // },
       image(product) {
         if (!product.productImage) return '';
 
         const { scheme, host, path } = parse(product.productImage);
         return `${scheme}://${host}${path}`;
       },
-      // atdwCategories(product) {
-      //   const tags = map(product.verticalClassifications, category => category.productTypeId);
-      //   tags.push(product.productCategoryId);
-      //   return tags;
-      // },
     },
   }),
   computed: {
@@ -466,7 +347,6 @@ export default {
     ...mapActions('whppt-nuxt/page', ['publishListing']),
 
     reconnect(field, key) {
-      // this.listing.atdw should probably be dynamic, what if bookeasy?
       this.listing[this.propToReconnect].path = key;
       this.listing[this.propToReconnect].value = field(this.listing.atdw, key);
       this.listing[this.propToReconnect].provider = 'atdw';

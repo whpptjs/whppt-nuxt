@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { filter, flatMap, forEach } from 'lodash';
+import { forEach } from 'lodash';
 import GenericPage from '../components/lib/systemPlugins/GenericPagePlugin';
 import { Components } from './Components';
 
@@ -14,14 +14,11 @@ import listDirective from './directives/list';
 import plainTextDirective from './directives/plainText';
 import menuDirective from './directives/menu';
 import linkDirective from './directives/link';
-// import listingsDirective from './directives/listings';
-// import listingDirective from './directives/listing';
 import editImageDirective from './directives/editImage';
 import editImage2Directive from './directives/editImage2';
 import anchorDirective from './directives/anchor';
 import contactIconDirective from './directives/contactIcon';
 import dynamicDirective from './directives/dynamic';
-// import _videoBlockDirective from './directives/_videoBlock';
 import youtubeDirective from './directives/youtube';
 import dateDirective from './directives/date';
 
@@ -38,9 +35,7 @@ import LoadFooter from './helpers/LoadFooter';
 import SaveNav from './helpers/SaveNav';
 import PublishNav from './helpers/PublishNav';
 import LoadNav from './helpers/LoadNav';
-// import CreatePage from './helpers/CreatePage';
 import LoadPage from './helpers/LoadPage';
-// import LoadListing from './helpers/LoadListing';
 import CheckSlug from './helpers/CheckSlug';
 import Select from './helpers/editors/Select';
 import Hover from './helpers/editors/Hover';
@@ -88,11 +83,6 @@ export default (context, inject) => {
       });
     },
   });
-  // global.richTextNavigate = function(to) {
-  //   console.log('global.richTextNavigate -> to', to);
-  //   context.app.router.push(to)
-  //   return false;
-  // };
   const setSize = function(size) {
     switch (Number(size)) {
       case 1:
@@ -123,13 +113,11 @@ export default (context, inject) => {
     loadSiteSettings: LoadSiteSettings(context),
     saveSiteSettings: SaveSiteSettings(context),
     publishSiteSettings: PublishSiteSettings(context),
-    // createPage: CreatePage(context),
     savePage: SavePage(context),
     publishPage: PublishPage(context),
     unpublishPage: UnpublishPage(context),
     deletePage: DeletePage(context),
     loadPage: LoadPage(context),
-    // loadListing: LoadListing(context),
     checkSlug: CheckSlug(context),
     loadFooter: LoadFooter(context),
     saveFooter: SaveFooter(context),
@@ -197,13 +185,10 @@ export default (context, inject) => {
   formattedTextDirective({ ...context, menuIsInState, MENUSTATES });
   menuDirective({ ...context, menuIsInState, MENUSTATES });
   linkDirective({ ...context, menuIsInState, MENUSTATES });
-  // listingsDirective({ ...context, menuIsInState, MENUSTATES });
-  // listingDirective({ ...context, menuIsInState, MENUSTATES });
   editImageDirective({ ...context, menuIsInState, MENUSTATES });
   editImage2Directive({ ...context, menuIsInState, MENUSTATES });
   anchorDirective({ ...context, menuIsInState, MENUSTATES });
   contactIconDirective({ ...context, menuIsInState, MENUSTATES });
-  // _videoBlockDirective({ ...context, menuIsInState, MENUSTATES });
   youtubeDirective({ ...context, menuIsInState, MENUSTATES });
   dateDirective({ ...context, menuIsInState, MENUSTATES });
 };

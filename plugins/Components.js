@@ -41,7 +41,7 @@ const Components = options => [
     name: 'Menu',
     editorType: 'Menu',
     displayType: 'Menu',
-    type: 'page', // what is this?
+    type: 'page',
     links: [],
     showOnDesktop: true,
     showOnTablet: true,
@@ -106,17 +106,6 @@ const Components = options => [
     editorType: 'ContactIcon',
     displayType: 'ContactIcon',
   },
-  // {
-  //   key: 'VideoBlock',
-  //   name: 'Video Block',
-  //   editorType: 'wVideoBlock',
-  //   displayType: 'wVideoBlock',
-  //   property: 'data',
-  //   data: {
-  //     platform: { id: '', value: '' },
-  //     videoId: '',
-  //   },
-  // },
   {
     key: 'Youtube',
     name: 'Youtube Video',
@@ -124,10 +113,6 @@ const Components = options => [
     displayType: 'wYoutube',
     property: 'videoId',
     videoId: '',
-    // data: {
-    //   platform: { id: '', value: '' },
-    //   videoId: '',
-    // },
   },
   {
     key: 'ImageNavigation',

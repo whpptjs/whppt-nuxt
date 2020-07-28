@@ -127,27 +127,31 @@ export default {
 }
 
 .whppt-settings__heading {
-  align-items: center;
-  font-weight: bold;
-  background: white;
-  z-index: 2;
   position: sticky;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 2;
   top: 0;
   left: 0;
-  display: flex;
   width: 100%;
-  padding: 2.5rem 1rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
-  height: 4rem;
+  padding: 0 1rem;
+  border-bottom: 1px solid #718096;
+  height: 5rem;
 }
 
 .whppt-settings__button {
-  margin-top: 1rem;
   color: #981a31;
   border-radius: 0.5rem;
-  /* margin-left: auto; */
   padding: 0.5rem 0.75rem;
   border: 1px solid #981a31;
+  transition: 0.2s;
+}
+
+.whppt-settings__button:hover,
+.whppt-settings__button:focus {
+  background-color: #981a31;
+  color: white;
 }
 
 .whppt-settings__tabs {
@@ -155,24 +159,23 @@ export default {
   justify-content: flex-start;
   align-items: center;
   color: #981a31;
-  padding: 1rem 1rem 0 1rem;
-  overflow: scroll;
+  padding: 0 1rem;
+  border-bottom: 1px solid #718096;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  margin-bottom: 0.5rem;
 }
 
 .whppt-settings__tab {
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.5rem;
+  height: 100%;
   cursor: pointer;
-  margin: 0 0.5rem;
+  padding: 0.75rem 0;
+  margin-right: 1.5rem;
+  border-top: 2px solid transparent;
+  border-bottom: 2px solid transparent;
 }
 
 .whppt-settings__tab-selected {
-  background: #981a31;
-  color: white;
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  margin: 0 0.5rem;
+  border-bottom: 2px solid #981a31;
 }
 
 .whppt-settings__heading-text {

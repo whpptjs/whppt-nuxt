@@ -20,18 +20,25 @@
       @change="$emit('change', $event.target.value)"
       @blur="$emit('blur', $event.target.value)"
     />
-    <!-- v-on="$listeners" -->
     <p v-if="info" class="whppt-inputText__info">{{ info }}&nbsp;</p>
   </div>
 </template>
 
 <script>
-// Based on https://vuejs.org/v2/examples/modal.html
 export default {
   name: 'EditorInputText',
-  props: ['id', 'label', 'value', 'info', 'placeholder', 'disabled', 'labelColour'],
+  props: {
+    id: { type: String, default: () => '' },
+    label: { type: String, default: () => '' },
+    value: { type: String, default: () => '' },
+    info: { type: String, default: () => '' },
+    placeholder: { type: String, default: () => '' },
+    disabled: { type: Boolean, default: () => false },
+    labelColour: { type: String, default: () => undefined },
+  },
 };
 </script>
+
 <style>
 .whppt-inputText__label {
   /* color: white; */

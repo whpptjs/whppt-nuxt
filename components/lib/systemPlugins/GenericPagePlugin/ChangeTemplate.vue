@@ -1,19 +1,12 @@
 <template>
   <div class="p-4">
-    <whppt-select
-      v-model="originalTemplate"
-      :items="info.templates"
-      label="Current Page Template"
-      value-prop="label"
-      key-prop="key"
-      disabled
-    />
+    <whppt-text-input v-model="originalTemplate" label="Current Page Template" label-colour="black" disabled />
     <whppt-select
       v-model="newTemplate"
       :items="info.templates"
       label="New Page Template"
-      value-prop="label"
       key-prop="key"
+      value-prop="label"
       style="padding-top: 2rem"
     />
     <div>
@@ -31,21 +24,15 @@
 
 <script>
 import { find } from 'lodash';
+import WhpptTextInput from '../../whpptComponents/WhpptTextInput';
 import WhpptSelect from '../../whpptComponents/WhpptSelectValue';
 
 export default {
   name: 'WhpptGenericPage',
-  components: { WhpptSelect },
+  components: { WhpptTextInput, WhpptSelect },
   props: {
-    page: {
-      type: Object,
-      required: true,
-    },
+    page: { type: Object, required: true },
     info: { type: Object, default: () => ({}) },
-  },
-  mounted() {
-    this.originalTemplate = this.page.template;
-    this.newTemplate = this.page.template;
   },
   data: () => ({
     originalTemplate: '',
@@ -57,8 +44,15 @@ export default {
       return find(this.info.templates, t => t.key === this.newTemplate);
     },
   },
+  mounted() {
+    this.originalTemplate = this.page.template;
+    this.newTemplate = this.page.template;
+  },
   methods: {
     applyTemplate() {
+      /*
+       * template.initTo() to be deprecated in favour of new function name
+       * */
       if (!this.template.initTo) return;
       this.template.initTo(this, this.page);
       this.page.template = this.newTemplate;
