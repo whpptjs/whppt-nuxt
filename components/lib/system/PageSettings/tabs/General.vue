@@ -115,57 +115,62 @@
       </div>
     </div>
     <form @submit.prevent>
-      <div>
-        <fieldset>
-          <label class="whppt-inputText__label">Page Formatted Slug</label>
-          <div style="color: #981a31;">{{ page.slug }}</div>
-          <!-- <whppt-text-input
-            v-model="page.slug"
-            placeholder="Enter a page slug"
-            label="Slug"
-            readonly
-            label-colour="black"
-          /> -->
-          <div class="whppt-flex-between whppt-align-center">
-            <button class="whppt-settings__button" @click="openSlugModal">
-              Change Slug
-            </button>
-            <button type="button" class="whppt-settings__delete-button" @click="showWarning = true">
-              Delete Page
-            </button>
-          </div>
-
-          <div class="whppt-divider" />
-          <whppt-select
-            v-model="pageTypeObj"
-            @input="selectPageType"
-            label="Page Type"
-            :items="pageTypes"
-            keyProp="name"
-          />
-          <button class="whppt-settings__button" @click="changePageType">
-            Change Page Type
+      <fieldset>
+        <label class="whppt-inputText__label">Page Formatted Slug</label>
+        <div class="whppt-text--primary">{{ page.slug }}</div>
+        <div class="whppt-flex-between whppt-align-center">
+          <button class="whppt-settings__button" @click="openSlugModal">
+            Change Slug
           </button>
-        </fieldset>
-        <div class="whppt-divider" />
-        <button class="whppt-settings__button" @click="openDupModal">
-          Duplicate Page
+        </div>
+      </fieldset>
+    </form>
+    <div class="whppt-divider" />
+    <form class="whppt-page__form" @submit.prevent>
+      <fieldset>
+        <whppt-select :items="pageTypes" label="Page Type" key-prop="name" @input="setPageTypeObj" />
+      </fieldset>
+      <fieldset>
+        <component :is="newPage.pageTypeObj.name" v-if="newPage.pageTypeObj" :page="newPage" />
+      </fieldset>
+      <div>
+        <button class="whppt-settings__button" @click="changePageType">
+          Change Page Type
         </button>
       </div>
     </form>
+    <div class="whppt-divider" />
+    <div class="whppt-settings__section">
+      <button class="whppt-settings__button" @click="openDupModal">
+        Duplicate Page
+      </button>
+      <button type="button" class="whppt-settings__button" @click="showWarning = true">
+        Delete Page
+      </button>
+    </div>
   </div>
 </template>
 
 <script>
 import slugify from 'slugify';
 import { mapActions } from 'vuex';
-import { map, find, get, compact } from 'lodash';
+import { map, find, get, compact, filter, forEach } from 'lodash';
 import WhpptTextInput from '../../../whpptComponents/WhpptTextInput';
 import WhpptSelect from '../../../whpptComponents/WhpptSelect';
+
+const additionalComponents = {};
+
+const plugins = global.$whppt.plugins;
+const pageTypePlugins = filter(plugins, t => t.pageType);
+
+forEach(pageTypePlugins, plugin => {
+  if (plugin.pageType.component) additionalComponents[plugin.pageType.name] = plugin.pageType.component;
+});
 
 export default {
   name: 'PageSettingsGeneral',
   components: {
+    ...additionalComponents,
     WhpptTextInput,
     WhpptSelect,
   },
@@ -174,17 +179,22 @@ export default {
     prefix: { type: String, default: () => '' },
   },
   data: () => ({
+    additionalComponents,
     showWarning: false,
     showSlugModal: false,
     showDupModal: false,
     slugCopy: '',
-    pageTypeObj: undefined,
     rawSlug: '',
+    newPage: {
+      pageType: undefined,
+      pageTypeObj: undefined,
+      template: undefined,
+    },
   }),
   computed: {
     formattedSlug() {
-      if (!this.pageTypeObj || !this.pageTypeObj.formatSlug) return this.formatSlug(this.slugCopy);
-      else return this.formatSlug(this.pageTypeObj.formatSlug({ slug: this.slugCopy, page: this.page }));
+      if (!this.newPage.pageTypeObj || !this.newPage.pageTypeObj.formatSlug) return this.formatSlug(this.slugCopy);
+      else return this.formatSlug(this.newPage.pageTypeObj.formatSlug({ slug: this.slugCopy, page: this.page }));
     },
     slugSuffix() {
       if (!this.prefix) return '';
@@ -198,52 +208,57 @@ export default {
     },
   },
   mounted() {
-    this.pageTypeObj = find(this.pageTypes, t => get(t, 'name') === this.page.pageType) || {};
-    if (!this.pageTypeObj.stripSlug) return (this.rawSlug = this.page.slug);
-    this.rawSlug = this.pageTypeObj.stripSlug({ slug: this.page.slug, page: this.page });
+    this.newPage.pageTypeObj = find(this.pageTypes, t => get(t, 'name') === this.page.pageType) || {};
+    if (!this.newPage.pageTypeObj.stripSlug) return (this.rawSlug = this.page.slug);
+    this.rawSlug = this.newPage.pageTypeObj.stripSlug({ slug: this.page.slug, page: this.page });
   },
   methods: {
     ...mapActions('whppt-nuxt/page', ['savePage', 'deletePage', 'checkSlug']),
-    selectPageType(selectedPageType) {
-      // if (!selectedPageType) this.page.pageType = '';
-      // else this.page.pageType = selectedPageType.name;
+    setPageTypeObj($event) {
+      this.newPage.pageTypeObj = $event;
+      this.newPage.pageType = $event;
     },
     changePageType() {
       let newSlug = '';
-      if (this.pageTypeObj && this.pageTypeObj.formatSlug)
-        newSlug = this.pageTypeObj.formatSlug({ slug: this.rawSlug, page: this.page });
-      else newSlug = this.rawSlug;
+
+      if (this.newPage.pageTypeObj && this.newPage.pageTypeObj.formatSlug) {
+        newSlug = this.newPage.pageTypeObj.formatSlug({ slug: this.rawSlug, page: this.page });
+      } else {
+        newSlug = this.rawSlug;
+      }
+
       if (!this.rawSlug || !newSlug) {
+        this.showSlugModal = true;
         this.$toast.global.editorError('Cannot use an empty slug');
         return;
       }
+
       return this.checkSlug({ slug: newSlug, _id: this.page._id, pageType: this.page.pageType }).then(result => {
         if (result) {
           this.showSlugModal = true;
           this.$toast.global.editorError('Slug already in use');
         } else {
           this.page.slug = newSlug;
-          return this.savePage({ page: { ...this.page, pageType: this.pageTypeObj.name } }).then(() => {
-            return this.deletePage().then(() => {
-              this.$router.push(`/${newSlug}`);
-              this.$emit('closeModal');
-            });
+
+          const page = { ...this.page, pageType: this.newPage.pageTypeObj.name };
+          if (this.newPage.template) page.template = this.newPage.template.key;
+
+          const promises = [this.savePage({ page })];
+          if (this.newPage.pageTypeObj.name !== this.page.pageType) promises.push(this.deletePage());
+
+          return Promise.all(promises).then(() => {
+            this.$router.push(`/${newSlug}`);
+            this.$emit('closeModal');
           });
-          // return this.savePage().then(() => {
-          //   this.$router.push(`/${newSlug}`);
-          //   this.$emit('closeModal');
-          // });
         }
       });
     },
     openSlugModal() {
       this.showSlugModal = true;
-      // this.slugCopy = this.page.slug;
       this.slugCopy = this.rawSlug;
     },
     openDupModal() {
       this.showDupModal = true;
-      // this.slugCopy = this.page.slug;
       this.slugCopy = '';
     },
     formatSlug(slug) {
@@ -312,11 +327,37 @@ export default {
   },
 };
 </script>
+
 <style>
 .whppt-divider {
-  margin: 30px 0;
+  margin: 0.5rem 0;
   width: 100%;
   height: 1px;
   background: lightgray;
+}
+
+.whppt-page__form fieldset {
+  margin: 1rem 0;
+}
+
+.whppt-settings__section {
+  display: flex;
+  padding: 1rem;
+}
+
+.whppt-settings__section button {
+  margin-right: 0.5rem;
+}
+
+.whppt-page__form button {
+  margin-top: 1rem;
+}
+
+/*
+* Should probably try refactor this into SASS vars at some point
+* Could probably even introduce theme variables for end user.
+*/
+.whppt-text--primary {
+  color: #981a31;
 }
 </style>

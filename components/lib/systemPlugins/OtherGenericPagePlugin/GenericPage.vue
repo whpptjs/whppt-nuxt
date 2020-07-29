@@ -1,8 +1,8 @@
 <template>
   <div>
     <whppt-select
-      v-model="newPage.template"
-      :items="newPage.pageType.templates"
+      v-model="page.template"
+      :items="page && page.pageType.templates"
       label="Page Template"
       value-prop="label"
       key-prop="key"
@@ -17,7 +17,7 @@ export default {
   name: 'WhpptGenericPage',
   components: { WhpptSelect },
   props: {
-    newPage: {
+    page: {
       type: Object,
       required: true,
     },

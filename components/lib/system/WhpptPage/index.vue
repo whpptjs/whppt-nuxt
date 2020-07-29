@@ -4,13 +4,7 @@
 
     <form class="whppt-page__form" @submit.prevent>
       <whppt-select v-model="pageForm.pageType" :items="pageTypes" label="Page Type" key-prop="label" />
-      <!-- <whppt-select
-        v-if="pageForm.pageType.templates && pageForm.pageType.templates.length > 1"
-        v-model="pageForm.template"
-        :items="pageForm.pageType.templates"
-        label="Page Template"
-      /> -->
-      <component :is="pageForm.pageType.name" v-if="pageForm.pageType" :new-page="pageForm" />
+      <component :is="pageForm.pageType.name" v-if="pageForm.pageType" :page="pageForm" />
       <whppt-text-input
         v-model="pageForm.slug"
         label="Page Slug"
@@ -55,18 +49,13 @@ export default {
   }),
   computed: {
     ...mapState('whppt-nuxt/page', ['page']),
-    templates() {
-      return this.$whppt.templates;
-    },
     pageTypes() {
       return map(pageTypePlugins, t => t.pageType);
     },
   },
-  // mounted() {
-  //   if (!this.page || !this.page._id) {
-  //     this.pageForm.slug = this.formatSlug(this.$router.currentRoute.path);
-  //   }
-  // },
+  mounted() {
+    if (this.page && this.page.pageType) this.pageForm.pageType = this.page.pageType;
+  },
   methods: {
     ...mapActions('whppt-nuxt/editor', ['closeSidebar']),
     ...mapActions('whppt-nuxt/page', ['checkSlug']),
@@ -74,35 +63,25 @@ export default {
       const vm = this;
       vm.showError = false;
       if (!vm.pageForm.slug) {
-        // const { slug } = vm.pageForm;
         this.$toast.global.editorError(`Missing Field: Slug.`);
         return;
       }
       if (!vm.pageForm.pageType) {
-        // const { pageType } = vm.pageForm;
         this.$toast.global.editorError(`Missing Fields: Page Type.`);
         return;
       }
 
       if (vm.pageForm.pageType.name === 'page' && !vm.pageForm.template) {
-        // const { pageType } = vm.pageForm;
         this.$toast.global.editorError(`Missing Field: Template.`);
         return;
       }
 
       const newPage = {
-        // ...vm.pageForm,
-        // ...vm.pageForm.template.init,
         slug: this.formatSlug(vm.pageForm.slug),
-        // template: vm.pageForm.template.key,
         pageType: this.pageForm.pageType && this.pageForm.pageType.name,
         og: { title: '', keywords: '', image: { imageId: '', crop: {} } },
         twitter: { title: '', keywords: '', image: { imageId: '', crop: {} } },
       };
-
-      // if (vm.pageForm.template) {
-      //   newPage = { ...newPage, ...vm.pageForm.template.init };
-      // }
 
       return vm.checkSlug({ slug: newPage.slug, pageType: newPage.pageType }).then(result => {
         if (result) {
@@ -131,7 +110,6 @@ export default {
       slug = slug.replace(/[#?]/g, '');
 
       if (this.pageForm.pageType && this.pageForm.pageType.formatSlug)
-        // issue here with this.page
         return this.pageForm.pageType.formatSlug({ page: this.pageForm, slug });
       return slug;
     },

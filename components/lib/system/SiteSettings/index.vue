@@ -203,13 +203,6 @@ export default {
   padding: 1rem;
 }
 
-.whppt-settings__content form > fieldset {
-  padding: 0;
-  margin: 0.5rem 0;
-  display: flex;
-  border: none;
-}
-
 .whppt-settings__content form label {
   font-size: 0.9rem;
 }

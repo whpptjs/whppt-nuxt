@@ -28,7 +28,7 @@ export default options => ({
         this.$toast.global.editorSuccess('Page Published');
       });
     },
-    savePage({ state }, { page } = {}) {
+    savePage({ commit, state }, { page } = {}) {
       const _page = page || state.page;
       _page.pageType = _page.pageType || 'page';
       const pageTypePlugin = find(
@@ -36,6 +36,7 @@ export default options => ({
         plugin => plugin.pageType && plugin.pageType.name === _page.pageType
       );
       return pageTypePlugin.pageType.savePage(this.$whppt.context, { page: _page }).then(() => {
+        commit('pageLoaded', page);
         this.$toast.global.editorSuccess('Page Saved');
       });
     },

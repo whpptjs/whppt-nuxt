@@ -28,7 +28,7 @@ import WhpptTextInput from '../../whpptComponents/WhpptTextInput';
 import WhpptSelect from '../../whpptComponents/WhpptSelectValue';
 
 export default {
-  name: 'WhpptGenericPage',
+  name: 'WhpptChangeTemplate',
   components: { WhpptTextInput, WhpptSelect },
   props: {
     page: { type: Object, required: true },

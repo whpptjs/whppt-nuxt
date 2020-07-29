@@ -17,8 +17,10 @@
     </select>
   </div>
 </template>
+
 <script>
 import { get } from 'lodash';
+
 export default {
   name: 'WhpptSelect',
   props: {
@@ -43,14 +45,15 @@ export default {
     select(event) {
       this.$emit('input', this.items[event.target.value]);
     },
-    getValue(item, path) {
+    getValue(item, valueProp) {
       if (typeof item === 'string') return item;
-      if (!path) return item.title || item.label;
-      return get(item, path);
+      if (!valueProp) return item.title || item.label;
+      return get(item, valueProp);
     },
   },
 };
 </script>
+
 <style scoped>
 .whppt-select__label {
   display: block;

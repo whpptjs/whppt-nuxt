@@ -48,8 +48,6 @@ forEach(pageSettingTypes, type => {
   additionalTabs.push(type.pageSettings);
 });
 
-console.log('additionalComponents', additionalComponents);
-
 export default {
   name: 'WhpptPageSettings',
   components: {
@@ -117,13 +115,6 @@ export default {
   display: flex;
   flex-direction: column;
   padding: 1rem;
-}
-
-.whppt-settings__content form > fieldset {
-  padding: 0;
-  margin: 0.5rem 0;
-  display: flex;
-  border: none;
 }
 
 .whppt-settings__content form label {

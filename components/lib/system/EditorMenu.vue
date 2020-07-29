@@ -172,7 +172,7 @@ export default {
 <style scoped>
 .whppt-menu {
   background-color: rgba(0, 0, 0, 0.8);
-  padding: 0 0.25rem;
+  padding: 0.5rem 0.25rem;
   position: fixed;
   z-index: 51;
   top: 20px;
