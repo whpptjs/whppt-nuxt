@@ -17,16 +17,16 @@
               disabled
               placeholder="Page Slug Prefix"
               label="Prefix"
-              labelColour="black"
+              label-colour="black"
               info="This prefix is managed by Whppt and is not editable."
             />
             <whppt-text-input
               :value="slugSuffix"
               placeholder="Enter a page slug"
               label="Slug"
-              labelColour="black"
-              @input="confirmSlug"
+              label-colour="black"
               info="The page slug makes up part of the page's url that is shown in the browsers address bar and is used by search engines to match your page with search terms. Your input will be formatted to avoid certain characters."
+              @input="confirmSlug"
             />
           </div>
           <div v-if="!prefix">
@@ -34,7 +34,7 @@
               v-model="page.slug"
               placeholder="Enter a page slug"
               label="Slug"
-              labelColour="black"
+              label-colour="black"
               info="The page slug makes up part of the page's url that is shown in the browsers address bar and is used by search engines to match your page with search terms. Your input will be formatted to avoid certain characters."
             />
           </div>
@@ -45,17 +45,6 @@
             </div>
           </div>
           <div v-if="errorMessage" style="color: red; font-style: italic;">{{ errorMessage }}</div>
-          <!-- <button v-if="page.published" type="button" class="whppt-settings__delete-button" @click="unpublish">
-            Unpublish Page
-          </button>
-          <button
-            v-if="!page.published"
-            type="button"
-            class="whppt-settings__delete-button"
-            @click="showWarning = true"
-          >
-            Delete Page
-          </button> -->
         </div>
       </form>
       <div v-if="showWarning" class="whppt-settings__warning-modal">
@@ -89,13 +78,11 @@ import { mapState, mapActions } from 'vuex';
 import slugify from 'slugify';
 
 import WhpptTextInput from '../whpptComponents/WhpptTextInput';
-import Gallery from './EditImage/Gallery';
-import Cropping from './EditImage/Cropping';
 
 export default {
   name: 'WhpptSlugSettings',
+  components: { WhpptTextInput },
   props: { prefix: { type: String, default: '' } },
-  components: { WhpptTextInput, Gallery, Cropping },
   data() {
     return {
       errorMessage: '',

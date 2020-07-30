@@ -109,7 +109,12 @@ import WhpptTextInput from './WhpptTextInput';
 export default {
   name: 'EditorLinkEdit',
   components: { WhpptTextInput, ETab },
-  props: ['data'],
+  props: {
+    data: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
   data: () => ({
     search: '',
     files: [],

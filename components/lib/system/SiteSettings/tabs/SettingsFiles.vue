@@ -30,18 +30,22 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(file, index) in files" :key="index">
+            <tr v-for="(_file, index) in files" :key="index">
               <td>
-                <input v-model="file.name" type="text" class="whppt-table__input" placeholder="–" />
+                <label>
+                  <input v-model="_file.name" type="text" class="whppt-table__input" placeholder="–" />
+                </label>
               </td>
               <td>
-                <input v-model="file.description" type="text" class="whppt-table__input" placeholder="–" />
+                <label>
+                  <input v-model="_file.description" type="text" class="whppt-table__input" placeholder="–" />
+                </label>
               </td>
               <td>
-                <button @click="saveFileDetails(file)">
+                <button @click="saveFileDetails(_file)">
                   <save />
                 </button>
-                <button @click="itemToBeRemoved = file">
+                <button @click="itemToBeRemoved = _file">
                   <remove />
                 </button>
               </td>

@@ -18,10 +18,10 @@
         <whppt-text-input
           v-bind="inputProps"
           :placeholder="placeholder"
-          v-on="inputEvents"
           :label="label"
           readonly
           class="whppt-cursor-pointer"
+          v-on="inputEvents"
         />
       </div>
     </v-date-picker>
@@ -30,10 +30,13 @@
 
 <script>
 import WhpptTextInput from './WhpptTextInput';
+
 let VDatePicker;
+
 if (process.client) {
   VDatePicker = require('v-calendar/lib/components/date-picker.umd');
 }
+
 export default {
   name: 'WhpptDatePicker',
   components: {
@@ -41,17 +44,18 @@ export default {
     VDatePicker,
   },
   props: {
-    label: String,
-    value: [Date, String],
-    minDate: [Date, String],
-    maxDate: [Date, String],
-    placeholder: String,
+    label: { type: String, default: () => '' },
+    value: { type: [Date, String], default: () => '' },
+    minDate: { type: [Date, String], default: () => '' },
+    maxDate: { type: [Date, String], default: () => '' },
+    placeholder: { type: String, default: () => '' },
   },
   data: () => ({
     attrs: [{ highlight: { contentClass: 'bg-red-500' } }],
   }),
 };
 </script>
+
 <style>
 .whppt-cursor-pointer {
   cursor: pointer !important;

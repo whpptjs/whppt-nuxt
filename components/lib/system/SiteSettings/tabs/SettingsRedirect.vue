@@ -139,9 +139,9 @@ export default {
       });
     },
     addRedirect() {
-      const vm = this;
       this.newRedirect.to = this.formatSlug(this.newRedirect.to);
       this.newRedirect.from = this.formatSlug(this.newRedirect.from);
+
       if (!this.newRedirect.from) return this.$toast.global.editorError('Cannot save with an empty "from"');
 
       if (this.newRedirect.to === this.newRedirect.from)
@@ -172,7 +172,6 @@ export default {
       return slug;
     },
     save(redirect) {
-      const vm = this;
       redirect.to = this.formatSlug(redirect.to);
       redirect.from = this.formatSlug(redirect.from);
       if (!redirect.from) return this.$toast.global.editorError('Cannot save with an empty "from"');

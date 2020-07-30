@@ -17,9 +17,7 @@ module.exports = {
     'nuxt/no-cjs-in-config': 'off',
     'vue/no-v-html': 'off',
     'vue/no-unused-components': 'warn',
-    'prettier/prettier': 'off',
     'import/no-unresolved': ['error', { commonjs: true }],
-    'vue/require-prop-types': 'off',
   },
   overrides: [{ files: ['**/*.js', '**/*.vue'] }],
   settings: {

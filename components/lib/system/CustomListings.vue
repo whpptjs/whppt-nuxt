@@ -1,20 +1,6 @@
 <template>
   <div>
     <fieldset>
-      <!-- <div class="whppt-flex-between whppt-align-center" style="padding-top: 1rem;">
-        <div class="whppt-flex-start whppt-align-center">
-          <div
-            v-for="index in pages"
-            :key="`page-${index}`"
-            class="whppt-redirects__page"
-            :class="index === currentPage + 1 ? 'whppt-redirects__page-selected' : ''"
-            style="display: flex"
-            @click="swapPage(index - 1)"
-          >
-            {{ index }}
-          </div>
-        </div>
-      </div> -->
       <div v-if="!selectedListing">
         <div class="whppt-flex-between whppt-align-center">
           <label style="font-size: 1.25rem">New Listing</label>
@@ -28,7 +14,7 @@
               v-model="placeholder.name.value"
               placeholder="E.g. Barossa Winery #98762"
               label="Name"
-              labelColour="black"
+              label-colour="black"
               info="The listing's name is displayed on its corresponding page's header."
             />
           </div>
@@ -37,7 +23,7 @@
               v-model="slug"
               placeholder="E.g. barossawinetour"
               label="Page Slug"
-              labelColour="black"
+              label-colour="black"
               info="Creating this listing will generate it a page. It's url will be generated using this slug, and a prefix of 'listing/'"
             />
           </div>
@@ -71,7 +57,7 @@
               v-model="selectedListing.name.value"
               placeholder="E.g. Barossa Winery #98762"
               label="Name"
-              labelColour="black"
+              label-colour="black"
               info="The listing's name is displayed on its corresponding page's header."
             />
           </div>
@@ -80,7 +66,7 @@
               v-model="selectedListing.activeStatus.value"
               placeholder="E.g. ACTIVE"
               label="Status"
-              labelColour="black"
+              label-colour="black"
               info="The listing's status."
             />
           </div>
@@ -91,7 +77,7 @@
           placeholder="E.g. Details about the listing"
           label="Description"
           rows="2"
-          labelColour="black"
+          label-colour="black"
           info="The listing's description is featured prominently on its page."
         />
 
@@ -101,7 +87,7 @@
               v-model="selectedListing.email.value"
               placeholder="E.g. 0812345678"
               label="Phone"
-              labelColour="black"
+              label-colour="black"
               info="Shown under contact details on the listing page."
             />
           </div>
@@ -110,7 +96,7 @@
               v-model="selectedListing.phone.value"
               placeholder="E.g. vineyard@barossa.com.au"
               label="Email"
-              labelColour="black"
+              label-colour="black"
               info="Shown under contact details on the listing page."
             />
           </div>
@@ -122,7 +108,7 @@
               v-model="selectedListing.physicalAddress.value"
               placeholder="E.g. 48 Wine Street, Barossa, SA"
               label="Physical Address"
-              labelColour="black"
+              label-colour="black"
               info="Shown under details on the listing page."
             />
           </div>
@@ -131,7 +117,7 @@
               v-model="selectedListing.postalAddress.value"
               placeholder="E.g. 48 Wine Street, Barossa, SA"
               label="Postal Address"
-              labelColour="black"
+              label-colour="black"
               info="Shown under details on the listing page."
             />
           </div>
@@ -141,21 +127,12 @@
           v-model="catsString"
           placeholder="E.g. EVENT, WINERY, TOUR"
           label="Categories"
-          labelColour="black"
+          label-colour="black"
           info="The listing's categories, used to find it via the categories filters. Seperate them via commas."
         />
         <button class="whppt-settings__button" style="display: flex;" @click="save">
           Save
         </button>
-        <!-- <button class="whppt-settings__button" style="display: flex;" @click="publish">
-          Publish
-        </button>
-        <button class="whppt-settings__button" style="display: flex;" @click="unpublish">
-          Unpublish
-        </button> -->
-        <!-- <button class="whppt-settings__button" style="display: flex;" @click="deleteListing">
-          Delete
-        </button> -->
       </div>
     </fieldset>
   </div>
@@ -194,11 +171,7 @@ export default {
   },
   methods: {
     queryCustomListings() {
-      return this.$axios.get(`/api/listing/fetchCustomListings`).then(({ data }) => {
-        console.log('queryCustomListings -> listings', data);
-        this.listings = data;
-        console.log('queryCustomListings -> this.listings', this.listings);
-      });
+      return this.$axios.get(`/api/listing/fetchCustomListings`).then(({ data }) => (this.listings = data));
     },
     selectListing(listing) {
       this.selectedListing = listing;

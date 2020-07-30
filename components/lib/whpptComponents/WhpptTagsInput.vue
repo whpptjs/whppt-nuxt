@@ -2,12 +2,15 @@
   <div>
     <label class="whppt-tags__label">{{ label }}</label>
     <div v-if="!displayOnly" class="whppt-flex-start">
-      <input
-        v-model="newTag"
-        placeholder="Add New Tag"
-        style="width: 50%; text-transform: uppercase;"
-        @keydown.enter.prevent="addTag"
-      />
+      <label>
+        <span class="sr-only">New Tag</span>
+        <input
+          v-model="newTag"
+          placeholder="Add New Tag"
+          style="width: 50%; text-transform: uppercase;"
+          @keydown.enter.prevent="addTag"
+        />
+      </label>
       <div style="padding-left: 1rem;">
         <button class="whppt-settings__button" style="display: flex;" type="button" @click="addTag">
           Add Tag
@@ -18,7 +21,7 @@
       <div class="whppt-tags__container">
         <span class="whppt-tags__spacer">:</span>
         <span v-for="(tag, index) in tags" :key="index" class="whppt-tags__tag">
-          <button v-if="!displayOnly" @click="deleteTag(tag)" aria-label="Remove Tag"><i-close /></button>{{ tag }}
+          <button v-if="!displayOnly" aria-label="Remove Tag" @click="deleteTag(tag)"><i-close /></button>{{ tag }}
         </span>
       </div>
     </div>

@@ -3,12 +3,12 @@
     <loading v-if="loading" />
     <div v-else class="whppt-gallery-container">
       <div class="whppt-gallery-item-container" :style="`flex-basis: ${imageDisplaySize}`">
-        <div class="whppt-gallery__add" @click="$refs.fileInput.click()" id="new-image-button">
+        <div id="new-image-button" class="whppt-gallery__add" @click="$refs.fileInput.click()">
           <input ref="fileInput" type="file" :accept="'image/*'" style="display: none;" @input="upload" />
           <span>+</span>
         </div>
       </div>
-      <div class="whppt-gallery-item-container" :style="`flex-basis: ${imageDisplaySize}`" v-if="newImageLoading">
+      <div v-if="newImageLoading" class="whppt-gallery-item-container" :style="`flex-basis: ${imageDisplaySize}`">
         <div class="whppt-gallery__new">
           <loading />
         </div>
@@ -62,22 +62,21 @@ export default {
       default: '50%',
     },
   },
-  computed: {
-    ...mapState('whppt-nuxt/editor', ['baseImageUrl', 'baseCdnImageUrl']),
-  },
-  mounted() {
-    this.loading = true;
-    return this.loadGallery(this.currentPage).then(() => (this.loading = false));
-  },
   data() {
     return {
       loading: false,
       newImageLoading: false,
       images: [],
       total: 0,
-      // limit: 9,
       currentPage: 1,
     };
+  },
+  computed: {
+    ...mapState('whppt-nuxt/editor', ['baseImageUrl', 'baseCdnImageUrl']),
+  },
+  mounted() {
+    this.loading = true;
+    return this.loadGallery(this.currentPage).then(() => (this.loading = false));
   },
   methods: {
     loadGallery(currentPage) {
@@ -116,6 +115,7 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 .whppt-gallery-container {
   display: flex;

@@ -13,12 +13,11 @@
 
 <script>
 import { mapState } from 'vuex';
-import WhpptTextInput from '../whpptComponents/WhpptTextInput';
 import WhpptSelect from '../whpptComponents/WhpptSelect';
 
 export default {
   name: 'ContactIcon',
-  components: { WhpptSelect, WhpptTextInput },
+  components: { WhpptSelect },
   data: () => ({
     items: [
       { label: 'Phone', value: 'phone' },
@@ -30,6 +29,7 @@ export default {
   computed: mapState('whppt-nuxt/editor', ['selectedComponent']),
 };
 </script>
+
 <style>
 .whppt-textBox--margin-top-20 {
   margin-top: 20px;

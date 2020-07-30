@@ -3,12 +3,12 @@
     <loading v-if="loading" />
     <div v-else class="whppt-gallery-container">
       <div class="whppt-gallery-item-container" :style="`flex-basis: ${imageDisplaySize}`">
-        <div class="whppt-gallery__add" @click="$refs.fileInput.click()" id="new-image-button">
+        <div id="new-image-button" class="whppt-gallery__add" @click="$refs.fileInput.click()">
           <input ref="fileInput" type="file" :accept="'image/*'" style="display: none;" @input="upload" />
           <span>+</span>
         </div>
       </div>
-      <div class="whppt-gallery-item-container" :style="`flex-basis: ${imageDisplaySize}`" v-if="newImageLoading">
+      <div v-if="newImageLoading" class="whppt-gallery-item-container" :style="`flex-basis: ${imageDisplaySize}`">
         <div class="whppt-gallery__new">
           <loading />
         </div>
@@ -19,7 +19,6 @@
         class="whppt-gallery-item-container"
         :style="`flex-basis: ${imageDisplaySize}`"
       >
-        <!-- :style="{ 'background-image': `url('${}')` }" -->
         <div v-lazy:background-image="img(image._id)" class="whppt-gallery-item" @click="$emit('input', image._id)">
           <div class="whppt-gallery-item__remove" @click.stop="remove(image._id)">
             <trash class="whppt-gallery-item__remove-icon" />
@@ -59,22 +58,21 @@ export default {
       default: '50%',
     },
   },
-  computed: {
-    ...mapState('whppt-nuxt/editor', ['baseImageUrl2', 'baseCdnImageUrl2']),
-  },
-  mounted() {
-    this.loading = true;
-    return this.loadGallery(this.currentPage).then(() => (this.loading = false));
-  },
   data() {
     return {
       loading: false,
       newImageLoading: false,
       images: [],
       total: 0,
-      // limit: 9,
       currentPage: 1,
     };
+  },
+  computed: {
+    ...mapState('whppt-nuxt/editor', ['baseImageUrl2', 'baseCdnImageUrl2']),
+  },
+  mounted() {
+    this.loading = true;
+    return this.loadGallery(this.currentPage).then(() => (this.loading = false));
   },
   methods: {
     loadGallery(currentPage) {
@@ -113,12 +111,14 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 .whppt-gallery-container {
   display: flex;
   flex-wrap: wrap;
   margin: -5px;
 }
+
 .whppt-gallery__add {
   display: flex;
   justify-content: center;
@@ -130,10 +130,12 @@ export default {
   font-size: 40px;
   cursor: pointer;
 }
+
 .whppt-gallery__add:hover {
   background: white;
   color: black;
 }
+
 .whppt-gallery__new {
   display: flex;
   justify-content: center;
@@ -146,20 +148,22 @@ export default {
   flex-basis: 50%;
   padding: 5px;
 }
+
 .whppt-gallery-item-container div:hover {
   filter: brightness(1.1);
 }
+
 .whppt-gallery-item-container div:hover .whppt-gallery-item__remove {
   display: inline-flex;
 }
+
 .whppt-gallery-item {
-  background: grey;
   height: 100px;
   cursor: pointer;
+  background: grey no-repeat center center;
   background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
 }
+
 .whppt-gallery-item__remove {
   background: black;
   display: none;
@@ -173,6 +177,7 @@ export default {
   left: 5%;
   top: 5%;
 }
+
 .whppt-gallery-item__remove-icon {
   width: 12px;
 }

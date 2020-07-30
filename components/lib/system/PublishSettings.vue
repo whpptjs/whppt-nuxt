@@ -58,14 +58,9 @@
 import { mapState, mapActions } from 'vuex';
 import slugify from 'slugify';
 
-import WhpptTextInput from '../whpptComponents/WhpptTextInput';
-import Gallery from './EditImage/Gallery';
-import Cropping from './EditImage/Cropping';
-
 export default {
   name: 'WhpptPublishSettings',
   props: { prefix: { type: String, default: '' } },
-  components: { WhpptTextInput, Gallery, Cropping },
   data() {
     return {
       errorMessage: '',

@@ -5,8 +5,8 @@
     </whppt-button>
   </li>
 </template>
+
 <script>
-// hover:border-gray-200
 import WhpptButton from '../whpptComponents/WhpptButton';
 
 export default {
@@ -15,6 +15,7 @@ export default {
   props: { active: Boolean },
 };
 </script>
+
 <style scoped>
 .whppt-tab-item__button--active {
   border-width: 1px;

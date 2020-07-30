@@ -1,10 +1,10 @@
 <template>
   <div class="whppt-pagination-container">
     <div class="whppt-pagination-left-nav">
-      <button @click="goToPage(1)" aria-label="Go To First" :disabled="currentPage === 1">
+      <button aria-label="Go To First" :disabled="currentPage === 1" @click="goToPage(1)">
         ⇤
       </button>
-      <button @click="goToPage(currentPage - 1)" aria-label="Previous" :disabled="currentPage === 1">
+      <button aria-label="Previous" :disabled="currentPage === 1" @click="goToPage(currentPage - 1)">
         ←
       </button>
     </div>
@@ -12,33 +12,34 @@
     <button
       v-for="(page, index) in pagesShowing"
       :key="index"
-      @click="goToPage(page.name)"
       :disabled="page.isDisabled"
       class="whppt-pagination-page-button"
       :class="{ 'whppt-pagination-page-button__selected': currentPage === page.name }"
+      @click="goToPage(page.name)"
     >
       {{ page.name }}
     </button>
     <div class="whppt-pagination-right-nav">
       <button
-        @click="goToPage(currentPage + 1)"
         aria-label="Next"
         :disabled="currentPage === Math.max(pageAmount, 1)"
         class="whppt-pagination-right-buttons"
+        @click="goToPage(currentPage + 1)"
       >
         →
       </button>
 
       <button
-        @click="goToPage(Math.max(pageAmount, 1))"
         aria-label="Go To Last"
         :disabled="currentPage === Math.max(pageAmount, 1)"
+        @click="goToPage(Math.max(pageAmount, 1))"
       >
         ⇥
       </button>
     </div>
   </div>
 </template>
+
 <script>
 export default {
   name: 'WhpptButton',
@@ -86,6 +87,7 @@ export default {
   },
 };
 </script>
+
 <style>
 .whppt-pagination-container {
   display: flex;
@@ -99,14 +101,14 @@ export default {
 .whppt-pagination-page-button {
   width: 25px;
   height: 25px;
-  border-radius: 12.5px;
+  border-radius: 12px;
   color: linen;
-  font: 12px !important;
   margin: 0 5px;
   border-width: 1px;
   border-style: solid;
   border-color: linen;
 }
+
 .whppt-pagination-page-button__selected {
   background: linen;
   color: black;

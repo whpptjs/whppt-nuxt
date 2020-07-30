@@ -30,7 +30,6 @@ import WhpptTabs from '../whpptComponents/WhpptTabs';
 
 export default {
   name: 'WhpptEditorApp',
-  props: { prefix: { type: String, default: '' } },
   components: {
     ...Editors,
     SiteSettings: () => import('../system/SiteSettings'),
@@ -46,6 +45,7 @@ export default {
     WhpptTab,
     WhpptTabs,
   },
+  props: { prefix: { type: String, default: '' } },
   computed: {
     ...mapState('whppt-nuxt/editor', [
       'editInModal',
@@ -64,7 +64,7 @@ export default {
 
   methods: {
     ...mapActions('whppt-nuxt/editor', ['closeSidebar', 'closeModal']),
-    ifExsists(value) {
+    ifExists(value) {
       return typeof value !== 'undefined';
     },
   },
