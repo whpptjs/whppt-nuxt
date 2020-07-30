@@ -31,6 +31,7 @@ export default options => ({
     savePage({ commit, state }, { page } = {}) {
       const _page = page || state.page;
       _page.pageType = _page.pageType || 'page';
+      console.log('savePage -> page', page);
       const pageTypePlugin = find(
         this.$whppt.plugins,
         plugin => plugin.pageType && plugin.pageType.name === _page.pageType
