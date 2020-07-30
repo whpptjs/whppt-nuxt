@@ -8,7 +8,7 @@
       info="Sets the first column's width. Calculated in 12ths, e.g. 2 = 2/12, 5 = 5/12"
       placeholder=""
       type="number"
-      min="1"
+      min="0"
       max="11"
       :label="selectedComponent.property"
     />

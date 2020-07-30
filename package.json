@@ -6,6 +6,8 @@
   "main": "module.js",
   "scripts": {
     "db:mongo": "run-rs --keep",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
+    "lint --fix": "eslint --ext .js,.vue --ignore-path .gitignore . --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -28,6 +30,7 @@
     "eslint-plugin-nuxt": "^0.5.0",
     "eslint-plugin-prettier": "^3.1.1",
     "glob": "^7.1.6",
+    "husky": "^4.2.5",
     "prettier": "^1.19.1",
     "run-rs": "^0.6.2"
   },
@@ -46,5 +49,10 @@
     "vue-croppa": "^1.3.8",
     "vue-lazyload": "^1.3.3",
     "vuex": "^3.1.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm lint -fix"
+    }
   }
 }
