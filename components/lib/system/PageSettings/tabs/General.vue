@@ -128,7 +128,14 @@
     <div class="whppt-divider" />
     <form class="whppt-page__form" @submit.prevent>
       <fieldset>
-        <whppt-select :items="pageTypes" label="Page Type" key-prop="name" @input="setPageTypeObj" />
+        <whppt-select
+          :items="pageTypes"
+          label="Page Type"
+          key-prop="name"
+          value-prop="label"
+          :value="newPage.pageTypeObj"
+          @input="setPageTypeObj"
+        />
       </fieldset>
       <fieldset>
         <component :is="newPage.pageTypeObj.name" v-if="newPage.pageTypeObj" :page="newPage" />
