@@ -36,7 +36,8 @@ export default options => ({
         plugin => plugin.pageType && plugin.pageType.name === _page.pageType
       );
       return pageTypePlugin.pageType.savePage(this.$whppt.context, { page: _page }).then(() => {
-        commit('pageLoaded', page);
+        commit('pageLoaded', _page);
+
         this.$toast.global.editorSuccess('Page Saved');
       });
     },
