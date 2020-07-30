@@ -2,9 +2,6 @@
   <div>
     <div v-for="(canvas, canvasName) in sizes" :key="canvasName" style="margin-bottom: 1rem;">
       <label class="whppt-cropper-label">{{ canvasName }}</label>
-      <!-- image Options: {{ imageOptions }} Canvas: {{ canvas }} Width: {{ width }} -->
-      <!-- :canvas="false" -->
-      <!-- :style="{ width: `${width}px` }" -->
       <cropper
         :style="`background: #000; width:${canvas.width / canvas.quality}px;`"
         :wheel-resize="false"
@@ -14,20 +11,16 @@
         :stencil-props="{
           aspectRatio: canvas.aspectRatio,
         }"
-        @ready="ready"
         @change="changes => change({ canvas, canvasName }, changes)"
       ></cropper>
     </div>
-    <!-- <whppt-button class="whppt-cropper__apply-change" @click="applyChanges">Apply</whppt-button> -->
     <whppt-text-input v-model="imageOptions.alt" placeholder="e.g. Article Heading Image" label="Image alt text" />
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
-// import { forEach, cloneDeep } from 'lodash';
 import { Cropper } from 'vue-advanced-cropper';
-// import WhpptButton from '../../whpptComponents/WhpptButton';
 import WhpptTextInput from '../../whpptComponents/WhpptTextInput';
 
 export default {
@@ -50,9 +43,6 @@ export default {
     ...mapState('whppt-nuxt/editor', ['baseImageUrl2', 'baseCdnImageUrl2']),
   },
   methods: {
-    ready(arg) {
-      console.log('ready -> arg', arg);
-    },
     change({ canvasName }, changes) {
       const { coordinates } = changes;
       this.imageOptions[canvasName].top = coordinates.top;

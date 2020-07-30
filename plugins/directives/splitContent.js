@@ -6,7 +6,14 @@ export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
     bind(el, binding) {
       const property = el.getAttribute('data-property');
       const value = { value: binding.value, property };
-      el.whppthandler = SimpleComponentClickHandler({ store, menuIsInState, MENUSTATES, name: 'splitContent', el, value });
+      el.whppthandler = SimpleComponentClickHandler({
+        store,
+        menuIsInState,
+        MENUSTATES,
+        name: 'splitContent',
+        el,
+        value,
+      });
       el.addEventListener('click', el.whppthandler);
       el.addEventListener('mouseover', function(e) {
         if (!menuIsInState(MENUSTATES.SELECT)) return;
@@ -24,7 +31,14 @@ export default ({ store, app: { $whppt }, menuIsInState, MENUSTATES }) => {
       el.removeEventListener('click', el.whppthandler);
       const property = el.getAttribute('data-property');
       const value = { value: binding.value, property };
-      el.whppthandler = SimpleComponentClickHandler({ store, menuIsInState, MENUSTATES, name: 'splitContent', el, value });
+      el.whppthandler = SimpleComponentClickHandler({
+        store,
+        menuIsInState,
+        MENUSTATES,
+        name: 'splitContent',
+        el,
+        value,
+      });
       el.addEventListener('click', el.whppthandler);
     },
   });

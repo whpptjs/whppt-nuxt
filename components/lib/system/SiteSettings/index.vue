@@ -28,7 +28,7 @@
 
 <script>
 import { filter, forEach, map } from 'lodash';
-import { mapActions, mapState } from 'vuex';
+import { mapActions } from 'vuex';
 
 import SEO from './tabs/SettingsSEO';
 import Redirects from './tabs/SettingsRedirect';
@@ -37,7 +37,6 @@ import OpenGraph from './tabs/SettingsOG';
 import General from './tabs/SettingsGeneral';
 import Files from './tabs/SettingsFiles';
 import Emailer from './tabs/SettingsEmailer';
-// import Categories from './tabs/SettingsCategories';
 
 const additionalTabs = [];
 const additionalComponents = {};
@@ -62,7 +61,6 @@ export default {
     Twitter,
     Files,
     Emailer,
-    // Categories,
   },
   data: () => ({
     usedListings: [],
@@ -80,7 +78,6 @@ export default {
         { name: 's-e-o', label: 'SEO' },
         { name: 'files', label: 'Files' },
         { name: 'emailer', label: 'Email (SMTP)' },
-        // { name: 'categories', label: 'Categories' },
         ...additionalTabs,
       ];
     },
@@ -110,6 +107,7 @@ export default {
             : { imageId: '', crop: { desktop: {} } };
         siteSettings.twitter.keywords = siteSettings.twitter.keywords || '';
         siteSettings.twitter.title = siteSettings.twitter.title || '';
+
         this.siteSettings = siteSettings;
       });
     },
@@ -140,6 +138,7 @@ export default {
           }),
         };
       });
+
       this.publishSiteSettings({
         siteSettings: this.siteSettings,
         categories: formattedCategories,
@@ -151,13 +150,6 @@ export default {
 </script>
 
 <style>
-/* .whppt-settings__category {
-  border: 1px solid gray;
-  margin: 10px;
-  padding: 10px;
-  flex: 1;
-} */
-
 .whppt-select__frequency-label {
   display: block;
   text-transform: uppercase;

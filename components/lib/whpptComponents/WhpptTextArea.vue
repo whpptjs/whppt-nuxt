@@ -7,36 +7,47 @@
       :for="id"
       >{{ label }}</label
     >
-    <textarea
-      :id="id"
-      v-bind="$attrs"
-      class="whppt-inputTextArea__input"
-      :rows="rows || '1'"
-      :style="adjustable ? '' : 'resize: none'"
-      :class="{ 'whppt-inputArea__disabled': disabled }"
-      :type="$attrs.type || 'text'"
-      :placeholder="placeholder"
-      :value="value"
-      :disabled="disabled"
-      @input="$emit('input', $event.target.value)"
-      @change="$emit('change', $event.target.value)"
-      @blur="$emit('blur', $event.target.value)"
-    />
-    <!-- v-on="$listeners" -->
+    <label>
+      <textarea
+        :id="id"
+        v-bind="$attrs"
+        class="whppt-inputTextArea__input"
+        :rows="rows || '1'"
+        :style="adjustable ? '' : 'resize: none'"
+        :class="{ 'whppt-inputArea__disabled': disabled }"
+        :type="$attrs.type || 'text'"
+        :placeholder="placeholder"
+        :value="value"
+        :disabled="disabled"
+        @input="$emit('input', $event.target.value)"
+        @change="$emit('change', $event.target.value)"
+        @blur="$emit('blur', $event.target.value)"
+      />
+    </label>
     <p v-if="info" class="whppt-inputTextArea__info">{{ info }}&nbsp;</p>
   </div>
 </template>
 
 <script>
-// Based on https://vuejs.org/v2/examples/modal.html
 export default {
   name: 'EditorInputTextArea',
-  props: ['id', 'label', 'value', 'info', 'placeholder', 'disabled', 'labelColour', 'rows', 'adjustable'],
+
+  props: {
+    id: { type: String, default: () => '' },
+    label: { type: String, default: () => '' },
+    value: { type: [String, Object], default: () => '' },
+    info: { type: String, default: () => '' },
+    placeholder: { type: String, default: () => '' },
+    disabled: { type: Boolean, default: () => false },
+    labelColour: { type: String, default: () => '#000' },
+    rows: { type: [String, Number], default: () => 5 },
+    adjustable: { type: Boolean, default: () => false },
+  },
 };
 </script>
+
 <style scoped>
 .whppt-inputTextArea__label {
-  /* color: white; */
   display: block;
   text-transform: uppercase;
   letter-spacing: 0.025em;

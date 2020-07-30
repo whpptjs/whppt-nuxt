@@ -1,7 +1,7 @@
 <template>
   <div>
     <p class="font-xl">Carousel Items</p>
-    <whppt-select v-model="editingCarouselItem" :items="editingCarouselItems" value-prop="text.title" />
+    <whppt-select v-model="editingCarouselItem" :items="editingCarouselItems" value-prop="text.title" key-prop="" />
 
     <div class="whppt-carousel__actions">
       <button class="whppt-carousel__actions-add" @click="add">Add New Item</button>
@@ -14,12 +14,11 @@
 
 <script>
 import { mapState } from 'vuex';
-import WhpptTextInput from '../whpptComponents/WhpptTextInput';
 import WhpptSelect from '../whpptComponents/WhpptSelect';
 
 export default {
   name: 'EditorCarousel',
-  components: { WhpptTextInput, WhpptSelect },
+  components: { WhpptSelect },
   data() {
     return {
       editingCarouselItem: undefined,
@@ -65,6 +64,7 @@ export default {
   },
 };
 </script>
+
 <style>
 .margin-top-input {
   display: none;

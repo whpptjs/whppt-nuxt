@@ -6,8 +6,8 @@
       :value="selectedIndex"
       :class="{ 'whppt-select__input_alt_bg': dark }"
       class="whppt-select__input"
-      @change="select"
       v-bind="$attrs"
+      @change="select"
     >
       <option :value="-1">
         {{ action }}
@@ -18,6 +18,7 @@
     </select>
   </div>
 </template>
+
 <script>
 import { get } from 'lodash';
 export default {
@@ -51,6 +52,7 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 .whppt-select__label {
   display: block;
