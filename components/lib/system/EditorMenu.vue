@@ -47,6 +47,7 @@ export default {
   },
   data: () => ({
     currentAction: undefined,
+    menuCollapsed: false,
   }),
   computed: {
     ...mapState('whppt-nuxt/editor', ['activeMenuItem', 'selectedContent', 'selectedComponent', 'environment']),
@@ -54,6 +55,13 @@ export default {
     ...mapState('whppt-nuxt/security', ['authUser']),
     menuItems() {
       return [
+        {
+          key: 'collapse',
+          label: 'Collapse Menu',
+          icon: this.menuCollapsed ? '' : 'w-collapse',
+          group: '',
+          action: () => this.toggleMenuCollapse(),
+        },
         {
           key: 'select',
           label: 'Select Component',
@@ -165,6 +173,9 @@ export default {
     showLogin() {
       this.$refs.loginForm.show();
     },
+    toggleMenuCollapse() {
+      this.menuCollapsed = !this.menuCollapsed;
+    }
   },
 };
 </script>
