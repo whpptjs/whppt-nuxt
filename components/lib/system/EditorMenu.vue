@@ -4,30 +4,49 @@
     <login-form ref="loginForm"></login-form>
     <div class="whppt-menu">
       <div v-if="!userCanEdit">
-        <div class="whppt-menu__item">
-          <button aria-label="login" @click="showLogin()">
-            <component :is="`w-login`" />
+        <div v-if="menuCollapsed" class="whppt-menu__item">
+          <button v-v-tooltip.right="'Expand Menu'" aria-label="Expand Menu" @click="toggleMenuCollapse">
+            <w-expand style="height: 2rem;" />
           </button>
+        </div>
+        <div v-else>
+          <div class="whppt-menu__item">
+            <button v-v-tooltip.right="'Collapse Menu'" aria-label="Collapse Menu" @click="toggleMenuCollapse">
+              <w-collapse style="height: 2rem;" />
+            </button>
+          </div>
+          <div class="whppt-menu__item">
+            <button aria-label="login" @click="showLogin()">
+              <component :is="`w-login`" />
+            </button>
+          </div>
         </div>
       </div>
       <div v-if="userCanEdit">
-        <div
-          v-for="(item, index) in menuItems"
-          :key="index"
-          class="whppt-menu__item"
-          :class="{ 'whppt-menu__item--active': item.isActive && item.isActive() }"
-        >
-          <button
-            v-if="item.action && !item.disabled"
-            v-v-tooltip.right="item.label"
-            :aria-label="item.label"
-            @click="item.action()"
+        <div v-if="menuCollapsed" class="whppt-menu__item">
+          <button v-v-tooltip.right="'Expand Menu'" aria-label="Expand Menu" @click="toggleMenuCollapse">
+            <w-expand style="height: 2rem;" />
+          </button>
+        </div>
+        <div v-else>
+          <div
+            v-for="(item, index) in menuItems"
+            :key="index"
+            class="whppt-menu__item"
+            :class="{ 'whppt-menu__item--active': item.isActive && item.isActive() }"
           >
-            <component :is="item.icon" />
-          </button>
-          <button v-else v-v-tooltip.right="item.label" aria-label="">
-            <component :is="item.icon" style="color: grey" />
-          </button>
+            <button
+              v-if="item.action && !item.disabled"
+              v-v-tooltip.right="item.label"
+              :aria-label="item.label"
+              @click="item.action()"
+            >
+              <component :is="item.icon" />
+            </button>
+            <button v-else v-v-tooltip.right="item.label" aria-label="">
+              <component :is="item.icon" style="color: grey" />
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -47,6 +66,7 @@ export default {
   },
   data: () => ({
     currentAction: undefined,
+    menuCollapsed: false,
   }),
   computed: {
     ...mapState('whppt-nuxt/editor', ['activeMenuItem', 'selectedContent', 'selectedComponent', 'environment']),
@@ -54,6 +74,13 @@ export default {
     ...mapState('whppt-nuxt/security', ['authUser']),
     menuItems() {
       return [
+        {
+          key: 'collapse',
+          label: 'Collapse Menu',
+          icon: this.menuCollapsed ? '' : 'w-collapse',
+          group: '',
+          action: () => this.toggleMenuCollapse(),
+        },
         {
           key: 'select',
           label: 'Select Component',
@@ -164,6 +191,9 @@ export default {
     },
     showLogin() {
       this.$refs.loginForm.show();
+    },
+    toggleMenuCollapse() {
+      this.menuCollapsed = !this.menuCollapsed;
     },
   },
 };

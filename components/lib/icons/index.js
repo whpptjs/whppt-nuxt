@@ -2,8 +2,10 @@ import ArrowDown from './ArrowDown';
 import AddCircle from './AddCircle';
 import ArrowUp from './ArrowUp';
 import Colour from './Colour';
+import Collapse from './Collapse';
 import Draggable from './Draggable';
 import Edit from './Edit';
+import Expand from './Expand';
 import Globe from './Globe';
 import LeftTriangle from './LeftTriangle';
 import NewPage from './NewPage';
@@ -29,8 +31,10 @@ export default {
   ArrowUp,
   AddCircle,
   Colour,
+  Collapse,
   Draggable,
   Edit,
+  Expand,
   Globe,
   LeftTriangle,
   NewPage,
