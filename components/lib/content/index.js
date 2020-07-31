@@ -5,5 +5,5 @@ import Anchor from './Anchor';
 export default {
   EditorApp,
   Link,
-  Anchor
+  Anchor,
 };
