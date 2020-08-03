@@ -2,17 +2,17 @@
   <!-- https://vuejsexamples.com/a-vue-component-that-create-moveable-and-resizable/ -->
   <div>
     <login-form ref="loginForm"></login-form>
-    <div class="whppt-menu">
+    <div class="whppt-menu" :class="{ 'whppt-menu--expanded': !menuCollapsed }">
       <div v-if="!userCanEdit">
         <div v-if="menuCollapsed" class="whppt-menu__item">
           <button v-v-tooltip.right="'Expand Menu'" aria-label="Expand Menu" @click="toggleMenuCollapse">
-            <w-expand style="height: 2rem;" />
+            <w-expand />
           </button>
         </div>
         <div v-else>
           <div class="whppt-menu__item">
             <button v-v-tooltip.right="'Collapse Menu'" aria-label="Collapse Menu" @click="toggleMenuCollapse">
-              <w-collapse style="height: 2rem;" />
+              <w-collapse />
             </button>
           </div>
           <div class="whppt-menu__item">
@@ -25,7 +25,7 @@
       <div v-if="userCanEdit">
         <div v-if="menuCollapsed" class="whppt-menu__item">
           <button v-v-tooltip.right="'Expand Menu'" aria-label="Expand Menu" @click="toggleMenuCollapse">
-            <w-expand style="height: 2rem;" />
+            <w-expand />
           </button>
         </div>
         <div v-else>
@@ -202,7 +202,7 @@ export default {
 <style scoped>
 .whppt-menu {
   background-color: rgba(0, 0, 0, 0.8);
-  padding: 0.5rem 0.25rem;
+  padding: 0 0.25rem;
   position: fixed;
   z-index: 51;
   top: 20px;
@@ -210,10 +210,18 @@ export default {
   border-radius: 100px;
 }
 
+.whppt-menu--expanded {
+  padding: 0.5rem 0.25rem;
+}
+
 @media (max-width: 640px) {
   .whppt-menu {
     display: none;
   }
+}
+
+.whppt-menu__item svg {
+  height: 2rem;
 }
 
 .whppt-menu__item--active {
@@ -347,7 +355,7 @@ export default {
   color: black;
   padding: 24px;
   border-radius: 5px;
-  box-shadow: 0 5px 30px rgba(black, 0.1);
+  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
 }
 
 .tooltip.popover .popover-arrow {
