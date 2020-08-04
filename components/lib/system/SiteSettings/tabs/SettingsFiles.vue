@@ -43,7 +43,7 @@
               </td>
               <td>
                 <div class="inline-block">
-                  <a class="whppt-settings__tooltip" target="_blank" :href="_file.href">
+                  <a class="whppt-settings__tooltip" target="_blank" :href="getUrl(_file)">
                     <span class="whppt-settings__tooltip-text">View</span>
                     <external-link />
                   </a>
@@ -128,8 +128,13 @@ export default {
     return this.loadFiles().then(() => (this.loading = false));
   },
   methods: {
+    getUrl(file) {
+      const baseUrl = window.location.origin;
+      return `${baseUrl}/file/${file._id}/${file.name}`;
+    },
     copyUrl(file) {
-      const str = file.href;
+      const baseUrl = window.location.origin;
+      const str = `${baseUrl}/file/getFile/${file._id}/${file.name}`;
       const el = document.createElement('textarea');
       el.value = str;
       document.body.appendChild(el);
