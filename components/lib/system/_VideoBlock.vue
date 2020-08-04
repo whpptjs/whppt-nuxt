@@ -7,6 +7,7 @@
       value-prop="value"
       :items="items"
       key-prop="id"
+      @click="$emit('someEvent')"
     ></whppt-select>
     <whppt-text-input v-model="videoId" label="Video ID" />
     <whppt-button class="whppt-video-block__apply-change" @click="applyChanges">Apply</whppt-button>
