@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!isLinkActive || !to.href">
+  <div v-if="inactive || !to.href">
     <slot></slot>
   </div>
   <nuxt-link v-else-if="to.type === 'page' && !exactPath" :to="to.href">
@@ -34,8 +34,8 @@ export default {
   },
   computed: {
     ...mapState('whppt-nuxt/editor', ['activeMenuItem']),
-    isLinkActive() {
-      return !this.activeMenuItem;
+    inactive() {
+      return this.activeMenuItem;
     },
     exactPath() {
       return this.$route.fullPath === this.to.href;

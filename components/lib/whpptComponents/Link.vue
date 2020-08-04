@@ -70,7 +70,18 @@
         <div class="whppt-input-half">Selected File Url:</div>
         <div class="whppt-input-half" style="margin-bottom: 30px;">{{ data.href }}</div>
         <whppt-text-input v-model="data.text" class="whppt-input-half" placeholder="Link Text" label="Link Text" />
-        <whppt-text-input
+
+        <whppt-select
+          class="whppt-input-half mt-2"
+          keyProp="_id"
+          :value="data.fileId"
+          label="File"
+          valueProp="name"
+          @input="selectFile"
+          :items="files"
+        ></whppt-select>
+
+        <!-- <whppt-text-input
           v-model="search"
           class="whppt-input-half"
           style="margin-top: 40px;"
@@ -94,7 +105,7 @@
             <td>{{ file.name }}</td>
             <td>{{ file.fileType ? file.fileType.ext : '–' }}</td>
           </tr>
-        </table>
+        </table> -->
       </div>
     </div>
   </div>
@@ -105,10 +116,11 @@ import { mapState } from 'vuex';
 import { debounce } from 'lodash';
 import ETab from './Tab';
 import WhpptTextInput from './WhpptTextInput';
+import WhpptSelect from './WhpptSelect';
 
 export default {
   name: 'EditorLinkEdit',
-  components: { WhpptTextInput, ETab },
+  components: { WhpptTextInput, ETab, WhpptSelect },
   props: {
     data: {
       type: Object,
@@ -133,7 +145,14 @@ export default {
   },
   methods: {
     selectFile(item) {
-      this.data.href = `${this.baseFileUrl ? this.baseFileUrl : ''}/file/${item._id}/${item.name}`;
+      if (!item) {
+        this.data.href = undefined;
+        this.data.fileId = '';
+        return;
+      }
+      const baseUrl = this.baseFileUrl ? this.baseFileUrl : window.location.origin;
+
+      this.data.href = `${baseUrl}/file/${item._id}`;
       this.data.fileId = item._id;
     },
     isTypeOf(value) {
