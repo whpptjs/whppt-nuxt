@@ -73,12 +73,12 @@
 
         <whppt-select
           class="whppt-input-half mt-2"
-          keyProp="_id"
+          key-prop="_id"
           :value="data.fileId"
           label="File"
-          valueProp="name"
-          @input="selectFile"
+          value-prop="name"
           :items="files"
+          @input="selectFile"
         ></whppt-select>
 
         <!-- <whppt-text-input
