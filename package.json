@@ -1,7 +1,7 @@
 {
   "name": "@whppt/nuxt",
   "description": "Whppt nuxt module",
-  "version": "1.0.28",
+  "version": "1.0.29",
   "author": "Svelte Studios (https://www.npmjs.com/settings/svelte-studios/packages)",
   "main": "module.js",
   "scripts": {
@@ -32,6 +32,7 @@
     "eslint-plugin-prettier": "^3.1.1",
     "glob": "^7.1.6",
     "husky": "^4.2.5",
+    "lint-staged": "^10.2.11",
     "prettier": "^1.19.1",
     "run-rs": "^0.6.2"
   },
@@ -54,7 +55,13 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint -fix"
+      "pre-commit": "lint-staged"
     }
+  },
+  "lint-staged": {
+    "**/*.{js,css,vue}": [
+      "prettier --write",
+      "eslint --ext .js,.vue --ignore-path .gitignore . --fix"
+    ]
   }
 }

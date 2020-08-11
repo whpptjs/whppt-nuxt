@@ -24,28 +24,42 @@
         <table v-if="!openEditor">
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Description</th>
-              <th>Actions</th>
+              <th class="text-left">Name</th>
+              <th class="text-left">Description</th>
+              <th class="text-left">Actions</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="(_file, index) in files" :key="index">
-              <td>
+              <td class="mr-2">
                 <label>
                   <input v-model="_file.name" type="text" class="whppt-table__input" placeholder="–" />
                 </label>
               </td>
-              <td>
+              <td class="mr-2">
                 <label>
                   <input v-model="_file.description" type="text" class="whppt-table__input" placeholder="–" />
                 </label>
               </td>
               <td>
-                <button @click="saveFileDetails(_file)">
+                <div class="inline-block">
+                  <a class="whppt-settings__tooltip" target="_blank" :href="getUrl(_file)">
+                    <span class="whppt-settings__tooltip-text">View</span>
+                    <external-link />
+                  </a>
+                </div>
+                <button class="whppt-settings__tooltip" @click="copyUrl(_file)">
+                  <span class="whppt-settings__tooltip-text">Copy Url</span>
+                  <link-icon />
+                </button>
+                <button class="whppt-settings__tooltip" @click="saveFileDetails(_file)">
+                  <span class="whppt-settings__tooltip-text">Save</span>
+
                   <save />
                 </button>
-                <button @click="itemToBeRemoved = _file">
+                <button class="whppt-settings__tooltip" @click="itemToBeRemoved = _file">
+                  <span class="whppt-settings__tooltip-text">Remove</span>
+
                   <remove />
                 </button>
               </td>
@@ -77,16 +91,24 @@
 
 <script>
 import { mapState } from 'vuex';
+import { VTooltip } from 'v-tooltip';
 import WhpptTextInput from '../../../whpptComponents/WhpptTextInput';
 import Save from '../../../icons/Save';
+import LinkIcon from '../../../icons/Link';
 import Remove from '../../../icons/Remove';
+import ExternalLink from '../../../icons/External';
 
 export default {
   name: 'Test',
+  directives: {
+    VTooltip,
+  },
   components: {
     WhpptTextInput,
     Save,
     Remove,
+    LinkIcon,
+    ExternalLink,
   },
   data() {
     return {
@@ -106,6 +128,21 @@ export default {
     return this.loadFiles().then(() => (this.loading = false));
   },
   methods: {
+    getUrl(file) {
+      const baseUrl = window.location.origin;
+      return `${baseUrl}/file/${file._id}/${file.name}`;
+    },
+    copyUrl(file) {
+      const baseUrl = window.location.origin;
+      const str = `${baseUrl}/file/getFile/${file._id}/${file.name}`;
+      const el = document.createElement('textarea');
+      el.value = str;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+    },
+
     remove() {
       const vm = this;
       return this.$api.post(`/file/removeFile`, { _id: this.itemToBeRemoved._id }).then(() => {
@@ -157,17 +194,22 @@ export default {
 <style scoped>
 .whppt-table__input {
   background: transparent;
-  border: none;
   box-shadow: none;
+}
+
+.left-float {
+  float: left;
 }
 
 table {
   width: 100%;
 }
 
-table tr th,
-table tr td {
+table tr th {
   padding: 0.5rem 0.2rem;
+}
+table tr td {
+  padding: 0.2rem 0.2rem 0rem;
 }
 
 table tbody tr:nth-child(odd) {

@@ -1,7 +1,14 @@
 <template>
   <div class="whppt-full">
     <h1>Video</h1>
-    <whppt-select v-model="platform" label="Select platform" :items="items" value-prop="value"></whppt-select>
+    <whppt-select
+      v-model="platform"
+      label="Select platform"
+      value-prop="value"
+      :items="items"
+      key-prop="id"
+      @click="$emit('someEvent')"
+    ></whppt-select>
     <whppt-text-input v-model="videoId" label="Video ID" />
     <whppt-button class="whppt-video-block__apply-change" @click="applyChanges">Apply</whppt-button>
   </div>

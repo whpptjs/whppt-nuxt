@@ -25,6 +25,8 @@ import Footer from './Footer';
 import Nav from './Nav';
 import Login from './Login';
 import Logout from './Logout';
+import Link from './Link';
+import External from './External';
 
 export default {
   ArrowDown,
@@ -54,4 +56,6 @@ export default {
   Nav,
   Login,
   Logout,
+  Link,
+  External,
 };

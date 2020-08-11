@@ -59,24 +59,24 @@ export default (context, inject) => {
     apiPrefix: options.apiPrefix,
     disablePublishing: options.disablePublishing,
     addPlugins(plugins) {
-      forEach(plugins, (p, k) => {
-        this.plugins[k] = p;
+      forEach(plugins, (plugin, key) => {
+        this.plugins[key] = plugin;
 
-        if (p.editors) {
-          forEach(p.editors, e => {
-            if (e.directive)
-              return e.directive({
+        if (plugin.editors) {
+          forEach(plugin.editors, editor => {
+            if (editor.directive)
+              return editor.directive({
                 ...context,
                 menuIsInState,
                 MENUSTATES,
-                definition: e,
+                definition: editor,
               });
 
             dynamicDirective({
               ...context,
               menuIsInState,
               MENUSTATES,
-              definition: e,
+              definition: editor,
             });
           });
         }
