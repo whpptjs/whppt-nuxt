@@ -86,5 +86,4 @@ export default options => ({
       state.page = undefined;
     },
   },
-  getters: {},
 });

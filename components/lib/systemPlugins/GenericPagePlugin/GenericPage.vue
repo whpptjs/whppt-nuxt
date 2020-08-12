@@ -2,7 +2,11 @@
   <div>
     <whppt-select
       v-model="page.template"
-      :items="(page && page.pageType && page.pageType.templates) || []"
+      :items="
+        (page && page.pageType && page.pageType.templates) ||
+          (page && page.pageTypeObj && page.pageTypeObj.templates) ||
+          []
+      "
       label="Page Template"
       value-prop="label"
       key-prop="key"

@@ -161,7 +161,7 @@
 <script>
 import slugify from 'slugify';
 import { mapActions } from 'vuex';
-import { map, find, get, compact, filter, forEach } from 'lodash';
+import { map, find, get, compact, filter, forEach, omit } from 'lodash';
 import WhpptTextInput from '../../../whpptComponents/WhpptTextInput';
 import WhpptSelect from '../../../whpptComponents/WhpptSelect';
 
@@ -226,12 +226,15 @@ export default {
       this.newPage.pageType = $event;
     },
     changePageType() {
-      let newSlug = '';
+      let newSlug = this.rawSlug;
+
+      const oldPageTypeObj = find(this.pageTypes, t => get(t, 'name') === this.page.pageType) || {};
+      if (oldPageTypeObj && oldPageTypeObj.stripSlug) {
+        newSlug = oldPageTypeObj.stripSlug({ slug: newSlug, page: this.page });
+      }
 
       if (this.newPage.pageTypeObj && this.newPage.pageTypeObj.formatSlug) {
-        newSlug = this.newPage.pageTypeObj.formatSlug({ slug: this.rawSlug, page: this.page });
-      } else {
-        newSlug = this.rawSlug;
+        newSlug = this.newPage.pageTypeObj.formatSlug({ slug: newSlug, page: this.newPage });
       }
 
       if (!this.rawSlug || !newSlug) {
@@ -247,16 +250,24 @@ export default {
         } else {
           this.page.slug = newSlug;
 
-          const page = { ...this.page, pageType: this.newPage.pageTypeObj.name };
+          let page = { ...this.page, pageType: this.newPage.pageTypeObj.name };
           if (this.newPage.template) page.template = this.newPage.template.key;
 
-          const promises = [this.savePage({ page })];
-          if (this.newPage.pageTypeObj.name !== this.page.pageType) promises.push(this.deletePage());
+          if (this.newPage.pageTypeObj.name !== this.page.pageType) {
+            return this.newPage.pageTypeObj.createPage(this, { page, form: this.newPage }).then(() => {
+              return this.deletePage().then(() => {
+                this.$router.push(`/${newSlug}`);
+                this.$emit('closeModal');
+              });
+            });
+          } else {
+            page = { ...page, ...omit(this.newPage, ['pageTypeObj', 'template', 'pageType']) };
 
-          return Promise.all(promises).then(() => {
-            this.$router.push(`/${newSlug}`);
-            this.$emit('closeModal');
-          });
+            return this.savePage({ page }).then(() => {
+              this.$router.push(`/${newSlug}`);
+              this.$emit('closeModal');
+            });
+          }
         }
       });
     },
