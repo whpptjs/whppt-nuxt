@@ -20,8 +20,20 @@
           Close
         </button>
       </div>
+      <div class="whppt-flex-start whppt-align-center">
+        <div
+          v-for="index in pagesArray"
+          :key="`page-${index}`"
+          class="whppt-redirects__page"
+          :class="index === currentPage ? 'whppt-redirects__page-selected' : ''"
+          style="display: flex"
+          @click="changePage(index)"
+        >
+          {{ index }}
+        </div>
+      </div>
       <div v-if="!itemToBeRemoved">
-        <table v-if="!openEditor">
+        <table class="table-width" v-if="!openEditor || !loading">
           <thead>
             <tr>
               <th class="text-left">Name</th>
@@ -66,6 +78,10 @@
             </tr>
           </tbody>
         </table>
+
+        <div v-if="loading" style="margin-top: 30px;">
+          Loading...
+        </div>
         <div v-if="openEditor" style="margin-top: 30px;">
           <whppt-text-input v-model="file.description" placeholder="File description" class="whppt-full" />
           <button class="whppt-settings__button" @click="$refs.fileInput.click()">
@@ -113,7 +129,9 @@ export default {
   data() {
     return {
       files: [],
+      pages: 0,
       limit: 9,
+      loading: false,
       currentPage: 1,
       openEditor: false,
       itemToBeRemoved: false,
@@ -122,19 +140,31 @@ export default {
   },
   computed: {
     ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
+    pagesArray() {
+      const length = [];
+      for (let i = 1; i <= this.pages; i++) {
+        length.push(i);
+      }
+
+      return length;
+    },
   },
   mounted() {
     this.loading = true;
     return this.loadFiles().then(() => (this.loading = false));
   },
   methods: {
+    changePage(value) {
+      this.currentPage = value;
+      this.loadFiles();
+    },
     getUrl(file) {
       const baseUrl = window.location.origin;
-      return `${baseUrl}/file/${file._id}/${file.name}`;
+      return encodeURI(`${baseUrl}/file/${file._id}/${file.name}`);
     },
     copyUrl(file) {
       const baseUrl = window.location.origin;
-      const str = `${baseUrl}/file/getFile/${file._id}/${file.name}`;
+      const str = encodeURI(`${baseUrl}/file/${file._id}/${file.name}`);
       const el = document.createElement('textarea');
       el.value = str;
       document.body.appendChild(el);
@@ -177,14 +207,20 @@ export default {
         this.$toast.global.editorSuccess('File Details Updated');
       });
     },
-    loadFiles(currentPage) {
-      this.currentPage = currentPage || 1;
+    loadFiles() {
+      const vm = this;
+      vm.loading = true;
       return this.$api
         .get(`/file/loadFiles`, {
-          params: { currentPage: this.currentPage, limit: this.limit },
+          params: { currentPage: this.currentPage || 1, limit: this.limit },
         })
-        .then(({ data: { files } }) => {
-          this.files = files;
+        .then(({ data: { files, total } }) => {
+          vm.pages = total / this.limit;
+          vm.loading = false;
+          vm.files = files;
+        })
+        .catch(() => {
+          vm.loading = false;
         });
     },
   },
@@ -201,18 +237,18 @@ export default {
   float: left;
 }
 
-table {
+.table-width {
   width: 100%;
 }
 
-table tr th {
+.table-width tr th {
   padding: 0.5rem 0.2rem;
 }
-table tr td {
+.table-width tr td {
   padding: 0.2rem 0.2rem 0rem;
 }
 
-table tbody tr:nth-child(odd) {
+.table-width tbody tr:nth-child(odd) {
   background: #efefef;
 }
 </style>
