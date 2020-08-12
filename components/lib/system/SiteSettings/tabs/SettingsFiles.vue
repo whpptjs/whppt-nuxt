@@ -33,7 +33,7 @@
         </div>
       </div>
       <div v-if="!itemToBeRemoved">
-        <table class="table-width" v-if="!openEditor || !loading">
+        <table v-if="!openEditor || !loading" class="table-width">
           <thead>
             <tr>
               <th class="text-left">Name</th>
