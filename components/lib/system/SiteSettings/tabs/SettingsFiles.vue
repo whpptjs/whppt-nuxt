@@ -107,6 +107,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import { ceil } from 'lodash';
 import { VTooltip } from 'v-tooltip';
 import WhpptTextInput from '../../../whpptComponents/WhpptTextInput';
 import Save from '../../../icons/Save';
@@ -215,7 +216,7 @@ export default {
           params: { currentPage: this.currentPage || 1, limit: this.limit },
         })
         .then(({ data: { files, total } }) => {
-          vm.pages = total / this.limit;
+          vm.pages = ceil(total / this.limit);
           vm.loading = false;
           vm.files = files;
         })
