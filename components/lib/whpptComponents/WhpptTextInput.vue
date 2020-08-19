@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- TODO: Revise inline styles below-->
     <label
       v-if="label"
       class="whppt-inputText__label"

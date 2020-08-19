@@ -14,7 +14,12 @@
         @change="changes => change({ canvas, canvasName }, changes)"
       ></cropper>
     </div>
-    <whppt-text-input v-model="imageOptions.alt" placeholder="e.g. Article Heading Image" label="Image alt text" />
+    <whppt-text-input
+      v-model="imageOptions.alt"
+      :label-colour="labelColour"
+      placeholder="e.g. Article Heading Image"
+      label="Image alt text"
+    />
   </div>
 </template>
 
@@ -34,6 +39,10 @@ export default {
     sizes: {
       type: Object,
       required: true,
+    },
+    labelColour: {
+      type: String,
+      default: () => 'white',
     },
   },
   data() {
