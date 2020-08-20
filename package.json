@@ -3,7 +3,7 @@
   "description": "Whppt nuxt module",
   "version": "1.0.35",
   "author": "Svelte Studios (https://www.npmjs.com/settings/svelte-studios/packages)",
-  "main": "module.js",
+  "main": "lib/module.js",
   "scripts": {
     "db:mongo": "run-rs --keep",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
