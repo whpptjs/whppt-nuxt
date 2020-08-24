@@ -17,9 +17,12 @@ import WhpptTextInput from '../whpptComponents/WhpptTextInput';
 export default {
   name: 'EditorTextBox',
   components: { WhpptTextInput },
-  computed: mapState('whppt-nuxt/editor', ['selectedComponent']),
+  computed: {
+    ...mapState('whppt-nuxt/editor', ['selectedComponent']),
+  },
 };
 </script>
+
 <style>
 .whppt-textBox--margin-top-20 {
   margin-top: 20px;

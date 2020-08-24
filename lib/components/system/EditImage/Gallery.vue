@@ -19,7 +19,11 @@
         class="whppt-gallery-item-container"
         :style="`flex-basis: ${imageDisplaySize}`"
       >
-        <div v-lazy:background-image="img(image._id)" class="whppt-gallery-item" @click="$emit('input', image._id)">
+        <div
+          :style="`background-image: url(${img(image._id)})`"
+          class="whppt-gallery-item"
+          @click="$emit('input', image._id)"
+        >
           <div class="whppt-gallery-item__remove" @click.stop="remove(image._id)">
             <trash class="whppt-gallery-item__remove-icon" />
           </div>
@@ -68,7 +72,7 @@ export default {
     };
   },
   computed: {
-    ...mapState('whppt-nuxt/editor', ['baseImageUrl2', 'baseCdnImageUrl2']),
+    ...mapState('whppt-nuxt/editor', ['baseImageUrl', 'baseCdnImageUrl']),
   },
   mounted() {
     this.loading = true;
@@ -87,15 +91,16 @@ export default {
         });
     },
     img(id) {
-      return `${this.baseCdnImageUrl2 || this.baseImageUrl2}/${id}?w=360&h=200`;
+      return `${this.baseCdnImageUrl || this.baseImageUrl}/${id}?w=360&h=200`;
     },
     upload(e) {
       const file = e.target.files[0];
       const formData = new FormData();
       formData.append('file', file);
       this.newImageLoading = true;
+
       return this.$api
-        .post(`${this.baseImageUrl2}/upload`, formData, {
+        .post(`${this.baseImageUrl}/upload`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
@@ -160,7 +165,9 @@ export default {
 .whppt-gallery-item {
   height: 100px;
   cursor: pointer;
-  background: grey no-repeat center center;
+  background-color: grey;
+  background-repeat: no-repeat;
+  background-position: center;
   background-size: cover;
 }
 

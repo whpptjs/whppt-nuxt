@@ -3,11 +3,12 @@
     <div v-for="(canvas, canvasName) in sizes" :key="canvasName" style="margin-bottom: 1rem;">
       <label class="whppt-cropper-label">{{ canvasName }}</label>
       <cropper
+        v-if="imageOptions.imageId"
         :style="`background: #000; width:${canvas.width / canvas.quality}px;`"
         :wheel-resize="false"
         :default-position="vals => defaultPosition({ canvas, canvasName }, vals)"
         :default-size="vals => defaultSize({ canvas, canvasName }, vals)"
-        :src="`${baseImageUrl2}/${imageOptions.imageId}?o=true`"
+        :src="`${baseImageUrl}/${imageOptions.imageId}?o=true`"
         :stencil-props="{
           aspectRatio: canvas.aspectRatio,
         }"
@@ -49,7 +50,7 @@ export default {
     return { width: 0 };
   },
   computed: {
-    ...mapState('whppt-nuxt/editor', ['baseImageUrl2', 'baseCdnImageUrl2']),
+    ...mapState('whppt-nuxt/editor', ['baseImageUrl', 'baseCdnImageUrl']),
   },
   methods: {
     change({ canvasName }, changes) {
