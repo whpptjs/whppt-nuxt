@@ -1,34 +1,41 @@
 <template>
-  <div v-if="draft" class="whppt-sidebar" :class="{ 'whppt-openEditor': editSidebar }">
-    <div class="whppt-sidebar__inner">
-      <whppt-tabs>
-        <whppt-tab title="Selected Component">
-          <component :is="editSidebarType"></component>
-          <div v-if="selectedComponent && selectedComponent.value && selectedContent" class="whppt__default-container">
-            <whppt-check-box
-              v-if="selectedComponent.value.hasOwnProperty('reversed')"
-              :value="selectedComponent.value.reversed"
-              label="Reversed"
-              @click="selectedComponent.value.reversed = !selectedComponent.value.reversed"
-            ></whppt-check-box>
-            <whppt-check-box
-              :value="selectedComponent.value.inContainer"
-              label="Put in a Container"
-              @click="selectedComponent.value.inContainer = !selectedComponent.value.inContainer"
-            ></whppt-check-box>
-            <div class="mt-8">Spacing</div>
-            <spacing-controls :selected-component="selectedComponent" :clamp-input="clampInput"></spacing-controls>
-          </div>
-        </whppt-tab>
-        <whppt-tab v-if="selectedContent" title="Contents Tree">
-          <contents-tree></contents-tree>
-        </whppt-tab>
-      </whppt-tabs>
-      <whppt-button class="whppt-button__close" @click="closeSidebar">
-        Close
-      </whppt-button>
-    </div>
-  </div>
+  <!--  <div v-if="draft" class="whppt-sidebar" :class="{ 'whppt-openEditor': editSidebar }">-->
+  <!--    <div class="whppt-sidebar__inner">-->
+  <!--      <whppt-tabs>-->
+  <!--        <whppt-tab title="Selected Component">-->
+  <!--          <component :is="editSidebarType"></component>-->
+  <!--          <div v-if="selectedComponent && selectedComponent.value && selectedContent" class="whppt__default-container">-->
+  <!--            <whppt-check-box-->
+  <!--              v-if="selectedComponent.value.hasOwnProperty('reversed')"-->
+  <!--              :value="selectedComponent.value.reversed"-->
+  <!--              label="Reversed"-->
+  <!--              @click="selectedComponent.value.reversed = !selectedComponent.value.reversed"-->
+  <!--            ></whppt-check-box>-->
+  <!--            <whppt-check-box-->
+  <!--              :value="selectedComponent.value.inContainer"-->
+  <!--              label="Put in a Container"-->
+  <!--              @click="selectedComponent.value.inContainer = !selectedComponent.value.inContainer"-->
+  <!--            ></whppt-check-box>-->
+  <!--            <div class="mt-8">Spacing</div>-->
+  <!--            <spacing-controls :selected-component="selectedComponent" :clamp-input="clampInput"></spacing-controls>-->
+  <!--          </div>-->
+  <!--        </whppt-tab>-->
+  <!--        <whppt-tab v-if="selectedContent" title="Contents Tree">-->
+  <!--          <contents-tree></contents-tree>-->
+  <!--        </whppt-tab>-->
+  <!--      </whppt-tabs>-->
+  <!--      <whppt-button class="whppt-button__close" @click="closeSidebar">-->
+  <!--        Close-->
+  <!--      </whppt-button>-->
+  <!--    </div>-->
+  <!--  </div>-->
+  <whppt-drawer :md-active.sync="editSidebar" md-persistent="full" md-right>
+    <md-tabs class="md-transparent">
+      <md-tab md-label="Selected Component">
+        <component :is="editSidebarType" />
+      </md-tab>
+    </md-tabs>
+  </whppt-drawer>
 </template>
 
 <script>
@@ -41,6 +48,7 @@ import WhpptTab from '../whpptComponents/WhpptTab';
 import WhpptButton from '../whpptComponents/WhpptButton';
 import WhpptCheckBox from '../whpptComponents/CheckBox';
 import WhpptTextInput from '../whpptComponents/WhpptTextInput';
+import WhpptDrawer from '../ui/Drawer';
 import * as Editors from './index';
 
 const additionalComponents = {};
@@ -70,6 +78,7 @@ export default {
     WhpptTextInput,
     WhpptTab,
     WhpptButton,
+    WhpptDrawer,
   },
   computed: {
     ...mapState('whppt-nuxt/editor', [

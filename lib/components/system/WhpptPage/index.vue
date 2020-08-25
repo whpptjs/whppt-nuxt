@@ -5,15 +5,17 @@
     <form class="whppt-page__form" @submit.prevent>
       <whppt-select v-model="pageForm.pageType" :items="pageTypes" label="Page Type" key-prop="label" />
       <component :is="pageForm.pageType.name" v-if="pageForm.pageType" :page="pageForm" />
+
       <whppt-text-input
         v-model="pageForm.slug"
         label="Page Slug"
         info="Enter any text and we'll turn it into a slug for you!"
       ></whppt-text-input>
+
       <div class="whppt-info">Your slug: {{ formatSlug(pageForm.slug) }}</div>
       <div v-if="showError">A page with that slug already exists, please select another.</div>
 
-      <whppt-button @click="saveNewPage">Create Page</whppt-button>
+      <whppt-button class="md-raised" @click="saveNewPage">Create Page</whppt-button>
     </form>
   </div>
 </template>
@@ -22,9 +24,9 @@
 import { map, filter, forEach } from 'lodash';
 import { mapState, mapActions } from 'vuex';
 import slugify from 'slugify';
-import WhpptButton from '../../whpptComponents/WhpptButton';
-import WhpptTextInput from '../../whpptComponents/WhpptTextInput';
-import WhpptSelect from '../../whpptComponents/WhpptSelect';
+import WhpptSelect from '../../ui/Select';
+import WhpptTextInput from '../../ui/InputField';
+import WhpptButton from '../../ui/Button';
 
 const additionalComponents = {};
 
@@ -37,7 +39,7 @@ forEach(pageTypePlugins, plugin => {
 
 export default {
   name: 'WhpptPage',
-  components: { ...additionalComponents, WhpptButton, WhpptSelect, WhpptTextInput },
+  components: { ...additionalComponents, WhpptSelect, WhpptTextInput, WhpptButton },
   data: () => ({
     additionalComponents,
     showError: false,
