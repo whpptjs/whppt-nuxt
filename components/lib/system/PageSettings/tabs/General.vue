@@ -215,6 +215,8 @@ export default {
     },
   },
   mounted() {
+    if (this.newPage && !this.newPage.template) this.newPage.template = { key: this.page.template };
+
     this.newPage.pageTypeObj = find(this.pageTypes, t => get(t, 'name') === this.page.pageType) || {};
     if (!this.newPage.pageTypeObj.stripSlug) return (this.rawSlug = this.page.slug);
     this.rawSlug = this.newPage.pageTypeObj.stripSlug({ slug: this.page.slug, page: this.page });

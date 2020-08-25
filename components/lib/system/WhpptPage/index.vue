@@ -4,6 +4,7 @@
 
     <form class="whppt-page__form" @submit.prevent>
       <whppt-select v-model="pageForm.pageType" :items="pageTypes" label="Page Type" key-prop="label" />
+      {{ pageForm.pageType.name }}
       <component :is="pageForm.pageType.name" v-if="pageForm.pageType" :page="pageForm" />
       <whppt-text-input
         v-model="pageForm.slug"
@@ -55,6 +56,7 @@ export default {
   },
   mounted() {
     if (this.page && this.page.pageType) this.pageForm.pageType = this.page.pageType;
+    if (this.page && this.page.template) this.pageForm.template = this.page.template;
   },
   methods: {
     ...mapActions('whppt-nuxt/editor', ['closeSidebar']),

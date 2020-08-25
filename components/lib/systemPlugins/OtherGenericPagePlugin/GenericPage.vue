@@ -14,7 +14,7 @@
 import WhpptSelect from '../../whpptComponents/WhpptSelect';
 
 export default {
-  name: 'WhpptGenericPage',
+  name: 'OtherWhpptGenericPage',
   components: { WhpptSelect },
   props: {
     page: {
