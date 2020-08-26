@@ -15,19 +15,14 @@
         @change="changes => change({ canvas, canvasName }, changes)"
       ></cropper>
     </div>
-    <whppt-text-input
-      v-model="imageOptions.alt"
-      :label-colour="labelColour"
-      placeholder="e.g. Article Heading Image"
-      label="Image alt text"
-    />
+    <whppt-text-input v-model="imageOptions.alt" placeholder="e.g. Article Heading Image" label="Image alt text" />
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import { Cropper } from 'vue-advanced-cropper';
-import WhpptTextInput from '../../whpptComponents/WhpptTextInput';
+import WhpptTextInput from '../../ui/InputField';
 
 export default {
   name: 'EditorImageCropping',
@@ -46,42 +41,54 @@ export default {
       default: () => 'white',
     },
   },
-  data() {
-    return { width: 0 };
-  },
   computed: {
     ...mapState('whppt-nuxt/editor', ['baseImageUrl', 'baseCdnImageUrl']),
   },
   methods: {
+    ...mapActions('whppt-nuxt/editor', ['setSelectedComponentState']),
     change({ canvasName }, changes) {
       const { coordinates } = changes;
-      this.imageOptions[canvasName].top = coordinates.top;
-      this.imageOptions[canvasName].left = coordinates.left;
-      this.imageOptions[canvasName].width = coordinates.width;
-      this.imageOptions[canvasName].height = coordinates.height;
+      /* this.imageOptions does mutate on change */
+      const dimensions = {
+        top: coordinates.top,
+        left: coordinates.left,
+        width: coordinates.width,
+        height: coordinates.height,
+      };
+
+      this.setSelectedComponentState({ value: dimensions, path: `image[${canvasName}]` });
     },
     defaultPosition({ canvasName }, { imageWidth, imageHeight }) {
       this.width = imageWidth;
-      if (!this.imageOptions[canvasName])
-        this.$set(this.imageOptions, canvasName, {
-          top: 0,
-          left: 0,
-          width: imageWidth,
-          height: imageHeight,
+      if (!this.imageOptions[canvasName]) {
+        this.setSelectedComponentState({
+          value: {
+            top: 0,
+            left: 0,
+            width: imageWidth,
+            height: imageHeight,
+          },
+          path: `image[${canvasName}]`,
         });
+      }
+
       return {
         top: this.imageOptions[canvasName].top,
         left: this.imageOptions[canvasName].left,
       };
     },
     defaultSize({ canvasName }, { imageWidth, imageHeight }) {
-      if (!this.imageOptions[canvasName])
-        this.$set(this.imageOptions, canvasName, {
-          top: 0,
-          left: 0,
-          width: imageWidth,
-          height: imageHeight,
+      if (!this.imageOptions[canvasName]) {
+        this.setSelectedComponentState({
+          value: {
+            top: 0,
+            left: 0,
+            width: imageWidth,
+            height: imageHeight,
+          },
+          path: `image[${canvasName}]`,
         });
+      }
       return {
         width: this.imageOptions[canvasName].width,
         height: this.imageOptions[canvasName].height,

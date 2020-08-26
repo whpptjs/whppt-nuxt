@@ -22,11 +22,11 @@ import SlugSettings from '../system/SlugSettings';
 import PublishSettings from '../system/PublishSettings';
 import WhpptModal from '../whpptComponents/WhpptModal';
 import WhpptTextInput from '../whpptComponents/WhpptTextInput';
-import WhpptCheckBox from '../whpptComponents/CheckBox';
-import ContentsTree from '../whpptComponents/ContentsTree';
+import WhpptCheckBox from '../whpptComponents/__CheckBox';
+import ContentsTree from '../whpptComponents/__ContentsTree';
 import WhpptTab from '../whpptComponents/WhpptTab';
-import WhpptButton from '../whpptComponents/WhpptButton';
-import WhpptTabs from '../whpptComponents/WhpptTabs';
+import WhpptButton from '../whpptComponents/__WhpptButton';
+import WhpptTabs from '../whpptComponents/__WhpptTabs';
 
 export default {
   name: 'WhpptEditorApp',

@@ -114,7 +114,7 @@
 <script>
 import { mapState } from 'vuex';
 import { debounce } from 'lodash';
-import ETab from './Tab';
+import ETab from './__Tab';
 import WhpptTextInput from './WhpptTextInput';
 import WhpptSelect from './WhpptSelect';
 

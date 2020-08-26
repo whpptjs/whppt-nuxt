@@ -18,7 +18,7 @@
 import { mapState } from 'vuex';
 import WhpptTextInput from '../whpptComponents/WhpptTextInput';
 import WhpptSelect from '../whpptComponents/WhpptSelect';
-import WhpptButton from '../whpptComponents/WhpptButton';
+import WhpptButton from '../whpptComponents/__WhpptButton';
 
 export default {
   name: 'EditorVideoBlock',

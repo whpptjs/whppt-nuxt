@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import WhpptButton from './WhpptButton';
+import WhpptButton from './__WhpptButton';
 
 export default {
   name: 'EditorTab',

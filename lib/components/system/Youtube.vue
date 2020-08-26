@@ -9,7 +9,7 @@
 <script>
 import { mapState } from 'vuex';
 import WhpptTextInput from '../whpptComponents/WhpptTextInput';
-import WhpptButton from '../whpptComponents/WhpptButton';
+import WhpptButton from '../whpptComponents/__WhpptButton';
 
 export default {
   name: 'EditorYoutube',

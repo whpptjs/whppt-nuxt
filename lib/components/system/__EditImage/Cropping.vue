@@ -34,7 +34,7 @@
 import { forEach, cloneDeep } from 'lodash';
 import Croppa from 'vue-croppa';
 import 'vue-croppa/dist/vue-croppa.css';
-import WhpptButton from '../../whpptComponents/WhpptButton';
+import WhpptButton from '../../whpptComponents/__WhpptButton';
 import WhpptTextInput from '../../whpptComponents/WhpptTextInput';
 
 export default {

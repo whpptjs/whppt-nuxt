@@ -97,7 +97,7 @@ import { Editor, EditorContent, EditorMenuBar } from 'tiptap';
 import { mapState } from 'vuex';
 import WhpptSelect from '../../whpptComponents/WhpptSelect';
 import WhpptTextInput from '../../whpptComponents/WhpptTextInput';
-import WhpptButton from '../../whpptComponents/WhpptButton';
+import WhpptButton from '../../whpptComponents/__WhpptButton';
 
 import Link from './CustomLink';
 import IBold from './icons/Bold';

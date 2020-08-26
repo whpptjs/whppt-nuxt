@@ -154,7 +154,7 @@
 </template>
 
 <script>
-import WhpptTabs from './WhpptTabs';
+import WhpptTabs from './__WhpptTabs';
 import WhpptTab from './WhpptTab';
 import WhpptTextInput from './WhpptTextInput';
 

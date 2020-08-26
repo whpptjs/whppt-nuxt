@@ -1,54 +1,43 @@
 <template>
-  <div class="whppt-full">
-    <p class="font-xl">Image V2</p>
-    <whppt-tabs ref="imageTabs">
-      <whppt-tab title="Cropping">
+  <div>
+    <p class="font-xl">Image</p>
+    <whppt-tabs md-alignment="fixed" :md-active-tab="activeTab" @md-changed="setActiveTab">
+      <whppt-tab id="cropping" md-label="Cropping">
         <cropping :image-options="selectedComponent.value.image" :sizes="selectedComponent.sizes" />
       </whppt-tab>
-      <whppt-tab title="Gallery">
-        <gallery :value="selectedComponent.value.image.imageId" @input="changeTab" />
+      <whppt-tab id="gallery" md-label="Gallery">
+        <gallery :value="selectedComponent.value.image.imageId" @input="selectImage" />
       </whppt-tab>
     </whppt-tabs>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import WhpptTab from '../../whpptComponents/WhpptTab';
-import WhpptTabs from '../../whpptComponents/WhpptTabs';
+import { mapActions, mapState } from 'vuex';
+import WhpptTab from '../../ui/Tab';
+import WhpptTabs from '../../ui/Tabs';
 import Gallery from './Gallery';
 import Cropping from './Cropping';
 
 export default {
   name: 'EditorImageEdit',
   components: { WhpptTabs, WhpptTab, Gallery, Cropping },
+  data: () => ({
+    activeTab: 'cropping',
+  }),
   computed: {
     ...mapState('whppt-nuxt/editor', ['selectedComponent']),
   },
   methods: {
-    changeTab(id) {
-      this.selectedComponent.value.image.imageId = id;
-      this.$refs.imageTabs.selectTab(this.$refs.imageTabs.tabs[0]);
+    ...mapActions('whppt-nuxt/editor', ['setSelectedComponentState']),
+    selectImage(id) {
+      this.setSelectedComponentState({ value: id, path: 'image.imageId' });
+      // this.selectedComponent.value.image.imageId = id;
+      this.setActiveTab('cropping');
+    },
+    setActiveTab(tabId) {
+      this.activeTab = tabId;
     },
   },
 };
 </script>
-<style scoped>
-.whppt-tabs {
-  display: flex;
-  padding-bottom: 1.5rem;
-  padding-left: 0;
-}
-
-.whppt-tabs__info {
-  padding: 0 1.25rem;
-  color: gray;
-  font-size: 0.75rem;
-  margin-bottom: 0.75rem;
-  font-style: italic;
-}
-
-.whppt-input-half {
-  padding: 0 0.5rem;
-}
-</style>

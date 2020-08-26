@@ -68,7 +68,7 @@
 <script>
 import { mapState } from 'vuex';
 import { without, findIndex } from 'lodash';
-import WhpptCheckBox from '../whpptComponents/CheckBox';
+import WhpptCheckBox from '../whpptComponents/__CheckBox';
 import WhpptSelect from '../whpptComponents/WhpptSelect';
 import ELink from '../whpptComponents/Link';
 

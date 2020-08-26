@@ -29,26 +29,29 @@
   <!--      </whppt-button>-->
   <!--    </div>-->
   <!--  </div>-->
-  <whppt-drawer :md-active.sync="editSidebar" md-persistent="full" md-right>
-    <md-tabs class="md-transparent">
-      <md-tab md-label="Selected Component">
+  <whppt-drawer :md-active.sync="editSidebar" md-persistent="full" md-fixed md-right>
+    <!--    <whppt-button class="md-fab md-fab-top-right md-fixed md-dense md-secondary" @click="closeSidebar">-->
+    <!--      <md-icon>close</md-icon>-->
+    <!--    </whppt-button>-->
+    <whppt-tabs class="md-transparent" md-elevation="1">
+      <whppt-tab md-label="Selected Component">
         <component :is="editSidebarType" />
-      </md-tab>
-    </md-tabs>
+      </whppt-tab>
+    </whppt-tabs>
   </whppt-drawer>
 </template>
 
 <script>
 import { filter, flatMap, forEach, clamp } from 'lodash';
 import { mapActions, mapState } from 'vuex';
-import WhpptTabs from '../whpptComponents/WhpptTabs';
-import ContentsTree from '../whpptComponents/ContentsTree';
 import SpacingControls from '../whpptComponents/SpacingControls';
-import WhpptTab from '../whpptComponents/WhpptTab';
-import WhpptButton from '../whpptComponents/WhpptButton';
-import WhpptCheckBox from '../whpptComponents/CheckBox';
-import WhpptTextInput from '../whpptComponents/WhpptTextInput';
+import WhpptCheckBox from '../whpptComponents/__CheckBox';
+
+import WhpptButton from '../ui/Button';
 import WhpptDrawer from '../ui/Drawer';
+import WhpptTabs from '../ui/Tabs';
+import WhpptTab from '../ui/Tab';
+
 import * as Editors from './index';
 
 const additionalComponents = {};
@@ -73,9 +76,7 @@ export default {
     WhpptPage: () => import('./WhpptPage/index'),
     WhpptTabs,
     WhpptCheckBox,
-    ContentsTree,
     SpacingControls,
-    WhpptTextInput,
     WhpptTab,
     WhpptButton,
     WhpptDrawer,
@@ -98,11 +99,3 @@ export default {
   },
 };
 </script>
-
-<style>
-@media (max-width: 640px) {
-  .whppt-sidebar {
-    display: none;
-  }
-}
-</style>

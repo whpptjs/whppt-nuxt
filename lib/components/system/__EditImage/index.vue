@@ -15,7 +15,7 @@
 <script>
 import { mapState } from 'vuex';
 import WhpptTab from '../../whpptComponents/WhpptTab';
-import WhpptTabs from '../../whpptComponents/WhpptTabs';
+import WhpptTabs from '../../whpptComponents/__WhpptTabs';
 import Gallery from './Gallery';
 import Cropping from './Cropping';
 
