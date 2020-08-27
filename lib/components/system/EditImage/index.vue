@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p class="font-xl">Image</p>
+    <p class="md-title">Image</p>
     <whppt-tabs md-alignment="fixed" :md-active-tab="activeTab" @md-changed="setActiveTab">
       <whppt-tab id="cropping" md-label="Cropping">
         <cropping :image-options="selectedComponent.value.image" :sizes="selectedComponent.sizes" />
@@ -32,7 +32,6 @@ export default {
     ...mapActions('whppt-nuxt/editor', ['setSelectedComponentState']),
     selectImage(id) {
       this.setSelectedComponentState({ value: id, path: 'image.imageId' });
-      // this.selectedComponent.value.image.imageId = id;
       this.setActiveTab('cropping');
     },
     setActiveTab(tabId) {
@@ -41,3 +40,10 @@ export default {
   },
 };
 </script>
+
+<style>
+.whppt-tabs .md-tabs-content {
+  height: 100% !important;
+  overflow-y: auto;
+}
+</style>

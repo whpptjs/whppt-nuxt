@@ -48,7 +48,7 @@ export default {
     ...mapActions('whppt-nuxt/editor', ['setSelectedComponentState']),
     change({ canvasName }, changes) {
       const { coordinates } = changes;
-      /* this.imageOptions does mutate on change */
+
       const dimensions = {
         top: coordinates.top,
         left: coordinates.left,
@@ -89,6 +89,7 @@ export default {
           path: `image[${canvasName}]`,
         });
       }
+
       return {
         width: this.imageOptions[canvasName].width,
         height: this.imageOptions[canvasName].height,

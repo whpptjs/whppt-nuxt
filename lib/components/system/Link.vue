@@ -15,12 +15,6 @@ export default {
 };
 </script>
 <style scoped>
-.whppt-tabs {
-  display: flex;
-  padding-bottom: 1.5rem;
-  padding-left: 0;
-}
-
 .whppt-tabs__info {
   padding: 0 1.25rem;
   color: gray;

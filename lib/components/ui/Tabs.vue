@@ -1,5 +1,5 @@
 <template>
-  <md-tabs v-bind="$attrs" @md-changed="$emit('md-changed', $event)">
+  <md-tabs v-bind="$attrs" class="whppt-tabs" @md-changed="$emit('md-changed', $event)">
     <slot></slot>
   </md-tabs>
 </template>
@@ -9,5 +9,3 @@ export default {
   name: 'WhpptTabs',
 };
 </script>
-
-<style scoped></style>

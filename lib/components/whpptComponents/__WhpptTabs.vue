@@ -49,21 +49,6 @@ export default {
 };
 </script>
 <style>
-.whppt-tabs {
-  display: flex;
-  width: 100%;
-  font-size: 16px;
-  margin: 20px 0;
-  border-bottom-color: lightgrey;
-  border-bottom-width: 1px;
-  border-bottom-style: outset;
-}
-
-.whppt-tabs .tabs-details {
-  overflow: auto;
-  height: calc(100vh - 120px);
-}
-
 .whppt-tabs__title {
   padding: 10px 15px;
   border-top-left-radius: 10px;
