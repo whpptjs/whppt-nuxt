@@ -1,38 +1,35 @@
 <template>
   <form @submit.prevent>
-    <div>
-      <h4>Email</h4>
-      <div class="whppt-flex whppt-align-center">
-        <whppt-text-input v-model="settings.emailLocal" placeholder="Give the mailbox a name" class="whppt-full" />
-        <div class="whppt-settings__email-at-sign">@</div>
-        <whppt-select
-          v-model="settings.emailDomain"
-          :items="domains"
-          action="Select a domain name"
-          class="whppt-full"
-          white
-        />
+    <md-subheader>Email</md-subheader>
+    <div class="md-layout md-gutter">
+      <div class="md-layout-item md-small-size-100">
+        <whppt-input v-model="settings.emailLocal" label="Give the mailbox a name" />
       </div>
-      <div>
-        <h4>Mailing List</h4>
-        <div>
-          <whppt-text-input
-            v-model="settings.subscriptionListId"
-            placeholder="e.g. 12345678"
-            label="Subscription Mail List ID"
-            label-colour="black"
-            info="The ID of the mailing list that users will be subscribed to if they opt in."
-          />
-        </div>
+      <div class="md-layout-item md-small-size-100">
+        <whppt-select v-model="settings.emailDomain" :items="domains" label="Select a domain name" />
       </div>
-      <div v-if="publishing">
-        <button class="whppt-settings__button" @click="pubNav">
-          Publish Nav
-        </button>
-        <button class="whppt-settings__button" @click="pubFooter">
-          Publish Footer
-        </button>
-      </div>
+    </div>
+    <md-divider></md-divider>
+    <!--      <div>-->
+    <!--        <h4>Mailing List</h4>-->
+    <!--        <div>-->
+    <!--          <whppt-text-input-->
+    <!--            v-model="settings.subscriptionListId"-->
+    <!--            placeholder="e.g. 12345678"-->
+    <!--            label="Subscription Mail List ID"-->
+    <!--            label-colour="black"-->
+    <!--            info="The ID of the mailing list that users will be subscribed to if they opt in."-->
+    <!--          />-->
+    <!--        </div>-->
+    <!--      </div>-->
+    <div v-if="publishing">
+      <md-subheader>Publishing</md-subheader>
+      <whppt-button class="md-primary md-raised" @click="pubNav">
+        Publish Nav
+      </whppt-button>
+      <whppt-button class="md-primary md-raised" @click="pubFooter">
+        Publish Footer
+      </whppt-button>
     </div>
   </form>
 </template>
@@ -40,12 +37,13 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 
-import WhpptTextInput from '../../../whpptComponents/WhpptTextInput';
-import WhpptSelect from '../../../whpptComponents/WhpptSelect';
+import WhpptSelect from '../../../ui/Select';
+import WhpptInput from '../../../ui/InputField';
+import WhpptButton from '../../../ui/Button';
 
 export default {
   name: 'SettingsGeneral',
-  components: { WhpptTextInput, WhpptSelect },
+  components: { WhpptInput, WhpptSelect, WhpptButton },
   props: { settings: { type: Object, default: () => ({}) } },
   data: () => ({
     domains: [],
@@ -57,7 +55,7 @@ export default {
     },
   },
   mounted() {
-    this.$api.get(`/siteSettings/getVerifiedDomains`).then(({ data }) => (this.domains = data));
+    // this.$api.get(`/siteSettings/getVerifiedDomains`).then(({ data }) => (this.domains = data));
   },
   methods: {
     ...mapActions('whppt-nuxt/site', ['saveSiteSettings', 'publishSiteSettings', 'publishNav', 'publishFooter']),
@@ -70,9 +68,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.whppt-settings__email-at-sign {
-  margin: 0 1rem;
-}
-</style>

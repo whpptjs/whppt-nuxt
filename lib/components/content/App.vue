@@ -2,11 +2,9 @@
   <div class="whppt-flex whppt-overflow-hidden">
     <div v-if="isDraft">
       <editor-menu></editor-menu>
-      <whppt-modal :is-active="editInModal" @closeModal="closeModal">
-        <template v-slot:content>
-          <component :is="editInModalType" :prefix="prefix" @closeModal="closeModal" />
-        </template>
-      </whppt-modal>
+      <whppt-dialog fixed-height :md-active.sync="editInModal" @md-clicked-outside="closeModal">
+        <component :is="editInModalType" :prefix="prefix" />
+      </whppt-dialog>
     </div>
     <div class="whppt-content">
       <slot></slot>
@@ -20,12 +18,14 @@ import { mapState, mapActions } from 'vuex';
 import * as Editors from '../system';
 import SlugSettings from '../system/SlugSettings';
 import PublishSettings from '../system/PublishSettings';
-import WhpptModal from '../whpptComponents/WhpptModal';
+import WhpptDialog from '../ui/Dialog';
+import WhpptButton from '../ui/Button';
+import Close from '../icons/Close';
+
 import WhpptTextInput from '../whpptComponents/WhpptTextInput';
 import WhpptCheckBox from '../whpptComponents/__CheckBox';
 import ContentsTree from '../whpptComponents/__ContentsTree';
 import WhpptTab from '../whpptComponents/WhpptTab';
-import WhpptButton from '../whpptComponents/__WhpptButton';
 import WhpptTabs from '../whpptComponents/__WhpptTabs';
 
 export default {
@@ -36,7 +36,7 @@ export default {
     PageSettings: () => import('../system/PageSettings/index'),
     WhpptSidebar: () => import('../system/WhpptSidebar'),
     WhpptButton,
-    WhpptModal,
+    WhpptDialog,
     WhpptTextInput,
     SlugSettings,
     PublishSettings,
@@ -44,6 +44,7 @@ export default {
     ContentsTree,
     WhpptTab,
     WhpptTabs,
+    Close,
   },
   props: { prefix: { type: String, default: '' } },
   computed: {

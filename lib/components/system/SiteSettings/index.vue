@@ -1,34 +1,21 @@
 <template>
-  <div class="whppt-settings">
-    <div class="whppt-settings__content">
-      <div class="whppt-settings__heading whppt-flex-between">
-        <p class="whppt-settings__heading-text">Site Settings</p>
-        <div class="whppt-flex-between whppt-align-center">
-          <button v-if="publishing" class="whppt-settings__button" style="margin-right: 1rem;" @click="publishSettings">
-            Publish
-          </button>
-          <button class="whppt-settings__button" @click="saveSettings">Save</button>
-        </div>
-      </div>
-      <div class="whppt-settings__tabs">
-        <div
-          v-for="(tab, index) in tabs"
-          :key="index"
-          class="whppt-settings__tab"
-          :class="selectedTab === tab.name ? 'whppt-settings__tab-selected' : ''"
-          @click="selectedTab = tab.name"
-        >
-          {{ tab.label }}
-        </div>
-      </div>
+  <whppt-tabs @md-changed="tabChanged">
+    <whppt-tab v-for="(tab, index) in tabs" :id="tab.name" :key="index" :md-label="tab.label">
       <component :is="selectedTab" :settings="siteSettings" />
-    </div>
-  </div>
+      <template v-slot:actions>
+        <whppt-button>Close</whppt-button>
+      </template>
+    </whppt-tab>
+  </whppt-tabs>
 </template>
 
 <script>
 import { filter, forEach, map } from 'lodash';
 import { mapActions } from 'vuex';
+
+import WhpptTabs from '../../ui/Tabs';
+import WhpptTab from '../../ui/Tab';
+import WhpptButton from '../../ui/Button';
 
 import SEO from './tabs/SettingsSEO';
 import Redirects from './tabs/SettingsRedirect';
@@ -53,6 +40,7 @@ forEach(siteSettingTypes, type => {
 export default {
   name: 'WhpptSiteSettings',
   components: {
+    WhpptButton,
     ...additionalComponents,
     SEO,
     Redirects,
@@ -61,6 +49,8 @@ export default {
     Twitter,
     Files,
     Emailer,
+    WhpptTabs,
+    WhpptTab,
   },
   data: () => ({
     usedListings: [],
@@ -90,6 +80,9 @@ export default {
   },
   methods: {
     ...mapActions('whppt-nuxt/site', ['saveSiteSettings', 'publishSiteSettings']),
+    tabChanged(id) {
+      this.selectedTab = id;
+    },
     loadSiteSettings() {
       return this.$api.get(`/siteSettings/loadSiteSettings`).then(({ data: siteSettings }) => {
         siteSettings = siteSettings || { _id: 'siteSettings' };
@@ -148,153 +141,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.whppt-select__frequency-label {
-  display: block;
-  text-transform: uppercase;
-  letter-spacing: 0.025em;
-  font-size: 0.75rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-}
-
-.whppt-select__frequency-info {
-  color: gray;
-  font-size: 0.75rem;
-  font-style: italic;
-  margin-bottom: 0.75rem;
-}
-
-.whppt-select__frequency-input {
-  margin: 0.2rem 0 0.5rem;
-  appearance: none;
-  display: block;
-  width: 100%;
-  background-color: white;
-  color: black;
-  border-radius: 0.25rem;
-  border: 1px solid rgba(0, 0, 0, 0.5);
-  padding: 0.75rem 1rem;
-  line-height: 1.25;
-  font-size: 0.75rem;
-}
-
-.whppt-settings__column {
-  width: 50%;
-}
-
-.whppt-linker {
-  display: flex;
-  margin: 0.4rem 1rem;
-}
-
-.whppt-settings__content form {
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
-}
-
-.whppt-settings__content form label {
-  font-size: 0.9rem;
-}
-
-.whppt-settings__content form input,
-.whppt-settings__content form textarea {
-  width: 100%;
-  padding: 0.5rem;
-  font-size: 1rem;
-  margin: 0.2rem 0 0.5rem;
-  border-radius: 5px;
-  border: 1px solid rgba(0, 0, 0, 0.5);
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  resize: vertical;
-}
-
-.whppt-settings__warning-button {
-  padding: 0.8rem 2rem;
-  display: inline-block;
-  color: white;
-  background-color: black;
-  border-radius: 25px;
-}
-
-.whppt-settings__tooltip .whppt-settings__tooltip-text {
-  visibility: hidden;
-  text-align: center;
-  border: 1px solid #981a31;
-  padding: 2px 6px;
-  position: absolute;
-  z-index: 100;
-  margin-top: -2rem;
-  background: white;
-  border-radius: 0.25rem;
-}
-.whppt-settings__tooltip:hover .whppt-settings__tooltip-text {
-  visibility: visible;
-}
-
-.whppt-icon {
-  display: inline-block;
-  color: black;
-}
-
-.whppt-flex-1 {
-  flex: 1;
-}
-
-.whppt-w-full {
-  width: 100%;
-}
-
-.whppt-flex-wrap {
-  flex-wrap: wrap;
-}
-
-.whppt-settings__page-result {
-  color: gray;
-  font-style: italic;
-  padding-top: 2rem;
-}
-
-.whppt-overflow-auto {
-  overflow: auto;
-}
-
-.whppt-ml-auto {
-  margin-left: auto;
-}
-
-.whppt-ml-4 {
-  margin-left: 1rem;
-}
-.whppt-mr-4 {
-  margin-right: 1rem;
-}
-.whppt-mt-8 {
-  margin-top: 2rem;
-}
-.whppt-settings__ordered-cats-container {
-  overflow: auto;
-  max-height: 500px;
-}
-.whppt-font-bold {
-  font-weight: bold;
-}
-.whppt-text-center {
-  text-align: center;
-}
-.whppt-settings__used-listings-container {
-  color: #222;
-  font-style: italic;
-}
-.whppt-mb-2 {
-  margin-bottom: 0.5rem;
-}
-.whppt-cursor-default {
-  cursor: default;
-}
-.whppt-text-gray-500 {
-  color: #333;
-}
-</style>
