@@ -42,7 +42,7 @@
 
 <script>
 export default {
-  name: 'WhpptButton',
+  name: 'WhpptPagination',
   props: {
     maxVisibleButtons: {
       type: Number,
@@ -69,7 +69,7 @@ export default {
         return 1;
       }
       if (this.currentPage === this.pageAmount) {
-        return this.pageAmount - this.maxVisibleButtons;
+        return this.pageAmount - this.maxVisibleButtons + 1;
       }
       return this.currentPage - 1;
     },
