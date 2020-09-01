@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div v-for="(canvas, canvasName) in sizes" :key="canvasName" style="margin-bottom: 1rem;">
-      <label class="whppt-cropper-label">{{ canvasName }}</label>
+    <div v-for="(canvas, canvasName) in sizes" :key="canvasName">
+      <md-subheader>{{ canvasName }}</md-subheader>
       <cropper
         v-if="imageOptions.imageId"
         :style="`background: #000; width:${canvas.width / canvas.quality}px;`"

@@ -3,9 +3,7 @@
     class="whppt-dialog"
     :class="{ 'whppt-dialog__fixed-height': fixedHeight }"
     v-bind="$attrs"
-    @md-clicked-outside="$emit('md-clicked-outside')"
-    @md-opened="$emit('md-opened')"
-    @md-closed="$emit('md-closed')"
+    v-on="$listeners"
   >
     <md-dialog-content>
       <slot></slot>

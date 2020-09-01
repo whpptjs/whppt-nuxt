@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p class="md-title">Image</p>
+    <md-subheader>Image</md-subheader>
     <whppt-tabs md-alignment="fixed" :md-active-tab="activeTab" @md-changed="setActiveTab">
       <whppt-tab id="cropping" md-label="Cropping">
         <cropping :image-options="selectedComponent.value.image" :sizes="selectedComponent.sizes" />

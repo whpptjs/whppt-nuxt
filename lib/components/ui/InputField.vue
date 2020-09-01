@@ -1,7 +1,7 @@
 <template>
   <md-field v-bind="$attrs">
     <label v-if="label">{{ label }}</label>
-    <md-input v-model="value" :type="type" @input="$emit('input', value)"></md-input>
+    <md-input :value="value" :type="type" v-on="$listeners"></md-input>
     <span v-if="info" class="md-helper-text">{{ info }}</span>
   </md-field>
 </template>

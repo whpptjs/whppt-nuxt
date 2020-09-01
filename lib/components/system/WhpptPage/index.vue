@@ -15,7 +15,7 @@
       <div class="whppt-info">Your slug: {{ formatSlug(pageForm.slug) }}</div>
       <div v-if="showError">A page with that slug already exists, please select another.</div>
 
-      <whppt-button class="md-raised" @click="saveNewPage">Create Page</whppt-button>
+      <whppt-button class="md-raised md-primary" @click="saveNewPage">Create Page</whppt-button>
     </form>
   </div>
 </template>

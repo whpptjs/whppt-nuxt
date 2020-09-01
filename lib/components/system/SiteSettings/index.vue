@@ -2,9 +2,6 @@
   <whppt-tabs @md-changed="tabChanged">
     <whppt-tab v-for="(tab, index) in tabs" :id="tab.name" :key="index" :md-label="tab.label">
       <component :is="selectedTab" :settings="siteSettings" />
-      <template v-slot:actions>
-        <whppt-button>Close</whppt-button>
-      </template>
     </whppt-tab>
   </whppt-tabs>
 </template>
