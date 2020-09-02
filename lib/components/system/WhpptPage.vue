@@ -10,7 +10,7 @@
         item-value="name"
         label="Page Type"
       />
-      <!--      <component :is="pageForm.pageType.name" v-if="pageForm.pageType" :page="pageForm" />-->
+      <component :is="pageForm.pageType.name" v-if="pageForm.pageType" :page="pageForm" />
 
       <whppt-text-input
         v-model="pageForm.slug"
@@ -18,7 +18,7 @@
         info="Enter any text and we'll turn it into a slug for you!"
       ></whppt-text-input>
 
-      <!--      <div class="whppt-info">Your slug: {{ formatSlug(pageForm.slug) }}</div>-->
+      <div class="whppt-info">Your slug: {{ formatSlug(pageForm.slug) }}</div>
       <div v-if="showError">A page with that slug already exists, please select another.</div>
 
       <whppt-button class="md-raised md-primary" @click="saveNewPage">Create Page</whppt-button>

@@ -1,12 +1,27 @@
 <template>
-  <md-drawer v-bind="$attrs">
+  <div class="drawer" :class="{ 'drawer--active': active }">
     <slot></slot>
-  </md-drawer>
+  </div>
 </template>
 
 <script>
 export default {
   name: 'WhpptDrawer',
-  props: {},
+  props: {
+    active: {
+      type: Boolean,
+      default: () => false,
+    },
+  },
 };
 </script>
+
+<style lang="scss" scoped>
+.drawer {
+  width: 0;
+
+  &--active {
+    width: 30vw;
+  }
+}
+</style>

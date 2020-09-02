@@ -3,7 +3,7 @@
     <label v-if="label">
       <span class="label">{{ label }}</span>
       <select @input="$emit('input', $event.target.value)" @change="$emit('change', $event.target.value)">
-        <option value="-1">{{ placeholder || '...' }}</option>
+        <option value="-1">{{ placeholder }}</option>
         <option v-for="(item, index) in items" :key="index" :value="setValueProp(item)">{{ setTextProp(item) }}</option>
       </select>
     </label>
@@ -24,7 +24,7 @@ export default {
     },
     placeholder: {
       type: String,
-      default: () => undefined,
+      default: () => '',
     },
     info: {
       type: String,
