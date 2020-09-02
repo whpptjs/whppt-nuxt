@@ -221,7 +221,7 @@ export default {
 }
 
 .whppt-menu__item svg {
-  height: 2rem;
+  height: 1.5rem;
 }
 
 .whppt-menu__item--active {

@@ -112,7 +112,7 @@ import { VTooltip } from 'v-tooltip';
 import WhpptTextInput from '../../../whpptComponents/WhpptTextInput';
 import Save from '../../../icons/Save';
 import LinkIcon from '../../../icons/Link';
-import Remove from '../../../icons/Remove';
+import Remove from '../../../icons/Trash';
 import ExternalLink from '../../../icons/External';
 
 export default {

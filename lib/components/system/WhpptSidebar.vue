@@ -73,7 +73,7 @@ export default {
   components: {
     ...additionalComponents,
     ...Editors,
-    WhpptPage: () => import('./WhpptPage/index'),
+    WhpptPage: () => import('./WhpptPage'),
     WhpptTabs,
     WhpptCheckBox,
     SpacingControls,

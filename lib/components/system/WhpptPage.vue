@@ -3,8 +3,14 @@
     <p class="font-xl">Create a Page</p>
 
     <form class="whppt-page__form" @submit.prevent>
-      <whppt-select v-model="pageForm.pageType" :items="pageTypes" label="Page Type" key-prop="label" />
-      <component :is="pageForm.pageType.name" v-if="pageForm.pageType" :page="pageForm" />
+      <whppt-select
+        v-model="pageForm.pageType"
+        :items="pageTypes"
+        item-text="label"
+        item-value="name"
+        label="Page Type"
+      />
+      <!--      <component :is="pageForm.pageType.name" v-if="pageForm.pageType" :page="pageForm" />-->
 
       <whppt-text-input
         v-model="pageForm.slug"
@@ -12,7 +18,7 @@
         info="Enter any text and we'll turn it into a slug for you!"
       ></whppt-text-input>
 
-      <div class="whppt-info">Your slug: {{ formatSlug(pageForm.slug) }}</div>
+      <!--      <div class="whppt-info">Your slug: {{ formatSlug(pageForm.slug) }}</div>-->
       <div v-if="showError">A page with that slug already exists, please select another.</div>
 
       <whppt-button class="md-raised md-primary" @click="saveNewPage">Create Page</whppt-button>
@@ -24,9 +30,9 @@
 import { map, filter, forEach } from 'lodash';
 import { mapState, mapActions } from 'vuex';
 import slugify from 'slugify';
-import WhpptSelect from '../../ui/Select';
-import WhpptTextInput from '../../ui/InputField';
-import WhpptButton from '../../ui/Button';
+import WhpptSelect from '../ui/Select';
+import WhpptTextInput from '../ui/InputField';
+import WhpptButton from '../ui/Button';
 
 const additionalComponents = {};
 
