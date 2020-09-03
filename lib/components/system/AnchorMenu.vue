@@ -10,7 +10,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import WhpptTextInput from '../ui/InputField';
+import WhpptTextInput from '../ui/Input';
 
 export default {
   name: 'WhpptAnchorMenu',

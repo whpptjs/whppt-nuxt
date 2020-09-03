@@ -38,7 +38,7 @@
 import { mapActions, mapState } from 'vuex';
 
 import WhpptSelect from '../../../ui/Select';
-import WhpptInput from '../../../ui/InputField';
+import WhpptInput from '../../../ui/Input';
 import WhpptButton from '../../../ui/Button';
 
 export default {

@@ -3,22 +3,28 @@
     <p class="font-xl">Create a Page</p>
 
     <form class="whppt-page__form" @submit.prevent>
-      <whppt-select
-        v-model="pageForm.pageType"
-        :items="pageTypes"
-        item-text="label"
-        item-value="name"
-        label="Page Type"
-      />
+      <whppt-field>
+        <whppt-select
+          id="pageType"
+          v-model="pageForm.pageType"
+          :items="pageTypes"
+          item-text="label"
+          item-value="name"
+          label="Page Type"
+          placeholder="Select a page type"
+        />
+      </whppt-field>
       <component :is="pageForm.pageType.name" v-if="pageForm.pageType" :page="pageForm" />
 
-      <whppt-text-input
-        v-model="pageForm.slug"
-        label="Page Slug"
-        info="Enter any text and we'll turn it into a slug for you!"
-      ></whppt-text-input>
-
-      <div class="whppt-info">Your slug: {{ formatSlug(pageForm.slug) }}</div>
+      <whppt-field>
+        <whppt-text-input
+          id="pageSlug"
+          v-model="pageForm.slug"
+          label="Page Slug"
+          info="Enter any text and we'll turn it into a slug for you!"
+        ></whppt-text-input>
+      </whppt-field>
+      <div class="slug">Your slug: {{ formatSlug(pageForm.slug) }}</div>
       <div v-if="showError">A page with that slug already exists, please select another.</div>
 
       <whppt-button class="md-raised md-primary" @click="saveNewPage">Create Page</whppt-button>
@@ -31,8 +37,9 @@ import { map, filter, forEach } from 'lodash';
 import { mapState, mapActions } from 'vuex';
 import slugify from 'slugify';
 import WhpptSelect from '../ui/Select';
-import WhpptTextInput from '../ui/InputField';
+import WhpptTextInput from '../ui/Input';
 import WhpptButton from '../ui/Button';
+import WhpptField from '../ui/Field';
 
 const additionalComponents = {};
 
@@ -45,7 +52,7 @@ forEach(pageTypePlugins, plugin => {
 
 export default {
   name: 'WhpptPage',
-  components: { ...additionalComponents, WhpptSelect, WhpptTextInput, WhpptButton },
+  components: { ...additionalComponents, WhpptSelect, WhpptTextInput, WhpptButton, WhpptField },
   data: () => ({
     additionalComponents,
     showError: false,
@@ -125,7 +132,9 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+$gray-500: #a0aec0;
+
 .whppt-page__form--black {
   color: black;
 }
@@ -139,10 +148,10 @@ export default {
   font-size: 0.7rem;
 }
 
-.whppt-info {
-  color: gray;
+.slug {
   font-size: 0.75rem;
   font-style: italic;
-  margin-bottom: 0.75rem;
+  color: $gray-500;
+  margin-bottom: 0.5rem;
 }
 </style>

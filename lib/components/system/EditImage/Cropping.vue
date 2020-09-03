@@ -22,7 +22,7 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import { Cropper } from 'vue-advanced-cropper';
-import WhpptTextInput from '../../ui/InputField';
+import WhpptTextInput from '../../ui/Input';
 
 export default {
   name: 'EditorImageCropping',
