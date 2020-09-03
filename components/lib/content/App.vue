@@ -113,23 +113,18 @@ export default {
 }
 
 .preview-sidebar {
-  position: absolute;
+  position: fixed;
   right: 400px;
-  color: white;
   padding: 1rem;
   width: 600px;
   min-width: 600px;
   margin-right: -600px;
-  transition: 0.5s;
   z-index: 51;
-  min-height: 100vh;
 }
 
 .preview-sidebar__inner {
   width: 565px;
-  position: fixed;
   overflow: auto;
-  height: 100vh;
   padding-bottom: 60px;
 }
 .preview-sidebar__inner .preview-image {

@@ -1,12 +1,13 @@
 <template>
   <div
-    v-if="draft"
+    v-if="draft && previewImage"
     class="preview-sidebar"
     :class="{ 'preview-openEditor': editSidebar && previewImage }"
-    :style="previewImage ? 'background-color: rgba(0, 0, 0, 0.8);' : ''"
+    :style="previewImage ? 'background: white;' : ''"
+    style="margin: 85px 0 0 0; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);"
   >
     <div class="preview-sidebar__inner">
-      <p class="font-xl" style="margin: 85px 0 0 0;">Preview</p>
+      <p class="font-xl">Preview</p>
       <img class="preview-image" :src="previewImage" />
     </div>
   </div>
