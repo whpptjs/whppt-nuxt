@@ -1,9 +1,7 @@
 <template>
   <div class="whppt-full">
-    <p class="font-xl">Component</p>
-
     <div class="whppt-contents__actions">
-      <button class="whppt-contents__actions-add" @click="selectedComponent.addNew">+ Add New Item</button>
+      <whppt-button @click="selectedComponent.addNew"><add /> Add New Item</whppt-button>
     </div>
     <div v-for="(item, index) in selectedComponent.value[selectedComponent.property]" :key="index">
       <div class="whppt-contents__item-container">
@@ -13,15 +11,9 @@
           }}
         </span>
         <div class="whppt-contents__actions">
-          <button :disabled="index === 0" @click="moveUp(item, index)">
-            <arrow-up />
-          </button>
-          <button :disabled="index >= items.length - 1" @click="moveDown(item, index)">
-            <arrow-down />
-          </button>
-          <button class="whppt-contents__actions-remove" @click="removeItem(item)">
-            ⊖ Remove
-          </button>
+          <whppt-button @click="moveUp(item, index)"><arrow-up /></whppt-button>
+          <whppt-button @click="moveDown(item, index)"><arrow-down /></whppt-button>
+          <whppt-button danger @click="removeItem(item)"><trash /></whppt-button>
         </div>
       </div>
     </div>
@@ -29,13 +21,17 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import { without } from 'lodash';
+import { mapActions, mapState } from 'vuex';
+import { without, clone } from 'lodash';
 import ArrowUp from '../icons/ArrowUp';
 import ArrowDown from '../icons/ArrowDown';
+import Add from '../icons/Add';
+import Trash from '../icons/Trash';
+import WhpptButton from '../ui/Button';
+
 export default {
   name: 'EditorList',
-  components: { ArrowUp, ArrowDown },
+  components: { ArrowUp, ArrowDown, Add, Trash, WhpptButton },
   computed: {
     ...mapState('whppt-nuxt/editor', ['selectedComponent', 'options']),
     items() {
@@ -43,42 +39,43 @@ export default {
     },
   },
   methods: {
+    ...mapActions('whppt-nuxt/editor', ['setSelectedComponentState']),
     removeItem(link) {
       if (window.confirm('Are you sure?')) {
-        this.selectedComponent.value[this.selectedComponent.property] = without(
-          this.selectedComponent.value[this.selectedComponent.property],
-          link
-        );
+        const removed = without(this.selectedComponent.value[this.selectedComponent.property], link);
+
+        this.setSelectedComponentState({ value: removed, path: this.selectedComponent.property });
       }
     },
     moveUp(item, index) {
-      this.items.splice(index, 1);
-      this.items.splice(index - 1, 0, item);
+      const items = clone(this.items);
+
+      items.splice(index, 1);
+      items.splice(index - 1, 0, item);
+
+      this.setSelectedComponentState({ value: items, path: this.selectedComponent.property });
     },
     moveDown(item, index) {
-      this.items.splice(index, 1);
-      this.items.splice(index + 1, 0, item);
+      const items = clone(this.items);
+
+      items.splice(index, 1);
+      items.splice(index + 1, 0, item);
+
+      this.setSelectedComponentState({ value: items, path: this.selectedComponent.property });
     },
   },
 };
 </script>
-<style scoped>
+
+<style lang="scss" scoped>
 .whppt-contents__actions {
   display: flex;
-  justify-content: space-between;
-  margin: 16px 0;
-}
-.whppt-contents__actions button {
-  background: rgba(0, 0, 0, 0.2);
-  font-size: 12px;
-  color: white;
-  padding: 10px;
-  border-width: 0;
-  border-radius: 5px;
-  cursor: pointer;
+  align-items: center;
+  margin: 1rem 0;
 }
 
-.whppt-contents__actions-add {
+.whppt-contents__actions button {
+  margin-right: 0.25rem;
   width: 100%;
 }
 
@@ -86,16 +83,5 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.whppt-contents__actions button:hover {
-  background: black;
-}
-.whppt-contents__actions-remove:hover {
-  color: red !important;
-}
-
-button:disabled {
-  color: grey;
 }
 </style>

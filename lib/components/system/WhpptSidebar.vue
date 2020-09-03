@@ -1,23 +1,28 @@
 <template>
   <whppt-drawer :active.sync="editSidebar">
-    <whppt-tabs class="md-transparent" md-elevation="1">
-      <whppt-tab md-label="Selected Component">
-        <component :is="editSidebarType" />
-      </whppt-tab>
-    </whppt-tabs>
+    <whppt-toolbar>
+      <div class="toolbar-content">
+        <h2>{{ startCase(editSidebarType) }}</h2>
+        <whppt-button @click="closeSidebar"><close /></whppt-button>
+      </div>
+    </whppt-toolbar>
+    <div v-if="editSidebar" class="content">
+      <component :is="editSidebarType" />
+    </div>
   </whppt-drawer>
 </template>
 
 <script>
-import { filter, flatMap, forEach, clamp } from 'lodash';
+import { filter, flatMap, forEach, clamp, startCase } from 'lodash';
 import { mapActions, mapState } from 'vuex';
 import SpacingControls from '../whpptComponents/SpacingControls';
 import WhpptCheckBox from '../whpptComponents/__CheckBox';
-
+import Close from '../icons/Close';
 import WhpptButton from '../ui/Button';
 import WhpptDrawer from '../ui/Drawer';
 import WhpptTabs from '../ui/Tabs';
 import WhpptTab from '../ui/Tab';
+import WhpptToolbar from '../ui/Toolbar';
 
 import * as Editors from './index';
 
@@ -38,6 +43,7 @@ forEach(editors, editor => {
 export default {
   name: 'WhpptSidebar',
   components: {
+    WhpptToolbar,
     ...additionalComponents,
     ...Editors,
     WhpptPage: () => import('./WhpptPage'),
@@ -47,7 +53,11 @@ export default {
     WhpptTab,
     WhpptButton,
     WhpptDrawer,
+    Close,
   },
+  data: () => ({
+    startCase,
+  }),
   computed: {
     ...mapState('whppt-nuxt/editor', [
       'editSidebar',
@@ -66,3 +76,21 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.content {
+  padding: 1rem;
+}
+
+.toolbar-content {
+  width: 100%;
+  display: flex;
+  align-items: center;
+
+  h2 {
+    font-size: 1.125rem;
+    font-weight: bold;
+    margin-right: auto;
+  }
+}
+</style>

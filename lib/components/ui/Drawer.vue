@@ -26,19 +26,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$gray-200: #edf2f7;
 $gray-900: #1a202c;
 
 .drawer {
   width: 0;
   transition: width 0.3s ease;
+  border-left: 1px solid $gray-200;
 
   &--active {
     width: 480px;
     transition: width 0.3s ease;
-  }
-
-  &__content {
-    padding: 1rem;
   }
 }
 
