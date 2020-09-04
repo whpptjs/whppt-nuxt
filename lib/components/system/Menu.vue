@@ -68,9 +68,9 @@
 <script>
 import { mapState } from 'vuex';
 import { without, findIndex } from 'lodash';
-import WhpptCheckBox from '../whpptComponents/__CheckBox';
-import WhpptSelect from '../whpptComponents/WhpptSelect';
-import ELink from '../whpptComponents/Link';
+import WhpptCheckBox from '../editors/__CheckBox';
+import WhpptSelect from '../editors/WhpptSelect';
+import ELink from '../editors/Link';
 
 export default {
   name: 'Menu',

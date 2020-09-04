@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import ELink from '../whpptComponents/Link';
+import ELink from '../editors/Link';
 
 export default {
   name: 'EditorLink',

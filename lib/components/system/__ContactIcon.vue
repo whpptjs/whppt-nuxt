@@ -13,7 +13,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import WhpptSelect from '../whpptComponents/WhpptSelect';
+import WhpptSelect from '../editors/WhpptSelect';
 
 export default {
   name: 'ContactIcon',

@@ -85,7 +85,7 @@ import { mapState } from 'vuex';
 import slugify from 'slugify';
 
 import { remove } from 'lodash';
-import WhpptTextInput from '../../../whpptComponents/WhpptTextInput';
+import WhpptTextInput from '../../../editors/WhpptTextInput';
 
 export default {
   name: 'SettingsRedirects',

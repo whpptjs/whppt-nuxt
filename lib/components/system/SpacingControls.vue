@@ -154,9 +154,9 @@
 </template>
 
 <script>
-import WhpptTabs from './__WhpptTabs';
-import WhpptTab from './WhpptTab';
-import WhpptTextInput from './WhpptTextInput';
+import WhpptTabs from '../editors/__WhpptTabs';
+import WhpptTab from '../editors/WhpptTab';
+import WhpptTextInput from '../editors/WhpptTextInput';
 
 export default {
   name: 'SpacingControls',

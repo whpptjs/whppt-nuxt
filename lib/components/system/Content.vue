@@ -1,32 +1,26 @@
 <template>
-  <div class="whppt-full">
-    <p class="font-xl">Add Content</p>
+  <div class="whppt-content">
     <whppt-button
       v-for="component in componentList"
       :key="component.key"
-      class="whppt-full whppt-content--margin"
+      class="whppt-content__button"
       @click="addContent(component)"
-      >{{ component.name }}</whppt-button
     >
+      {{ component.name }}
+    </whppt-button>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import { filter, includes, orderBy } from 'lodash';
-import WhpptButton from '../whpptComponents/__WhpptButton';
+import { mapActions, mapState } from 'vuex';
+import { filter, includes, orderBy, clone } from 'lodash';
+import WhpptButton from '../ui/Button';
 
 export default {
   name: 'WhpptContent',
   components: { WhpptButton },
   computed: {
     ...mapState('whppt-nuxt/editor', ['selectedComponent', 'selectedContentBlacklist', 'selectedContentWhitelist']),
-    contents() {
-      return this.selectedComponent && this.selectedComponent.value;
-    },
-    filterList() {
-      return this.selectedComponent && this.selectedComponent.filter;
-    },
     componentList() {
       if (!this.selectedComponent) return;
 
@@ -44,15 +38,29 @@ export default {
     },
   },
   methods: {
+    ...mapActions('whppt-nuxt/editor', ['setSelectedComponentState']),
     addContent(content) {
-      this.contents.push(JSON.parse(JSON.stringify({ marginTop: '', inContainer: true, ...content })));
+      console.log(content);
+      const contentItems = clone(this.selectedComponent.value);
+
+      contentItems.push({ marginTop: '', inContainer: true, ...content });
+
+      this.setSelectedComponentState({
+        value: contentItems,
+      });
     },
   },
 };
 </script>
 
-<style scoped>
-.whppt-content--margin {
-  margin: 0.2rem 0;
+<style lang="scss" scoped>
+.whppt-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  &__button {
+    margin: 0.5rem 0;
+  }
 }
 </style>

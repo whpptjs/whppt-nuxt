@@ -4,7 +4,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import WLink from '../whpptComponents/Link';
+import WLink from '../editors/Link';
 
 export default {
   name: 'WhpptLinkEdit',

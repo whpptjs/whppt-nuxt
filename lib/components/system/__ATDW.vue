@@ -271,9 +271,9 @@ import { mapState, mapActions } from 'vuex';
 import { get, find } from 'lodash';
 import { parse } from 'uri-js';
 
-import WhpptTagsInput from '../whpptComponents/WhpptTagsInput';
-import WhpptTextInput from '../whpptComponents/WhpptTextInput';
-import WhpptTextArea from '../whpptComponents/WhpptTextArea';
+import WhpptTagsInput from '../editors/WhpptTagsInput';
+import WhpptTextInput from '../editors/WhpptTextInput';
+import WhpptTextArea from '../editors/__WhpptTextArea';
 
 const stringFromPath = function(product, path) {
   return get(product, path);

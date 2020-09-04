@@ -162,8 +162,8 @@
 import slugify from 'slugify';
 import { mapActions } from 'vuex';
 import { map, find, get, compact, filter, forEach, omit } from 'lodash';
-import WhpptTextInput from '../../../whpptComponents/WhpptTextInput';
-import WhpptSelect from '../../../whpptComponents/WhpptSelect';
+import WhpptTextInput from '../../../editors/WhpptTextInput';
+import WhpptSelect from '../../../editors/WhpptSelect';
 
 const additionalComponents = {};
 

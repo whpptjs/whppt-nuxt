@@ -1,17 +1,14 @@
 <template>
-  <md-dialog
-    class="whppt-dialog"
-    :class="{ 'whppt-dialog__fixed-height': fixedHeight }"
-    v-bind="$attrs"
-    v-on="$listeners"
-  >
-    <md-dialog-content>
+  <div class="whppt-dialog" :class="{ 'whppt-dialog__fixed-height': fixedHeight }">
+    <div class="whppt-dialog__container">
       <slot></slot>
-    </md-dialog-content>
-    <md-dialog-actions>
-      <slot name="actions"></slot>
-    </md-dialog-actions>
-  </md-dialog>
+      <div class="whppt-dialog__actions">
+        <slot name="actions"></slot>
+      </div>
+      <slot name="close"> </slot>
+    </div>
+    <div class="whppt-dialog__background"></div>
+  </div>
 </template>
 
 <script>
@@ -26,7 +23,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
 .whppt-dialog .md-dialog-container {
   max-width: 950px;
 }

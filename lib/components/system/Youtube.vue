@@ -8,8 +8,8 @@
 
 <script>
 import { mapState } from 'vuex';
-import WhpptTextInput from '../whpptComponents/WhpptTextInput';
-import WhpptButton from '../whpptComponents/__WhpptButton';
+import WhpptTextInput from '../editors/WhpptTextInput';
+import WhpptButton from '../editors/__WhpptButton';
 
 export default {
   name: 'EditorYoutube',

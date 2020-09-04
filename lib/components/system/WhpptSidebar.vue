@@ -15,14 +15,14 @@
 <script>
 import { filter, flatMap, forEach, clamp, startCase } from 'lodash';
 import { mapActions, mapState } from 'vuex';
-import SpacingControls from '../whpptComponents/SpacingControls';
-import WhpptCheckBox from '../whpptComponents/__CheckBox';
+import WhpptCheckBox from '../editors/__CheckBox';
 import Close from '../icons/Close';
 import WhpptButton from '../ui/Button';
 import WhpptDrawer from '../ui/Drawer';
 import WhpptTabs from '../ui/Tabs';
 import WhpptTab from '../ui/Tab';
 import WhpptToolbar from '../ui/Toolbar';
+import SpacingControls from './SpacingControls';
 
 import * as Editors from './index';
 

@@ -15,26 +15,26 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import * as Editors from '../system';
-import SlugSettings from '../system/SlugSettings';
-import PublishSettings from '../system/PublishSettings';
-import WhpptDialog from '../ui/Dialog';
-import WhpptButton from '../ui/Button';
-import Close from '../icons/Close';
+import * as Editors from './system';
+import SlugSettings from './system/SlugSettings';
+import PublishSettings from './system/PublishSettings';
+import WhpptDialog from './ui/Dialog';
+import WhpptButton from './ui/Button';
+import Close from './icons/Close';
 
-import WhpptTextInput from '../whpptComponents/WhpptTextInput';
-import WhpptCheckBox from '../whpptComponents/__CheckBox';
-import ContentsTree from '../whpptComponents/__ContentsTree';
-import WhpptTab from '../whpptComponents/WhpptTab';
-import WhpptTabs from '../whpptComponents/__WhpptTabs';
+import WhpptTextInput from './editors/WhpptTextInput';
+import WhpptCheckBox from './editors/__CheckBox';
+import ContentsTree from './editors/__ContentsTree';
+import WhpptTab from './editors/WhpptTab';
+import WhpptTabs from './editors/__WhpptTabs';
 
 export default {
   name: 'WhpptEditorApp',
   components: {
     ...Editors,
-    SiteSettings: () => import('../system/SiteSettings/index'),
-    PageSettings: () => import('../system/PageSettings/index'),
-    WhpptSidebar: () => import('../system/WhpptSidebar'),
+    SiteSettings: () => import('./system/SiteSettings/index'),
+    PageSettings: () => import('./system/PageSettings/index'),
+    WhpptSidebar: () => import('./system/WhpptSidebar'),
     WhpptButton,
     WhpptDialog,
     WhpptTextInput,

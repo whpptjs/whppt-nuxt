@@ -80,32 +80,6 @@
           :items="files"
           @input="selectFile"
         ></whppt-select>
-
-        <!-- <whppt-text-input
-          v-model="search"
-          class="whppt-input-half"
-          style="margin-top: 40px;"
-          placeholder="file"
-          label="Search File"
-        />
-        <table class="whppt-files">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Type</th>
-            </tr>
-          </thead>
-          <tr
-            v-for="(file, index) in files"
-            :key="index"
-            class="selectedRow"
-            :class="{ selectedRowHover: file._id === data.fileId }"
-            @click="selectFile(file)"
-          >
-            <td>{{ file.name }}</td>
-            <td>{{ file.fileType ? file.fileType.ext : '–' }}</td>
-          </tr>
-        </table> -->
       </div>
     </div>
   </div>

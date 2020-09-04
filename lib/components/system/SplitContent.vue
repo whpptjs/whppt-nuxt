@@ -18,7 +18,7 @@
 <script>
 import { mapState } from 'vuex';
 import { clamp } from 'lodash';
-import WhpptTextInput from '../whpptComponents/WhpptTextInput';
+import WhpptTextInput from '../editors/WhpptTextInput';
 
 export default {
   name: 'SplitContentEditor',

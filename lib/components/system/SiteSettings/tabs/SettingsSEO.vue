@@ -38,8 +38,8 @@
 </template>
 
 <script>
-import WhpptTextInput from '../../../whpptComponents/WhpptTextInput';
-import WhpptTextArea from '../../../whpptComponents/WhpptTextArea';
+import WhpptTextInput from '../../../editors/WhpptTextInput';
+import WhpptTextArea from '../../../editors/__WhpptTextArea';
 
 export default {
   name: 'SettingsEmail',

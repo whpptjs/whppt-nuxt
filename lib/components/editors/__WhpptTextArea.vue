@@ -39,7 +39,6 @@ export default {
     info: { type: String, default: () => '' },
     placeholder: { type: String, default: () => '' },
     disabled: { type: Boolean, default: () => false },
-    labelColour: { type: String, default: () => '#000' },
     rows: { type: [String, Number], default: () => 5 },
     adjustable: { type: Boolean, default: () => false },
   },

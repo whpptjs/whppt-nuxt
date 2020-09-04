@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import WhpptSelect from '../../whpptComponents/WhpptSelect';
+import WhpptSelect from '../../editors/WhpptSelect';
 
 export default {
   name: 'WhpptGenericPage',

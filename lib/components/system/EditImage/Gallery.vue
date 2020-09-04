@@ -42,7 +42,7 @@
 <script>
 import { mapState } from 'vuex';
 import icons from '../../icons';
-import WhpptPagination from '../../whpptComponents/WhpptPagination';
+import WhpptPagination from '../../editors/WhpptPagination';
 import Loading from '../../icons/Loading';
 
 export default {

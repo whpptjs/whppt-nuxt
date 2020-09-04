@@ -12,7 +12,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import WhpptDatePicker from '../whpptComponents/WhpptDatePicker';
+import WhpptDatePicker from '../editors/WhpptDatePicker';
 
 export default {
   name: 'EditorDate',

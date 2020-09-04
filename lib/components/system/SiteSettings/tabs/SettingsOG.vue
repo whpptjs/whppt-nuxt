@@ -45,10 +45,10 @@
 </template>
 
 <script>
-import WhpptTextInput from '../../../whpptComponents/WhpptTextInput';
+import WhpptTextInput from '../../../editors/WhpptTextInput';
 import Gallery from '../../EditImage/Gallery';
 import Cropping from '../../EditImage/Cropping';
-import WhpptTextArea from '../../../whpptComponents/WhpptTextArea';
+import WhpptTextArea from '../../../editors/__WhpptTextArea';
 
 export default {
   name: 'SettingsOG',

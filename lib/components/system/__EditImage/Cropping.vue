@@ -34,8 +34,8 @@
 import { forEach, cloneDeep } from 'lodash';
 import Croppa from 'vue-croppa';
 import 'vue-croppa/dist/vue-croppa.css';
-import WhpptButton from '../../whpptComponents/__WhpptButton';
-import WhpptTextInput from '../../whpptComponents/WhpptTextInput';
+import WhpptButton from '../../editors/__WhpptButton';
+import WhpptTextInput from '../../editors/WhpptTextInput';
 
 export default {
   name: 'EditorImageCropping',

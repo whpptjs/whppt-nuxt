@@ -77,7 +77,7 @@
 import { mapState, mapActions } from 'vuex';
 import slugify from 'slugify';
 
-import WhpptTextInput from '../whpptComponents/WhpptTextInput';
+import WhpptTextInput from '../editors/WhpptTextInput';
 
 export default {
   name: 'WhpptSlugSettings',
