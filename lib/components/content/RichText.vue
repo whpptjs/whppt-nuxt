@@ -1,14 +1,10 @@
 <template>
-  <div
-    v-whppt-formatted-text="content"
-    :data-property="property"
-    v-html="content[property] || 'Insert Text Here'"
-  ></div>
+  <div v-whppt-rich-text="content" :data-property="property" v-html="content[property] || 'Insert Text Here'"></div>
 </template>
 
 <script>
 export default {
-  name: 'WhpptFormattedText',
+  name: 'WhpptRichText',
   props: {
     content: {
       type: Object,

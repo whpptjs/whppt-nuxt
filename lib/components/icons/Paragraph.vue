@@ -7,7 +7,7 @@
     data-prefix="far"
     data-icon="paragraph"
     role="img"
-    :fill="fill"
+    style="fill: currentColor;"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 448 512"
     class="svg-inline--fa fa-paragraph fa-w-14 fa-fw fa-2x"
@@ -17,9 +17,3 @@
     ></path>
   </svg>
 </template>
-<script>
-export default {
-  name: 'EditorIconParagraph',
-  props: { fill: { type: String, default: 'white' } },
-};
-</script>

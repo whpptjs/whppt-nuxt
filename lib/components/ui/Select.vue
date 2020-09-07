@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="whppt-select__field">
     <label v-if="label">{{ label }}</label>
     <div class="whppt-select">
       <select @input="$emit('input', $event.target.value)" @change="$emit('change', $event.target.value)">
@@ -61,6 +61,10 @@ export default {
 $gray-200: #edf2f7;
 $gray-500: #a0aec0;
 $gray-700: #4a5568;
+
+.whppt-select__field {
+  width: 100%;
+}
 
 label {
   display: block;

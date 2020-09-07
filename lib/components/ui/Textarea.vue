@@ -1,5 +1,5 @@
 <template>
-  <div class="whppt__textarea" :class="{ 'whppt__textarea--dark': dark }">
+  <div class="whppt-textarea" :class="{ 'whppt-textarea--dark': dark }">
     <label :for="id">{{ label }}</label>
     <textarea
       :id="id"
@@ -59,7 +59,7 @@ $gray-200: #edf2f7;
 $gray-500: #a0aec0;
 $gray-700: #4a5568;
 
-.whppt__textarea {
+.whppt-textarea {
   label {
     display: block;
     text-transform: uppercase;
@@ -96,6 +96,6 @@ $gray-700: #4a5568;
   }
 }
 
-.whppt__input--dark {
+.whppt-textarea--dark {
 }
 </style>

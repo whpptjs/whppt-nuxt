@@ -8,7 +8,7 @@ export default {
   name: 'WhpptButton',
 };
 </script>
-<style>
+<style scoped>
 .whppt-button {
   display: inline-block;
   color: white;

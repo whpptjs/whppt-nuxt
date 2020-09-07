@@ -7,7 +7,7 @@
     data-prefix="fas"
     data-icon="h2"
     role="img"
-    :fill="fill"
+    style="fill: currentColor;"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 576 512"
     class="svg-inline--fa fa-h2 fa-w-18 fa-fw fa-2x"
@@ -17,9 +17,3 @@
     ></path>
   </svg>
 </template>
-<script>
-export default {
-  name: 'EditorIconHeader2',
-  props: { fill: { type: String, default: 'white' } },
-};
-</script>

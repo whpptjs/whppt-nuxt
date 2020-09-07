@@ -1,5 +1,5 @@
 <template>
   <svg width="20" height="20" viewBox="0 0 20 20" style="fill: currentColor;" xmlns="http://www.w3.org/2000/svg">
-    <path d="M8 1h9v2H8V1zm3 2h3L8 17H5l6-14zM2 17h9v2H2v-2z" />
+    <path d="M1 4h2v2H1V4zm4 0h14v2H5V4zM1 9h2v2H1V9zm4 0h14v2H5V9zm-4 5h2v2H1v-2zm4 0h14v2H5v-2z" />
   </svg>
 </template>

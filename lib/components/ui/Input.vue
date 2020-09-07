@@ -1,5 +1,5 @@
 <template>
-  <div class="whppt__input" :class="{ 'whppt__input--dark': dark }">
+  <div class="whppt-input" :class="{ 'whppt-input--dark': dark }">
     <label :for="id">{{ label }}</label>
     <input
       :id="id"
@@ -60,7 +60,7 @@ $gray-200: #edf2f7;
 $gray-500: #a0aec0;
 $gray-700: #4a5568;
 
-.whppt__input {
+.whppt-input {
   label {
     display: block;
     text-transform: uppercase;
@@ -96,6 +96,6 @@ $gray-700: #4a5568;
   }
 }
 
-.whppt__input--dark {
+.whppt-input--dark {
 }
 </style>
