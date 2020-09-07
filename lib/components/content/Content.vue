@@ -17,7 +17,7 @@ export default {
   props: {
     contentItems: {
       type: [Array, Object],
-      default: () => [],
+      required: true,
     },
   },
   computed: {
@@ -28,6 +28,6 @@ export default {
 
 <style>
 .whppt-content--active {
-  height: 200px;
+  min-height: 200px;
 }
 </style>

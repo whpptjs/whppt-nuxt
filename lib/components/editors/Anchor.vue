@@ -1,15 +1,17 @@
 <template>
   <div class="whppt-full">
     <whppt-text-input
-      v-model="selectedComponent.value[selectedComponent.property]"
+      id="editor-anchor-input"
+      :value="selectedComponent.value[selectedComponent.property]"
       label="Anchor To"
       placeholder="eg. content"
+      @input="setSelectedComponentState({ value: $event, path: selectedComponent.property })"
     ></whppt-text-input>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import WhpptTextInput from '../ui/Input';
 
 export default {
@@ -17,6 +19,9 @@ export default {
   components: { WhpptTextInput },
   computed: {
     ...mapState('whppt-nuxt/editor', ['selectedComponent']),
+  },
+  methods: {
+    ...mapActions('whppt-nuxt/editor', ['setSelectedComponentState']),
   },
 };
 </script>

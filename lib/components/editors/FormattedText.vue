@@ -24,9 +24,9 @@
 import { Bold, Italic, Underline } from 'tiptap-extensions';
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap';
 import { mapState } from 'vuex';
-import IBold from './icons/Bold';
-import IItalic from './icons/Italic';
-import IUnderline from './icons/Underline';
+import IBold from '../icons/Bold';
+import IItalic from '../icons/Italic';
+import IUnderline from '../icons/Underline';
 
 const isEmptyValue = val => {
   return !val || val === '' || val === '<p></p>';
@@ -81,24 +81,16 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
 .whppt-editor {
   width: 100%;
-  color: white;
-}
-
-.whppt-editor .has-focus {
-  border-radius: 3px;
-  box-shadow: 0 0 0 3px #3ea4ffe6;
 }
 
 .whppt-menubar {
   display: flex;
   align-items: center;
   padding: 0.2em 0.2em 0.2em 15px;
-  border: 1px solid white;
-  color: white;
-  background: #222;
+  border: 1px solid #efefef;
 }
 
 .whppt-menubar--active {
@@ -131,10 +123,6 @@ export default {
   padding: 1em;
   height: 60vh;
   overflow-y: scroll;
-}
-
-.whppt-editor__header {
-  margin-bottom: 5px;
 }
 
 .whppt-formatted-content p:not(:first-child) {

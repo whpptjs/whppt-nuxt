@@ -13,7 +13,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import { filter, includes, orderBy, clone } from 'lodash';
+import { filter, includes, orderBy } from 'lodash';
 import WhpptButton from '../ui/Button';
 
 export default {
@@ -38,16 +38,9 @@ export default {
     },
   },
   methods: {
-    ...mapActions('whppt-nuxt/editor', ['setSelectedComponentState']),
+    ...mapActions('whppt-nuxt/editor', ['setSelectedComponentState', 'pushToSelectedComponentState']),
     addContent(content) {
-      console.log(content);
-      const contentItems = clone(this.selectedComponent.value);
-
-      contentItems.push({ marginTop: '', inContainer: true, ...content });
-
-      this.setSelectedComponentState({
-        value: contentItems,
-      });
+      this.setSelectedComponentState({ value: { marginTop: '', inContainer: true, ...content } });
     },
   },
 };
