@@ -149,7 +149,7 @@ export default {
         this.internal = this.selectedComponent.value[this.selectedComponent.property];
         this.editor.setContent(
           isEmptyValue(this.selectedComponent.value[this.selectedComponent.property])
-            ? 'Start typing here '
+            ? 'Insert text here'
             : this.selectedComponent.value[this.selectedComponent.property]
         );
       }
@@ -172,7 +172,7 @@ export default {
         new HardBreak(),
       ],
       content: isEmptyValue(this.selectedComponent.value[this.selectedComponent.property])
-        ? 'Start typing here '
+        ? 'Insert text here'
         : this.selectedComponent.value[this.selectedComponent.property],
       onUpdate({ getHTML }) {
         vm.internal = getHTML();

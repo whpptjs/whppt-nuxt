@@ -1,5 +1,10 @@
 <template>
-  <div v-whppt-rich-text="content" :data-property="property" v-html="content[property] || 'Insert Text Here'"></div>
+  <div
+    v-whppt-rich-text="content"
+    :class="{ container }"
+    :data-property="property"
+    v-html="content[property] || 'Insert Text Here'"
+  ></div>
 </template>
 
 <script>

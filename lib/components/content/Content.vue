@@ -1,5 +1,5 @@
 <template>
-  <div v-whppt-content="contentItems" :class="{ 'whppt-content--active': activeMenuItem }">
+  <div v-whppt-content="contentItems" :class="{ 'whppt-content--active': activeMenuItem, container }">
     <component
       :is="content.displayType"
       v-for="(content, index) in contentItems"
@@ -18,6 +18,10 @@ export default {
     contentItems: {
       type: [Array, Object],
       required: true,
+    },
+    container: {
+      type: Boolean,
+      default: () => true,
     },
   },
   computed: {

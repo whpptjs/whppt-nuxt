@@ -1,6 +1,7 @@
 <template>
   <div
     v-whppt-formatted-text="content"
+    :class="{ container }"
     :data-property="property"
     v-html="content[property] || 'Insert Text Here'"
   ></div>

@@ -1,6 +1,5 @@
 <template>
   <div class="whppt-editor">
-    <p class="font-xl whppt-editor__header">Formatted Text Editor</p>
     <editor-menu-bar v-if="!selectedComponent.hideMenu" :editor="editor">
       <div slot-scope="{ commands, isActive }" class="whppt-menubar" style="top: -52px">
         <div v-if="!selectedComponent.hideStyle" class="whppt-menubar__section">
@@ -56,7 +55,7 @@ export default {
         this.internal = this.selectedComponent.value[this.selectedComponent.property];
         this.editor.setContent(
           isEmptyValue(this.selectedComponent.value[this.selectedComponent.property])
-            ? 'Start typing here '
+            ? 'Insert text here'
             : this.selectedComponent.value[this.selectedComponent.property]
         );
       }
@@ -69,7 +68,7 @@ export default {
     this.editor = new Editor({
       extensions: [new Bold(), new Italic(), new Underline()],
       content: isEmptyValue(this.selectedComponent.value[this.selectedComponent.property])
-        ? 'Start typing here '
+        ? 'Insert text here'
         : this.selectedComponent.value[this.selectedComponent.property],
       onUpdate({ getHTML }) {
         vm.internal = getHTML();
