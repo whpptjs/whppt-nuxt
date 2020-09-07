@@ -46,8 +46,8 @@
 
 <script>
 import WhpptTextInput from '../../../editors/WhpptTextInput';
-import Gallery from '../../EditImage/Gallery';
-import Cropping from '../../EditImage/Cropping';
+import Gallery from '../../../editors/EditImage/Gallery';
+import Cropping from '../../../editors/EditImage/Cropping';
 import WhpptTextArea from '../../../editors/__WhpptTextArea';
 
 export default {
