@@ -1,12 +1,21 @@
 <template>
-  <md-tab v-bind="$attrs">
+  <div v-show="isActive">
     <slot></slot>
-  </md-tab>
+  </div>
 </template>
 
 <script>
 export default {
   name: 'WhpptTab',
+  props: {
+    id: { type: String, default: undefined },
+    name: { type: String, required: true },
+    dark: { type: Boolean, default: false },
+    isDisabled: { type: Boolean, default: false },
+  },
+  data: () => ({
+    isActive: false,
+  }),
 };
 </script>
 

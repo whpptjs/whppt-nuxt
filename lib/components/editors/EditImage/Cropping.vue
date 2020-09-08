@@ -15,7 +15,13 @@
         @change="changes => change({ canvas, canvasName }, changes)"
       ></cropper>
     </div>
-    <whppt-text-input v-model="imageOptions.alt" placeholder="e.g. Article Heading Image" label="Image alt text" />
+    <whppt-text-input
+      id="editor-image-alt"
+      :value="imageOptions.alt"
+      placeholder="e.g. Article Heading Image"
+      label="Image alt text"
+      @input="setSelectedComponentState({ value: $event, path: 'image.alt' })"
+    />
   </div>
 </template>
 

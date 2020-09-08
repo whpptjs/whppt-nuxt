@@ -1,11 +1,10 @@
 <template>
   <div>
-    <md-subheader>Image</md-subheader>
-    <whppt-tabs md-alignment="fixed" :md-active-tab="activeTab" @md-changed="setActiveTab">
-      <whppt-tab id="cropping" md-label="Cropping">
+    <whppt-tabs :active-tab="activeTabIndex" @changed="setActiveTab">
+      <whppt-tab id="cropping" name="Cropping">
         <cropping :image-options="selectedComponent.value.image" :sizes="selectedComponent.sizes" />
       </whppt-tab>
-      <whppt-tab id="gallery" md-label="Gallery">
+      <whppt-tab id="gallery" name="Gallery">
         <gallery :value="selectedComponent.value.image.imageId" @input="selectImage" />
       </whppt-tab>
     </whppt-tabs>
@@ -23,7 +22,7 @@ export default {
   name: 'EditorImageEdit',
   components: { WhpptTabs, WhpptTab, Gallery, Cropping },
   data: () => ({
-    activeTab: 'cropping',
+    activeTabIndex: 1,
   }),
   computed: {
     ...mapState('whppt-nuxt/editor', ['selectedComponent']),
@@ -32,10 +31,10 @@ export default {
     ...mapActions('whppt-nuxt/editor', ['setSelectedComponentState']),
     selectImage(id) {
       this.setSelectedComponentState({ value: id, path: 'image.imageId' });
-      this.setActiveTab('cropping');
+      this.setActiveTab(0);
     },
-    setActiveTab(tabId) {
-      this.activeTab = tabId;
+    setActiveTab(tabIndex) {
+      this.activeTabIndex = tabIndex;
     },
   },
 };
