@@ -2,7 +2,7 @@
   <div class="whppt-flex whppt-overflow-hidden">
     <div v-if="isDraft">
       <editor-menu></editor-menu>
-      <whppt-dialog fixed-height :md-active.sync="editInModal" @md-clicked-outside="closeModal">
+      <whppt-dialog fixed-height :is-active.sync="editInModal" @closed="closeModal">
         <component :is="editInModalType" :prefix="prefix" />
       </whppt-dialog>
     </div>

@@ -1,6 +1,6 @@
 <template>
-  <whppt-tabs @md-changed="tabChanged">
-    <whppt-tab v-for="(tab, index) in tabs" :id="tab.name" :key="index" :md-label="tab.label">
+  <whppt-tabs @changed="tabChanged">
+    <whppt-tab v-for="(tab, index) in tabs" :id="tab.name" :key="index" :name="tab.label">
       <component :is="selectedTab" :settings="siteSettings" />
     </whppt-tab>
   </whppt-tabs>
@@ -77,8 +77,9 @@ export default {
   },
   methods: {
     ...mapActions('whppt-nuxt/site', ['saveSiteSettings', 'publishSiteSettings']),
-    tabChanged(id) {
-      this.selectedTab = id;
+    tabChanged(tabIndex) {
+      console.log(tabIndex);
+      this.selectedTab = this.tabs[tabIndex].name;
     },
     loadSiteSettings() {
       return this.$api.get(`/siteSettings/loadSiteSettings`).then(({ data: siteSettings }) => {
