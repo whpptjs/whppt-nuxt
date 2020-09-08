@@ -1,6 +1,6 @@
 <template>
   <div>
-    <whppt-tabs :active-tab="activeTabIndex" @changed="setActiveTab">
+    <whppt-tabs :active-tab="activeTabIndex" position="fixed" @changed="setActiveTab">
       <whppt-tab id="cropping" name="Cropping">
         <cropping :image-options="selectedComponent.value.image" :sizes="selectedComponent.sizes" />
       </whppt-tab>

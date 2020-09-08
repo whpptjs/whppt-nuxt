@@ -1,10 +1,12 @@
 <template>
   <div class="drawer" :class="{ 'drawer--active': active, 'drawer--dark': dark }">
-    <div class="drawer__header">
-      <slot name="header"></slot>
-    </div>
-    <div class="drawer__content">
-      <slot></slot>
+    <div class="drawer__content-wrapper" :class="{ 'drawer__content-wrapper--active': active }">
+      <div class="drawer__header">
+        <slot name="header"></slot>
+      </div>
+      <div class="drawer__content">
+        <slot></slot>
+      </div>
     </div>
   </div>
 </template>
@@ -37,6 +39,21 @@ $gray-900: #1a202c;
   &--active {
     width: 480px;
     transition: width 0.3s ease;
+  }
+
+  &__content-wrapper {
+    height: 100vh;
+    position: fixed;
+    width: 0;
+    right: 0;
+    transition: width 0.3s ease;
+    background-color: white;
+
+    &--active {
+      width: 480px;
+      z-index: 999;
+      transition: width 0.3s ease;
+    }
   }
 }
 

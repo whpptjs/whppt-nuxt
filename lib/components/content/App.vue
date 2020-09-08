@@ -71,9 +71,7 @@ export default {
 }
 
 .whppt-content {
-  width: 75%;
-  flex-grow: 1;
-  background-color: white;
+  flex: 1;
 }
 
 .whppt__component--active {
