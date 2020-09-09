@@ -32,6 +32,9 @@
             </g>
           </svg>
         </button>
+        <div class="whppt-modal__header">
+          <slot name="header"></slot>
+        </div>
         <div class="whppt-modal__content">
           <slot></slot>
         </div>
@@ -90,15 +93,13 @@ export default {
     margin: 0 auto;
     height: 80vh;
     width: 80%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     background-color: white;
   }
 
   &__content {
     width: 100%;
     height: 100%;
+    padding: 1rem;
   }
 }
 

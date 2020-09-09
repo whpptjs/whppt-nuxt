@@ -1,29 +1,19 @@
 <template>
   <form @submit.prevent>
-    <md-subheader>Email</md-subheader>
-    <div class="md-layout md-gutter">
-      <div class="md-layout-item md-small-size-100">
-        <whppt-input v-model="settings.emailLocal" label="Give the mailbox a name" />
+    <div class="">
+      <div class="">
+        <whppt-input id="site-settings-email-local" v-model="settings.emailLocal" label="Give the mailbox a name" />
       </div>
-      <div class="md-layout-item md-small-size-100">
-        <whppt-select v-model="settings.emailDomain" :items="domains" label="Select a domain name" />
+      <div class="">
+        <whppt-select
+          id="site-settings-email-domain"
+          v-model="settings.emailDomain"
+          :items="domains"
+          label="Select a domain name"
+        />
       </div>
     </div>
-    <md-divider></md-divider>
-    <!--      <div>-->
-    <!--        <h4>Mailing List</h4>-->
-    <!--        <div>-->
-    <!--          <whppt-text-input-->
-    <!--            v-model="settings.subscriptionListId"-->
-    <!--            placeholder="e.g. 12345678"-->
-    <!--            label="Subscription Mail List ID"-->
-    <!--            label-colour="black"-->
-    <!--            info="The ID of the mailing list that users will be subscribed to if they opt in."-->
-    <!--          />-->
-    <!--        </div>-->
-    <!--      </div>-->
     <div v-if="publishing">
-      <md-subheader>Publishing</md-subheader>
       <whppt-button class="md-primary md-raised" @click="pubNav">
         Publish Nav
       </whppt-button>

@@ -53,9 +53,12 @@ export default {
     tabChanged(tabIndex, prevIndex) {
       this.$emit('changed', tabIndex);
 
-      this.activeTab || typeof this.activeTab === 'number'
-        ? (this.tabs[prevIndex || this.activeTab].isActive = false)
-        : (this.tabs[this.internalTabIndex].isActive = false);
+      if (this.activeTab || this.activeTab === 0) {
+        this.tabs[prevIndex || this.activeTab].isActive = false;
+      } else {
+        this.tabs[this.internalTabIndex].isActive = false;
+        this.internalTabIndex = tabIndex;
+      }
 
       this.tabs[tabIndex].isActive = true;
     },
@@ -75,7 +78,8 @@ $gray-200: #edf2f7;
   &--fixed {
     .whppt-tab {
       min-width: 0;
-      flex: 1;
+      flex-grow: 1;
+      flex-shrink: 1;
     }
   }
 
