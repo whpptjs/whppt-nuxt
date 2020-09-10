@@ -22,7 +22,7 @@ export default {
   name: 'EditorImageEdit',
   components: { WhpptTabs, WhpptTab, Gallery, Cropping },
   data: () => ({
-    activeTabIndex: 1,
+    activeTabIndex: 0,
   }),
   computed: {
     ...mapState('whppt-nuxt/editor', ['selectedComponent']),

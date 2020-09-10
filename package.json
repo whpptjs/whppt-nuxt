@@ -5,21 +5,20 @@
   "author": "Svelte Studios (https://www.npmjs.com/settings/svelte-studios/packages)",
   "main": "lib/module.js",
   "scripts": {
-    "db:mongo": "run-rs --keep",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "lint --fix": "eslint --ext .js,.vue --ignore-path .gitignore . --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/svelte-studios/whppt-nuxt.git"
+    "url": "https://github.com/whpptjs/whppt-nuxt.git"
   },
   "keywords": [],
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/svelte-studios/whppt-nuxt/issues"
+    "url": "https://github.com/whpptjs/whppt-nuxt/issues"
   },
-  "homepage": "https://github.com/svelte-studios/whppt-nuxt",
+  "homepage": "https://github.com/whpptjs/whppt-nuxt",
   "devDependencies": {
     "@nuxtjs/eslint-config": "^2.0.0",
     "babel-eslint": "^10.0.3",

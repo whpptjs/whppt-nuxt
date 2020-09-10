@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-for="(canvas, canvasName) in sizes" :key="canvasName">
-      <md-subheader>{{ canvasName }}</md-subheader>
+      {{ canvasName }}
       <cropper
         v-if="imageOptions.imageId"
         :style="`background: #000; width:${canvas.width / canvas.quality}px;`"

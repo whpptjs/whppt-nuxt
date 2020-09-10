@@ -33,16 +33,18 @@
 
       <whppt-field>
         <whppt-text-input
-          id="pageSlug"
+          id="page-slug"
           v-model="pageForm.slug"
           label="Page Slug"
           info="Enter any text and we'll turn it into a slug for you!"
         ></whppt-text-input>
       </whppt-field>
-      <div class="slug">Your slug: {{ formatSlug(pageForm.slug) }}</div>
-      <div v-if="showError">A page with that slug already exists, please select another.</div>
+      <div class="whppt-slug">Your slug: {{ formatSlug(pageForm.slug) }}</div>
+      <div v-if="showError" class="whppt-error-message">
+        A page with that slug already exists, please select another.
+      </div>
 
-      <whppt-button class="md-raised md-primary" @click="saveNewPage">Create Page</whppt-button>
+      <whppt-button @click="saveNewPage">Create Page</whppt-button>
     </form>
   </div>
 </template>
@@ -161,6 +163,7 @@ export default {
 
 <style lang="scss" scoped>
 $gray-500: #a0aec0;
+$danger-600: #e53e3e;
 
 .whppt-page__form--black {
   color: black;
@@ -175,10 +178,17 @@ $gray-500: #a0aec0;
   font-size: 0.7rem;
 }
 
-.slug {
+.whppt-slug {
   font-size: 0.75rem;
   font-style: italic;
   color: $gray-500;
+  margin-bottom: 0.5rem;
+}
+
+.whppt-error-message {
+  color: $danger-600;
+  font-size: 0.75rem;
+  font-style: italic;
   margin-bottom: 0.5rem;
 }
 </style>
