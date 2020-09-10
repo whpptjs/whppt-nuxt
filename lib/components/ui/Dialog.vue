@@ -1,7 +1,7 @@
 <template>
   <div v-if="isActive" class="whppt-modal">
     <div class="whppt-modal__background">
-      <div class="whppt-modal__inner">
+      <div class="whppt-modal__inner" :class="{ 'whppt-modal__inner--dark': dark }">
         <button class="whppt-modal__close-btn" aria-label="Close Modal" @click="$emit('closed')">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -51,6 +51,10 @@ export default {
       type: Boolean,
       default: () => false,
     },
+    dark: {
+      type: Boolean,
+      default: true,
+    },
   },
   destroyed() {
     this.$emit('closed');
@@ -59,6 +63,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$gray-100: #f7fafc;
+$gray-200: #edf2f7;
+$gray-800: #2d3748;
+$gray-900: #1a202c;
+
 .whppt-modal {
   &__background {
     position: fixed;
@@ -93,13 +102,21 @@ export default {
     margin: 0 auto;
     height: 80vh;
     width: 80%;
-    background-color: white;
+    max-width: 900px;
+    border-radius: 0.25rem;
+    background-color: $gray-100;
+    overflow: hidden;
+
+    &--dark {
+      background-color: $gray-800;
+    }
   }
 
   &__content {
     width: 100%;
     height: 100%;
-    padding: 1rem;
+    padding: 1rem 1rem 6rem;
+    overflow-y: auto;
   }
 }
 

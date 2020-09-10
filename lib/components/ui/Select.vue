@@ -2,7 +2,7 @@
   <div class="whppt-select__field">
     <label v-if="label">{{ label }}</label>
     <div class="whppt-select">
-      <select @input="$emit('input', $event.target.value)" @change="$emit('change', $event.target.value)">
+      <select @input="onInput" @change="onChange">
         <option value="-1" selected disabled>{{ placeholder }}</option>
         <option v-for="(item, index) in items" :key="index" :value="setValueProp(item)">{{ setTextProp(item) }}</option>
       </select>
@@ -16,6 +16,8 @@
 </template>
 
 <script>
+import { find } from 'lodash';
+
 export default {
   name: 'WhpptSelect',
   props: {
@@ -25,23 +27,27 @@ export default {
     },
     label: {
       type: String,
-      default: () => '',
+      default: '',
     },
     placeholder: {
       type: String,
-      default: () => '',
+      default: '',
     },
     info: {
       type: String,
-      default: () => '',
+      default: '',
     },
     itemText: {
       type: String,
-      default: () => 'text',
+      default: 'text',
     },
     itemValue: {
       type: String,
-      default: () => 'value',
+      default: 'value',
+    },
+    returnObject: {
+      type: Boolean,
+      default: false,
     },
   },
   methods: {
@@ -52,6 +58,20 @@ export default {
     setTextProp(item) {
       if (typeof item === 'string') return item;
       return item[this.itemText];
+    },
+    onInput(ev) {
+      const returnValue = this.returnObject
+        ? find(this.items, i => i[this.itemValue] === ev.target.value)
+        : ev.target.value;
+
+      this.$emit('input', returnValue);
+    },
+    onChange(ev) {
+      const returnValue = this.returnObject
+        ? find(this.items, i => i[this.itemValue] === ev.target.value)
+        : ev.target.value;
+
+      this.$emit('change', returnValue);
     },
   },
 };
@@ -64,6 +84,7 @@ $gray-700: #4a5568;
 
 .whppt-select__field {
   width: 100%;
+  margin-bottom: 0.5rem;
 }
 
 label {

@@ -10,7 +10,7 @@ export default {
   props: {
     dark: {
       type: Boolean,
-      default: () => false,
+      default: true,
     },
   },
 };
@@ -25,6 +25,7 @@ $gray-900: #1a202c;
   display: flex;
   border-bottom: 1px solid $gray-200;
   padding: 1rem;
+  background-color: white;
 
   &--dark {
     background-color: $gray-900;

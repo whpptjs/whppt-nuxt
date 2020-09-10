@@ -11,9 +11,24 @@
           item-text="label"
           item-value="name"
           label="Page Type"
+          return-object
           placeholder="Select a page type"
         />
       </whppt-field>
+
+      <whppt-select
+        v-if="
+          selectedPageTypePlugin &&
+            selectedPageTypePlugin.pageType &&
+            selectedPageTypePlugin.pageType.templates.length > 1
+        "
+        v-model="pageForm.template"
+        :items="selectedPageTypePlugin.pageType.templates"
+        item-text="label"
+        item-value="key"
+        label="template"
+      ></whppt-select>
+
       <component :is="pageForm.pageType.name" v-if="pageForm.pageType" :page="pageForm" />
 
       <whppt-field>
@@ -33,7 +48,7 @@
 </template>
 
 <script>
-import { map, filter, forEach } from 'lodash';
+import { map, filter, forEach, find } from 'lodash';
 import { mapState, mapActions } from 'vuex';
 import slugify from 'slugify';
 import WhpptSelect from '../ui/Select';
@@ -67,6 +82,9 @@ export default {
     pageTypes() {
       return map(pageTypePlugins, t => t.pageType);
     },
+    selectedPageTypePlugin() {
+      return find(pageTypePlugins, plugin => plugin.pageType.name === this.pageForm.pageType.name);
+    },
   },
   mounted() {
     if (this.page && this.page.pageType) this.pageForm.pageType = this.page.pageType;
@@ -76,6 +94,8 @@ export default {
     ...mapActions('whppt-nuxt/page', ['checkSlug']),
     saveNewPage() {
       const vm = this;
+      const collection = this.selectedPageTypePlugin.collection;
+
       vm.showError = false;
       if (!vm.pageForm.slug) {
         this.$toast.global.editorError(`Missing Field: Slug.`);
@@ -98,12 +118,16 @@ export default {
         twitter: { title: '', keywords: '', image: { imageId: '', crop: {} } },
       };
 
-      return vm.checkSlug({ slug: newPage.slug, pageType: newPage.pageType }).then(result => {
+      return vm.checkSlug({ slug: newPage.slug, pageType: newPage.pageType, collection }).then(result => {
         if (result) {
           vm.showError = true;
         } else {
           return this.pageForm.pageType
-            .createPage(vm.$whppt.context, { page: newPage, form: vm.pageForm })
+            .createPage(vm.$whppt.context, {
+              page: newPage,
+              form: vm.pageForm,
+              collection,
+            })
             .then(page => {
               const { slug } = page;
               vm.closeSidebar();
@@ -117,7 +141,10 @@ export default {
       });
     },
     formatSlug(slug) {
-      if (slug.startsWith('/')) slug = slug.replace(/^(\/*)/, '');
+      if (slug.startsWith('/')) {
+        // console.log(slug);
+        slug = slug.replace(/^(\/*)/, '');
+      }
 
       slug = slug.replace(/\/{2,}/g, '/');
 

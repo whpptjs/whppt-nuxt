@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent>
-    <div class="">
+    <whppt-card title="Email">
       <div class="">
         <whppt-input id="site-settings-email-local" v-model="settings.emailLocal" label="Give the mailbox a name" />
       </div>
@@ -12,15 +12,17 @@
           label="Select a domain name"
         />
       </div>
-    </div>
-    <div v-if="publishing">
-      <whppt-button class="md-primary md-raised" @click="pubNav">
-        Publish Nav
-      </whppt-button>
-      <whppt-button class="md-primary md-raised" @click="pubFooter">
-        Publish Footer
-      </whppt-button>
-    </div>
+    </whppt-card>
+    <whppt-card v-if="publishing" title="Publishing">
+      <div class="publishing-settings">
+        <whppt-button @click="pubNav">
+          Publish Nav
+        </whppt-button>
+        <whppt-button @click="pubFooter">
+          Publish Footer
+        </whppt-button>
+      </div>
+    </whppt-card>
   </form>
 </template>
 
@@ -30,10 +32,11 @@ import { mapActions, mapState } from 'vuex';
 import WhpptSelect from '../../../ui/Select';
 import WhpptInput from '../../../ui/Input';
 import WhpptButton from '../../../ui/Button';
+import WhpptCard from '../../../ui/Card';
 
 export default {
   name: 'SettingsGeneral',
-  components: { WhpptInput, WhpptSelect, WhpptButton },
+  components: { WhpptInput, WhpptSelect, WhpptButton, WhpptCard },
   props: { settings: { type: Object, default: () => ({}) } },
   data: () => ({
     domains: [],
@@ -58,3 +61,13 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.publishing-settings {
+  display: flex;
+
+  button {
+    margin-right: 0.5rem;
+  }
+}
+</style>

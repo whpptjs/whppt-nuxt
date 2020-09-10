@@ -61,6 +61,8 @@ $gray-500: #a0aec0;
 $gray-700: #4a5568;
 
 .whppt-input {
+  margin-bottom: 0.5rem;
+
   label {
     display: block;
     text-transform: uppercase;

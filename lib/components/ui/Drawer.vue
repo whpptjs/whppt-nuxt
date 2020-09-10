@@ -1,7 +1,10 @@
 <template>
-  <div class="drawer" :class="{ 'drawer--active': active, 'drawer--dark': dark }">
-    <div class="drawer__content-wrapper" :class="{ 'drawer__content-wrapper--active': active }">
-      <div class="drawer__header">
+  <div class="whppt-drawer" :class="{ 'whppt-drawer--active': active, 'whppt-drawer--dark': dark }">
+    <div
+      class="whppt-drawer__content-wrapper"
+      :class="{ 'whppt-drawer__content-wrapper--dark': dark, 'whppt-drawer__content-wrapper--active': active }"
+    >
+      <div class="whppt-drawer__header">
         <slot name="header"></slot>
       </div>
       <div class="drawer__content">
@@ -21,7 +24,7 @@ export default {
     },
     dark: {
       type: Boolean,
-      default: () => false,
+      default: true,
     },
   },
 };
@@ -31,7 +34,7 @@ export default {
 $gray-200: #edf2f7;
 $gray-900: #1a202c;
 
-.drawer {
+.whppt-drawer {
   width: 0;
   transition: width 0.3s ease;
   border-left: 1px solid $gray-200;
@@ -49,15 +52,16 @@ $gray-900: #1a202c;
     transition: width 0.3s ease;
     background-color: white;
 
+    &--dark {
+      color: white;
+      background-color: $gray-900;
+    }
+
     &--active {
       width: 480px;
       z-index: 999;
       transition: width 0.3s ease;
     }
   }
-}
-
-.drawer--dark {
-  background-color: $gray-900;
 }
 </style>

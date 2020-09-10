@@ -78,7 +78,6 @@ export default {
   methods: {
     ...mapActions('whppt-nuxt/site', ['saveSiteSettings', 'publishSiteSettings']),
     tabChanged(tabIndex) {
-      console.log(tabIndex);
       this.selectedTab = this.tabs[tabIndex].name;
     },
     loadSiteSettings() {

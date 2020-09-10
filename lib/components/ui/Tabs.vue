@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ul class="whppt-tabs" :class="[{ 'whppt-tabs--wrap': wrap }, `whppt-tabs--${position}`]">
+    <ul class="whppt-tabs" :class="[{ 'whppt-tabs--wrap': wrap, 'whppt-tabs--dark': dark }, `whppt-tabs--${position}`]">
       <li
         v-for="(tab, index) in tabs"
         :key="index"
@@ -32,6 +32,10 @@ export default {
     wrap: {
       type: Boolean,
       default: false,
+    },
+    dark: {
+      type: Boolean,
+      default: true,
     },
   },
   data: () => ({
@@ -68,12 +72,21 @@ export default {
 
 <style lang="scss" scoped>
 $primary-600: #5a67d8;
+
 $gray-200: #edf2f7;
+$gray-900: #1a202c;
 
 .whppt-tabs {
   display: flex;
   margin-bottom: 0.5rem;
   box-shadow: inset 0 -1px 0 $gray-200;
+  background-color: white;
+  border-radius: 0.25rem 0.25rem 0 0;
+
+  &--dark {
+    background-color: $gray-900;
+    color: white;
+  }
 
   &--fixed {
     .whppt-tab {
