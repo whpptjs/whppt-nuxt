@@ -111,7 +111,7 @@ import { ceil } from 'lodash';
 import { VTooltip } from 'v-tooltip';
 import WhpptTextInput from '../../../editors/WhpptTextInput';
 import Save from '../../../icons/Save';
-import LinkIcon from '../../../icons/Link';
+import LinkIcon from '../../../icons/ChainLink';
 import Remove from '../../../icons/Trash';
 import ExternalLink from '../../../icons/External';
 

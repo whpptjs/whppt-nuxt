@@ -104,7 +104,7 @@ import IParagraph from '../../icons/Paragraph';
 import IBulletList from '../../icons/BulletList';
 import IOrderedList from '../../icons/OrderedList';
 import IUnderline from '../../icons/Underline';
-import ILink from '../../icons/Link';
+import ILink from '../../icons/ChainLink';
 import IClose from '../../icons/Close';
 import Link from './CustomLink';
 
