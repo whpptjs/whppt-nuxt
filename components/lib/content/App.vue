@@ -11,7 +11,7 @@
     <div class="whppt-content" @mouseenter="previewImage = ''">
       <slot></slot>
     </div>
-    <preview-sidebar :preview-image="previewImage" />
+    <!-- <preview-sidebar :preview-image="previewImage" /> -->
     <whppt-sidebar @changePreview="setPreview" />
   </div>
 </template>
