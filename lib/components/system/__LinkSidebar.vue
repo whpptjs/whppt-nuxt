@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import ELink from '../editors/Link';
+import ELink from '../editors/LinkEditor';
 
 export default {
   name: 'EditorLink',

@@ -108,7 +108,7 @@ export default {
         return;
       }
 
-      if (vm.pageForm.pageType.name === 'page' && !vm.pageForm.template) {
+      if (!vm.pageForm.template) {
         this.$toast.global.editorError(`Missing Field: Template.`);
         return;
       }

@@ -4,11 +4,11 @@
 
 <script>
 import { mapState } from 'vuex';
-import WLink from '../editors/Link';
+// import WLink from '../editors/Link';
 
 export default {
   name: 'WhpptLinkEdit',
-  components: { WLink },
+  // components: { WLink },
   computed: {
     ...mapState('whppt-nuxt/editor', ['selectedComponent']),
   },

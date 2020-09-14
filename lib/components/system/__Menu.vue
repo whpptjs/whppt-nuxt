@@ -18,7 +18,6 @@
         label="Show on phone"
         @click="selectedComponent.value.showOnMobile = !selectedComponent.value.showOnMobile"
       ></whppt-check-box>
-      <e-link :data="selectedComponent.value"></e-link>
     </div>
     <div class="whppt-flex-between">
       <label>Link in group: </label>
@@ -70,11 +69,10 @@ import { mapState } from 'vuex';
 import { without, findIndex } from 'lodash';
 import WhpptCheckBox from '../editors/__CheckBox';
 import WhpptSelect from '../editors/WhpptSelect';
-import ELink from '../editors/Link';
 
 export default {
   name: 'Menu',
-  components: { ELink, WhpptCheckBox, WhpptSelect },
+  components: { WhpptCheckBox, WhpptSelect },
   data() {
     return {
       selectKey: undefined,

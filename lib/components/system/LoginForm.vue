@@ -1,31 +1,32 @@
 <template>
   <div v-if="active" class="whppt-login">
-    <button class="close" @click="close"><w-close /></button>
+    <whppt-button class="close" @click="close"><w-close /></whppt-button>
     <div class="whppt-form-container">
-      <form>
-        <label>
-          <input v-model="data.username" type="text" required />
-          <div class="whppt-label-text">Username / Email</div>
-        </label>
-        <label>
-          <input v-model="data.password" type="password" required />
-          <div class="whppt-label-text">Password</div>
-        </label>
-        <button :disabled="busy" @click.stop.prevent="doLogin">
-          <span v-if="!busy">Submit</span>
-          <w-close v-if="busy"></w-close>
-        </button>
+      <h2 class="whppt-login__heading whppt-login__heading--dark">Welcome</h2>
+      <form @submit.prevent>
+        <whppt-text-input id="login-username" v-model="data.username" required label="Username" />
+        <whppt-text-input id="login-password" v-model="data.password" type="password" required label="Password" />
         <p v-if="error" class="error">{{ error }}</p>
+        <whppt-button :disabled="busy" @click="doLogin">
+          <span v-if="!busy">Submit</span>
+          <w-close v-if="busy" />
+        </whppt-button>
       </form>
     </div>
-    <p class="whppt-copywrite">&copy;{{ new Date().getFullYear() }} Svelte Studios. All rights reserved.</p>
   </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex';
+import WhpptTextInput from '../ui/Input';
+import WhpptButton from '../ui/Button';
+
 export default {
   name: 'EditorMenu',
+  components: {
+    WhpptTextInput,
+    WhpptButton,
+  },
   data: () => ({
     active: false,
     error: '',
@@ -63,123 +64,56 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+$gray-900: #1a202c;
+
+$danger-600: #e53e3e;
+
 .whppt-login {
   position: fixed;
   z-index: 53;
-  width: 100%;
-  width: 100vh;
-  height: 100%;
+  width: 50vw;
   height: 100vh;
-  background-color: #333333;
-  font-family: 'Open Sans', Helvetica;
+  background-color: $gray-900;
   display: flex;
   flex-direction: column;
   align-content: center;
-}
+  padding: 2rem;
 
-.whppt-form-container {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  align-self: center;
-}
+  .whppt-form-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 
-form {
-  text-align: center;
-}
+    .whppt-login__heading {
+      width: 100%;
+      text-align: center;
+      font-weight: bold;
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
 
-label {
-  display: block;
-  letter-spacing: 4px;
-  padding-top: 30px;
-  text-align: center;
-}
+      &--dark {
+        color: white;
+      }
+    }
 
-label .whppt-label-text {
-  color: #9b9b9b;
-  cursor: text;
-  font-size: 20px;
-  line-height: 20px;
-  text-transform: uppercase;
-  transform: translateY(-34px);
-  transition: all 0.3s;
-}
+    form {
+      width: 100%;
+    }
+  }
 
-label input {
-  background-color: transparent;
-  border: 0;
-  border-bottom: 2px solid #4a4a4a;
-  color: white;
-  font-size: 36px;
-  letter-spacing: -1px;
-  outline: 0;
-  padding: 5px 20px;
-  text-align: center;
-  transition: all 0.3s;
-  width: 200px;
-}
-label input:focus {
-  max-width: 100%;
-  width: 400px;
-}
+  .error {
+    color: $danger-600;
+    font-size: 0.75rem;
+    font-style: italic;
+    margin-bottom: 0.5rem;
+  }
 
-label input:focus + .whppt-label-text {
-  color: #f0f0f0;
-  font-size: 13px;
-  transform: translateY(-80px);
-}
-
-label input:valid + .whppt-label-text {
-  font-size: 13px;
-  transform: translateY(-80px);
-}
-
-button {
-  background-color: #333333;
-  border: 2px solid white;
-  border-radius: 27px;
-  color: white;
-  cursor: pointer;
-  font-size: 20px;
-  margin-top: 20px;
-  padding: 15px 30px;
-  text-transform: uppercase;
-  transition: all 200ms;
-}
-button:hover,
-button:focus {
-  background-color: white;
-  color: #333333;
-  outline: 0;
-}
-
-button.close {
-  width: 20px;
-  margin-top: 0;
-  padding: 15px;
-  border: none;
-  position: absolute;
-  right: 20px;
-  top: 20px;
-}
-
-button.close:hover,
-button.close:focus {
-  /* border: 2px solid white; */
-  background-color: #333333;
-  color: white;
-}
-
-.whppt-copywrite {
-  font-size: 12px;
-  margin-bottom: 8px;
-  color: white;
-  text-align: center;
-}
-
-.error {
-  margin-top: 8px;
-  color: orangered;
+  button.close {
+    position: absolute;
+    right: 2rem;
+    top: 2rem;
+  }
 }
 </style>
