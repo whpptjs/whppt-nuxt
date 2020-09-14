@@ -144,7 +144,6 @@ export default {
     },
     formatSlug(slug) {
       if (slug.startsWith('/')) {
-        // console.log(slug);
         slug = slug.replace(/^(\/*)/, '');
       }
 
