@@ -96,20 +96,14 @@ export default {
     ...mapActions('whppt-nuxt/page', ['checkSlug']),
     saveNewPage() {
       const vm = this;
-      const collection = this.selectedPageTypePlugin.collection;
 
       vm.showError = false;
-      if (!vm.pageForm.slug) {
+      if (!this.pageForm.slug) {
         this.$toast.global.editorError(`Missing Field: Slug.`);
         return;
       }
-      if (!vm.pageForm.pageType) {
+      if (!this.pageForm.pageType) {
         this.$toast.global.editorError(`Missing Fields: Page Type.`);
-        return;
-      }
-
-      if (!vm.pageForm.template) {
-        this.$toast.global.editorError(`Missing Field: Template.`);
         return;
       }
 
@@ -120,9 +114,20 @@ export default {
         twitter: { title: '', keywords: '', image: { imageId: '', crop: {} } },
       };
 
-      console.log(newPage.slug);
+      if (
+        this.selectedPageTypePlugin &&
+        this.selectedPageTypePlugin.pageType.templates &&
+        this.selectedPageTypePlugin.pageType.templates.length === 1
+      ) {
+        newPage.template = this.selectedPageTypePlugin.pageType.templates[0].key;
+      }
 
-      return vm.checkSlug({ slug: newPage.slug, pageType: newPage.pageType, collection }).then(result => {
+      if (!newPage.template) {
+        this.$toast.global.editorError(`Missing Field: Template.`);
+        return;
+      }
+
+      return vm.checkSlug({ slug: newPage.slug, pageType: newPage.pageType }).then(result => {
         if (result) {
           vm.showError = true;
         } else {
@@ -130,7 +135,6 @@ export default {
             .createPage(vm.$whppt.context, {
               page: newPage,
               form: vm.pageForm,
-              collection,
             })
             .then(page => {
               const { slug } = page;
