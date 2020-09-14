@@ -120,6 +120,8 @@ export default {
         twitter: { title: '', keywords: '', image: { imageId: '', crop: {} } },
       };
 
+      console.log(newPage.slug);
+
       return vm.checkSlug({ slug: newPage.slug, pageType: newPage.pageType, collection }).then(result => {
         if (result) {
           vm.showError = true;
@@ -143,9 +145,7 @@ export default {
       });
     },
     formatSlug(slug) {
-      if (slug.startsWith('/')) {
-        slug = slug.replace(/^(\/*)/, '');
-      }
+      if (slug.startsWith('/')) slug = slug.replace(/^(\/*)/, '');
 
       slug = slug.replace(/\/{2,}/g, '/');
 
