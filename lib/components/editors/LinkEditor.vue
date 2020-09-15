@@ -9,17 +9,17 @@
           <div>
             <whppt-text-input
               id="link-editor-page-href"
-              v-model="link.href"
-              class="whppt-input-half"
+              :value="link.href"
               placeholder="e.g. /contact"
               label="Hyperlink"
+              @input="setSelectedComponentState({ value: $event, path: 'href' })"
             />
             <whppt-text-input
               id="link-editor-page-text"
-              v-model="link.text"
-              class="whppt-input-half"
+              :value="link.text"
               placeholder="Link Text"
               label="Link Text"
+              @input="setSelectedComponentState({ value: $event, path: 'text' })"
             />
           </div>
         </whppt-card>
@@ -32,17 +32,17 @@
           <div>
             <whppt-text-input
               id="link-editor-external-href"
-              v-model="link.href"
-              class="whppt-input-half"
+              :value="link.href"
               placeholder="e.g. https://example.com/example"
               label="Hyperlink"
+              @input="setSelectedComponentState({ value: $event, path: 'href' })"
             />
             <whppt-text-input
               id="link-editor-external-text"
-              v-model="link.text"
-              class="whppt-input-half"
+              :value="link.text"
               placeholder="Link Text"
               label="Link Text"
+              @input="setSelectedComponentState({ value: $event, path: 'text' })"
             />
           </div>
         </whppt-card>
@@ -56,17 +56,17 @@
           <div>
             <whppt-text-input
               id="link-editor-anchor-href"
-              v-model="link.href"
-              class="whppt-input-half"
+              :value="link.href"
               placeholder="e.g. #museum"
               label="Hyperlink"
+              @input="setSelectedComponentState({ value: $event, path: 'href' })"
             />
             <whppt-text-input
               id="link-editor-anchor-text"
               :value="link.text"
               placeholder="Link Text"
               label="Link Text"
-              @input="setSelectedComponentState({ value: $event })"
+              @input="setSelectedComponentState({ value: $event, path: 'text' })"
             />
           </div>
         </whppt-card>
