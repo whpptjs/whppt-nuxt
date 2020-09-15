@@ -40,6 +40,7 @@ import CheckSlug from './helpers/CheckSlug';
 import Select from './helpers/editors/Select';
 import Hover from './helpers/editors/Hover';
 import Image from './helpers/Image';
+import Video from './helpers/Video';
 
 const options = JSON.parse(`<%= JSON.stringify(options) %>`);
 
@@ -158,6 +159,7 @@ export default (context, inject) => {
     store.state[`whppt-nuxt/editor`].baseImageUrl2,
     store.state[`whppt-nuxt/editor`].baseCdnImageUrl2
   );
+  Video(whppt, store.state[`whppt-nuxt/editor`].baseVideoUrl);
   Hover(whppt);
 
   context.app.$whppt = whppt;
