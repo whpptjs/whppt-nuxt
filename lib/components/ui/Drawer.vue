@@ -31,7 +31,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$gray-100: #f7fafc;
 $gray-200: #edf2f7;
+$gray-800: #2d3748;
 $gray-900: #1a202c;
 
 .whppt-drawer {
@@ -54,7 +56,7 @@ $gray-900: #1a202c;
 
     &--dark {
       color: white;
-      background-color: $gray-900;
+      background-color: $gray-800;
     }
 
     &--active {

@@ -55,7 +55,7 @@ export default {
   },
   methods: {
     tabChanged(tabIndex, prevIndex) {
-      this.$emit('changed', tabIndex);
+      this.$emit('changed', this.tabs[tabIndex], tabIndex, prevIndex);
 
       if (this.activeTab || this.activeTab === 0) {
         this.tabs[prevIndex || this.activeTab].isActive = false;

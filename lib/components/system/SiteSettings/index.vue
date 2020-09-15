@@ -77,8 +77,8 @@ export default {
   },
   methods: {
     ...mapActions('whppt-nuxt/site', ['saveSiteSettings', 'publishSiteSettings']),
-    tabChanged(tabIndex) {
-      this.selectedTab = this.tabs[tabIndex].name;
+    tabChanged(_, index) {
+      this.selectedTab = this.tabs[index].name;
     },
     loadSiteSettings() {
       return this.$api.get(`/siteSettings/loadSiteSettings`).then(({ data: siteSettings }) => {

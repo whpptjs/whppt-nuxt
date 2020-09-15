@@ -1,8 +1,8 @@
 <template>
   <div class="whppt-select__field">
-    <label v-if="label">{{ label }}</label>
+    <label v-if="label" :for="id">{{ label }}</label>
     <div class="whppt-select">
-      <select @input="onInput" @change="onChange">
+      <select :id="id" :value="value || -1" @input="onInput" @change="onChange">
         <option value="-1" selected disabled>{{ placeholder }}</option>
         <option v-for="(item, index) in items" :key="index" :value="setValueProp(item)">{{ setTextProp(item) }}</option>
       </select>
@@ -21,12 +21,20 @@ import { find } from 'lodash';
 export default {
   name: 'WhpptSelect',
   props: {
+    id: {
+      type: String,
+      required: true,
+    },
     items: {
       type: Array,
       default: () => [],
     },
     label: {
       type: String,
+      default: '',
+    },
+    value: {
+      type: [String, Object, Array],
       default: '',
     },
     placeholder: {

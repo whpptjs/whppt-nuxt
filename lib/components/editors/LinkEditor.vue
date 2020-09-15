@@ -1,112 +1,126 @@
 <template>
   <div>
-    <div v-if="data">
-      <ul class="whppt-tabs">
-        <e-tab :active="data.type === 'page'" @click="data.type = 'page'">Page</e-tab>
-        <e-tab :active="data.type === 'external'" @click="data.type = 'external'">External</e-tab>
-        <e-tab :active="data.type === 'anchor'" @click="data.type = 'anchor'">Anchor</e-tab>
-        <e-tab :active="data.type === 'file'" @click="data.type = 'file'">File</e-tab>
-      </ul>
-
-      <div v-if="data.type === 'page'">
-        <div class="whppt-flex">
-          <whppt-text-input
-            id="linkHref"
-            v-model="data.href"
-            class="whppt-input-half"
-            placeholder="e.g. /contact"
-            label="Hyperlink"
-          />
-          <whppt-text-input
-            id="linkText"
-            v-model="data.text"
-            class="whppt-input-half"
-            placeholder="Link Text"
-            label="Link Text"
-          />
-        </div>
-        <div class="whppt-tabs__info">
-          Page links take the user to another page on this website
-        </div>
-      </div>
-      <div v-if="data.type === 'external'">
-        <div class="whppt-flex">
-          <whppt-text-input
-            id="linkHref"
-            v-model="data.href"
-            class="whppt-input-half"
-            placeholder="e.g. https://example.com/example"
-            label="Hyperlink"
-          />
-          <whppt-text-input
-            id="linkText"
-            v-model="data.text"
-            class="whppt-input-half"
-            placeholder="Link Text"
-            label="Link Text"
-          />
-        </div>
-        <div class="whppt-tabs__info">
-          External links open a new tab to another website. Examples: https://example.com or mailto:example@mail.com
-        </div>
-      </div>
-      <div v-if="data.type === 'anchor'">
-        <div class="whppt-flex">
-          <whppt-text-input v-model="data.href" class="whppt-input-half" placeholder="e.g. #museum" label="Hyperlink" />
-          <whppt-text-input
-            id="linkText"
-            v-model="data.text"
-            class="whppt-input-half"
-            placeholder="Link Text"
-            label="Link Text"
-          />
-        </div>
-        <div class="whppt-tabs__info">
-          Anchors refer to identifying elements on the page using a #. Clicking on a anchor will scroll the page down to
-          it.
-        </div>
-      </div>
-      <div v-if="data.type === 'file'">
-        <div class="whppt-input-half">Selected File Url:</div>
-        <div class="whppt-input-half" style="margin-bottom: 30px;">{{ data.href }}</div>
-        <whppt-text-input v-model="data.text" class="whppt-input-half" placeholder="Link Text" label="Link Text" />
-
-        <whppt-select
-          class="whppt-input-half mt-2"
-          key-prop="_id"
-          :value="data.fileId"
-          label="File"
-          value-prop="name"
-          :items="files"
-          @input="selectFile"
-        ></whppt-select>
-      </div>
-    </div>
+    <whppt-tabs @changed="tabChanged">
+      <whppt-tab id="page" name="Page">
+        <whppt-card>
+          <div class="whppt-tab__info">
+            Page links take the user to another page on this website
+          </div>
+          <div>
+            <whppt-text-input
+              id="link-editor-page-href"
+              v-model="link.href"
+              class="whppt-input-half"
+              placeholder="e.g. /contact"
+              label="Hyperlink"
+            />
+            <whppt-text-input
+              id="link-editor-page-text"
+              v-model="link.text"
+              class="whppt-input-half"
+              placeholder="Link Text"
+              label="Link Text"
+            />
+          </div>
+        </whppt-card>
+      </whppt-tab>
+      <whppt-tab id="external" name="External">
+        <whppt-card>
+          <div class="whppt-tab__info">
+            External links open a new tab to another website. Examples: https://example.com or mailto:example@mail.com
+          </div>
+          <div>
+            <whppt-text-input
+              id="link-editor-external-href"
+              v-model="link.href"
+              class="whppt-input-half"
+              placeholder="e.g. https://example.com/example"
+              label="Hyperlink"
+            />
+            <whppt-text-input
+              id="link-editor-external-text"
+              v-model="link.text"
+              class="whppt-input-half"
+              placeholder="Link Text"
+              label="Link Text"
+            />
+          </div>
+        </whppt-card>
+      </whppt-tab>
+      <whppt-tab id="anchor" name="Anchor">
+        <whppt-card>
+          <div class="whppt-tab__info">
+            Anchors refer to identifying elements on the page using a #. Clicking on a anchor will scroll the page down
+            to it.
+          </div>
+          <div>
+            <whppt-text-input
+              id="link-editor-anchor-href"
+              v-model="link.href"
+              class="whppt-input-half"
+              placeholder="e.g. #museum"
+              label="Hyperlink"
+            />
+            <whppt-text-input
+              id="link-editor-anchor-text"
+              :value="link.text"
+              placeholder="Link Text"
+              label="Link Text"
+              @input="setSelectedComponentState({ value: $event })"
+            />
+          </div>
+        </whppt-card>
+      </whppt-tab>
+      <whppt-tab id="file" name="File">
+        <whppt-card>
+          <div class="selected-file">Selected File Url: {{ link.href }}</div>
+          <div>
+            <whppt-text-input
+              id="link-editor-file-text"
+              :value="link.text"
+              placeholder="Link Text"
+              label="Link Text"
+              @input="setSelectedComponentState({ value: $event, path: 'text' })"
+            />
+            <whppt-select
+              id="link-editor-file-select"
+              label="File"
+              :items="files"
+              :value="link.fileId"
+              item-text="name"
+              item-value="_id"
+              return-object
+              placeholder="Select a file"
+              @input="selectFile"
+            ></whppt-select>
+          </div>
+        </whppt-card>
+      </whppt-tab>
+    </whppt-tabs>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import { debounce } from 'lodash';
-import ETab from './__Tab';
-import WhpptTextInput from './WhpptTextInput';
-import WhpptSelect from './WhpptSelect';
+import { mapActions, mapState } from 'vuex';
+import { clone, debounce } from 'lodash';
+import WhpptTextInput from '../ui/Input';
+import WhpptSelect from '../ui/Select';
+import WhpptTabs from '../ui/Tabs';
+import WhpptTab from '../ui/Tab';
+import WhpptCard from '../ui/Card';
 
 export default {
   name: 'EditorLinkEdit',
-  components: { WhpptTextInput, ETab, WhpptSelect },
-  props: {
-    data: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
+  components: { WhpptTextInput, WhpptSelect, WhpptTabs, WhpptTab, WhpptCard },
   data: () => ({
     search: '',
     files: [],
   }),
   computed: {
-    ...mapState('whppt-nuxt/editor', ['baseAPIUrl', 'baseFileUrl']),
+    ...mapState('whppt-nuxt/editor', ['baseAPIUrl', 'baseFileUrl', 'selectedComponent']),
+    link() {
+      return this.selectedComponent.value[this.selectedComponent.property] || this.selectedComponent.value;
+    },
   },
   watch: {
     search() {
@@ -118,19 +132,14 @@ export default {
     this.filterList();
   },
   methods: {
+    ...mapActions('whppt-nuxt/editor', ['setSelectedComponentState']),
     selectFile(item) {
-      if (!item) {
-        this.data.href = undefined;
-        this.data.fileId = '';
-        return;
-      }
+      if (!item) return;
+
       const baseUrl = this.baseFileUrl ? this.baseFileUrl : window.location.origin;
 
-      this.data.href = `${baseUrl}/file/${item._id}`;
-      this.data.fileId = item._id;
-    },
-    isTypeOf(value) {
-      return typeof value !== 'undefined';
+      this.setSelectedComponentState({ value: `${baseUrl}/file/${item._id}`, path: 'href' });
+      this.setSelectedComponentState({ value: item._id, path: 'fileId' });
     },
     queryFilesList() {
       return this.$api
@@ -141,21 +150,25 @@ export default {
           this.files = files;
         });
     },
+    tabChanged(tab) {
+      const link = clone(this.link);
+      link.type = tab.id;
+      this.setSelectedComponentState({ value: link });
+    },
   },
 };
 </script>
 
-<style scoped>
-.whppt-tabs__info {
-  padding: 0 1.25rem;
+<style lang="scss" scoped>
+.selected-file {
+  margin: 0.5rem 0;
+}
+
+.whppt-tab__info {
   color: gray;
   font-size: 0.75rem;
   margin-bottom: 0.75rem;
   font-style: italic;
-}
-
-.whppt-input-half {
-  padding: 0 0.5rem;
 }
 
 .whppt-files {
