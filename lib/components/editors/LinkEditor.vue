@@ -102,7 +102,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import { clone, debounce } from 'lodash';
+import { debounce } from 'lodash';
 import WhpptTextInput from '../ui/Input';
 import WhpptSelect from '../ui/Select';
 import WhpptTabs from '../ui/Tabs';
@@ -151,9 +151,7 @@ export default {
         });
     },
     tabChanged(tab) {
-      const link = clone(this.link);
-      link.type = tab.id;
-      this.setSelectedComponentState({ value: link });
+      this.setSelectedComponentState({ value: tab.id, path: 'type' });
     },
   },
 };
