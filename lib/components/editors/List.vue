@@ -53,7 +53,7 @@ export default {
       items.splice(index, 1);
       items.splice(index - 1, 0, item);
 
-      this.setSelectedComponentState({ value: items, path: this.selectedComponent.property });
+      this.setSelectedComponentState({ value: items, path: this.selectedComponent.property, replace: true });
     },
     moveDown(item, index) {
       const items = clone(this.items);
@@ -61,7 +61,7 @@ export default {
       items.splice(index, 1);
       items.splice(index + 1, 0, item);
 
-      this.setSelectedComponentState({ value: items, path: this.selectedComponent.property });
+      this.setSelectedComponentState({ value: items, path: this.selectedComponent.property, replace: true });
     },
   },
 };

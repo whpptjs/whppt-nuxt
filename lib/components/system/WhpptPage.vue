@@ -102,7 +102,6 @@ export default {
         this.$toast.global.editorError(`Missing Field: Slug.`);
         return;
       }
-      // some comment to be removed
       if (!this.pageForm.pageType) {
         this.$toast.global.editorError(`Missing Fields: Page Type.`);
         return;
