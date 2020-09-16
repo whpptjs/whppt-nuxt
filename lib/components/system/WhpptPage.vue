@@ -26,6 +26,7 @@
         :items="selectedPageTypePlugin.pageType.templates"
         item-text="label"
         item-value="key"
+        return-object
         label="template"
       ></whppt-select>
 
@@ -119,7 +120,7 @@ export default {
         this.selectedPageTypePlugin.pageType.templates &&
         this.selectedPageTypePlugin.pageType.templates.length === 1
       ) {
-        newPage.template = this.selectedPageTypePlugin.pageType.templates[0].key;
+        this.pageForm.template = this.selectedPageTypePlugin.pageType.templates[0];
       }
 
       if (!newPage.template) {

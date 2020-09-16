@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <whppt-card>
     <div
       v-if="showDupModal || showSlugModal || showWarning"
       style="background: rgba(0, 0, 0, .5); position: absolute; top: 0; left: 0; right: 0; bottom: 0"
@@ -129,10 +129,11 @@
     <form class="whppt-page__form" @submit.prevent>
       <fieldset>
         <whppt-select
-          :items="pageTypes"
+          id="page-settings-page-type-select"
           label="Page Type"
-          key-prop="name"
-          value-prop="label"
+          item-text="name"
+          item-value="label"
+          :items="pageTypes"
           :value="newPage.pageTypeObj"
           @input="setPageTypeObj"
         />
@@ -148,22 +149,20 @@
     </form>
     <div class="whppt-divider" />
     <div class="whppt-settings__section">
-      <button class="whppt-settings__button" @click="openDupModal">
-        Duplicate Page
-      </button>
-      <button type="button" class="whppt-settings__button" @click="showWarning = true">
-        Delete Page
-      </button>
+      <whppt-button @click="openDupModal">Duplicate Page</whppt-button>
+      <whppt-button @click="showWarning = true">Delete Page</whppt-button>
     </div>
-  </div>
+  </whppt-card>
 </template>
 
 <script>
 import slugify from 'slugify';
 import { mapActions } from 'vuex';
 import { map, find, get, compact, filter, forEach, omit } from 'lodash';
-import WhpptTextInput from '../../../editors/WhpptTextInput';
-import WhpptSelect from '../../../editors/WhpptSelect';
+import WhpptCard from '../../../ui/Card';
+import WhpptSelect from '../../../ui/Select';
+import WhpptTextInput from '../../../ui/Input';
+import WhpptButton from '../../../ui/Button';
 
 const additionalComponents = {};
 
@@ -180,6 +179,8 @@ export default {
     ...additionalComponents,
     WhpptTextInput,
     WhpptSelect,
+    WhpptCard,
+    WhpptButton,
   },
   props: {
     page: { type: Object, required: true },
@@ -346,7 +347,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
 .whppt-divider {
   margin: 0.5rem 0;
   width: 100%;
@@ -361,21 +362,5 @@ export default {
 .whppt-settings__section {
   display: flex;
   padding: 1rem;
-}
-
-.whppt-settings__section button {
-  margin-right: 0.5rem;
-}
-
-.whppt-page__form button {
-  margin-top: 1rem;
-}
-
-/*
-* Should probably try refactor this into SASS vars at some point
-* Could probably even introduce theme variables for end user.
-*/
-.whppt-text--primary {
-  color: #981a31;
 }
 </style>
