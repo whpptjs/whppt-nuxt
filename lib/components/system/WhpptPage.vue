@@ -119,7 +119,7 @@ export default {
         this.selectedPageTypePlugin.pageType.templates &&
         this.selectedPageTypePlugin.pageType.templates.length === 1
       ) {
-        this.pageForm.template = this.selectedPageTypePlugin.pageType.templates[0];
+        this.pageForm.template = this.selectedPageTypePlugin.pageType.templates[0].key;
       }
 
       if (!this.pageForm.template) {
