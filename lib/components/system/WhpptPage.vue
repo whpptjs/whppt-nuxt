@@ -123,7 +123,7 @@ export default {
         this.pageForm.template = this.selectedPageTypePlugin.pageType.templates[0];
       }
 
-      if (!newPage.template || !this.pageForm.template) {
+      if (!this.pageForm.template) {
         this.$toast.global.editorError(`Missing Field: Template.`);
         return;
       }
