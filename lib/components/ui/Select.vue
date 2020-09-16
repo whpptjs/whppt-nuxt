@@ -3,7 +3,7 @@
     <label v-if="label" :for="id">{{ label }}</label>
     <div class="whppt-select">
       <select :id="id" :value="value || -1" @input="onInput" @change="onChange">
-        <option value="-1" selected disabled>{{ placeholder }}</option>
+        <option value="-1" selected>{{ placeholder }}</option>
         <option v-for="(item, index) in items" :key="index" :value="setValueProp(item)">{{ setTextProp(item) }}</option>
       </select>
       <div class="icon">

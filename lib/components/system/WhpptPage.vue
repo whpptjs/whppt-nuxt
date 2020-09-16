@@ -26,7 +26,6 @@
         :items="selectedPageTypePlugin.pageType.templates"
         item-text="label"
         item-value="key"
-        return-object
         label="template"
       ></whppt-select>
 

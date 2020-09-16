@@ -1,5 +1,5 @@
 <template>
-  <whppt-card>
+  <div>
     <div
       v-if="showDupModal || showSlugModal || showWarning"
       style="background: rgba(0, 0, 0, .5); position: absolute; top: 0; left: 0; right: 0; bottom: 0"
@@ -28,10 +28,8 @@
             </div>
           </div>
           <div class="whppt-settings__warning-actions">
-            <button class="whppt-settings__button" style="margin-left: 0" @click="saveDup">
-              Save
-            </button>
-            <button class="whppt-settings__button" @click="showDupModal = false">Close</button>
+            <whppt-button @click="saveDup">Save</whppt-button>
+            <whppt-button @click="showDupModal = false">Close</whppt-button>
           </div>
         </form>
       </div>
@@ -114,45 +112,38 @@
         </div>
       </div>
     </div>
-    <form @submit.prevent>
-      <fieldset>
-        <label class="whppt-inputText__label">Page Formatted Slug</label>
-        <div class="whppt-text--primary">{{ page.slug }}</div>
-        <div class="whppt-flex-between whppt-align-center">
-          <button class="whppt-settings__button" @click="openSlugModal">
-            Change Slug
-          </button>
-        </div>
-      </fieldset>
-    </form>
-    <div class="whppt-divider" />
-    <form class="whppt-page__form" @submit.prevent>
-      <fieldset>
-        <whppt-select
-          id="page-settings-page-type-select"
-          label="Page Type"
-          item-text="name"
-          item-value="label"
-          :items="pageTypes"
-          :value="newPage.pageTypeObj"
-          @input="setPageTypeObj"
-        />
-      </fieldset>
-      <fieldset>
-        <component :is="newPage.pageTypeObj.name" v-if="newPage.pageTypeObj" :page="newPage" />
-      </fieldset>
+    <whppt-card>
+      <span>Page Formatted Slug</span>
+      <div>{{ page.slug }}</div>
+      <whppt-button @click="openSlugModal">Change Slug</whppt-button>
+    </whppt-card>
+    <whppt-card>
+      <form @submit.prevent>
+        <fieldset>
+          <whppt-select
+            id="page-settings-page-type-select"
+            label="Page Type"
+            item-text="name"
+            item-value="label"
+            :items="pageTypes"
+            :value="newPage.pageTypeObj"
+            placeholder="Select a page type"
+            @input="setPageTypeObj"
+          />
+        </fieldset>
+        <fieldset>
+          <component :is="newPage.pageTypeObj.name" v-if="newPage.pageTypeObj" :page="newPage" />
+        </fieldset>
+        <whppt-button @click="changePageType">Change Page Type</whppt-button>
+      </form>
+    </whppt-card>
+    <whppt-card>
       <div>
-        <button class="whppt-settings__button" @click="changePageType">
-          Change Page Type
-        </button>
+        <whppt-button @click="openDupModal">Duplicate Page</whppt-button>
+        <whppt-button @click="showWarning = true">Delete Page</whppt-button>
       </div>
-    </form>
-    <div class="whppt-divider" />
-    <div class="whppt-settings__section">
-      <whppt-button @click="openDupModal">Duplicate Page</whppt-button>
-      <whppt-button @click="showWarning = true">Delete Page</whppt-button>
-    </div>
-  </whppt-card>
+    </whppt-card>
+  </div>
 </template>
 
 <script>
