@@ -11,26 +11,9 @@
 
 <script>
 import { mapState } from 'vuex';
-// import { filter, forEach } from 'lodash';
-
-const additionalComponents = {};
-
-// const plugins = global.$whppt && global.$whppt.plugins;
-// const pageTypePlugins = filter(plugins, t => t.pageType);
-//
-// forEach(pageTypePlugins, plugin => {
-//   if (plugin.pageType.components && plugin.pageType.components.length) {
-//     forEach(plugin.pageType.components, component => {
-//       additionalComponents[component.name] = component;
-//     });
-//   }
-// });
 
 export default {
   name: 'WhpptContent',
-  components: {
-    ...additionalComponents,
-  },
   props: {
     contentItems: {
       type: [Array, Object],

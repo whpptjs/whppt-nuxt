@@ -29,6 +29,8 @@ export default {
 
       const components = { ...this.$whppt.components, ...plugin.pageType.components };
 
+      console.log(components);
+
       return orderBy(components, ['key']);
     },
   },
