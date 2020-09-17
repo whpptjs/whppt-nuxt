@@ -112,6 +112,7 @@ export default {
         pageType: this.pageForm.pageType && this.pageForm.pageType.name,
         og: { title: '', keywords: '', image: { imageId: '', crop: {} } },
         twitter: { title: '', keywords: '', image: { imageId: '', crop: {} } },
+        contents: [],
       };
 
       if (

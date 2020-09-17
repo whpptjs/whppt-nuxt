@@ -38,9 +38,9 @@ export default {
     },
   },
   methods: {
-    ...mapActions('whppt-nuxt/editor', ['setSelectedComponentState']),
+    ...mapActions('whppt-nuxt/editor', ['pushSelectedComponentState']),
     addContent(content) {
-      this.setSelectedComponentState({ value: { marginTop: '', inContainer: true, ...content } });
+      this.pushSelectedComponentState({ value: { marginTop: '', inContainer: true, ...content } });
     },
   },
 };
