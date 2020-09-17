@@ -13,28 +13,23 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import { filter, includes, orderBy } from 'lodash';
+import { orderBy, find } from 'lodash';
 import WhpptButton from '../ui/Button';
 
 export default {
   name: 'WhpptContent',
   components: { WhpptButton },
   computed: {
+    ...mapState('whppt-nuxt/page', ['page']),
     ...mapState('whppt-nuxt/editor', ['selectedComponent', 'selectedContentBlacklist', 'selectedContentWhitelist']),
     componentList() {
       if (!this.selectedComponent) return;
 
-      let componentList = this.$whppt.components;
+      const plugin = find(this.$whppt.plugins, p => p.pageType.name === this.page.pageType);
 
-      if (this.selectedComponent.whitelist) {
-        componentList = filter(this.$whppt.components, c => includes(this.selectedComponent.whitelist, c.displayType));
-      }
+      const components = { ...this.$whppt.components, ...plugin.pageType.components };
 
-      if (this.selectedComponent.blacklist) {
-        componentList = filter(this.$whppt.components, c => !includes(this.selectedComponent.blacklist, c.displayType));
-      }
-
-      return orderBy(componentList, ['key']);
+      return orderBy(components, ['key']);
     },
   },
   methods: {
