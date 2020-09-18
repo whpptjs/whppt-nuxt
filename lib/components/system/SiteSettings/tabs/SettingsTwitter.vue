@@ -45,10 +45,10 @@
 </template>
 
 <script>
-import WhpptTextInput from '../../../editors/WhpptTextInput';
+import WhpptTextInput from '../../../ui/Input';
+import WhpptTextArea from '../../../ui/Textarea';
 import Gallery from '../../../editors/EditImage/Gallery';
 import Cropping from '../../../editors/EditImage/Cropping';
-import WhpptTextArea from '../../../editors/__WhpptTextArea';
 
 export default {
   name: 'SettingsTwitter',

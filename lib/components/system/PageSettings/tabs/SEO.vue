@@ -64,8 +64,8 @@
 
 <script>
 import { clamp } from 'lodash';
-import WhpptTextInput from '../../../editors/WhpptTextInput';
-import WhpptTextArea from '../../../editors/__WhpptTextArea';
+import WhpptTextInput from '../../../ui/Input';
+import WhpptTextArea from '../../../ui/Textarea';
 
 export default {
   name: 'PageSettingsSEO',

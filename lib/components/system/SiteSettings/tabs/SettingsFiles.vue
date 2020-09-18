@@ -109,7 +109,7 @@
 import { mapState } from 'vuex';
 import { ceil } from 'lodash';
 import { VTooltip } from 'v-tooltip';
-import WhpptTextInput from '../../../editors/WhpptTextInput';
+import WhpptTextInput from '../../../ui/Input';
 import Save from '../../../icons/Save';
 import LinkIcon from '../../../icons/ChainLink';
 import Remove from '../../../icons/Trash';

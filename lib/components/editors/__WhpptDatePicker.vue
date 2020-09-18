@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import WhpptTextInput from './WhpptTextInput';
+import WhpptTextInput from '../ui/Input';
 
 let VDatePicker;
 

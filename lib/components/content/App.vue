@@ -32,12 +32,6 @@ import WhpptButton from '../ui/Button';
 import WhpptToolbar from '../ui/Toolbar';
 import Close from '../icons/Close';
 
-import WhpptTextInput from '../editors/WhpptTextInput';
-import WhpptCheckBox from '../editors/__CheckBox';
-import ContentsTree from '../editors/__ContentsTree';
-import WhpptTab from '../editors/WhpptTab';
-import WhpptTabs from '../editors/__WhpptTabs';
-
 export default {
   name: 'WhpptEditorApp',
   components: {
@@ -48,13 +42,8 @@ export default {
     WhpptToolbar,
     WhpptButton,
     WhpptDialog,
-    WhpptTextInput,
     SlugSettings,
     PublishSettings,
-    WhpptCheckBox,
-    ContentsTree,
-    WhpptTab,
-    WhpptTabs,
     Close,
   },
   props: { prefix: { type: String, default: '' } },

@@ -46,7 +46,7 @@
 <script>
 import { mapState } from 'vuex';
 
-import WhpptTextInput from '../../../editors/WhpptTextInput';
+import WhpptTextInput from '../../../ui/Input';
 
 export default {
   name: 'SettingsEmailer',
