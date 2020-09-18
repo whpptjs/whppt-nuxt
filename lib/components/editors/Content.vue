@@ -35,7 +35,9 @@ export default {
   methods: {
     ...mapActions('whppt-nuxt/editor', ['pushSelectedComponentState']),
     addContent(content) {
-      this.pushSelectedComponentState({ value: { marginTop: '', inContainer: true, ...content } });
+      this.pushSelectedComponentState({
+        value: { marginTop: '', ...content.init({ $set: this.$set }), componentType: content.componentType },
+      });
     },
   },
 };
