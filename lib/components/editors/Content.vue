@@ -29,15 +29,15 @@ export default {
 
       const components = { ...this.$whppt.components, ...plugin.pageType.components };
 
-      console.log(components);
-
       return orderBy(components, ['key']);
     },
   },
   methods: {
     ...mapActions('whppt-nuxt/editor', ['pushSelectedComponentState']),
     addContent(content) {
-      this.pushSelectedComponentState({ value: { marginTop: '', inContainer: true, ...content } });
+      this.pushSelectedComponentState({
+        value: { marginTop: '', ...content.init({ $set: this.$set }), componentType: content.componentType },
+      });
     },
   },
 };
