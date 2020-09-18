@@ -58,8 +58,6 @@ export default {
         return true;
       });
 
-      console.log(conditionalTabs);
-
       return [
         { name: 'general', label: 'General' },
         { name: 's-e-o', label: 'Seo' },

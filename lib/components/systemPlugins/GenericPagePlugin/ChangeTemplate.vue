@@ -24,8 +24,8 @@
 
 <script>
 import { find } from 'lodash';
-import WhpptTextInput from '../../editors/WhpptTextInput';
-import WhpptSelect from '../../editors/WhpptSelectValue';
+import WhpptTextInput from '../../ui/Input';
+import WhpptSelect from '../../ui/Select';
 
 export default {
   name: 'WhpptChangeTemplate',
