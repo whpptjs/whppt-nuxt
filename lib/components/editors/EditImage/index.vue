@@ -31,9 +31,9 @@ export default {
     ...mapActions('whppt-nuxt/editor', ['setSelectedComponentState']),
     selectImage(id) {
       this.setSelectedComponentState({ value: id, path: 'image.imageId' });
-      this.setActiveTab(0);
+      this.setActiveTab(undefined, 0);
     },
-    setActiveTab(tabIndex) {
+    setActiveTab(tab, tabIndex, prevIndex) {
       this.activeTabIndex = tabIndex;
     },
   },
