@@ -39,10 +39,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.whppt-tabs .md-tabs-content {
-  height: 100% !important;
-  overflow-y: auto;
-}
-</style>
