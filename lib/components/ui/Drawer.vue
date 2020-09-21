@@ -40,6 +40,7 @@ $gray-900: #1a202c;
   width: 0;
   transition: width 0.3s ease;
   border-left: 1px solid $gray-200;
+  //overflow: auto;
 
   &--active {
     width: 480px;
@@ -53,6 +54,7 @@ $gray-900: #1a202c;
     right: 0;
     transition: width 0.3s ease;
     background-color: white;
+    overflow: auto;
 
     &--dark {
       color: white;

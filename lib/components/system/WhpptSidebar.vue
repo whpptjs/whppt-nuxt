@@ -1,6 +1,6 @@
 <template>
   <whppt-drawer :active.sync="editSidebar">
-    <whppt-toolbar>
+    <whppt-toolbar class="whppt-sidebar__toolbar">
       <div class="toolbar-content">
         <h2>{{ startCase(editSidebarType) }}</h2>
         <whppt-button @click="closeSidebar"><close /></whppt-button>
@@ -79,6 +79,12 @@ export default {
 <style lang="scss" scoped>
 .content {
   padding: 1rem;
+}
+
+.whppt-sidebar__toolbar {
+  position: sticky;
+  left: 0;
+  top: 0;
 }
 
 .toolbar-content {
