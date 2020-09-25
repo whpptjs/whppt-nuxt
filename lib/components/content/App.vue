@@ -85,6 +85,7 @@ export default {
 
 .whppt-content {
   flex: 1;
+  width: 100%;
 }
 </style>
 
