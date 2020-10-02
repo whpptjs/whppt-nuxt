@@ -7,14 +7,20 @@ assignees: lvcasjm
 
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+<!-- Please do not submit support requests or "How to" questions here. -->
+<!-- ISSUES MISSING IMPORTANT INFORMATION MAY BE CLOSED WITHOUT INVESTIGATION. -->
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+**Describe the Feature Request**
+<!-- A clear and concise description of what the feature request is. Please include if your feature request is related to a problem. -->
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
+**Describe Preferred Solution**
+<!-- A clear and concise description of what you want to happen. -->
 
-**Additional context**
-Add any other context or screenshots about the feature request here.
+**Describe Alternatives**
+<!-- A clear and concise description of any alternative solutions or features you've considered. -->
+
+**Related Code**
+<!-- If you are able to illustrate the feature request with an example, please provide a sample application via an online code collaborator such as [CodeSandbox](https://codesandbox.io), or [GitHub](https://github.com). -->
+
+**Additional Context**
+<!-- List any other information that is relevant to your issue. Stack traces, related issues, suggestions on how to add, use case, Stack Overflow links, forum links, screenshots, OS if applicable, etc. -->
