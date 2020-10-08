@@ -29,11 +29,14 @@ export default {
     ...mapState('whppt-nuxt/page', ['page']),
     ...mapState('whppt-nuxt/editor', ['activeMenuItem']),
     initContentItems() {
-      const plugin = find(this.$whppt.plugins, p => p.pageType.name === this.page.pageType);
+      const plugin = find(this.$whppt.plugins, p => (p.pageType && p.pageType.name) === this.page.pageType);
+
       const component = keyBy({ ...this.$whppt.components, ...plugin.pageType.components }, c => c.componentType);
+
       return map(this.contentItems, ci => {
         const componentInit = component && component[ci.componentType] && component[ci.componentType].init;
         if (typeof componentInit === 'function') componentInit({ $set: this.$set }, ci);
+
         return ci;
       });
     },

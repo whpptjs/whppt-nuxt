@@ -2,7 +2,7 @@
   <div class="whppt-flex whppt-overflow-hidden">
     <div v-if="isDraft">
       <editor-menu></editor-menu>
-      <whppt-dialog fixed-height :is-active.sync="editInModal" @closed="closeModal">
+      <whppt-dialog :is-active.sync="editInModal" @closed="closeModal">
         <template v-slot:header>
           <whppt-toolbar>
             <div class="whppt-toolbar__content">
@@ -12,6 +12,17 @@
           </whppt-toolbar>
         </template>
         <component :is="editInModalType" :prefix="prefix" />
+      </whppt-dialog>
+      <whppt-dialog full :is-active.sync="dashboardVisible" @closed="closeDashboard">
+        <template v-slot:header>
+          <whppt-toolbar>
+            <div class="whppt-toolbar__content">
+              <h2>Welcome to your dashboard.</h2>
+              <whppt-button @click="closeDashboard">Close</whppt-button>
+            </div>
+          </whppt-toolbar>
+        </template>
+        <dashboard></dashboard>
       </whppt-dialog>
     </div>
     <div class="whppt-content">
@@ -24,7 +35,7 @@
 <script>
 import { startCase } from 'lodash';
 import { mapState, mapActions } from 'vuex';
-import * as Editors from '../system';
+import EditorMenu from '../system/EditorMenu';
 import SlugSettings from '../system/SlugSettings';
 import PublishSettings from '../system/PublishSettings';
 import WhpptDialog from '../ui/Dialog';
@@ -35,10 +46,11 @@ import Close from '../icons/Close';
 export default {
   name: 'WhpptEditorApp',
   components: {
-    ...Editors,
     SiteSettings: () => import('../system/SiteSettings/index'),
     PageSettings: () => import('../system/PageSettings/index'),
+    Dashboard: () => import('../system/Dashboard/index'),
     WhpptSidebar: () => import('../system/WhpptSidebar'),
+    EditorMenu,
     WhpptToolbar,
     WhpptButton,
     WhpptDialog,
@@ -51,12 +63,14 @@ export default {
     startCase,
   }),
   computed: {
+    ...mapState('whppt/dashboard', ['dashboardVisible']),
     ...mapState('whppt-nuxt/editor', ['editInModal', 'editInModalType', 'editSidebar', 'editSidebarType', 'draft']),
     isDraft() {
       return this.draft;
     },
   },
   methods: {
+    ...mapActions('whppt/dashboard', ['closeDashboard']),
     ...mapActions('whppt-nuxt/editor', ['closeSidebar', 'closeModal']),
   },
 };

@@ -40,7 +40,7 @@ export default {
       default: () => '',
     },
     value: {
-      type: String,
+      type: [String, Number],
       default: () => '',
     },
     placeholder: {
@@ -49,7 +49,7 @@ export default {
     },
     dark: {
       type: Boolean,
-      default: () => false,
+      default: () => true,
     },
   },
 };
@@ -59,8 +59,11 @@ export default {
 $gray-200: #edf2f7;
 $gray-500: #a0aec0;
 $gray-700: #4a5568;
+$gray-800: #2d3748;
+$gray-900: #1a202c;
 
 .whppt-input {
+  width: 100%;
   margin-bottom: 0.5rem;
 
   label {
@@ -96,8 +99,21 @@ $gray-700: #4a5568;
     font-style: italic;
     color: $gray-500;
   }
-}
 
-.whppt-input--dark {
+  &--dark {
+    label {
+      color: white;
+    }
+
+    input {
+      background-color: $gray-900;
+      color: white;
+      border: 1px solid $gray-500;
+
+      &:focus {
+        background-color: $gray-800;
+      }
+    }
+  }
 }
 </style>

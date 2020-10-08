@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isActive" class="whppt-modal">
+  <div v-if="isActive" class="whppt-modal" :class="{ 'whppt-modal--full': full }">
     <div class="whppt-modal__background">
       <div class="whppt-modal__inner" :class="{ 'whppt-modal__inner--dark': dark }">
         <button class="whppt-modal__close-btn" aria-label="Close Modal" @click="$emit('closed')">
@@ -49,7 +49,11 @@ export default {
   props: {
     isActive: {
       type: Boolean,
-      default: () => false,
+      default: false,
+    },
+    full: {
+      type: Boolean,
+      default: false,
     },
     dark: {
       type: Boolean,
@@ -118,15 +122,23 @@ $gray-900: #1a202c;
     padding: 1rem 1rem 6rem;
     overflow-y: auto;
   }
-}
 
-.whppt-warning {
-  color: black;
-  display: flex;
-  z-index: 53;
-  width: 100%;
-  height: 80vh;
-  margin: 1.5rem;
-  position: relative;
+  &--full {
+    .whppt-modal__close-btn {
+      display: none;
+    }
+
+    .whppt-modal__inner {
+      height: 100vh;
+      width: 100%;
+      border: none;
+      border-radius: 0;
+      max-width: unset;
+    }
+
+    .whppt-modal__content {
+      padding: 0;
+    }
+  }
 }
 </style>

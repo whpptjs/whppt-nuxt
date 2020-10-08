@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { filter, forEach, map } from 'lodash';
+import { map } from 'lodash';
 import { mapActions } from 'vuex';
 
 import WhpptTabs from '../../ui/Tabs';
@@ -22,17 +22,7 @@ import General from './tabs/SettingsGeneral';
 import Files from './tabs/SettingsFiles';
 import Emailer from './tabs/SettingsEmailer';
 
-const additionalTabs = [];
-const additionalComponents = {};
-
-const types = global.$whppt.plugins;
-
-const siteSettingTypes = filter(types, t => t.siteSettings);
-
-forEach(siteSettingTypes, type => {
-  additionalComponents[type.siteSettings.name] = type.siteSettings.component;
-  additionalTabs.push(type.siteSettings);
-});
+const { additionalTabs, additionalComponents } = global.$whppt.getAdditionalComponents('siteSettings');
 
 export default {
   name: 'WhpptSiteSettings',
@@ -50,8 +40,6 @@ export default {
     WhpptTab,
   },
   data: () => ({
-    usedListings: [],
-    warningId: undefined,
     siteSettings: { og: { image: { imageId: '', crop: {} } }, twitter: { image: { imageId: '', crop: {} } } },
     selectedTab: 'general',
   }),

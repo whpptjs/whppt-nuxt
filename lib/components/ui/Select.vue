@@ -1,12 +1,17 @@
 <template>
-  <div class="whppt-select" :class="{ 'whppt-select--dark': dark }">
-    <label :for="id">{{ label }}</label>
+  <div
+    class="whppt-select"
+    :class="{ 'whppt-select--dark': dark, 'whppt-select--dense': dense }"
+    :style="`width: ${typeof width === 'number' ? `${width}px` : width}`"
+  >
+    <label v-if="label" :for="id">{{ label }}</label>
     <div class="whppt-select__input">
       <input
         :id="id"
         :placeholder="placeholder"
         :value="setTextProp(value)"
         :class="{ 'whppt-select--menu-active': showSelectItems }"
+        :style="`width: ${typeof width === 'number' ? `${width}px` : width}`"
         readonly
         @click="showSelectItems = true"
         @focus="showSelectItems = true"
@@ -21,7 +26,9 @@
       </div>
       <div v-if="showSelectItems" class="whppt-select__menu">
         <ul role="listbox">
-          <li class="default" role="option" @click="updateValue(undefined, undefined)">{{ placeholder }}</li>
+          <li v-if="placeholder" class="default" role="option" @click="updateValue(undefined, undefined)">
+            {{ placeholder }}
+          </li>
           <li
             v-for="(item, index) in items"
             :key="index"
@@ -32,8 +39,8 @@
           </li>
         </ul>
       </div>
-      <p class="info">{{ info }}</p>
     </div>
+    <p v-if="info" class="info">{{ info }}</p>
   </div>
 </template>
 
@@ -56,7 +63,7 @@ export default {
       default: '',
     },
     value: {
-      type: [String, Object, Array],
+      type: [Number, String, Object, Array],
       default: '',
     },
     placeholder: {
@@ -83,17 +90,25 @@ export default {
       type: Boolean,
       default: true,
     },
+    width: {
+      type: [String, Number],
+      default: '100%',
+    },
+    dense: {
+      type: Boolean,
+      default: false,
+    },
   },
   data: () => ({
     showSelectItems: false,
   }),
   methods: {
     setValueProp(item) {
-      if (typeof item === 'string') return item;
+      if (typeof item === 'string' || typeof item === 'number') return item;
       return item[this.itemValue];
     },
     setTextProp(item) {
-      if (typeof item === 'string') return item;
+      if (typeof item === 'string' || typeof item === 'number') return item;
       return item[this.itemText];
     },
     onInput(value) {
@@ -124,29 +139,34 @@ $gray-900: #1a202c;
 
 .whppt-select {
   position: relative;
-  width: 100%;
+  /* Probably should apply padding on outside of component */
+  // margin-bottom: 0.5rem;
 
   label {
-    display: block;
     text-transform: uppercase;
     color: $gray-700;
     font-weight: bold;
-    margin-bottom: 0.5rem;
     letter-spacing: 0.025em;
     font-size: 0.75rem;
+  }
+
+  .info {
+    font-size: 0.75rem;
+    font-style: italic;
+    color: $gray-500;
   }
 
   .whppt-select__input {
     position: relative;
 
     input {
+      box-sizing: border-box;
       display: block;
-      width: 100%;
       background-color: $gray-200;
       color: $gray-700;
       border: 1px solid $gray-200;
       border-radius: 0.25rem;
-      padding: 1rem 0.75rem 1rem 0.75rem;
+      padding: 1rem 0.75rem;
       line-height: 1.25;
 
       &:focus {
@@ -154,12 +174,6 @@ $gray-900: #1a202c;
         background-color: white;
         border-color: $gray-500;
       }
-    }
-
-    .info {
-      font-size: 0.75rem;
-      font-style: italic;
-      color: $gray-500;
     }
 
     .icon {
@@ -209,44 +223,62 @@ $gray-900: #1a202c;
       }
     }
   }
-}
 
-.whppt-select--dark {
-  label {
-    color: white;
-  }
-
-  .whppt-select__input {
-    input {
-      background-color: $gray-900;
-      color: white;
-      border: 1px solid $gray-500;
-
-      &:focus {
-        background-color: $gray-800;
+  &--dense {
+    .whppt-select__input {
+      input {
+        padding: 0.5rem;
       }
     }
 
-    .icon {
-      color: $gray-200;
+    .whppt-select__menu {
+      ul {
+        padding: 0.25rem 0;
+
+        li {
+          padding: 0.5rem;
+        }
+      }
     }
   }
 
-  .whppt-select__menu {
-    ul {
-      border: 1px solid $gray-500;
-      background-color: $gray-800;
+  &--dark {
+    label {
+      color: white;
+    }
 
-      li {
+    .whppt-select__input {
+      input {
+        background-color: $gray-900;
         color: white;
+        border: 1px solid $gray-500;
 
-        &:hover {
-          background-color: $gray-900;
+        &:focus {
+          background-color: $gray-800;
         }
       }
 
-      li.default {
-        color: $gray-500;
+      .icon {
+        color: $gray-200;
+      }
+    }
+
+    .whppt-select__menu {
+      ul {
+        border: 1px solid $gray-500;
+        background-color: $gray-800;
+
+        li {
+          color: white;
+
+          &:hover {
+            background-color: $gray-900;
+          }
+        }
+
+        li.default {
+          color: $gray-500;
+        }
       }
     }
   }

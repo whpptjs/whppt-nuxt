@@ -1,5 +1,5 @@
 <template>
-  <whppt-drawer :active.sync="editSidebar">
+  <whppt-drawer :active.sync="editSidebar" position="right">
     <whppt-toolbar class="whppt-sidebar__toolbar">
       <div class="toolbar-content">
         <h2>{{ startCase(editSidebarType) }}</h2>

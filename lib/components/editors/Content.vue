@@ -25,7 +25,7 @@ export default {
     componentList() {
       if (!this.selectedComponent) return;
 
-      const plugin = find(this.$whppt.plugins, p => p.pageType.name === this.page.pageType);
+      const plugin = find(this.$whppt.plugins, p => (p.pageType && p.pageType.name) === this.page.pageType);
       const components = [...this.$whppt.components, ...plugin.pageType.components];
 
       return orderBy(components, ['key']);

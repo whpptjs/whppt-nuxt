@@ -1,5 +1,4 @@
 <template>
-  <!-- https://vuejsexamples.com/a-vue-component-that-create-moveable-and-resizable/ -->
   <div>
     <login-form ref="loginForm"></login-form>
     <div class="whppt-menu" :class="{ 'whppt-menu--expanded': !menuCollapsed }">
@@ -61,9 +60,7 @@ import LoginForm from './LoginForm';
 export default {
   name: 'EditorMenu',
   components: { LoginForm },
-  directives: {
-    VTooltip,
-  },
+  directives: { VTooltip },
   data: () => ({
     currentAction: undefined,
     menuCollapsed: false,
@@ -78,14 +75,12 @@ export default {
           key: 'collapse',
           label: 'Collapse Menu',
           icon: this.menuCollapsed ? '' : 'w-collapse',
-          group: '',
           action: () => this.toggleMenuCollapse(),
         },
         {
           key: 'select',
           label: 'Select Component',
           icon: 'w-pointer',
-          group: '',
           action: () => this.selectMenuItem('select'),
           isActive: () => this.activeMenuItem === 'select',
         },
@@ -93,31 +88,27 @@ export default {
           key: 'remove',
           label: 'Remove Component',
           icon: 'w-trash',
-          group: '',
-          action: () => this.removeLink(),
+          action: () => this.remove(),
         },
         { key: 'up', label: 'Move Component Up', icon: 'w-arrow-up', group: '', action: () => this.moveComponentUp() },
         {
           key: 'down',
           label: 'Move Component Down',
           icon: 'w-arrow-down',
-          group: '',
           action: () => this.moveComponentDown(),
         },
         {
           key: 'new-page',
           label: 'Create New Page',
           icon: 'w-new-page',
-          group: 'page',
           action: () => this.newPage(),
         },
         {
           key: 'save',
           label: 'Save Current Page',
           icon: 'w-save',
-          group: 'page',
           disabled: !this.page || !this.page._id,
-          action: () => this.savePage(),
+          action: this.savePage,
         },
         { key: 'nav', label: 'Save Navigation', icon: 'w-nav', group: 'nav', action: () => this.saveNav() },
         { key: 'footer', label: 'Save Footer', icon: 'w-footer', group: 'footer', action: () => this.saveFooter() },
@@ -125,7 +116,6 @@ export default {
           key: 'publishPage',
           label: 'Publish Current Page',
           icon: 'w-publish',
-          group: 'page',
           disabled: !this.page || !this.page._id,
           action: () => this.editInModal('publishSettings'),
         },
@@ -133,16 +123,20 @@ export default {
           key: 'site-settings',
           label: 'Open Site Settings',
           icon: 'w-globe',
-          group: 'site',
           action: () => this.editInModal('siteSettings'),
         },
         {
           key: 'page-settings',
           label: 'Open Page Settings',
           icon: 'w-settings',
-          group: 'pageSettings',
           disabled: !this.page || !this.page._id,
           action: () => this.editInModal('pageSettings'),
+        },
+        {
+          key: 'dashboard',
+          label: 'Open Dashboard',
+          icon: 'w-dashboard',
+          action: this.showDashboard,
         },
         { key: 'logout', label: 'Log out', icon: 'w-logout', group: 'security', action: () => this.logout() },
       ];
@@ -151,13 +145,14 @@ export default {
       return this.authUser && this.authUser.roles.editor;
     },
   },
-  mounted() {
+  created() {
     this.verifyUser();
   },
   methods: {
+    ...mapActions('whppt/dashboard', ['showDashboard']),
     ...mapActions('whppt-nuxt/security', ['verifyUser', 'logout']),
-    ...mapActions('whppt-nuxt/site', ['saveFooter', 'saveNav', 'publishFooter', 'publishNav']),
-    ...mapActions('whppt-nuxt/page', ['savePage', 'publishPage']),
+    ...mapActions('whppt-nuxt/site', ['saveFooter', 'saveNav']),
+    ...mapActions('whppt-nuxt/page', ['savePage']),
     ...mapActions('whppt-nuxt/editor', [
       'selectMenuItem',
       'moveComponentUp',
@@ -166,28 +161,17 @@ export default {
       'clearSelectedComponent',
       'clearSelectedContent',
     ]),
-    ...mapMutations('whppt-nuxt/page', ['loaded']),
     ...mapMutations('whppt-nuxt/editor', ['editInModal', 'editInSidebar']),
-    callMethod(action, options) {
-      if (!action) return;
-      return this[action](options);
-    },
-    save() {
-      return this.savePage();
-    },
     newPage() {
       this.clearSelectedContent();
       this.clearSelectedComponent();
       return this.editInSidebar('WhpptPage');
     },
-    removeLink() {
+    remove() {
       if (!this.selectedContent || !this.selectedComponent) return;
       if (window.confirm('Are you sure?')) {
         this.removeComponent();
       }
-    },
-    editATDW() {
-      return this.editInModal('atdw');
     },
     showLogin() {
       this.$refs.loginForm.show();
@@ -199,9 +183,18 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+$gray-200: #edf2f7;
+$gray-500: #a0aec0;
+$gray-700: #4a5568;
+$gray-800: #2d3748;
+$gray-900: #1a202c;
+
+$danger-600: #e53e3e;
+$primary-600: #5a67d8;
+
 .whppt-menu {
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba($gray-900, 0.9);
   padding: 0 0.25rem;
   position: fixed;
   z-index: 51;
@@ -226,7 +219,7 @@ export default {
 
 .whppt-menu__item--active {
   border-radius: 100%;
-  background-color: #262626;
+  background-color: $gray-900;
 }
 
 .whppt-menu__item button {
@@ -249,7 +242,7 @@ export default {
 }
 
 .whppt-menu__item--active button {
-  color: orangered;
+  color: $primary-600;
 }
 
 .whppt-menu__item--bordered {
@@ -258,7 +251,7 @@ export default {
 
 .whppt-menu__item:hover {
   border-radius: 100%;
-  background-color: #262626;
+  background-color: $gray-900;
 }
 
 .whppt-menu__item,
@@ -267,16 +260,25 @@ export default {
 }
 </style>
 
-<style>
+<style lang="scss">
+$gray-200: #edf2f7;
+$gray-500: #a0aec0;
+$gray-700: #4a5568;
+$gray-800: #2d3748;
+$gray-900: #1a202c;
+
+$danger-600: #e53e3e;
+$primary-600: #5a67d8;
+
 .tooltip {
   display: block !important;
   z-index: 10000;
 }
 
 .tooltip .tooltip-inner {
-  background: black;
+  background: $gray-900;
   color: white;
-  border-radius: 16px;
+  border-radius: 0.25rem;
   padding: 5px 10px 4px;
 }
 
@@ -286,7 +288,7 @@ export default {
   border-style: solid;
   position: absolute;
   margin: 5px;
-  border-color: black;
+  border-color: $gray-900;
   z-index: 1;
 }
 
@@ -352,7 +354,7 @@ export default {
 
 .tooltip.popover .popover-inner {
   background: #f9f9f9;
-  color: black;
+  color: $gray-900;
   padding: 24px;
   border-radius: 5px;
   box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);

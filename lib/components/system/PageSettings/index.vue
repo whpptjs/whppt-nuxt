@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { clamp, filter, forEach } from 'lodash';
+import { clamp, filter } from 'lodash';
 import { mapActions, mapState } from 'vuex';
 
 import WhpptTabs from '../../ui/Tabs';
@@ -19,17 +19,7 @@ import Twitter from './tabs/Twitter';
 import OpenGraph from './tabs/OpenGraph';
 import General from './tabs/General';
 
-const additionalTabs = [];
-const additionalComponents = {};
-
-const types = global.$whppt.plugins;
-
-const pageSettingTypes = filter(types, t => t.pageSettings);
-
-forEach(pageSettingTypes, type => {
-  additionalComponents[type.pageSettings.name] = type.pageSettings.component;
-  additionalTabs.push(type.pageSettings);
-});
+const { additionalTabs, additionalComponents } = global.$whppt.getAdditionalComponents('pageSettings');
 
 export default {
   name: 'WhpptPageSettings',
