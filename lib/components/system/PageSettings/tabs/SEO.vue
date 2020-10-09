@@ -66,6 +66,7 @@
 import { clamp } from 'lodash';
 import WhpptTextInput from '../../../ui/Input';
 import WhpptTextArea from '../../../ui/Textarea';
+// import WhpptCard from '../../../ui/Card';
 
 export default {
   name: 'PageSettingsSEO',

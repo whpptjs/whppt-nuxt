@@ -23,7 +23,7 @@ import WhpptTabs from '../ui/Tabs';
 import WhpptTab from '../ui/Tab';
 import WhpptToolbar from '../ui/Toolbar';
 import * as Editors from '../editors';
-import SpacingControls from './SpacingControls';
+import SpacingControls from '../editors/SpacingControls';
 
 const additionalComponents = {};
 

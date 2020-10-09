@@ -59,6 +59,8 @@ export default {
 $gray-200: #edf2f7;
 $gray-500: #a0aec0;
 $gray-700: #4a5568;
+$gray-800: #2d3748;
+$gray-900: #1a202c;
 
 .whppt-textarea {
   label {
@@ -66,7 +68,6 @@ $gray-700: #4a5568;
     text-transform: uppercase;
     color: $gray-700;
     font-weight: bold;
-    margin-bottom: 0.5rem;
     letter-spacing: 0.025em;
     font-size: 0.75rem;
   }
@@ -95,8 +96,21 @@ $gray-700: #4a5568;
     font-style: italic;
     color: $gray-500;
   }
-}
 
-.whppt-textarea--dark {
+  &--dark {
+    label {
+      color: white;
+    }
+
+    textarea {
+      background-color: $gray-900;
+      color: white;
+      border: 1px solid $gray-500;
+
+      &:focus {
+        background-color: $gray-800;
+      }
+    }
+  }
 }
 </style>

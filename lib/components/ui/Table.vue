@@ -134,7 +134,6 @@ $gray-900: #1a202c;
       .whppt-table__pagination {
         width: 100%;
         display: flex;
-        justify-content: flex-end;
       }
     }
   }

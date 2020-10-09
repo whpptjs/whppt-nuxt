@@ -77,6 +77,8 @@ $gray-900: #1a202c;
       padding: 1rem 1.25rem;
       list-style: none;
       width: 100%;
+      border-bottom: 1px solid transparent;
+      transition: 0.15s ease;
 
       &--active {
         background-color: $gray-700;

@@ -1,6 +1,6 @@
 <template>
   <div class="whppt-input" :class="{ 'whppt-input--dark': dark }">
-    <label :for="id">{{ label }}</label>
+    <label v-if="label" :for="id">{{ label }}</label>
     <input
       :id="id"
       :name="name"
@@ -11,7 +11,7 @@
       @change="$emit('change', $event.target.value)"
       @blur="$emit('blur', $event.target.value)"
     />
-    <p class="info">{{ info }}</p>
+    <p v-if="info" class="info">{{ info }}</p>
   </div>
 </template>
 
@@ -44,7 +44,7 @@ export default {
       default: () => '',
     },
     placeholder: {
-      type: String,
+      type: [String, Number],
       default: () => '',
     },
     dark: {
@@ -64,14 +64,11 @@ $gray-900: #1a202c;
 
 .whppt-input {
   width: 100%;
-  margin-bottom: 0.5rem;
 
   label {
-    display: block;
     text-transform: uppercase;
     color: $gray-700;
     font-weight: bold;
-    margin-bottom: 0.5rem;
     letter-spacing: 0.025em;
     font-size: 0.75rem;
   }
