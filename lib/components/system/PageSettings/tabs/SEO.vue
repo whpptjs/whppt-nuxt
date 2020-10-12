@@ -2,63 +2,48 @@
   <div>
     <whppt-card>
       <form @submit.prevent>
-        <div>
-          <fieldset>
-            <div class="whppt-flex-between">
-              <div class="whppt-settings__left-column">
-                <whppt-text-input
-                  v-model="pageSettings.title"
-                  placeholder="Enter a page title"
-                  label="Title"
-                  label-colour="black"
-                  info="The page title is shown in the browser's tab and used by search engines to match your page with search terms. Search results use the title to list the page."
-                />
-              </div>
-              <div class="whppt-settings__right-column">
-                <whppt-text-input
-                  v-model="pageSettings.keywords"
-                  placeholder="keywords (eg. page, simple)"
-                  label="Keywords"
-                  label-colour="black"
-                  info="Keywords are not shown on the page and are used by search engines to match your page with search terms. Comma separate your values to add multiple."
-                />
-              </div>
-            </div>
-            <div>
-              <whppt-text-area
-                v-model="pageSettings.description"
-                placeholder="Enter description"
-                label="Description"
-                rows="2"
-                label-colour="black"
-                info="The page description is not shown the page and is used by search engines to match your page with search terms. Search results can show this description."
-              />
-            </div>
-            <div class="whppt-flex-between">
-              <div class="whppt-settings__left-column">
-                <whppt-text-input
-                  v-model="pageSettings.priority"
-                  placeholder="Enter a priority"
-                  label="Priority"
-                  label-colour="black"
-                  info="Priority lets search engines know which pages you deem most important. Values range from 0.0 to 1.0, with a default value of 0.5."
-                  @change="clampInput"
-                />
-              </div>
-              <div class="whppt-settings__right-column">
-                <div class="whppt-select__frequency-label">Frequency</div>
-                <whppt-select
-                  :id="`${$options._scopeId}-frequency`"
-                  v-model="pageSettings.frequency"
-                  :items="frequencies"
-                  item-text="id"
-                  item-value="value"
-                  info="Frequency tells search engines how often the page is likely to change."
-                />
-              </div>
-            </div>
-          </fieldset>
-        </div>
+        <whppt-text-input
+          :id="`${$options._scopeId}-title`"
+          v-model="pageSettings.title"
+          placeholder="Enter a page title"
+          label="Title"
+          label-colour="black"
+          info="The page title is shown in the browser's tab and used by search engines to match your page with search terms. Search results use the title to list the page."
+        />
+        <whppt-text-input
+          :id="`${$options._scopeId}-keywords`"
+          v-model="pageSettings.keywords"
+          placeholder="keywords (eg. page, simple)"
+          label="Keywords"
+          label-colour="black"
+          info="Keywords are not shown on the page and are used by search engines to match your page with search terms. Comma separate your values to add multiple."
+        />
+        <whppt-text-area
+          :id="`${$options._scopeId}-description`"
+          v-model="pageSettings.description"
+          placeholder="Enter description"
+          label="Description"
+          rows="2"
+          label-colour="black"
+          info="The page description is not shown the page and is used by search engines to match your page with search terms. Search results can show this description."
+        />
+        <whppt-text-input
+          :id="`${$options._scopeId}-priority`"
+          v-model="pageSettings.priority"
+          placeholder="Enter a priority"
+          label="Priority"
+          label-colour="black"
+          info="Priority lets search engines know which pages you deem most important. Values range from 0.0 to 1.0, with a default value of 0.5."
+          @change="clampInput"
+        />
+        <whppt-select
+          :id="`${$options._scopeId}-frequency`"
+          v-model="pageSettings.frequency"
+          :items="frequencies"
+          item-text="id"
+          item-value="value"
+          info="Frequency tells search engines how often the page is likely to change."
+        />
       </form>
     </whppt-card>
     <whppt-card>

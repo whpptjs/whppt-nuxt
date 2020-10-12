@@ -1,36 +1,29 @@
 <template>
-  <form @submit.prevent>
-    <fieldset>
-      <div class="whppt-flex-between">
-        <div class="whppt-settings__left-column">
-          <whppt-text-input
-            v-model="settings.og.title"
-            placeholder="OG title"
-            label="Title"
-            label-colour="black"
-            info="Open graph title is shown on most social media platforms as the title in a card that is created when this settings url is used. (e.g. Facebook)"
-          />
-        </div>
-        <div class="whppt-settings__right-column">
-          <whppt-text-input
-            v-model="settings.og.keywords"
-            placeholder="OG Keywords (eg. page, blank)"
-            label="Keywords"
-            label-colour="black"
-            info="Keywords are not shown on the page and are used by search engines to match your page with search terms. Comma seperate your values to add multiple."
-          />
-        </div>
-      </div>
-      <div>
-        <whppt-text-area
-          v-model="settings.og.description"
-          placeholder="Enter description"
-          label="Description"
-          rows="2"
-          label-colour="black"
-          info="OG description is shown on most social media platforms as the description in a card that is created when this pages url is used."
-        />
-      </div>
+  <whppt-card>
+    <form @submit.prevent>
+      <whppt-text-input
+        v-model="settings.og.title"
+        placeholder="OG title"
+        label="Title"
+        label-colour="black"
+        info="Open graph title is shown on most social media platforms as the title in a card that is created when this settings url is used. (e.g. Facebook)"
+      />
+
+      <whppt-text-input
+        v-model="settings.og.keywords"
+        placeholder="OG Keywords (eg. page, blank)"
+        label="Keywords"
+        label-colour="black"
+        info="Keywords are not shown on the page and are used by search engines to match your page with search terms. Comma seperate your values to add multiple."
+      />
+      <whppt-text-area
+        v-model="settings.og.description"
+        placeholder="Enter description"
+        label="Description"
+        rows="2"
+        label-colour="black"
+        info="OG description is shown on most social media platforms as the description in a card that is created when this pages url is used."
+      />
       <div v-if="!settings.og.image.imageId">
         <div class="whppt-label">Gallery</div>
         <Gallery :limit="7" image-display-size="25%" @input="openCropper"></Gallery>
@@ -40,19 +33,20 @@
         <cropping :image-options="settings.og.image" :sizes="sizes" @imageRemoved="removeImage" />
         <button @click="removeImage">Select Another Image</button>
       </div>
-    </fieldset>
-  </form>
+    </form>
+  </whppt-card>
 </template>
 
 <script>
 import WhpptTextInput from '../../../ui/Input';
 import WhpptTextArea from '../../../ui/Textarea';
+import WhpptCard from '../../../ui/Card';
 import Gallery from '../../../editors/EditImage/Gallery';
 import Cropping from '../../../editors/EditImage/Cropping';
 
 export default {
   name: 'SettingsOG',
-  components: { WhpptTextInput, WhpptTextArea, Gallery, Cropping },
+  components: { WhpptTextInput, WhpptTextArea, WhpptCard, Gallery, Cropping },
   props: { settings: { type: Object, default: () => ({}) } },
   data() {
     return {
