@@ -1,5 +1,9 @@
 <template>
-  <div v-whppt-content="contentItems" :class="{ 'whppt-content--active': activeMenuItem, container }">
+  <div
+    v-whppt-content="contentItems"
+    class="whppt-contents"
+    :class="{ 'whppt-contents--active': activeMenuItem, container }"
+  >
     <component
       :is="content.componentType"
       v-for="(content, index) in initContentItems"
@@ -45,7 +49,7 @@ export default {
 </script>
 
 <style>
-.whppt-content--active {
+.whppt-contents--active {
   min-height: 200px;
 }
 </style>

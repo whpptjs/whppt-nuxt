@@ -88,7 +88,7 @@ export default {
           key: 'remove',
           label: 'Remove Component',
           icon: 'w-trash',
-          action: () => this.remove(),
+          action: this.remove,
         },
         { key: 'up', label: 'Move Component Up', icon: 'w-arrow-up', group: '', action: () => this.moveComponentUp() },
         {
@@ -168,7 +168,7 @@ export default {
       return this.editInSidebar('WhpptPage');
     },
     remove() {
-      if (!this.selectedContent || !this.selectedComponent) return;
+      // if (!this.selectedContent || !this.selectedComponent) return;
       if (window.confirm('Are you sure?')) {
         this.removeComponent();
       }
