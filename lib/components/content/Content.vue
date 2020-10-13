@@ -4,12 +4,13 @@
     class="whppt-contents"
     :class="{ 'whppt-contents--active': activeMenuItem, container }"
   >
-    <component
-      :is="content.componentType"
-      v-for="(content, index) in initContentItems"
-      :key="content.key + index"
-      :content="content"
-    ></component>
+    <div v-for="(content, index) in initContentItems" :key="`${content.key}-${index}`">
+      <div class="container">
+        <!-- Add if to this parent element for if activeMenuItem -->
+        <!-- Relative spacing control button goes here -->
+      </div>
+      <component :is="content.componentType" :content="content" :class="spacingClasses(content)"></component>
+    </div>
   </div>
 </template>
 
@@ -43,6 +44,18 @@ export default {
 
         return ci;
       });
+    },
+  },
+  methods: {
+    spacingClasses(content) {
+      const { setMarginTop, setMarginBottom, setPaddingTop, setPaddingBottom } = this.$whppt.spacing;
+
+      const marginTop = setMarginTop(content);
+      const marginBottom = setMarginBottom(content);
+      const paddingTop = setPaddingTop(content);
+      const paddingBottom = setPaddingBottom(content);
+
+      return [marginTop, marginBottom, paddingTop, paddingBottom];
     },
   },
 };
