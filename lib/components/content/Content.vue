@@ -4,10 +4,11 @@
     class="whppt-contents"
     :class="{ 'whppt-contents--active': activeMenuItem, container }"
   >
-    <div v-for="(content, index) in initContentItems" :key="`${content.key}-${index}`">
-      <div class="container">
-        <!-- Add if to this parent element for if activeMenuItem -->
-        <!-- Relative spacing control button goes here -->
+    <div v-for="(content, index) in initContentItems" :key="`${content.key}-${index}`" class="whppt-content">
+      <div v-if="activeMenuItem && !editSidebar" class="whppt-content__container container">
+        <whppt-button v-whppt-spacing="content" class="whppt-contents__spacing-button">
+          Adjust Spacing
+        </whppt-button>
       </div>
       <component :is="content.componentType" :content="content" :class="spacingClasses(content)"></component>
     </div>
@@ -17,9 +18,13 @@
 <script>
 import { mapState } from 'vuex';
 import { find, map, keyBy } from 'lodash';
+import WhpptButton from '../ui/Button';
 
 export default {
   name: 'WhpptContent',
+  components: {
+    WhpptButton,
+  },
   props: {
     contentItems: {
       type: [Array, Object],
@@ -32,7 +37,7 @@ export default {
   },
   computed: {
     ...mapState('whppt-nuxt/page', ['page']),
-    ...mapState('whppt-nuxt/editor', ['activeMenuItem']),
+    ...mapState('whppt-nuxt/editor', ['activeMenuItem', 'editSidebar']),
     initContentItems() {
       const plugin = find(this.$whppt.plugins, p => (p.pageType && p.pageType.name) === this.page.pageType);
 
@@ -60,6 +65,19 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.whppt-content {
+  .whppt-content__container {
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+  }
+}
+
+.whppt-contents__spacing-button {
+}
+</style>
 
 <style>
 .whppt-contents--active {
