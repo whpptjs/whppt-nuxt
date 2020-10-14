@@ -1,7 +1,7 @@
 <template>
   <div v-if="isActive" class="whppt-modal" :class="{ 'whppt-modal--full': full }">
     <div class="whppt-modal__background">
-      <div class="whppt-modal__inner" :class="{ 'whppt-modal__inner--dark': dark }">
+      <div class="whppt-modal__inner" :class="{ 'whppt-modal__inner--dark': dark }" :style="dialogComputedStyles">
         <button class="whppt-modal__close-btn" aria-label="Close Modal" @click="$emit('closed')">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -58,6 +58,27 @@ export default {
     dark: {
       type: Boolean,
       default: true,
+    },
+    height: {
+      type: [String, Number],
+      default: undefined,
+    },
+    width: {
+      type: [String, Number],
+      default: undefined,
+    },
+  },
+  computed: {
+    dialogComputedStyles() {
+      if (!this.height && !this.width) return;
+      const maxWidth = this.width && `max-width: ${typeof this.width === 'number' ? `${this.width}px` : this.width};`;
+      const maxHeight =
+        this.height && `max-height: ${typeof this.height === 'number' ? `${this.height}px` : this.height};`;
+
+      console.log(maxWidth);
+      console.log(maxHeight);
+
+      return `${maxWidth} ${maxHeight}`;
     },
   },
   destroyed() {

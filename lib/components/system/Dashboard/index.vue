@@ -21,6 +21,7 @@
 
 <script>
 import WhpptDrawer from '../../ui/Drawer';
+import General from './General';
 
 const { additionalComponents, additionalTabs } = global.$whppt.getAdditionalComponents('dashboard');
 
@@ -35,12 +36,7 @@ export default {
   }),
   computed: {
     tabs() {
-      return [
-        { name: 'general', label: 'General', component: {} },
-        { name: 'users', label: 'Users', component: {} },
-        { name: 'reports', label: 'Reports', component: {} },
-        ...additionalTabs,
-      ];
+      return [{ name: 'general', label: 'General', component: General }, ...additionalTabs];
     },
   },
   methods: {

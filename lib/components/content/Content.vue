@@ -1,9 +1,5 @@
 <template>
-  <div
-    v-whppt-content="contentItems"
-    class="whppt-contents"
-    :class="{ 'whppt-contents--active': activeMenuItem, container }"
-  >
+  <div v-whppt-content="contentItems" class="whppt-contents" :class="{ 'whppt-contents--active': activeMenuItem }">
     <div v-for="(content, index) in initContentItems" :key="`${content.key}-${index}`" class="whppt-content">
       <div v-if="activeMenuItem && !editSidebar" class="whppt-content__container container">
         <whppt-button v-whppt-spacing="content" class="whppt-contents__spacing-button">

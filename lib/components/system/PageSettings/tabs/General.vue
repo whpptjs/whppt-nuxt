@@ -1,10 +1,10 @@
 <template>
   <div class="whppt-page-setting__general">
     <!--    <div-->
-    <!--      v-if="showDupModal || showSlugModal || showWarning"-->
+    <!--      v-if="showDuplicatePageModal || showSlugModal || showWarning"-->
     <!--      style="background: rgba(0, 0, 0, .5); position: absolute; top: 0; left: 0; right: 0; bottom: 0"-->
     <!--    ></div>-->
-    <!--    <div v-if="showDupModal" class="whppt-settings__warning-modal">-->
+    <!--    <div v-if="showDuplicatePageModal" class="whppt-settings__warning-modal">-->
     <!--      <div class="whppt-settings__warning-content">-->
     <!--        <form style="position: relative; " @submit.prevent>-->
     <!--          <div class="whppt-settings__warning-heading" style="text-align: center;">Duplicate Page</div>-->
@@ -29,7 +29,7 @@
     <!--          </div>-->
     <!--          <div class="whppt-settings__warning-actions">-->
     <!--            <whppt-button @click="duplicatePage">Save</whppt-button>-->
-    <!--            <whppt-button @click="showDupModal = false">Close</whppt-button>-->
+    <!--            <whppt-button @click="showDuplicatePageModal = false">Close</whppt-button>-->
     <!--          </div>-->
     <!--        </form>-->
     <!--      </div>-->
@@ -121,10 +121,50 @@
     </whppt-card>
 
     <!-- Delete page dialog -->
-    <whppt-dialog :is-active="showWarning">
-      <whppt-card>
-        <whppt-button @click="deletePageFromDraft">Delete</whppt-button>
-        <whppt-button @click="showWarning = false">Cancel</whppt-button>
+    <whppt-dialog :is-active="showWarning" :height="350" :width="800">
+      <template v-slot:header>
+        <whppt-toolbar>
+          <h3>Are you sure?</h3>
+        </whppt-toolbar>
+      </template>
+      <whppt-card class="whppt-dialog__warning">
+        <div class="whppt-dialog__warning-message">
+          <h4>Are you sure you want to delete this page</h4>
+          <p><em>Warning: Once you delete this page there is no way to recover it.</em></p>
+        </div>
+        <div class="whppt-dialog__warning-actions">
+          <whppt-button danger @click="deletePageFromDraft">Delete</whppt-button>
+          <whppt-button flat @click="showWarning = false">Cancel</whppt-button>
+        </div>
+      </whppt-card>
+    </whppt-dialog>
+
+    <!-- Duplicate page dialog -->
+    <whppt-dialog :is-active="showDuplicatePageModal" :height="450" :width="800">
+      <template v-slot:header>
+        <whppt-toolbar>
+          <h3>Duplicate Page</h3>
+        </whppt-toolbar>
+      </template>
+      <whppt-card class="whppt-dialog__warning">
+        <div class="whppt-dialog__warning-message">
+          <h5>Please enter a new Slug for the duplicated page.</h5>
+        </div>
+        <form @submit.prevent>
+          <whppt-text-input
+            v-model="slugCopy"
+            placeholder="eg. /about"
+            label="Slug"
+            :info="
+              `The page slug makes up part of the page's url that is shown in the browsers address bar and is used by search engines to match your page with search terms. \nYour input will be formatted according to the page type setting and to avoid certain characters.`
+            "
+          />
+          <span><strong>Output:</strong> {{ formattedSlug }}</span>
+        </form>
+        <div class="whppt-dialog__warning-actions">
+          <whppt-button @click="duplicatePage">Duplicate</whppt-button>
+          <whppt-button flat @click="showDuplicatePageModal = false">Cancel</whppt-button>
+        </div>
       </whppt-card>
     </whppt-dialog>
   </div>
@@ -139,6 +179,8 @@ import WhpptSelect from '../../../ui/Select';
 import WhpptTextInput from '../../../ui/Input';
 import WhpptButton from '../../../ui/Button';
 import WhpptDialog from '../../../ui/Dialog';
+import WhpptToolbar from '../../../ui/Toolbar';
+import Italic from '../../../icons/Italic';
 
 const additionalComponents = {};
 
@@ -152,6 +194,8 @@ forEach(pageTypePlugins, plugin => {
 export default {
   name: 'PageSettingsGeneral',
   components: {
+    Italic,
+    WhpptToolbar,
     ...additionalComponents,
     WhpptTextInput,
     WhpptSelect,
@@ -167,7 +211,7 @@ export default {
     additionalComponents,
     showWarning: false,
     showSlugModal: false,
-    showDupModal: false,
+    showDuplicatePageModal: false,
     slugCopy: '',
     rawSlug: '',
     newPage: {
@@ -254,7 +298,7 @@ export default {
       this.slugCopy = this.rawSlug;
     },
     openDupModal() {
-      this.showDupModal = true;
+      this.showDuplicatePageModal = true;
       this.slugCopy = '';
     },
     formatSlug(slug) {
@@ -284,7 +328,7 @@ export default {
           vm.page.slug = newSlug;
           return vm.savePage().then(() => {
             vm.$router.push(`/${newSlug}`);
-            vm.$emit('closeModal');
+            vm.$emit('closed');
           });
         }
       });
@@ -295,7 +339,7 @@ export default {
       const newSlug = this.formattedSlug;
 
       if (!newSlug) {
-        this.$toast.global.editorError('Cannot use an empty slug');
+        this.$toast.global.editorError('Please provide a slug');
         return;
       }
 
@@ -305,10 +349,10 @@ export default {
         } else {
           vm.page.slug = newSlug;
 
-          return vm.savePage({ page: { ...this.page, _id: undefined } }).then(() => {
+          return vm.savePage({ ...this.page, _id: undefined }).then(() => {
             vm.$router.push(`/${newSlug}`);
-            this.showDupModal = false;
-            vm.$emit('closeModal');
+            this.showDuplicatePageModal = false;
+            vm.$emit('closed');
           });
         }
       });
@@ -356,6 +400,37 @@ export default {
     button {
       margin-right: 0.5rem;
     }
+  }
+}
+
+.whppt-dialog__warning {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0;
+  height: 100%;
+
+  h3,
+  h4 {
+    font-weight: bold;
+  }
+
+  p {
+    font-size: 0.75rem;
+  }
+}
+
+.whppt-dialog__warning-message {
+  margin-bottom: 1rem;
+}
+
+.whppt-dialog__warning-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  height: 100%;
+
+  button {
+    margin-left: 0.5rem;
   }
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <whppt-tabs position="fixed" @changed="tabChanged">
     <whppt-tab v-for="(tab, index) in tabs" :id="tab.name" :key="index" :name="tab.label">
-      <component :is="selectedTab" :settings="siteSettings" :page="page" />
+      <component :is="selectedTab" :settings="siteSettings" :page="page" @closed="$emit('closed')" />
     </whppt-tab>
   </whppt-tabs>
 </template>

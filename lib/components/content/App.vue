@@ -11,7 +11,7 @@
             </div>
           </whppt-toolbar>
         </template>
-        <component :is="editInModalType" :prefix="prefix" />
+        <component :is="editInModalType" :prefix="prefix" @closed="closeModal" />
       </whppt-dialog>
       <whppt-dialog full :is-active.sync="dashboardVisible" @closed="closeDashboard">
         <template v-slot:header>
