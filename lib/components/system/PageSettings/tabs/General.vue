@@ -1,93 +1,7 @@
 <template>
   <div class="whppt-page-setting__general">
-    <!--    <div-->
-    <!--      v-if="showDuplicatePageModal || showSlugModal || showWarning"-->
-    <!--      style="background: rgba(0, 0, 0, .5); position: absolute; top: 0; left: 0; right: 0; bottom: 0"-->
-    <!--    ></div>-->
-    <!--    <div v-if="showDuplicatePageModal" class="whppt-settings__warning-modal">-->
-    <!--      <div class="whppt-settings__warning-content">-->
-    <!--        <form style="position: relative; " @submit.prevent>-->
-    <!--          <div class="whppt-settings__warning-heading" style="text-align: center;">Duplicate Page</div>-->
-    <!--          <div class="whppt-settings__warning-body">-->
-    <!--            <div>-->
-    <!--              <whppt-text-input-->
-    <!--                v-model="slugCopy"-->
-    <!--                placeholder="Enter a new slug for the duplicate"-->
-    <!--                label="Slug"-->
-    <!--                label-colour="black"-->
-    <!--                :info="-->
-    <!--                  `The page slug makes up part of the page's url that is shown in the browsers address bar and is used by search engines to match your page with search terms. \nYour input will be formatted according to the page type setting and to avoid certain characters.`-->
-    <!--                "-->
-    <!--              />-->
-    <!--              <div style="display: flex; align-items: center; justify-content: flex-start">-->
-    <!--                <div style="font-weight: bold; padding-right: 0.5rem;">Output:</div>-->
-    <!--                <div>-->
-    <!--                  {{ formattedSlug }}-->
-    <!--                </div>-->
-    <!--              </div>-->
-    <!--            </div>-->
-    <!--          </div>-->
-    <!--          <div class="whppt-settings__warning-actions">-->
-    <!--            <whppt-button @click="duplicatePage">Save</whppt-button>-->
-    <!--            <whppt-button @click="showDuplicatePageModal = false">Close</whppt-button>-->
-    <!--          </div>-->
-    <!--        </form>-->
-    <!--      </div>-->
-    <!--    </div>-->
-    <!--    <div v-if="showSlugModal" class="whppt-settings__warning-modal">-->
-    <!--      <div class="whppt-settings__warning-content">-->
-    <!--        <form style="position: relative; " @submit.prevent>-->
-    <!--          <div class="whppt-settings__warning-heading" style="text-align: center;">Edit Slug</div>-->
-    <!--          <div class="whppt-settings__warning-body">-->
-    <!--            <div>-->
-    <!--              <div v-if="prefix" class="whppt-flex-between whppt-align-center">-->
-    <!--                <whppt-text-input-->
-    <!--                  :value="prefix"-->
-    <!--                  :disabled="true"-->
-    <!--                  placeholder="Page Slug Prefix"-->
-    <!--                  label="Prefix"-->
-    <!--                  label-colour="black"-->
-    <!--                  info="This prefix is managed by Whppt and is not editable."-->
-    <!--                />-->
-    <!--                <whppt-text-input-->
-    <!--                  :value="slugSuffix"-->
-    <!--                  placeholder="Enter a page slug"-->
-    <!--                  label="Slug"-->
-    <!--                  label-colour="black"-->
-    <!--                  info="The page slug makes up part of the page's url that is shown in the browsers address bar and is used by search engines to match your page with search terms. Your input will be formatted to avoid certain characters."-->
-    <!--                  @input="confirmSlug"-->
-    <!--                />-->
-    <!--              </div>-->
-    <!--              <div v-if="!prefix">-->
-    <!--                <whppt-text-input-->
-    <!--                  v-model="slugCopy"-->
-    <!--                  placeholder="Enter a page slug"-->
-    <!--                  label="Slug"-->
-    <!--                  label-colour="black"-->
-    <!--                  :info="-->
-    <!--                    `The page slug makes up part of the page's url that is shown in the browsers address bar and is used by search engines to match your page with search terms. \nYour input will be formatted according to the page type setting and to avoid certain characters.`-->
-    <!--                  "-->
-    <!--                />-->
-    <!--              </div>-->
-    <!--              <div style="display: flex; align-items: center; justify-content: flex-start">-->
-    <!--                <div style="font-weight: bold; padding-right: 0.5rem;">Output:</div>-->
-    <!--                <div>-->
-    <!--                  {{ formattedSlug }}-->
-    <!--                </div>-->
-    <!--              </div>-->
-    <!--            </div>-->
-    <!--          </div>-->
-    <!--          <div class="whppt-settings__warning-actions">-->
-    <!--            <button class="whppt-settings__button" style="margin-left: 0" @click="saveSlug">-->
-    <!--              Save-->
-    <!--            </button>-->
-    <!--            <button class="whppt-settings__button" @click="showSlugModal = false">Close</button>-->
-    <!--          </div>-->
-    <!--        </form>-->
-    <!--      </div>-->
-    <!--    </div>-->
     <whppt-card>
-      <span><strong>Page Formatted Slug</strong></span>
+      <span><strong>Page Slug</strong></span>
       <div>
         <span>current slug:</span> <strong>{{ `/${page.slug}` }}</strong>
       </div>
@@ -99,10 +13,11 @@
           <whppt-select
             id="page-settings-page-type-select"
             label="Page Type"
-            item-text="name"
-            item-value="label"
+            item-text="label"
+            item-value="name"
             :items="pageTypes"
             :value="newPage.pageTypeObj"
+            return-object
             placeholder="Select a page type"
             @input="setPageTypeObj"
           />
@@ -119,6 +34,57 @@
         <whppt-button @click="showWarning = true">Delete Page</whppt-button>
       </div>
     </whppt-card>
+
+    <!-- Change slug dialog -->
+    <whppt-dialog :is-active="showSlugModal" :height="prefix ? 500 : 400" :width="800">
+      <template v-slot:header>
+        <whppt-toolbar>
+          <h3>Edit Slug</h3>
+        </whppt-toolbar>
+      </template>
+      <whppt-card class="whppt-dialog__warning">
+        <form @submit.prevent>
+          <div v-if="prefix">
+            <whppt-text-input
+              :id="`${$options._scopeId}-slug-prefix`"
+              :value="prefix"
+              placeholder="Page Slug Prefix"
+              label="Prefix"
+              readonly
+              info="This prefix is managed by Whppt and is not editable."
+            />
+            <whppt-text-input
+              :id="`${$options._scopeId}-edit-slug`"
+              :value="slugSuffix"
+              placeholder="Enter a page slug"
+              label="Slug"
+              info="The page slug makes up part of the page's url that is shown in the browsers address bar and is used by search engines to match your page with search terms. Your input will be formatted to avoid certain characters."
+              @input="confirmSlug"
+            />
+          </div>
+          <div v-if="!prefix">
+            <whppt-text-input
+              v-model="slugCopy"
+              placeholder="Enter a page slug"
+              label="Slug"
+              :info="
+                `The page slug makes up part of the page's url that is shown in the browsers address bar and is used by search engines to match your page with search terms. \nYour input will be formatted according to the page type setting and to avoid certain characters.`
+              "
+            />
+          </div>
+          <div style="display: flex; align-items: center; justify-content: flex-start">
+            <div style="font-weight: bold; padding-right: 0.5rem;">Output:</div>
+            <div>
+              {{ formattedSlug }}
+            </div>
+          </div>
+        </form>
+        <div class="whppt-dialog__warning-actions">
+          <whppt-button @click="saveSlug">Save</whppt-button>
+          <whppt-button flat @click="showSlugModal = false">Close</whppt-button>
+        </div>
+      </whppt-card>
+    </whppt-dialog>
 
     <!-- Delete page dialog -->
     <whppt-dialog :is-active="showWarning" :height="350" :width="800">
@@ -152,6 +118,7 @@
         </div>
         <form @submit.prevent>
           <whppt-text-input
+            :id="`${$options._scopeId}-duplicate-page-slug`"
             v-model="slugCopy"
             placeholder="eg. /about"
             label="Slug"
@@ -205,7 +172,7 @@ export default {
   },
   props: {
     page: { type: Object, required: true },
-    prefix: { type: String, default: () => '' },
+    prefix: { type: String, default: '' },
   },
   data: () => ({
     additionalComponents,
@@ -232,14 +199,15 @@ export default {
     pageTypes() {
       return compact(map(this.$whppt.plugins, t => t.pageType));
     },
-    isHomePage() {
-      return this.$router.currentRoute.path === '/';
-    },
   },
   mounted() {
     this.newPage.pageTypeObj = find(this.pageTypes, t => get(t, 'name') === this.page.pageType) || {};
-    if (!this.newPage.pageTypeObj.stripSlug) return (this.rawSlug = this.page.slug);
-    this.rawSlug = this.newPage.pageTypeObj.stripSlug({ slug: this.page.slug, page: this.page });
+
+    if (!this.newPage.pageTypeObj.stripSlug) {
+      this.rawSlug = this.page.slug;
+    } else {
+      this.rawSlug = this.newPage.pageTypeObj.stripSlug({ slug: this.page.slug, page: this.page });
+    }
   },
   methods: {
     ...mapActions('whppt-nuxt/page', ['savePage', 'deletePage', 'checkSlug']),
@@ -248,6 +216,7 @@ export default {
       this.newPage.pageType = $event;
     },
     changePageType() {
+      console.log('new page', this.newPage);
       let newSlug = this.rawSlug;
 
       const oldPageTypeObj = find(this.pageTypes, t => get(t, 'name') === this.page.pageType) || {};
@@ -265,12 +234,14 @@ export default {
         return;
       }
 
-      return this.checkSlug({ slug: newSlug, _id: this.page._id, pageType: this.page.pageType }).then(result => {
-        if (result) {
+      return this.checkSlug({ slug: newSlug, _id: this.page._id, pageType: this.page.pageType }).then(duplicateSlug => {
+        if (duplicateSlug) {
           this.showSlugModal = true;
           this.$toast.global.editorError('Slug already in use');
         } else {
           this.page.slug = newSlug;
+
+          console.log(this.newPage.pageTypeObj.name);
 
           let page = { ...this.page, pageType: this.newPage.pageTypeObj.name };
           if (this.newPage.template) page.template = this.newPage.template.key;
@@ -278,7 +249,7 @@ export default {
           if (this.newPage.pageTypeObj.name !== this.page.pageType) {
             return this.newPage.pageTypeObj.createPage(this, { page, form: this.newPage }).then(() => {
               return this.deletePage().then(() => {
-                this.$router.push(`/${newSlug}`);
+                // this.$router.push(`/${newSlug}`);
                 this.$emit('closeModal');
               });
             });
@@ -286,7 +257,7 @@ export default {
             page = { ...page, ...omit(this.newPage, ['pageTypeObj', 'template', 'pageType']) };
 
             return this.savePage({ page }).then(() => {
-              this.$router.push(`/${newSlug}`);
+              // this.$router.push(`/${newSlug}`);
               this.$emit('closeModal');
             });
           }
@@ -318,15 +289,14 @@ export default {
       const vm = this;
       const newSlug = this.formattedSlug;
       if (!newSlug) {
-        this.$toast.global.editorError('Cannot use an empty slug');
+        this.$toast.global.editorError('Please provide a slug');
         return;
       }
-      return vm.checkSlug({ slug: newSlug, _id: this.page._id, pageType: this.page.pageType }).then(result => {
-        if (result) {
+      return vm.checkSlug({ slug: newSlug, _id: this.page._id, pageType: this.page.pageType }).then(duplicateSlug => {
+        if (duplicateSlug) {
           this.$toast.global.editorError('Slug already in use');
         } else {
-          vm.page.slug = newSlug;
-          return vm.savePage().then(() => {
+          return vm.savePage({ ...vm.page, slug: newSlug }).then(() => {
             vm.$router.push(`/${newSlug}`);
             vm.$emit('closed');
           });
@@ -347,9 +317,7 @@ export default {
         if (result) {
           this.$toast.global.editorError('Slug already in use');
         } else {
-          vm.page.slug = newSlug;
-
-          return vm.savePage({ ...this.page, _id: undefined }).then(() => {
+          return vm.savePage({ ...this.page, slug: newSlug, _id: undefined }).then(() => {
             vm.$router.push(`/${newSlug}`);
             this.showDuplicatePageModal = false;
             vm.$emit('closed');

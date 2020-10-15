@@ -75,9 +75,6 @@ export default {
       const maxHeight =
         this.height && `max-height: ${typeof this.height === 'number' ? `${this.height}px` : this.height};`;
 
-      console.log(maxWidth);
-      console.log(maxHeight);
-
       return `${maxWidth} ${maxHeight}`;
     },
   },

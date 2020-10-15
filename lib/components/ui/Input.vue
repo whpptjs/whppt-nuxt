@@ -3,6 +3,7 @@
     <label v-if="label" :for="id">{{ label }}</label>
     <input
       :id="id"
+      v-bind="$attrs"
       :name="name"
       :type="type"
       :placeholder="placeholder"
