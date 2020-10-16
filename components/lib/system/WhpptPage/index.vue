@@ -12,7 +12,7 @@
         info="Enter any text and we'll turn it into a slug for you!"
       ></whppt-text-input>
       <div class="whppt-info">Your slug: {{ formatSlug(pageForm.slug) }}</div>
-      <div v-if="showError" style="color: red">A page with that slug already exists, please select another.</div>
+      <div v-if="showError">A page with that slug already exists, please select another.</div>
 
       <whppt-button @click="saveNewPage">Create Page</whppt-button>
     </form>
