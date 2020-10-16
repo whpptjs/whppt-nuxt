@@ -1,4 +1,5 @@
 <template>
+  <!-- TODO: click outside directive -->
   <div
     class="whppt-select"
     :class="{ 'whppt-select--dark': dark, 'whppt-select--dense': dense }"
@@ -9,7 +10,7 @@
       <input
         :id="id"
         :placeholder="placeholder"
-        :value="setTextProp(value)"
+        :value="setTextProp(selectedItem ? selectedItem : value)"
         :class="{ 'whppt-select--menu-active': showSelectItems }"
         :style="`width: ${typeof width === 'number' ? `${width}px` : width}`"
         readonly
@@ -101,7 +102,11 @@ export default {
   },
   data: () => ({
     showSelectItems: false,
+    selectedItem: undefined,
   }),
+  created() {
+    this.setSelectedItem();
+  },
   methods: {
     setValueProp(item) {
       if (typeof item === 'string' || typeof item === 'number') return item;
@@ -110,6 +115,13 @@ export default {
     setTextProp(item) {
       if (typeof item === 'string' || typeof item === 'number') return item;
       return item[this.itemText];
+    },
+    setSelectedItem(value) {
+      // if (typeof this.value === 'string' || typeof this.value === 'number') return this.value;
+
+      this.selectedItem = find(this.items, item => {
+        return item[this.itemValue] === (value || this.value);
+      });
     },
     onInput(value) {
       const returnValue = this.returnObject ? find(this.items, i => i[this.itemValue] === value) : value;
@@ -125,6 +137,7 @@ export default {
       if (this.showSelectItems) this.showSelectItems = false;
       this.onInput(value);
       this.onChange(value);
+      this.setSelectedItem(value);
     },
   },
 };

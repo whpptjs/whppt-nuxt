@@ -8,7 +8,7 @@
       <whppt-button @click="openSlugModal">Change Slug</whppt-button>
     </whppt-card>
     <whppt-card>
-      <form @submit.prevent>
+      <form class="whppt-page-setting__page-type-form" @submit.prevent>
         <fieldset>
           <whppt-select
             id="page-settings-page-type-select"
@@ -21,9 +21,20 @@
             placeholder="Select a page type"
             @input="setPageTypeObj"
           />
+          <whppt-select
+            v-if="newPage.pageTypeObj && newPage.pageTypeObj && newPage.pageTypeObj.templates.length > 1"
+            :id="`${$options._scopeId}-template`"
+            :value="newPage.template"
+            :items="newPage.pageTypeObj.templates"
+            item-text="label"
+            item-value="key"
+            return-object
+            label="template"
+            @input="setPageTemplate"
+          ></whppt-select>
         </fieldset>
-        <fieldset>
-          <component :is="newPage.pageTypeObj.name" v-if="newPage.pageTypeObj" :page="newPage" />
+        <fieldset v-if="newPage.pageTypeObj">
+          <component :is="newPage.pageTypeObj.name" :page="newPage" />
         </fieldset>
         <whppt-button @click="changePageType">Change Page Type</whppt-button>
       </form>
@@ -208,15 +219,20 @@ export default {
     } else {
       this.rawSlug = this.newPage.pageTypeObj.stripSlug({ slug: this.page.slug, page: this.page });
     }
+
+    if (!this.newPage.template) this.newPage.template = this.page.template;
   },
   methods: {
     ...mapActions('whppt-nuxt/page', ['savePage', 'deletePage', 'checkSlug']),
+    setPageTemplate(template) {
+      if (!template) return;
+      this.newPage.template = template;
+    },
     setPageTypeObj($event) {
       this.newPage.pageTypeObj = $event;
       this.newPage.pageType = $event;
     },
     changePageType() {
-      console.log('new page', this.newPage);
       let newSlug = this.rawSlug;
 
       const oldPageTypeObj = find(this.pageTypes, t => get(t, 'name') === this.page.pageType) || {};
@@ -229,36 +245,34 @@ export default {
       }
 
       if (!this.rawSlug || !newSlug) {
-        this.showSlugModal = true;
         this.$toast.global.editorError('Cannot use an empty slug');
         return;
       }
 
       return this.checkSlug({ slug: newSlug, _id: this.page._id, pageType: this.page.pageType }).then(duplicateSlug => {
-        if (duplicateSlug) {
-          this.showSlugModal = true;
+        const checkPageType = !(this.newPage.pageTypeObj.name === this.page.pageType);
+        if (duplicateSlug && checkPageType) {
           this.$toast.global.editorError('Slug already in use');
         } else {
-          this.page.slug = newSlug;
+          let page = { ...this.page, slug: newSlug, pageType: this.newPage.pageTypeObj.name };
 
-          console.log(this.newPage.pageTypeObj.name);
+          const templates = this.newPage.pageTypeObj && this.newPage.pageTypeObj.templates;
 
-          let page = { ...this.page, pageType: this.newPage.pageTypeObj.name };
-          if (this.newPage.template) page.template = this.newPage.template.key;
+          if (this.newPage.template || templates.length === 1) {
+            page.template = templates.length === 1 ? templates[0].key : this.newPage.template.key;
+          }
 
-          if (this.newPage.pageTypeObj.name !== this.page.pageType) {
+          if (checkPageType) {
             return this.newPage.pageTypeObj.createPage(this, { page, form: this.newPage }).then(() => {
               return this.deletePage().then(() => {
-                // this.$router.push(`/${newSlug}`);
-                this.$emit('closeModal');
+                this.$router.push(`/${newSlug}`);
               });
             });
           } else {
             page = { ...page, ...omit(this.newPage, ['pageTypeObj', 'template', 'pageType']) };
 
-            return this.savePage({ page }).then(() => {
-              // this.$router.push(`/${newSlug}`);
-              this.$emit('closeModal');
+            return this.savePage(page).then(() => {
+              this.$router.push(`/${newSlug}`);
             });
           }
         }
@@ -399,6 +413,12 @@ export default {
 
   button {
     margin-left: 0.5rem;
+  }
+}
+
+.whppt-page-setting__page-type-form {
+  button {
+    margin-top: 1rem;
   }
 }
 </style>
