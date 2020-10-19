@@ -4,8 +4,19 @@
     <div class="whppt-form-container">
       <h2 class="whppt-login__heading whppt-login__heading--dark">Welcome</h2>
       <form @submit.prevent>
-        <whppt-text-input id="login-username" v-model="data.username" required label="Username" />
-        <whppt-text-input id="login-password" v-model="data.password" type="password" required label="Password" />
+        <whppt-text-input
+          :id="`${$options._scopeId}-login-username`"
+          v-model="data.username"
+          label="Username"
+          required
+        />
+        <whppt-text-input
+          :id="`${$options._scopeId}-login-password`"
+          v-model="data.password"
+          type="password"
+          label="Password"
+          required
+        />
         <p v-if="error" class="error">{{ error }}</p>
         <whppt-button :disabled="busy" @click="doLogin">
           <span v-if="!busy">Submit</span>
@@ -72,7 +83,7 @@ $danger-600: #e53e3e;
 .whppt-login {
   position: fixed;
   z-index: 53;
-  width: 50vw;
+  width: 40vw;
   height: 100vh;
   background-color: $gray-900;
   display: flex;
@@ -100,6 +111,10 @@ $danger-600: #e53e3e;
 
     form {
       width: 100%;
+
+      button {
+        margin-top: 1rem;
+      }
     }
   }
 
