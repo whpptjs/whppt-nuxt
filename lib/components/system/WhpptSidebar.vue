@@ -15,7 +15,6 @@
 <script>
 import { filter, flatMap, forEach, clamp, startCase } from 'lodash';
 import { mapActions, mapState } from 'vuex';
-import WhpptCheckBox from '../editors/__CheckBox';
 import Close from '../icons/Close';
 import WhpptButton from '../ui/Button';
 import WhpptDrawer from '../ui/Drawer';
@@ -47,7 +46,6 @@ export default {
     ...Editors,
     WhpptPage: () => import('./WhpptPage'),
     WhpptTabs,
-    WhpptCheckBox,
     SpacingControls,
     WhpptTab,
     WhpptButton,
