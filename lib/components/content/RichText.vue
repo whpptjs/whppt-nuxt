@@ -1,6 +1,7 @@
 <template>
   <div
     v-whppt-rich-text="content"
+    class="whppt-rich-text"
     :class="{ container }"
     :data-property="property"
     v-html="content[property] || 'Insert Text Here'"
@@ -17,14 +18,12 @@ export default {
     },
     property: {
       type: String,
-      default: () => 'text',
+      default: 'text',
     },
     container: {
       type: Boolean,
-      default: () => true,
+      default: true,
     },
   },
 };
 </script>
-
-<style scoped></style>

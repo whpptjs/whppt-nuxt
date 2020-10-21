@@ -834,11 +834,6 @@ dashdash@^1.12.0:
   dependencies:
     assert-plus "^1.0.0"
 
-date-fns@^2.6.0:
-  version "2.16.1"
-  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.16.1.tgz#05775792c3f3331da812af253e1a935851d3834b"
-  integrity sha512-sAJVKx/FqrLYHAQeN7VpJrPhagZc9R4ImZIWYRFZaaohR3KzmuK88touwsSwSVT8Qcbd4zoDsnGfX4GFB4imyQ==
-
 debounce@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/debounce/-/debounce-1.2.0.tgz#44a540abc0ea9943018dc0eaa95cce87f65cd131"
@@ -3973,15 +3968,6 @@ v-calendar-ie11@^1.0.0-beta.16:
   integrity sha512-qcpTRxTnMM+tm54j9UYA63/jCepjKmrDiojMyUyl+2CWtcxktNUxb4hCu2Epy5HM8Yn10NWa0fvxco3L6PnBFA==
   dependencies:
     lodash "^4.17.11"
-    popper.js "^1.14.7"
-
-v-calendar@^1.0.0-beta.23:
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/v-calendar/-/v-calendar-1.0.8.tgz#35c515749b6c5a001c815a232acfa0d85b569f6b"
-  integrity sha512-2st0wvSM7oGTOQixVMFHAEPjGBWEJmAhBDE6NYR5MB9Owe1d/pR5+A1OB+/HICXbuiKMjG8KzDpeySnPECddsw==
-  dependencies:
-    date-fns "^2.6.0"
-    lodash "^4.17.15"
     popper.js "^1.14.7"
 
 v-tooltip@^2.0.3:

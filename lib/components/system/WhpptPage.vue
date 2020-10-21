@@ -141,7 +141,7 @@ export default {
               const { slug } = page;
               vm.closeSidebar();
               if (`/${slug}` === vm.$router.currentRoute.path) {
-                return vm.$router.go();
+                // return vm.$router.go();
               }
               this.$toast.global.editorSuccess('Page Successfully Created!');
               return vm.$router.push(`/${slug}` || '/');
