@@ -3,12 +3,11 @@
     <label v-if="label" :for="id">{{ label }}</label>
     <input
       :id="id"
+      v-model="internalValue"
       v-bind="$attrs"
       :name="name"
-      :type="type"
+      type="number"
       :placeholder="placeholder"
-      :value="value"
-      @input="$emit('input', $event.target.value)"
       @change="$emit('change', $event.target.value)"
       @blur="$emit('blur', $event.target.value)"
     />
@@ -27,10 +26,6 @@ export default {
     name: {
       type: String,
       default: undefined,
-    },
-    type: {
-      type: String,
-      default: 'text',
     },
     label: {
       type: String,
@@ -52,6 +47,18 @@ export default {
       type: Boolean,
       default: true,
     },
+  },
+  data: () => ({
+    internalValue: '',
+  }),
+  watch: {
+    internalValue(newVal) {
+      if (!newVal) return;
+      this.$emit('input', newVal);
+    },
+  },
+  created() {
+    this.internalValue = this.value;
   },
 };
 </script>

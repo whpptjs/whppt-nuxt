@@ -1,17 +1,5 @@
 <template>
-  <div>
-    <!-- Maybe whppt-date-picker instead i guess -->
-    <!--    <whppt-input-->
-    <!--      :id="`${$options._scopeId}-date-input`"-->
-    <!--      :value="currentValue"-->
-    <!--      label="Date"-->
-    <!--      placeholder="eg. 10/12/2020"-->
-    <!--      @input="onInput"-->
-    <!--    />-->
-    <whppt-datepicker v-model="date"></whppt-datepicker>
-    {{ selectedComponent.value }}
-    <!-- Keep going here yes -->
-  </div>
+  <whppt-datepicker v-model="date" label="Date" placeholder="Enter a date"></whppt-datepicker>
 </template>
 
 <script>
