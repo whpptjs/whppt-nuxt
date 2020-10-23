@@ -21,7 +21,7 @@ export default {
   components: { WhpptButton },
   computed: {
     ...mapState('whppt-nuxt/page', ['page']),
-    ...mapState('whppt-nuxt/editor', ['selectedComponent', 'selectedContentBlacklist', 'selectedContentWhitelist']),
+    ...mapState('whppt-nuxt/editor', ['selectedComponent']),
     componentList() {
       if (!this.selectedComponent) return;
 

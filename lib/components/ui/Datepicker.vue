@@ -37,7 +37,7 @@ export default {
     dark: { type: Boolean, default: true },
     label: { type: String, default: '' },
     placeholder: { type: String, default: () => '' },
-    value: { type: Date, default: undefined },
+    value: { type: [Date, String], default: undefined },
     minDate: { type: [Date, String], default: '' },
     maxDate: { type: [Date, String], default: '' },
   },
