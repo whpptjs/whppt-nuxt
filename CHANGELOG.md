@@ -1,5 +1,13 @@
 # Changelog
 
+## v2.0.0-rc15
+### Fixes
+- Fix Custom editor directives arguments format.
+
+## v2.0.0-rc14
+### Fixes
+- Fix missing NumberInput vue component, it somehow didn't get bundled.
+
 ## v2.0.0-rc13
 
 ### Features
