@@ -1,70 +1,30 @@
 <template>
-  <!-- TODO: Refactor similar to SettingsOG -->
-  <form @submit.prevent>
+  <div>
+    <twitter-tab :settings="settings"></twitter-tab>
     <whppt-card>
-      <whppt-text-input
-        :id="`${$options._scopeId}-settings-twitter-title`"
-        v-model="settings.twitter.title"
-        placeholder="Twitter title"
-        label="Title"
-        label-colour="black"
-        info="Twitter title is shown on most social media platforms as the title in a card that is created when this pages url is used."
-      />
-      <whppt-text-input
-        :id="`${$options._scopeId}-settings-twitter-keywords`"
-        v-model="settings.twitter.keywords"
-        placeholder="keywords, for, twitter"
-        label="Keywords"
-        label-colour="black"
-        info="Keywords are not shown on the page and are used by search engines to match your page with search terms. Comma seperate your values to add multiple."
-      />
-      <whppt-text-area
-        :id="`${$options._scopeId}-settings-twitter-description`"
-        v-model="settings.twitter.description"
-        placeholder="Enter description"
-        label="Description"
-        rows="2"
-        label-colour="black"
-        info="Twitter description is shown on most social media platforms as the description in a card that is created when this pages url is used."
-      />
+      <whppt-button @click="saveSettings(siteSettings)">Save Settings</whppt-button>
     </whppt-card>
-    <whppt-card>
-      <div v-if="!settings.twitter.image.imageId">
-        <div class="whppt-label">Gallery</div>
-        <Gallery :limit="7" image-display-size="25%" @input="openCropper"></Gallery>
-      </div>
-      <div v-if="settings.twitter.image.imageId">
-        <div class="whppt-label">Image</div>
-        <cropping :image-options="settings.twitter.image" :sizes="sizes" @imageRemoved="removeImage" />
-        <button @click="removeImage">Select Another Image</button>
-      </div>
-    </whppt-card>
-  </form>
+  </div>
 </template>
 
 <script>
-import WhpptTextInput from '../../../ui/Input';
-import WhpptTextArea from '../../../ui/Textarea';
+import TwitterTab from '../sharedTabs/Twitter';
 import WhpptCard from '../../../ui/Card';
-import Gallery from '../../../editors/EditImage/Gallery';
-import Cropping from '../../../editors/EditImage/Cropping';
+import WhpptButton from '../../../ui/Button';
+import siteSettingsMixin from '../../../../util/mixins/siteSettings';
 
 export default {
   name: 'SettingsTwitter',
-  components: { WhpptTextInput, WhpptTextArea, WhpptCard, Gallery, Cropping },
+  components: { WhpptButton, TwitterTab, WhpptCard },
+  mixins: [siteSettingsMixin],
   props: { settings: { type: Object, default: () => ({}) } },
-  data() {
-    return {
-      sizes: { desktop: { width: 400, height: 209, quality: 1, aspectRatio: 400 / 209 } },
-    };
-  },
-  methods: {
-    openCropper(id) {
-      this.settings.twitter.image.imageId = id;
+  data: () => ({
+    siteSettings: {
+      twitter: {},
     },
-    removeImage() {
-      this.settings.twitter.image.imageId = '';
-    },
+  }),
+  created() {
+    if (this.settings && this.settings.twitter) this.siteSettings.twitter = this.settings.twitter;
   },
 };
 </script>

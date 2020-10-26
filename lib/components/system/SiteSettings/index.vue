@@ -20,7 +20,7 @@ import Twitter from './tabs/SettingsTwitter';
 import OpenGraph from './tabs/SettingsOG';
 import General from './tabs/SettingsGeneral';
 import Files from './tabs/SettingsFiles';
-import Emailer from './tabs/SettingsEmailer';
+import Emailer from './tabs/SettingsEmail';
 
 const { additionalTabs, additionalComponents } = global.$whppt.getAdditionalComponents('siteSettings');
 
