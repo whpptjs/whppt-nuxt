@@ -22,7 +22,7 @@
             </div>
           </whppt-toolbar>
         </template>
-        <dashboard></dashboard>
+        <dashboard @closed="closeDashboard"></dashboard>
       </whppt-dialog>
     </div>
     <div class="whppt-content">

@@ -8,6 +8,7 @@
         dense
         width="5rem"
         :dark="dark"
+        :direction="direction"
         class="whppt-pagination__per-page-select"
         @input="changePerPage"
       />
@@ -53,8 +54,8 @@
 </template>
 
 <script>
-import WhpptButton from './Button';
 import WhpptSelect from './Select';
+import WhpptButton from './Button';
 
 export default {
   name: 'WhpptPagination',
@@ -83,6 +84,11 @@ export default {
       type: Boolean,
       default: true,
     },
+    direction: {
+      type: String,
+      default: 'down',
+      validator: value => ['up', 'down'].includes(value),
+    },
   },
   computed: {
     results() {
@@ -105,6 +111,7 @@ export default {
   },
   methods: {
     changePerPage($event) {
+      this.$emit('update:page', 1);
       this.$emit('update:perPage', $event);
     },
     onPageChangePrev() {
@@ -120,7 +127,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$gray-100: #f7fafc;
+$gray-200: #edf2f7;
 $gray-800: #2d3748;
+$gray-900: #1a202c;
 
 .whppt-pagination {
   display: flex;

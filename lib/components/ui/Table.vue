@@ -27,6 +27,7 @@
                     :page="page"
                     :per-page="perPage"
                     :total="total || (items && items.length)"
+                    direction="up"
                     @update:page="$emit('update:page', $event)"
                     @update:perPage="$emit('update:perPage', $event)"
                   ></whppt-pagination>
@@ -108,7 +109,6 @@ $gray-800: #2d3748;
 $gray-900: #1a202c;
 
 .whppt-table {
-  position: relative;
   width: 100%;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 

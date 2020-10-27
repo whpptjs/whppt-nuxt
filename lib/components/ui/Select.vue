@@ -1,5 +1,5 @@
 <template>
-  <!-- TODO: click outside directive -->
+  <!-- TODO: Click outside directive -->
   <div
     class="whppt-select"
     :class="{ 'whppt-select--dark': dark, 'whppt-select--dense': dense }"
@@ -10,7 +10,7 @@
       <input
         :id="id"
         :placeholder="placeholder"
-        :value="setTextProp(selectedItem ? selectedItem : value)"
+        :value="setTextProp(value)"
         :class="{ 'whppt-select--menu-active': showSelectItems }"
         :style="`width: ${typeof width === 'number' ? `${width}px` : width}`"
         readonly
@@ -25,7 +25,7 @@
           <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
         </svg>
       </div>
-      <div v-if="showSelectItems" class="whppt-select__menu">
+      <div v-if="showSelectItems" class="whppt-select__menu" :class="`whppt-select__menu--${direction}`">
         <ul role="listbox">
           <li v-if="placeholder" class="default" role="option" @click="updateValue(undefined, undefined)">
             {{ placeholder }}
@@ -99,14 +99,15 @@ export default {
       type: Boolean,
       default: false,
     },
+    direction: {
+      type: String,
+      default: 'down',
+      validator: value => ['up', 'down'].includes(value),
+    },
   },
   data: () => ({
     showSelectItems: false,
-    selectedItem: undefined,
   }),
-  created() {
-    this.setSelectedItem();
-  },
   methods: {
     setValueProp(item) {
       if (typeof item === 'string' || typeof item === 'number') return item;
@@ -115,13 +116,6 @@ export default {
     setTextProp(item) {
       if (typeof item === 'string' || typeof item === 'number') return item;
       return item[this.itemText];
-    },
-    setSelectedItem(value) {
-      // if (typeof this.value === 'string' || typeof this.value === 'number') return this.value;
-
-      this.selectedItem = find(this.items, item => {
-        return item[this.itemValue] === (value || this.value);
-      });
     },
     onInput(value) {
       const returnValue = this.returnObject ? find(this.items, i => i[this.itemValue] === value) : value;
@@ -137,7 +131,6 @@ export default {
       if (this.showSelectItems) this.showSelectItems = false;
       this.onInput(value);
       this.onChange(value);
-      this.setSelectedItem(value);
     },
   },
 };
@@ -152,8 +145,6 @@ $gray-900: #1a202c;
 
 .whppt-select {
   position: relative;
-  /* Probably should apply padding on outside of component */
-  // margin-bottom: 0.5rem;
 
   label {
     text-transform: uppercase;
@@ -209,11 +200,18 @@ $gray-900: #1a202c;
   }
 
   &__menu {
-    top: 0;
     left: 0;
     z-index: 1;
     position: absolute;
     width: 100%;
+
+    &--up {
+      bottom: 0;
+    }
+
+    &--down {
+      top: 0;
+    }
 
     ul {
       border: 1px solid $gray-500;

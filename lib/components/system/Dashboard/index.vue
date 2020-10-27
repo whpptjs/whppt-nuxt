@@ -14,30 +14,34 @@
       </ul>
     </whppt-drawer>
     <div class="whppt-dashboard__content">
-      <component :is="selectedDashboard" v-if="selectedDashboard" />
+      <component :is="selectedDashboard" v-if="selectedDashboard" @closed="$emit('closed')" />
     </div>
   </div>
 </template>
 
 <script>
 import WhpptDrawer from '../../ui/Drawer';
-import General from './General';
+// import General from './General';
 
 const { additionalComponents, additionalTabs } = global.$whppt.getAdditionalComponents('dashboard');
 
 export default {
-  name: 'WhpptSiteSettings',
+  name: 'WhpptDashboard',
   components: {
     ...additionalComponents,
     WhpptDrawer,
   },
   data: () => ({
-    selectedDashboard: 'general',
+    selectedDashboard: undefined,
   }),
   computed: {
     tabs() {
-      return [{ name: 'general', label: 'General', component: General }, ...additionalTabs];
+      // { name: 'general', label: 'General', component: General }
+      return [...additionalTabs];
     },
+  },
+  mounted() {
+    if (!this.selectedDashboard) this.selectedDashboard = this.tabs[0].name;
   },
   methods: {
     setSelectedDashboard(tab) {

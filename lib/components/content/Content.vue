@@ -35,6 +35,9 @@ export default {
     ...mapState('whppt-nuxt/page', ['page']),
     ...mapState('whppt-nuxt/editor', ['activeMenuItem', 'editSidebar']),
     initContentItems() {
+      // TODO: work out why this.page.pageType would ever be an object and if it ever is, should we allow that?
+      if (this.page && this.page.pageType && typeof this.page.pageType === 'object') return;
+
       const plugin = find(this.$whppt.plugins, p => (p.pageType && p.pageType.name) === this.page.pageType);
 
       const component = keyBy({ ...this.$whppt.components, ...plugin.pageType.components }, c => c.componentType);
