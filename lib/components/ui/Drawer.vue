@@ -63,6 +63,8 @@ $gray-900: #1a202c;
 
   &--active {
     width: 480px;
+    flex-grow: 0;
+    flex-shrink: 0;
     transition: width 0.3s ease;
   }
 
