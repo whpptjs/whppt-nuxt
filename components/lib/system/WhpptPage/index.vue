@@ -101,7 +101,6 @@ export default {
               return vm.$router.push(`/${slug}` || '/');
             })
             .catch(err => {
-              console.log('saveNewPage -> err', err);
               this.$toast.global.editorError(err.message);
             });
         }
