@@ -1,142 +1,134 @@
 <template>
-  <form @submit.prevent>
-    <fieldset>
-      <div class="whppt-flex-between whppt-align-center">
-        <label>New Redirect</label>
-        <button class="whppt-settings__button" style="display: flex" @click="addRedirect">
-          Add Redirect
-        </button>
-      </div>
-      <div class="whppt-flex-between">
-        <div class="whppt-settings__left-column">
-          <whppt-text-input
-            v-model="newRedirect.from"
-            placeholder="From page (eg. page)"
-            label="From"
-            label-colour="black"
-            info="When visiting this Page, users will be sent to the To Page instead."
-          />
+  <div class="whppt-redirects">
+    <whppt-card>
+      <form @submit.prevent>
+        <div class="whppt-redirects__form">
+          <div class="whppt-redirects__inputs">
+            <whppt-text-input
+              :id="`${$options._scopeId}-settings-redirects-from`"
+              v-model="newRedirect.from"
+              placeholder="From page (eg. my-page)"
+              label="From"
+              info="When visiting this page, users will be sent to the To page instead."
+            />
+            <whppt-spacer :width="2"></whppt-spacer>
+            <whppt-text-input
+              :id="`${$options._scopeId}-settings-redirects-to`"
+              v-model="newRedirect.to"
+              placeholder="To page (eg. another-page)"
+              label="To"
+              info="Users will be sent to this Page when visiting the From Page"
+            />
+          </div>
+          <div class="whppt-redirects__actions">
+            <whppt-button @click="addRedirect">
+              Add Redirect
+            </whppt-button>
+          </div>
         </div>
-        <div class="whppt-settings__right-column">
-          <whppt-text-input
-            v-model="newRedirect.to"
-            placeholder="To page (eg. page/item)"
-            label="To"
-            label-colour="black"
-            info="Users will be sent to this Page when visiting the From Page"
-          />
-        </div>
-      </div>
+      </form>
+    </whppt-card>
+    <whppt-card>
+      <whppt-table
+        dense
+        :items="items"
+        :headers="headers"
+        :page.sync="currentPage"
+        :per-page.sync="limit"
+        :total="total"
+        @update:page="loadRedirects"
+        @update:perPage="loadRedirects"
+      >
+        <template v-slot:item.to="{ item }">
+          <a target="_blank" class="whppt-link" :href="item.to.startsWith('/') ? item.to : `/${item.to}`">
+            {{ item.to }}
+          </a>
+        </template>
+        <template v-slot:item.actions="{ item }">
+          <a @click="!item.published ? publish(item) : unpublishRedirect(item)">{{
+            !item.published ? 'Publish' : 'Unpublish'
+          }}</a>
 
-      <div class="whppt-flex-between whppt-align-center" style="padding-top: 1rem;">
-        <label style="font-size: 1.25rem">Saved Redirects</label>
-        <div class="whppt-flex-start whppt-align-center">
-          <div
-            v-for="index in pages"
-            :key="`page-${index}`"
-            class="whppt-redirects__page"
-            :class="index === currentPage + 1 ? 'whppt-redirects__page-selected' : ''"
-            style="display: flex"
-            @click="swapPage(index - 1)"
-          >
-            {{ index }}
-          </div>
-        </div>
-      </div>
-      <div v-for="(redirect, index) in slicedRedirects" :key="index">
-        <div class="whppt-flex-between whppt-align-center">
-          <div class="whppt-redirects__left-column">
-            <whppt-text-input v-model="redirect.from" placeholder="From Page" label="From" label-colour="black" />
-          </div>
-          <div class="whppt-redirects__middle-column">
-            <whppt-text-input v-model="redirect.to" placeholder="To Page" label="To" label-colour="black" />
-          </div>
-          <div class="whppt-redirects__actions-column">
-            <div class="whppt-settings__tooltip whppt-redirects__icon" @click="save(redirect)">
-              <span class="whppt-settings__tooltip-text">Save</span>
-              <w-save></w-save>
-            </div>
-            <div v-if="publishing" class="whppt-settings__tooltip whppt-redirects__icon" @click="publish(redirect)">
-              <span class="whppt-settings__tooltip-text">Publish</span>
-              <w-publish></w-publish>
-            </div>
-            <div
-              v-if="publishing"
-              class="whppt-settings__tooltip whppt-redirects__icon"
-              @click="unpublishRedirect(redirect)"
-            >
-              <span class="whppt-settings__tooltip-text">Unpublish</span>
-              <w-close></w-close>
-            </div>
-            <div class="whppt-settings__tooltip whppt-redirects__icon" @click="deleteRedirect(redirect)">
-              <span class="whppt-settings__tooltip-text">Delete</span>
-              <w-remove></w-remove>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div v-if="!redirects || !redirects.length">There are currently no redirects</div>
-    </fieldset>
-  </form>
+          <a v-if="!item.published" @click="deleteRedirect(item)">- Delete</a>
+        </template>
+      </whppt-table>
+    </whppt-card>
+  </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
+import { map } from 'lodash';
+import dayjs from 'dayjs';
 import slugify from 'slugify';
-
-import { remove } from 'lodash';
 import WhpptTextInput from '../../../ui/Input';
+import WhpptTable from '../../../ui/Table';
+import WhpptCard from '../../../ui/Card';
+import WhpptSpacer from '../../../ui/Spacer';
+import WhpptButton from '../../../ui/Button';
 
 export default {
   name: 'SettingsRedirects',
-  components: { WhpptTextInput },
+  components: { WhpptTextInput, WhpptTable, WhpptCard, WhpptButton, WhpptSpacer },
   data: () => ({
     redirects: [],
-    slicedRedirects: [],
     newRedirect: { from: '', to: '' },
     errorMessage: '',
-    pages: 0,
-    currentPage: 0,
-    limit: 4,
+    currentPage: 1,
+    limit: 5,
+    total: 0,
   }),
   computed: {
     ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
     publishing() {
       return !this.$whppt.disablePublishing;
     },
+    items() {
+      return map(this.redirects, redirect => ({
+        _id: redirect._id,
+        from: redirect.from,
+        to: redirect.to,
+        lastmod: redirect.updatedAt ? dayjs(redirect.updatedAt).format('DD MMM YYYY') : '–',
+        createdAt: redirect.createdAt ? dayjs(redirect.createdAt).format('DD MMM YYYY') : '–',
+        published: redirect.published || false,
+        publishedAt: redirect.lastPublished ? dayjs(redirect.lastPublished).format('DD MMM YYYY') : '–',
+        actions: {},
+      }));
+    },
+    headers() {
+      return [
+        { text: 'From', align: 'start', value: 'from' },
+        { text: 'To', align: 'start', value: 'to' },
+        { text: 'Last Modified', align: 'start', value: 'lastmod' },
+        { text: 'Created At', align: 'start', value: 'createdAt' },
+        { text: 'Published', align: 'start', value: 'published' },
+        { text: 'Published At', align: 'start', value: 'publishedAt' },
+        { text: 'Actions', align: 'start', value: 'actions' },
+      ];
+    },
   },
   mounted() {
     this.loadRedirects();
   },
   methods: {
-    isPublished(redirect) {
-      return redirect.published;
-    },
-    sliceRedirects() {
-      this.pages = Math.ceil(this.redirects.length / this.limit);
-
-      if (this.currentPage >= this.pages) this.currentPage = this.pages - 1;
-
-      this.slicedRedirects = this.redirects.slice(
-        this.currentPage * this.limit,
-        this.currentPage * this.limit + this.limit
-      );
-    },
     loadRedirects() {
-      const vm = this;
-      return this.$api.get(`/siteSettings/loadRedirects`).then(({ data: redirects }) => {
-        if (!redirects || !redirects.length) return;
-        vm.redirects = redirects;
-        vm.sliceRedirects();
-      });
+      const params = { page: this.currentPage, size: this.limit };
+
+      return this.$axios
+        .$get(`${this.$whppt.apiPrefix}/siteSettings/loadRedirects`, { params })
+        .then(({ redirects, total }) => {
+          this.redirects = redirects;
+          this.total = total;
+        });
     },
     deleteRedirect(redirect) {
       if (redirect.published) return this.$toast.global.editorError('Redirect has to be unpublished first');
-      const vm = this;
-      return this.$api.post(`/siteSettings/deleteRedirect`, { _id: redirect._id }).then(() => {
-        vm.redirects = remove(vm.redirects, r => r._id !== redirect._id);
-        vm.sliceRedirects();
-      });
+
+      return this.$axios
+        .post(`${this.$whppt.apiPrefix}/siteSettings/deleteRedirect`, { _id: redirect._id })
+        .then(() => {
+          this.loadRedirects();
+        });
     },
     addRedirect() {
       this.newRedirect.to = this.formatSlug(this.newRedirect.to);
@@ -194,73 +186,52 @@ export default {
       if (redirect.to === redirect.from) return this.$toast.global.editorError('To and From must be different');
       if (!redirect.to.startsWith('/')) redirect.to = `/${redirect.to}`;
       if (!redirect.from.startsWith('/')) redirect.from = `/${redirect.from}`;
-      return this.$api
-        .post(`/siteSettings/checkDuplicatePublishedRedirect`, { redirect })
-        .then(({ data: alreadyExists }) => {
+
+      return this.$axios
+        .$post(`${this.$whppt.apiPrefix}/siteSettings/checkDuplicatePublishedRedirect`, { redirect })
+        .then(alreadyExists => {
           if (alreadyExists) return vm.$toast.global.editorError('Redirect already exists');
           return vm.$api.post(`/siteSettings/publishRedirect`, { redirect }).then(() => {
-            redirect.published = true;
             vm.$toast.global.editorSuccess('Redirect Published');
+            this.loadRedirects();
           });
         });
     },
     unpublishRedirect(redirect) {
       if (!redirect.published) return this.$toast.global.editorError("Redirect isn't published");
-      const vm = this;
-      return vm.$api.post(`/siteSettings/unpublishRedirect`, { _id: redirect._id }).then(() => {
-        redirect.published = false;
-        vm.$toast.global.editorSuccess('Redirect Unpublished');
-      });
-    },
-    swapPage(newPage) {
-      this.currentPage = newPage;
-      this.sliceRedirects();
+
+      return this.$axios
+        .$post(`${this.$whppt.apiPrefix}/siteSettings/unpublishRedirect`, { _id: redirect._id })
+        .then(() => {
+          this.$toast.global.editorSuccess('Redirect Unpublished');
+          this.loadRedirects();
+        });
     },
   },
 };
 </script>
 
-<style>
-.whppt-redirects__actions-column {
-  width: 20%;
-  padding-top: 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+<style lang="scss" scoped>
+$primary-600: #5a67d8;
+
+.whppt-redirects__form {
+  .whppt-redirects__inputs {
+    display: flex;
+  }
+  .whppt-redirects__actions {
+    display: flex;
+    margin-top: 1rem;
+
+    button:first-of-type {
+      margin-left: auto;
+    }
+  }
 }
 
-.whppt-redirects__page {
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  margin: 0 0.5rem;
-  border: 1px solid #981a31;
-}
-
-.whppt-redirects__page-selected {
-  color: white;
-  background: #981a31;
-}
-
-.whppt-redirects__left-column {
-  width: 40%;
-  padding-right: 1rem;
-}
-
-.whppt-redirects__middle-column {
-  width: 40%;
-  padding: 0 1rem;
-}
-
-.whppt-redirects__icon {
-  cursor: pointer;
-  border-radius: 50%;
-  padding: 5px;
-  height: 30px;
-  width: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #981a31;
+.whppt-link {
+  &:hover {
+    text-decoration: underline;
+    color: $primary-600;
+  }
 }
 </style>

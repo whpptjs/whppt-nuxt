@@ -37,9 +37,9 @@
           </tfoot>
         </slot>
         <tbody>
-          <tr v-for="(item, index) in items" :key="index">
+          <tr v-for="(item, index) in internalItems" :key="index">
             <td v-for="(prop, key) in item" :key="key">
-              <slot :name="`item.${key}`" :item="item">
+              <slot :name="`item.${key}`" :item="items[index]">
                 {{ prop }}
               </slot>
             </td>
@@ -51,6 +51,7 @@
 </template>
 
 <script>
+import { map } from 'lodash';
 import WhpptPagination from './Pagination';
 
 export default {
@@ -94,6 +95,21 @@ export default {
     total: {
       type: Number,
       default: undefined,
+    },
+  },
+  computed: {
+    internalItems() {
+      const headers = map(this.headers, h => h.value);
+
+      return map(this.items, i => {
+        const item = {};
+
+        for (const header of headers) {
+          item[header] = i[header];
+        }
+
+        return item;
+      });
     },
   },
 };
