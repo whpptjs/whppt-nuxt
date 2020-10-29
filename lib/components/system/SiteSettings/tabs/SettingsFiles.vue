@@ -1,108 +1,75 @@
 <template>
-  <form @submit.prevent>
-    <fieldset>
-      <div style="display:flex; justify-content: space-between;">
-        <div style="font-weight: bold; margin-right:40px;">Files</div>
-        <button
-          v-if="!itemToBeRemoved"
-          class="whppt-settings__button"
-          style="display: flex"
-          @click="openEditor = !openEditor"
-        >
-          {{ openEditor ? 'Back' : `Add File` }}
-        </button>
-        <button
-          v-if="itemToBeRemoved"
-          class="whppt-settings__button"
-          style="display: flex"
-          @click="itemToBeRemoved = undefined"
-        >
-          Close
-        </button>
-      </div>
-      <div class="whppt-flex-start whppt-align-center">
-        <div
-          v-for="index in pagesArray"
-          :key="`page-${index}`"
-          class="whppt-redirects__page"
-          :class="index === currentPage ? 'whppt-redirects__page-selected' : ''"
-          style="display: flex"
-          @click="changePage(index)"
-        >
-          {{ index }}
-        </div>
-      </div>
-      <div v-if="!itemToBeRemoved">
-        <table v-if="!openEditor || !loading" class="table-width">
-          <thead>
-            <tr>
-              <th class="text-left">Name</th>
-              <th class="text-left">Description</th>
-              <th class="text-left">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(_file, index) in files" :key="index">
-              <td class="mr-2">
-                <label>
-                  <input v-model="_file.name" type="text" class="whppt-table__input" placeholder="–" />
-                </label>
-              </td>
-              <td class="mr-2">
-                <label>
-                  <input v-model="_file.description" type="text" class="whppt-table__input" placeholder="–" />
-                </label>
-              </td>
-              <td>
-                <div class="inline-block">
-                  <a class="whppt-settings__tooltip" target="_blank" :href="getUrl(_file)">
-                    <span class="whppt-settings__tooltip-text">View</span>
-                    <external-link />
-                  </a>
-                </div>
-                <button class="whppt-settings__tooltip" @click="copyUrl(_file)">
-                  <span class="whppt-settings__tooltip-text">Copy Url</span>
-                  <link-icon />
-                </button>
-                <button class="whppt-settings__tooltip" @click="saveFileDetails(_file)">
-                  <span class="whppt-settings__tooltip-text">Save</span>
-
-                  <save />
-                </button>
-                <button class="whppt-settings__tooltip" @click="itemToBeRemoved = _file">
-                  <span class="whppt-settings__tooltip-text">Remove</span>
-
-                  <remove />
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-        <div v-if="loading" style="margin-top: 30px;">
-          Loading...
-        </div>
-        <div v-if="openEditor" style="margin-top: 30px;">
-          <whppt-text-input v-model="file.description" placeholder="File description" class="whppt-full" />
-          <button class="whppt-settings__button" @click="$refs.fileInput.click()">
-            <input ref="fileInput" type="file" style="display: none;" @input="upload" />
-            <span>{{ file.formData ? file.formData.name : `Select File` }}</span>
-          </button>
-          <div>
-            <button class="whppt-settings__button" style="margin-top:30px;" @click="save">
-              <span>Save</span>
-            </button>
+  <div>
+    <whppt-card>
+      <form @submit.prevent>
+        <fieldset>
+          <whppt-button
+            v-if="!itemToBeRemoved"
+            class="whppt-settings__button"
+            style="display: flex"
+            @click="openEditor = !openEditor"
+          >
+            {{ openEditor ? 'Back' : `Add File` }}
+          </whppt-button>
+          <whppt-button
+            v-if="itemToBeRemoved"
+            class="whppt-settings__button"
+            style="display: flex"
+            @click="itemToBeRemoved = undefined"
+          >
+            Close
+          </whppt-button>
+          <div v-if="!itemToBeRemoved">
+            <div v-if="openEditor" style="margin-top: 30px;">
+              <whppt-text-input
+                :id="`${$options._scopeId}-settings-files-description`"
+                v-model="file.description"
+                label="File description"
+                placeholder="Enter File Description"
+                class="whppt-full"
+              />
+              <whppt-button class="whppt-settings__button" @click="$refs.fileInput.click()">
+                <input ref="fileInput" type="file" style="display: none;" @input="upload" />
+                <span>{{ file.formData ? file.formData.name : `Select File` }}</span>
+              </whppt-button>
+              <whppt-button @click="save">Upload</whppt-button>
+            </div>
           </div>
-        </div>
-      </div>
-      <div v-if="itemToBeRemoved">
-        Are you sure you want to delete this item?
-        <button class="whppt-settings__button" style="display: flex" @click="remove">
-          Confirm
-        </button>
-      </div>
-    </fieldset>
-  </form>
+        </fieldset>
+      </form>
+    </whppt-card>
+    <whppt-card>
+      <whppt-table
+        dense
+        :items="files"
+        :headers="headers"
+        :page.sync="currentPage"
+        :per-page.sync="limit"
+        :total="total"
+      >
+        <template v-slot:item.actions="{ item }">
+          <a target="_blank" :href="getUrl(item)">
+            <external-link />
+          </a>
+          <button @click="copyUrl(item)">
+            <link-icon />
+          </button>
+          <button @click="saveFileDetails(item)">
+            <save />
+          </button>
+          <button @click="itemToBeRemoved = item">
+            <remove />
+          </button>
+        </template>
+      </whppt-table>
+    </whppt-card>
+    <div v-if="itemToBeRemoved">
+      Are you sure you want to delete this item?
+      <button class="whppt-settings__button" style="display: flex" @click="remove">
+        Confirm
+      </button>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -110,6 +77,9 @@ import { mapState } from 'vuex';
 import { ceil } from 'lodash';
 import { VTooltip } from 'v-tooltip';
 import WhpptTextInput from '../../../ui/Input';
+import WhpptTable from '../../../ui/Table';
+import WhpptCard from '../../../ui/Card';
+import WhpptButton from '../../../ui/Button';
 import Save from '../../../icons/Save';
 import LinkIcon from '../../../icons/ChainLink';
 import Remove from '../../../icons/Trash';
@@ -122,6 +92,9 @@ export default {
   },
   components: {
     WhpptTextInput,
+    WhpptTable,
+    WhpptCard,
+    WhpptButton,
     Save,
     Remove,
     LinkIcon,
@@ -137,17 +110,17 @@ export default {
       openEditor: false,
       itemToBeRemoved: false,
       file: { description: undefined, formData: undefined },
+      total: 0,
     };
   },
   computed: {
     ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
-    pagesArray() {
-      const length = [];
-      for (let i = 1; i <= this.pages; i++) {
-        length.push(i);
-      }
-
-      return length;
+    headers() {
+      return [
+        { text: 'Name', align: 'start', value: 'name' },
+        { text: 'Description', align: 'start', value: 'description' },
+        { text: 'Actions', align: 'start', value: 'actions' },
+      ];
     },
   },
   mounted() {
@@ -155,10 +128,6 @@ export default {
     return this.loadFiles().then(() => (this.loading = false));
   },
   methods: {
-    changePage(value) {
-      this.currentPage = value;
-      this.loadFiles();
-    },
     getUrl(file) {
       const baseUrl = window.location.origin;
       return encodeURI(`${baseUrl}/file/${file._id}/${file.name}`);
@@ -173,12 +142,10 @@ export default {
       document.execCommand('copy');
       document.body.removeChild(el);
     },
-
     remove() {
-      const vm = this;
       return this.$api.post(`/file/removeFile`, { _id: this.itemToBeRemoved._id }).then(() => {
-        vm.itemToBeRemoved = undefined;
-        vm.loadFiles();
+        this.itemToBeRemoved = undefined;
+        this.loadFiles();
       });
     },
     upload(e) {
