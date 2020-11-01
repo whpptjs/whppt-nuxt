@@ -50,7 +50,7 @@ export default {
         { name: 'open-graph', label: 'Open Graph' },
         { name: 'twitter', label: 'Twitter' },
         { name: 's-e-o', label: 'SEO' },
-        { name: 'emailer', label: 'Email (SMTP)' },
+        // { name: 'emailer', label: 'Email (SMTP)' },
         { name: 'redirects', label: 'Redirects' },
         { name: 'files', label: 'Files' },
         ...additionalTabs,

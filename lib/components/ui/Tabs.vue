@@ -82,6 +82,8 @@ $gray-900: #1a202c;
   box-shadow: inset 0 -1px 0 $gray-200;
   background-color: white;
   border-radius: 0.25rem 0.25rem 0 0;
+  list-style: none;
+  padding: 0;
 
   &--dark {
     background-color: $gray-900;

@@ -67,6 +67,7 @@ $gray-900: #1a202c;
 
 .whppt-datepicker {
   position: relative;
+  width: 100%;
 
   label {
     text-transform: uppercase;

@@ -9,33 +9,29 @@
     </whppt-card>
     <whppt-card>
       <form class="whppt-page-setting__page-type-form" @submit.prevent>
-        <fieldset>
-          <whppt-select
-            id="page-settings-page-type-select"
-            label="Page Type"
-            item-text="label"
-            item-value="name"
-            :items="pageTypes"
-            :value="newPage.pageTypeObj"
-            return-object
-            placeholder="Select a page type"
-            @input="setPageTypeObj"
-          />
-          <whppt-select
-            v-if="newPage.pageTypeObj && newPage.pageTypeObj && newPage.pageTypeObj.templates.length > 1"
-            :id="`${$options._scopeId}-template`"
-            :value="newPage.template"
-            :items="newPage.pageTypeObj.templates"
-            item-text="label"
-            item-value="key"
-            return-object
-            label="template"
-            @input="setPageTemplate"
-          ></whppt-select>
-        </fieldset>
-        <fieldset v-if="newPage.pageTypeObj">
-          <component :is="newPage.pageTypeObj.name" :page="newPage" />
-        </fieldset>
+        <whppt-select
+          id="page-settings-page-type-select"
+          label="Page Type"
+          item-text="label"
+          item-value="name"
+          :items="pageTypes"
+          :value="newPage.pageTypeObj"
+          return-object
+          placeholder="Select a page type"
+          @input="setPageTypeObj"
+        />
+        <whppt-select
+          v-if="newPage.pageTypeObj && newPage.pageTypeObj && newPage.pageTypeObj.templates.length > 1"
+          :id="`${$options._scopeId}-template`"
+          :value="newPage.template"
+          :items="newPage.pageTypeObj.templates"
+          item-text="label"
+          item-value="key"
+          return-object
+          label="template"
+          @input="setPageTemplate"
+        ></whppt-select>
+        <component :is="newPage.pageTypeObj.name" v-if="newPage.pageTypeObj" :page="newPage" />
         <whppt-button @click="changePageType">Change Page Type</whppt-button>
       </form>
     </whppt-card>

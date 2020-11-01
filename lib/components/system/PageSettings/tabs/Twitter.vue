@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import SettingsTwitter from '../../SiteSettings/tabs/SettingsTwitter';
+import SettingsTwitter from '../../SiteSettings/sharedTabs/Twitter';
 import WhpptCard from '../../../ui/Card';
 import WhpptButton from '../../../ui/Button';
 import pageSettingsMixin from '../../../../util/mixins/pageSettings';
