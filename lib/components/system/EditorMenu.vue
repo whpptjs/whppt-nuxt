@@ -142,7 +142,8 @@ export default {
       ];
     },
     userCanEdit() {
-      return this.authUser && this.authUser.roles.editor;
+      // && this.authUser.roles.editor
+      return this.authUser;
     },
   },
   created() {
