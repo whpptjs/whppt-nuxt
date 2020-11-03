@@ -13,7 +13,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import { orderBy, find } from 'lodash';
+import { orderBy, find, filter, includes } from 'lodash';
 import WhpptButton from '../ui/Button';
 
 export default {
@@ -26,7 +26,16 @@ export default {
       if (!this.selectedComponent) return;
 
       const plugin = find(this.$whppt.plugins, p => (p.pageType && p.pageType.name) === this.page.pageType);
-      const components = [...this.$whppt.components, ...plugin.pageType.components];
+      let components = [...this.$whppt.components, ...plugin.pageType.components];
+
+      const whitelist = this.selectedComponent.whitelist;
+      const blacklist = this.selectedComponent.blacklist;
+
+      if (whitelist.length) {
+        components = filter(components, c => includes(whitelist, c.key));
+      } else if (blacklist.length) {
+        components = filter(components, c => !includes(blacklist, c.key));
+      }
 
       return orderBy(components, ['key']);
     },

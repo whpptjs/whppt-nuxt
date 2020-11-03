@@ -1,5 +1,11 @@
 <template>
-  <div v-whppt-content="contentItems" class="whppt-contents" :class="{ 'whppt-contents--active': activeMenuItem }">
+  <div
+    v-whppt-content="contentItems"
+    :whitelist="whitelist"
+    :blacklist="blacklist"
+    class="whppt-contents"
+    :class="{ 'whppt-contents--active': activeMenuItem }"
+  >
     <div v-for="(content, index) in initContentItems" :key="`${content.key}-${index}`" class="whppt-content">
       <div v-if="activeMenuItem && !editSidebar" class="whppt-content__container container">
         <whppt-button v-whppt-spacing="content" class="whppt-contents__spacing-button">
@@ -29,6 +35,14 @@ export default {
     container: {
       type: Boolean,
       default: () => true,
+    },
+    whitelist: {
+      type: Array,
+      default: () => [],
+    },
+    blacklist: {
+      type: Array,
+      default: () => [],
     },
   },
   computed: {
