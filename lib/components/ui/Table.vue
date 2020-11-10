@@ -5,7 +5,7 @@
       :style="height ? `height: ${typeof height === 'number' ? `${height}px` : height};` : ''"
     >
       <table>
-        <slot name="headers" :headers="headers">
+        <slot v-if="!hideHeaders" name="headers" :headers="headers">
           <thead :class="{ 'whppt-table__headers--fixed': fixedHeader && height }">
             <tr>
               <th
@@ -18,7 +18,7 @@
             </tr>
           </thead>
         </slot>
-        <slot name="footer">
+        <slot v-if="!hideFooter" name="footer">
           <tfoot class="whppt-table__footer">
             <tr>
               <td :colspan="headers && headers.length">
@@ -41,6 +41,13 @@
             <td v-for="(prop, key) in item" :key="key">
               <slot :name="`item.${key}`" :item="items[index]">
                 {{ prop }}
+              </slot>
+            </td>
+          </tr>
+          <tr v-if="!items || !items.length" class="whppt-table--no-data">
+            <td :colspan="headers.length">
+              <slot name="no-data">
+                No results found
               </slot>
             </td>
           </tr>
@@ -95,6 +102,14 @@ export default {
     total: {
       type: Number,
       default: undefined,
+    },
+    hideHeaders: {
+      type: Boolean,
+      default: false,
+    },
+    hideFooter: {
+      type: Boolean,
+      default: false,
     },
   },
   computed: {
@@ -247,6 +262,13 @@ $gray-900: #1a202c;
       tbody td {
         padding: 0.5rem 0.75rem;
       }
+    }
+  }
+
+  &--no-data {
+    td {
+      padding: 2rem;
+      text-align: center;
     }
   }
 }

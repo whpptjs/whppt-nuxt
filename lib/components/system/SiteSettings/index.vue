@@ -20,7 +20,6 @@ import Twitter from './tabs/SettingsTwitter';
 import OpenGraph from './tabs/SettingsOG';
 import General from './tabs/SettingsGeneral';
 import Files from './tabs/SettingsFiles';
-import Emailer from './tabs/SettingsEmail';
 
 const { additionalTabs, additionalComponents } = global.$whppt.getAdditionalComponents('siteSettings');
 
@@ -37,7 +36,6 @@ export default {
     WhpptButton,
     WhpptTabs,
     WhpptTab,
-    Emailer,
   },
   data: () => ({
     siteSettings: { og: { image: { imageId: '', crop: {} } }, twitter: { image: { imageId: '', crop: {} } } },
@@ -50,7 +48,6 @@ export default {
         { name: 'open-graph', label: 'Open Graph' },
         { name: 'twitter', label: 'Twitter' },
         { name: 's-e-o', label: 'SEO' },
-        { name: 'emailer', label: 'Email (SMTP)' },
         { name: 'redirects', label: 'Redirects' },
         { name: 'files', label: 'Files' },
         ...additionalTabs,

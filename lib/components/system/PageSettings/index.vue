@@ -24,6 +24,7 @@ import SEO from './tabs/SEO';
 import Twitter from './tabs/Twitter';
 import OpenGraph from './tabs/OpenGraph';
 import General from './tabs/General';
+import Roles from './tabs/Roles';
 
 const { additionalTabs, additionalComponents } = global.$whppt.getAdditionalComponents('pageSettings');
 
@@ -35,6 +36,7 @@ export default {
     General,
     Twitter,
     OpenGraph,
+    Roles,
     WhpptTabs,
     WhpptTab,
     WhpptButton,
@@ -59,6 +61,7 @@ export default {
         { name: 's-e-o', label: 'Seo' },
         { name: 'open-graph', label: 'Open Graph' },
         { name: 'twitter', label: 'Twitter' },
+        { name: 'roles', label: 'Roles' },
         ...conditionalTabs,
       ];
     },
