@@ -5,6 +5,18 @@
     <form class="whppt-page__form" @submit.prevent>
       <whppt-field>
         <whppt-select
+          id="domain"
+          v-model="pageForm.domainId"
+          :items="domains"
+          item-text="name"
+          item-value="_id"
+          label="Domain"
+          placeholder="Select a domain"
+        />
+      </whppt-field>
+
+      <whppt-field>
+        <whppt-select
           id="pageType"
           v-model="pageForm.pageType"
           :items="pageTypes"
@@ -81,6 +93,7 @@ export default {
   }),
   computed: {
     ...mapState('whppt-nuxt/page', ['page']),
+    ...mapState('whppt/config', ['domains']),
     pageTypes() {
       return map(pageTypePlugins, t => t.pageType);
     },

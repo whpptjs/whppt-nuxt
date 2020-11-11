@@ -120,6 +120,12 @@ export default {
           action: () => this.editInModal('publishSettings'),
         },
         {
+          key: 'config-settings',
+          label: 'Open Config Settings',
+          icon: 'w-globe',
+          action: () => this.editInModal('configSettings'),
+        },
+        {
           key: 'site-settings',
           label: 'Open Site Settings',
           icon: 'w-globe',

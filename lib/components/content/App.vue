@@ -46,6 +46,7 @@ import Close from '../icons/Close';
 export default {
   name: 'WhpptEditorApp',
   components: {
+    ConfigSettings: () => import('../system/Config/index'),
     SiteSettings: () => import('../system/SiteSettings/index'),
     PageSettings: () => import('../system/PageSettings/index'),
     Dashboard: () => import('../system/Dashboard/index'),
