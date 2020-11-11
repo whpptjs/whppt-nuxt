@@ -36,7 +36,6 @@
 import { startCase } from 'lodash';
 import { mapState, mapActions } from 'vuex';
 import EditorMenu from '../system/EditorMenu';
-import SlugSettings from '../system/SlugSettings';
 import PublishSettings from '../system/PublishSettings';
 import WhpptDialog from '../ui/Dialog';
 import WhpptButton from '../ui/Button';
@@ -54,7 +53,6 @@ export default {
     WhpptToolbar,
     WhpptButton,
     WhpptDialog,
-    SlugSettings,
     PublishSettings,
     Close,
   },

@@ -21,7 +21,8 @@
 
 <script>
 import WhpptDrawer from '../../ui/Drawer';
-// import General from './General';
+import General from './General';
+import Users from './Users';
 
 const { additionalComponents, additionalTabs } = global.$whppt.getAdditionalComponents('dashboard');
 
@@ -29,6 +30,8 @@ export default {
   name: 'WhpptDashboard',
   components: {
     ...additionalComponents,
+    General,
+    Users,
     WhpptDrawer,
   },
   data: () => ({
@@ -36,8 +39,11 @@ export default {
   }),
   computed: {
     tabs() {
-      // { name: 'general', label: 'General', component: General }
-      return [...additionalTabs];
+      return [
+        { name: 'general', label: 'General', component: General },
+        { name: 'users', label: 'Users', component: Users },
+        ...additionalTabs,
+      ];
     },
   },
   mounted() {
@@ -82,7 +88,6 @@ $gray-900: #1a202c;
 
       &--active {
         background-color: $gray-700;
-        border-bottom: 1px solid white;
       }
 
       &:hover {
