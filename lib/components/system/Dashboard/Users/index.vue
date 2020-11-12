@@ -11,26 +11,33 @@
         <whppt-button flat @click="manageRoles(item)">Manage Roles</whppt-button>
       </template>
     </whppt-table>
-    <whppt-dialog :is-active="false">
-      hello
-    </whppt-dialog>
+    <manage-roles
+      v-if="manageRolesVisible"
+      :active="manageRolesVisible"
+      :user="managingUser"
+      :roles="roles"
+      @closed="manageRolesVisible = false"
+    ></manage-roles>
   </div>
 </template>
 
 <script>
 import dayjs from 'dayjs';
-import WhpptTable from '../../ui/Table';
-import WhpptButton from '../../ui/Button';
-import WhpptDialog from '../../ui/Dialog';
+import WhpptTable from '../../../ui/Table';
+import WhpptButton from '../../../ui/Button';
+import ManageRoles from './ManageRoles';
 
 export default {
   name: 'GeneralDashboard',
-  components: { WhpptTable, WhpptButton, WhpptDialog },
+  components: { WhpptTable, WhpptButton, ManageRoles },
   data: () => ({
     users: [],
     page: 1,
     perPage: 10,
     total: 0,
+    roles: [],
+    manageRolesVisible: false,
+    managingUser: {},
   }),
   computed: {
     headers() {
@@ -45,6 +52,7 @@ export default {
   },
   mounted() {
     this.loadUsers();
+    this.loadRoles();
   },
   methods: {
     formatDate(date) {
@@ -53,16 +61,25 @@ export default {
     loadUsers() {
       this.$axios.$get(`${this.$whppt.apiPrefix}/user/list`).then(response => {
         this.total = response.total;
-        // map users to remove/format data
         this.users = response.users;
       });
     },
-    manageRoles(user) {},
+    loadRoles() {
+      this.$axios.$get(`${this.$whppt.apiPrefix}/roles/list`).then(response => {
+        this.roles = response.roles;
+      });
+    },
+    manageRoles(user) {
+      this.managingUser = user;
+      this.manageRolesVisible = true;
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+$primary-600: #5a67d8;
+
 .whppt-dashboard__users {
   padding: 2rem;
 }
