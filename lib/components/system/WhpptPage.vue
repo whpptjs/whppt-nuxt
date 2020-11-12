@@ -88,9 +88,6 @@ export default {
       return find(pageTypePlugins, plugin => plugin.pageType.name === this.pageForm.pageType.name);
     },
   },
-  mounted() {
-    if (this.page && this.page.pageType) this.pageForm.pageType = this.page.pageType;
-  },
   methods: {
     ...mapActions('whppt-nuxt/editor', ['closeSidebar']),
     ...mapActions('whppt-nuxt/page', ['checkSlug']),
