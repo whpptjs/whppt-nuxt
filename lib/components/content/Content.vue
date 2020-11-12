@@ -12,7 +12,12 @@
           Adjust Spacing
         </whppt-button>
       </div>
-      <component :is="content.componentType" :content="content" :class="spacingClasses(content)"></component>
+      <component
+        :is="content.componentType"
+        :content="content"
+        :class="spacingClasses(content)"
+        :container="container"
+      ></component>
     </div>
   </div>
 </template>
@@ -34,7 +39,7 @@ export default {
     },
     container: {
       type: Boolean,
-      default: () => true,
+      default: true,
     },
     whitelist: {
       type: Array,
