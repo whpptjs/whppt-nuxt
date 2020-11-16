@@ -13,7 +13,7 @@
         @change="$emit('change', $event.target.value)"
         @blur="$emit('blur', $event.target.value)"
       />
-      <button v-if="clearable && value" class="icon" @click.stop="$emit('input', undefined)">
+      <button v-if="clearable && value" class="icon" @click="$emit('input', '')">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="transform: rotate(360deg)">
           <path
             d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41z"
@@ -22,7 +22,13 @@
         </svg>
       </button>
     </div>
-    <p v-if="info" class="info">{{ info }}</p>
+    <span v-if="info" class="whppt-info">{{ info }}</span>
+    <span v-if="error && typeof error === 'string'" class="whppt-error">{{ error }}</span>
+    <div v-if="error && Array.isArray(error)">
+      <span v-for="(err, index) in error" :key="index" class="whppt-error">
+        {{ err }}<span v-if="index + 1 < error.length">, </span>
+      </span>
+    </div>
   </div>
 </template>
 
@@ -35,6 +41,7 @@ export default {
     type: { type: String, default: 'text' },
     label: { type: String, default: '' },
     info: { type: String, default: '' },
+    error: { type: [String, Array], default: '' },
     value: { type: [String, Number], default: '' },
     placeholder: { type: [String, Number], default: '' },
     dark: { type: Boolean, default: true },
@@ -50,6 +57,8 @@ $gray-700: #4a5568;
 $gray-800: #2d3748;
 $gray-900: #1a202c;
 
+$danger-600: #e53e3e;
+
 .whppt-input {
   position: relative;
   width: 100%;
@@ -62,10 +71,15 @@ $gray-900: #1a202c;
     font-size: 0.75rem;
   }
 
-  .info {
+  .whppt-info {
     font-size: 0.75rem;
     font-style: italic;
     color: $gray-500;
+  }
+
+  .whppt-error {
+    font-size: 0.75rem;
+    color: $danger-600;
   }
 
   .whppt-input__wrapper {
@@ -108,7 +122,6 @@ $gray-900: #1a202c;
         outline: none;
         color: black;
         background: $gray-500;
-        border: 1px solid transparent;
       }
 
       svg {

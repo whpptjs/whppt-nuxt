@@ -22,6 +22,7 @@
             selectedPageTypePlugin.pageType &&
             selectedPageTypePlugin.pageType.templates.length > 1
         "
+        :id="`${$options._scopeId}-whppt-page`"
         v-model="pageForm.template"
         :items="selectedPageTypePlugin.pageType.templates"
         item-text="label"

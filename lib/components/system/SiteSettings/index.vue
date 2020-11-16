@@ -20,6 +20,7 @@ import Twitter from './tabs/SettingsTwitter';
 import OpenGraph from './tabs/SettingsOG';
 import General from './tabs/SettingsGeneral';
 import Files from './tabs/SettingsFiles';
+import Roles from './tabs/Roles';
 
 const { additionalTabs, additionalComponents } = global.$whppt.getAdditionalComponents('siteSettings');
 
@@ -33,6 +34,7 @@ export default {
     OpenGraph,
     Twitter,
     Files,
+    Roles,
     WhpptButton,
     WhpptTabs,
     WhpptTab,
@@ -50,6 +52,7 @@ export default {
         { name: 's-e-o', label: 'SEO' },
         { name: 'redirects', label: 'Redirects' },
         { name: 'files', label: 'Files' },
+        { name: 'roles', label: 'Roles' },
         ...additionalTabs,
       ];
     },
