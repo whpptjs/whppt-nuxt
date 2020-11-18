@@ -1,7 +1,7 @@
 <template>
   <whppt-tabs position="fixed" @changed="tabChanged">
     <whppt-tab v-for="(tab, index) in tabs" :id="tab.name" :key="index" :name="tab.label">
-      <component :is="selectedTab" :settings="domainSettings" @closed="$emit('closed')" />
+      <component :is="selectedTab" :settings="configSettings" @closed="$emit('closed')" />
     </whppt-tab>
   </whppt-tabs>
 </template>
@@ -15,9 +15,12 @@ import WhpptButton from '../../ui/Button';
 
 import Domains from './tabs/Domains';
 
+const { additionalTabs, additionalComponents } = global.$whppt.getAdditionalComponents('configSettings');
+
 export default {
   name: 'WhpptConfigSettings',
   components: {
+    ...additionalComponents,
     Domains,
     WhpptTabs,
     WhpptTab,
@@ -25,13 +28,13 @@ export default {
   },
   props: { prefix: { type: String, default: '' } },
   data: () => ({
-    domainSettings: {},
+    configSettings: {},
     selectedTab: 'domains',
   }),
   computed: {
     ...mapState('whppt-nuxt/page', ['page']),
     tabs() {
-      return [{ name: 'domains', label: 'Domains' }];
+      return [{ name: 'domains', label: 'Domains' }, ...additionalTabs];
     },
   },
   mounted() {},

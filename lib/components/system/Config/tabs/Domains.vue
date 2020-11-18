@@ -35,12 +35,12 @@
           {{ item.hostnames.join(', ') }}
         </template>
         <template v-slot:item.actions="{ item }">
-          {{ domain._id === item._id ? 'ACTIVE' : 'INACTIVE' }}
+          {{ domain && domain._id === item._id ? 'ACTIVE' : 'INACTIVE' }}
           <div class="whppt-config__domains-actions">
             <button @click="swapDomain(item)">
               <check />
             </button>
-            <!-- <button @click="itemToBeRemoved = item">
+            <!-- <button @click="remove(item)">
               <remove />
             </button> -->
           </div>
@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapMutations } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 import WhpptInput from '../../../ui/Input';
 import WhpptTable from '../../../ui/Table';
@@ -89,8 +89,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('whppt/config', ['addNewDomain']),
-    ...mapMutations('whppt/config', ['DOMAIN_CHANGED']),
+    ...mapActions('whppt/config', ['addNewDomain', 'changeDomain']),
     addNew() {
       return this.addNewDomain({
         domain: { ...this.newDomain, hostnames: this.newDomain.hostnames.split(',') },
@@ -100,7 +99,7 @@ export default {
     },
     swapDomain(selectedDomain) {
       if (selectedDomain._id === this.domain._id) return;
-      this.DOMAIN_CHANGED({ domain: selectedDomain });
+      this.changeDomain({ domain: selectedDomain });
     },
   },
 };

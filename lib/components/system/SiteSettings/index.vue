@@ -8,7 +8,7 @@
 
 <script>
 import { map } from 'lodash';
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 
 import WhpptTabs from '../../ui/Tabs';
 import WhpptTab from '../../ui/Tab';
@@ -42,6 +42,7 @@ export default {
     selectedTab: 'general',
   }),
   computed: {
+    ...mapState('whppt/config', ['domain']),
     tabs() {
       return [
         { name: 'general', label: 'General' },
@@ -66,25 +67,27 @@ export default {
       this.selectedTab = this.tabs[index].name;
     },
     loadSiteSettings() {
-      return this.$api.get(`/siteSettings/loadSiteSettings`).then(({ data: siteSettings }) => {
-        siteSettings = siteSettings || { _id: 'siteSettings' };
-        siteSettings.og = siteSettings.og || {};
-        siteSettings.og.image =
-          siteSettings.og.image && siteSettings.og.image.imageId
-            ? siteSettings.og.image
-            : { imageId: '', crop: { desktop: {} } };
-        siteSettings.og.keywords = siteSettings.og.keywords || '';
-        siteSettings.og.title = siteSettings.og.title || '';
-        siteSettings.twitter = siteSettings.twitter || {};
-        siteSettings.twitter.image =
-          siteSettings.twitter.image && siteSettings.twitter.image.imageId
-            ? siteSettings.twitter.image
-            : { imageId: '', crop: { desktop: {} } };
-        siteSettings.twitter.keywords = siteSettings.twitter.keywords || '';
-        siteSettings.twitter.title = siteSettings.twitter.title || '';
+      return this.$api
+        .get(`/siteSettings/loadSiteSettings?domainId=${this.domain._id}`)
+        .then(({ data: siteSettings }) => {
+          siteSettings = siteSettings || { _id: 'siteSettings' };
+          siteSettings.og = siteSettings.og || {};
+          siteSettings.og.image =
+            siteSettings.og.image && siteSettings.og.image.imageId
+              ? siteSettings.og.image
+              : { imageId: '', crop: { desktop: {} } };
+          siteSettings.og.keywords = siteSettings.og.keywords || '';
+          siteSettings.og.title = siteSettings.og.title || '';
+          siteSettings.twitter = siteSettings.twitter || {};
+          siteSettings.twitter.image =
+            siteSettings.twitter.image && siteSettings.twitter.image.imageId
+              ? siteSettings.twitter.image
+              : { imageId: '', crop: { desktop: {} } };
+          siteSettings.twitter.keywords = siteSettings.twitter.keywords || '';
+          siteSettings.twitter.title = siteSettings.twitter.title || '';
 
-        this.siteSettings = siteSettings;
-      });
+          this.siteSettings = siteSettings;
+        });
     },
     saveSettings() {
       const formattedCategories = map(this.categories, category => {
