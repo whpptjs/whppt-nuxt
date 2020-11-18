@@ -59,7 +59,7 @@ $primary-600: #5a67d8;
     display: block;
     position: relative;
     cursor: pointer;
-    padding: 0.2rem 0 0.2rem 2rem;
+    padding: 0 0 0 1.5rem;
 
     input {
       position: absolute;

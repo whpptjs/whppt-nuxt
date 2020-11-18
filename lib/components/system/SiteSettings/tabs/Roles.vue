@@ -10,6 +10,7 @@
           placeholder="eg. Editor"
           :error="error"
         />
+        <whppt-checkbox v-model="role.admin" label="Is Admin Role" class="whppt-checkbox"></whppt-checkbox>
         <whppt-button @click="saveRole">Save</whppt-button>
       </form>
     </whppt-card>
@@ -24,6 +25,9 @@
         @update:page="loadRoles"
         @update:perPage="loadRoles"
       >
+        <template v-slot:item.admin="{ item }">
+          <whppt-checkbox v-model="item.admin" @change="saveRole(item)"></whppt-checkbox>
+        </template>
         <template v-slot:item.createdAt="{ item }">
           {{ formatDate(item.createdAt) }}
         </template>
@@ -79,6 +83,7 @@ import WhpptInput from '../../../ui/Input';
 import WhpptButton from '../../../ui/Button';
 import WhpptToolbar from '../../../ui/Toolbar';
 import WhpptDialog from '../../../ui/Dialog';
+import WhpptCheckbox from '../../../ui/Checkbox';
 
 export default {
   name: 'SettingsRoles',
@@ -89,6 +94,7 @@ export default {
     WhpptInput,
     WhpptButton,
     WhpptDialog,
+    WhpptCheckbox,
   },
   data: () => ({
     roles: [],
@@ -97,6 +103,7 @@ export default {
     total: 0,
     role: {
       name: '',
+      admin: false,
     },
     error: '',
     deleteRoleVisible: false,
@@ -106,6 +113,7 @@ export default {
     headers() {
       return [
         { text: 'Name', align: 'start', value: 'name' },
+        { text: 'Is Admin Role', align: 'start', value: 'admin' },
         { text: 'Created At', align: 'start', value: 'createdAt' },
         { text: 'Updated At', align: 'start', value: 'updatedAt' },
         { text: 'Actions', align: 'start', value: 'actions' },
@@ -124,15 +132,18 @@ export default {
           this.total = response.total;
         });
     },
-    saveRole() {
+    saveRole(role) {
       this.$axios
-        .$post(`${this.$whppt.apiPrefix}/roles/save`, { role: this.role })
+        .$post(`${this.$whppt.apiPrefix}/roles/save`, { role: role || this.role })
         .then(() => {
           this.error = '';
           this.role.name = '';
-          this.page = 1;
+          this.role.admin = false;
 
-          this.loadRoles();
+          if (!role) {
+            this.page = 1;
+            this.loadRoles();
+          }
         })
         .catch(err => {
           this.error = err.response.data.error.message || err.message;
@@ -167,6 +178,10 @@ export default {
   button {
     margin-top: 0.5rem;
     margin-left: auto;
+  }
+
+  .whppt-checkbox {
+    margin-top: 0.5rem;
   }
 }
 
