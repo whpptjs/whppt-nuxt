@@ -5,18 +5,6 @@
     <form class="whppt-page__form" @submit.prevent>
       <whppt-field>
         <whppt-select
-          id="domain"
-          v-model="pageForm.domainId"
-          :items="domains"
-          item-text="name"
-          item-value="_id"
-          label="Domain"
-          placeholder="Select a domain"
-        />
-      </whppt-field>
-
-      <whppt-field>
-        <whppt-select
           id="pageType"
           v-model="pageForm.pageType"
           :items="pageTypes"
@@ -93,7 +81,7 @@ export default {
   }),
   computed: {
     ...mapState('whppt-nuxt/page', ['page']),
-    ...mapState('whppt/config', ['domains']),
+    ...mapState('whppt/config', ['domain']),
     pageTypes() {
       return map(pageTypePlugins, t => t.pageType);
     },
@@ -119,9 +107,14 @@ export default {
         this.$toast.global.editorError(`Missing Fields: Page Type.`);
         return;
       }
+      if (!this.domain._id) {
+        this.$toast.global.editorError(`No domain found.`);
+        return;
+      }
 
       const newPage = {
         slug: this.formatSlug(vm.pageForm.slug),
+        domainId: this.domain._id,
         pageType: this.pageForm.pageType && this.pageForm.pageType.name,
         og: { title: '', keywords: '', image: { imageId: '', crop: {} } },
         twitter: { title: '', keywords: '', image: { imageId: '', crop: {} } },
@@ -141,26 +134,28 @@ export default {
         return;
       }
 
-      return vm.checkSlug({ slug: newPage.slug, pageType: newPage.pageType }).then(result => {
-        if (result) {
-          vm.showError = true;
-        } else {
-          return this.pageForm.pageType
-            .createPage(vm.$whppt.context, {
-              page: newPage,
-              form: vm.pageForm,
-            })
-            .then(page => {
-              const { slug } = page;
-              vm.closeSidebar();
-              if (`/${slug}` === vm.$router.currentRoute.path) {
-                // return vm.$router.go();
-              }
-              this.$toast.global.editorSuccess('Page Successfully Created!');
-              return vm.$router.push(`/${slug}` || '/');
-            });
-        }
-      });
+      return vm
+        .checkSlug({ slug: newPage.slug, pageType: newPage.pageType, domainId: this.domain._id })
+        .then(result => {
+          if (result) {
+            vm.showError = true;
+          } else {
+            return this.pageForm.pageType
+              .createPage(vm.$whppt.context, {
+                page: newPage,
+                form: vm.pageForm,
+              })
+              .then(page => {
+                const { slug } = page;
+                vm.closeSidebar();
+                if (`/${slug}` === vm.$router.currentRoute.path) {
+                  // return vm.$router.go();
+                }
+                this.$toast.global.editorSuccess('Page Successfully Created!');
+                return vm.$router.push(`/${slug}` || '/');
+              });
+          }
+        });
     },
     formatSlug(slug) {
       if (slug.startsWith('/')) slug = slug.replace(/^(\/*)/, '');

@@ -80,6 +80,7 @@ export default {
   }),
   computed: {
     ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
+    ...mapState('whppt/config', ['domain']),
     publishing() {
       return !this.$whppt.disablePublishing;
     },
@@ -112,7 +113,8 @@ export default {
   },
   methods: {
     loadRedirects() {
-      const params = { page: this.currentPage, size: this.limit };
+      if (!this.domain._id) return this.$toast.global.editorError('No domain found');
+      const params = { page: this.currentPage, size: this.limit, domainId: this.domain._id };
 
       return this.$axios
         .$get(`${this.$whppt.apiPrefix}/siteSettings/loadRedirects`, { params })
@@ -131,8 +133,12 @@ export default {
         });
     },
     addRedirect() {
+      if (!this.domain._id) return this.$toast.global.editorError('No domain found');
+
       this.newRedirect.to = this.formatSlug(this.newRedirect.to);
       this.newRedirect.from = this.formatSlug(this.newRedirect.from);
+
+      this.newRedirect.domainId = this.domain._id;
 
       if (!this.newRedirect.from) return this.$toast.global.editorError('Cannot save with an empty "from"');
 

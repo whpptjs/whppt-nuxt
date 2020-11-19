@@ -1,28 +1,32 @@
 <template>
   <div>
-    <whppt-card>
+    <whppt-card v-if="editingDomain">
       <form @submit.prevent>
         <div class="whppt-config__domains-form">
           <whppt-input
             :id="`${$options._scopeId}-config-domain-name-new`"
-            v-model="newDomain.name"
+            v-model="editingDomain.name"
             label="Name"
             placeholder="Enter name"
           ></whppt-input>
+          <whppt-spacer :width="2"></whppt-spacer>
+
           <whppt-input
             :id="`${$options._scopeId}-config-domain-hostnames-new`"
-            v-model="newDomain.hostnames"
-            label="Domain Names"
+            v-model="editingDomain.hostString"
+            label="Host Names"
             placeholder="Enter host names"
           ></whppt-input>
         </div>
-        <whppt-button @click="addNew">Add New Domain</whppt-button>
+        <whppt-button @click="editingDomain = undefined">Back</whppt-button>
+        <whppt-button @click="saveDomainForm">Save Domain</whppt-button>
       </form>
     </whppt-card>
-    <whppt-card>
+    <whppt-button v-if="!editingDomain" @click="editingDomain = {}">Add New Domain</whppt-button>
+    <whppt-card v-if="!editingDomain">
       <whppt-table
         dense
-        :items="domains"
+        :items="editingDomains"
         :headers="headers"
         :page.sync="currentPage"
         :per-page.sync="limit"
@@ -31,13 +35,16 @@
         <template v-slot:item.name="{ item }">
           {{ item.name }}
         </template>
-        <template v-slot:item.hostnames="{ item }">
-          {{ item.hostnames.join(', ') }}
+        <template v-slot:item.hostString="{ item }">
+          {{ item.hostString }}
         </template>
         <template v-slot:item.actions="{ item }">
           {{ domain && domain._id === item._id ? 'ACTIVE' : 'INACTIVE' }}
           <div class="whppt-config__domains-actions">
-            <button @click="swapDomain(item)">
+            <button @click="editDomain(item)">
+              <edit />
+            </button>
+            <button v-if="environment === 'development'" @click="swapDomain(item)">
               <check />
             </button>
             <!-- <button @click="remove(item)">
@@ -51,13 +58,16 @@
 </template>
 
 <script>
+import { cloneDeep } from 'lodash';
 import { mapState, mapActions } from 'vuex';
 
 import WhpptInput from '../../../ui/Input';
 import WhpptTable from '../../../ui/Table';
+import WhpptSpacer from '../../../ui/Spacer';
 import WhpptCard from '../../../ui/Card';
 import WhpptButton from '../../../ui/Button';
 import Check from '../../../icons/Check';
+import Edit from '../../../icons/Edit';
 import Remove from '../../../icons/Trash';
 
 export default {
@@ -65,41 +75,55 @@ export default {
   components: {
     WhpptInput,
     WhpptTable,
+    WhpptSpacer,
     WhpptCard,
     WhpptButton,
     Check,
     Remove,
+    Edit,
   },
   data: () => ({
+    editingDomain: undefined,
     limit: 5,
     loading: false,
     currentPage: 1,
     total: 0,
-    newDomain: {},
+    editingDomains: [],
   }),
   computed: {
-    ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
+    ...mapState('whppt-nuxt/editor', ['baseAPIUrl', 'environment']),
     ...mapState('whppt/config', ['domains', 'domain']),
     headers() {
       return [
         { text: 'Name', align: 'start', value: 'name' },
-        { text: 'Host Names', align: 'start', value: 'hostnames' },
+        { text: 'Host Names', align: 'start', value: 'hostString' },
         { text: 'Actions', align: 'start', value: 'actions' },
       ];
     },
   },
+  mounted() {
+    this.editingDomains = cloneDeep(this.domains);
+  },
   methods: {
-    ...mapActions('whppt/config', ['addNewDomain', 'changeDomain']),
-    addNew() {
-      return this.addNewDomain({
-        domain: { ...this.newDomain, hostnames: this.newDomain.hostnames.split(',') },
-      }).then(() => {
-        this.newDomain = {};
+    ...mapActions('whppt/config', ['saveDomain', 'changeDomain']),
+    saveDomainForm() {
+      this.editingDomain.hostnames = this.editingDomain.hostString.split(',');
+      return this.saveDomain({
+        domain: this.editingDomain,
+      }).then(savedDomain => {
+        this.editingDomains = cloneDeep(this.domains);
+        this.editingDomain = undefined;
       });
     },
     swapDomain(selectedDomain) {
       if (selectedDomain._id === this.domain._id) return;
-      this.changeDomain({ domain: selectedDomain });
+      return this.changeDomain({ domain: selectedDomain }).then(() => {
+        this.editingDomains = cloneDeep(this.domains);
+      });
+    },
+    editDomain(selectedDomain) {
+      this.editingDomain = selectedDomain;
+      this.editingDomain.hostString = selectedDomain.hostnames.join(',');
     },
   },
 };
