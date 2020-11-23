@@ -57,7 +57,7 @@ export default {
       return map(this.roles, role => ({
         _id: role._id,
         name: role.name,
-        applied: this.user && (this.user.roles.includes(role._id) || false),
+        applied: (this.user && this.user.roles && this.user.roles.includes(role._id)) || false,
       }));
     },
   },

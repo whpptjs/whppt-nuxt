@@ -3,7 +3,7 @@
     <whppt-button class="close" @click="close"><w-close /></whppt-button>
     <div class="whppt-form-container">
       <h2 class="whppt-login__heading whppt-login__heading--dark">Welcome</h2>
-      <form @submit.prevent>
+      <form @submit.prevent="doLogin">
         <whppt-text-input
           :id="`${$options._scopeId}-login-username`"
           v-model="data.username"
