@@ -113,7 +113,6 @@ export default {
     },
   },
   mounted() {
-    console.log(this.$route.query);
     if (this.$route.query) {
       this.token = this.$route.query.token;
       this.recovery.email = this.$route.query.email;
@@ -125,13 +124,16 @@ export default {
     ...mapActions('whppt/dashboard', ['closeDashboard']),
     ...mapActions('whppt-nuxt/editor', ['closeSidebar', 'closeModal']),
     recoverPassword() {
+      if (this.authUser) return;
+
       const { email, password } = this.recovery;
 
       this.$axios
         .$post(`${this.$whppt.apiPrefix}/user/setupNewUser`, { email, password, token: this.token })
         .then(response => {
           console.log(response);
-          this.$router.go();
+          this.$emit('closed');
+          this.$router.push('/');
         })
         .catch(err => {
           console.log(err);

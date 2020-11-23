@@ -1,6 +1,6 @@
 <template>
   <div class="whppt-dashboard__users">
-    <div>
+    <div class="whppt-invite-toggle">
       <whppt-button @click="newUserVisible = true">Invite User</whppt-button>
     </div>
     <whppt-table :items="users" :headers="headers" dense :page.sync="page" :per-page.sync="perPage" :total="total">
@@ -120,5 +120,14 @@ $primary-600: #5a67d8;
 
 .whppt-dashboard__users {
   padding: 2rem;
+}
+
+.whppt-invite-toggle {
+  display: flex;
+  margin-bottom: 1rem;
+
+  button {
+    margin-left: auto;
+  }
 }
 </style>

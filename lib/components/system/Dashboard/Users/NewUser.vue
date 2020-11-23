@@ -28,6 +28,15 @@
           <whppt-button @click="createUser">Submit</whppt-button>
         </form>
       </whppt-card>
+      <whppt-card v-if="link">
+        We've successfully created a user, to complete the sign up process send them the following link. The link
+        expires in 24 hours.
+        <br />
+        <a :href="link" target="_blank" class="whppt-invite-link">{{ link }}</a>
+
+        <!-- TODO: Copy link to clipboard button -->
+        <!-- TODO: Email to user button -->
+      </whppt-card>
     </div>
   </whppt-dialog>
 </template>
@@ -55,6 +64,7 @@ export default {
       username: '',
       email: '',
     },
+    link: '',
   }),
   computed: {
     headers() {
@@ -87,9 +97,10 @@ export default {
         .$post(`${this.$whppt.apiPrefix}/user/create`, { newUser: this.user })
         .then(inviteLink => {
           this.user = { username: '', email: '' };
+          this.link = inviteLink;
 
           this.$emit('userCreated', inviteLink);
-          this.$emit('closed');
+          // this.$emit('closed');
         })
         .catch(err => {
           /* TODO: handle error in client */
@@ -111,6 +122,16 @@ $primary-600: #5a67d8;
 
   &__content {
     padding: 1rem;
+  }
+}
+
+.whppt-invite-link {
+  margin-top: 1rem;
+  font-size: 0.75rem;
+  font-style: italic;
+
+  &:hover {
+    color: $primary-600;
   }
 }
 </style>
