@@ -1,20 +1,32 @@
 <template>
-  <whppt-dialog :is-active="active" :full="false" class="whppt-manage-rolls">
+  <whppt-dialog :is-active="active" :full="false" class="whppt-new-user">
     <template v-slot:header>
       <whppt-toolbar>
         <h3>
-          Manage Roles for <span>{{ user.username }}</span>
+          Invite User
         </h3>
         <whppt-button @click="$emit('closed')">Close</whppt-button>
       </whppt-toolbar>
     </template>
-    <div class="whppt-manage-rolls__content">
+    <div class="whppt-new-user__content">
       <whppt-card>
-        <whppt-table :items="availableRoles" :headers="headers" dense hide-footer>
-          <template v-slot:item.applied="{ item }">
-            <whppt-checkbox v-model="item.applied" @change="applyRole(item)"></whppt-checkbox>
-          </template>
-        </whppt-table>
+        <form @submit.prevent>
+          <whppt-input
+            :id="`${$options._scopeId}-user-email`"
+            v-model="user.email"
+            label="Email Address*"
+            placeholder="eg. hello@gmail.com"
+            required
+          />
+          <whppt-input
+            :id="`${$options._scopeId}-user-username`"
+            v-model="user.username"
+            label="Username"
+            placeholder="Username"
+            info="Username is not required and can be added later by the invited user."
+          />
+          <whppt-button @click="createUser">Submit</whppt-button>
+        </form>
       </whppt-card>
     </div>
   </whppt-dialog>
@@ -22,30 +34,28 @@
 
 <script>
 import { filter, map } from 'lodash';
-import WhpptTable from '../../../ui/Table';
 import WhpptButton from '../../../ui/Button';
 import WhpptDialog from '../../../ui/Dialog';
 import WhpptToolbar from '../../../ui/Toolbar';
 import WhpptCard from '../../../ui/Card';
 import WhpptCheckbox from '../../../ui/Checkbox';
+import WhpptInput from '../../../ui/Input';
 
 export default {
-  name: 'DashboardManageRoles',
-  components: { WhpptTable, WhpptButton, WhpptDialog, WhpptToolbar, WhpptCard, WhpptCheckbox },
+  name: 'DashboardNewUser',
+  components: { WhpptButton, WhpptDialog, WhpptToolbar, WhpptCard, WhpptCheckbox, WhpptInput },
   props: {
     active: {
       type: Boolean,
       default: false,
     },
-    user: {
-      type: Object,
-      required: true,
-    },
-    roles: {
-      type: Array,
-      default: () => [],
-    },
   },
+  data: () => ({
+    user: {
+      username: '',
+      email: '',
+    },
+  }),
   computed: {
     headers() {
       return [
@@ -71,6 +81,21 @@ export default {
           this.user.roles = response.roles;
         });
     },
+    createUser() {
+      /* TODO: client side validation */
+      this.$axios
+        .$post(`${this.$whppt.apiPrefix}/user/create`, { newUser: this.user })
+        .then(inviteLink => {
+          this.user = { username: '', email: '' };
+
+          this.$emit('userCreated', inviteLink);
+          this.$emit('closed');
+        })
+        .catch(err => {
+          /* TODO: handle error in client */
+          console.log(err);
+        });
+    },
   },
 };
 </script>
@@ -78,15 +103,10 @@ export default {
 <style lang="scss" scoped>
 $primary-600: #5a67d8;
 
-.whppt-manage-rolls {
+.whppt-new-user {
   h3 {
     font-size: 1.2rem;
     margin-right: auto;
-
-    span {
-      font-weight: bold;
-      color: $primary-600;
-    }
   }
 
   &__content {

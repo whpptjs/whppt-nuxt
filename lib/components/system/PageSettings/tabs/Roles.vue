@@ -1,10 +1,13 @@
 <template>
   <whppt-card>
     <whppt-table :items="roles" :headers="headers" hide-footer dense>
-      <template v-slot:item.editor="{ item }">
+      <template v-slot:item.level.viewer="{ item }">
+        <whppt-checkbox v-model="item.level.viewer" @change="updatePageRoles" />
+      </template>
+      <template v-slot:item.level.editor="{ item }">
         <whppt-checkbox v-model="item.level.editor" @change="updatePageRoles" />
       </template>
-      <template v-slot:item.publisher="{ item }">
+      <template v-slot:item.level.publisher="{ item }">
         <whppt-checkbox v-model="item.level.publisher" @change="updatePageRoles" />
       </template>
       <template v-slot:no-data>
@@ -39,8 +42,9 @@ export default {
     headers() {
       return [
         { text: 'Name', align: 'start', value: 'name' },
-        { text: 'Required For Editing', align: 'start', value: 'editor' },
-        { text: 'Required For Publishing', align: 'start', value: 'publisher' },
+        { text: 'Required For Viewing', align: 'start', value: 'level.viewer' },
+        { text: 'Required For Editing', align: 'start', value: 'level.editor' },
+        { text: 'Required For Publishing', align: 'start', value: 'level.publisher' },
       ];
     },
   },
@@ -58,11 +62,15 @@ export default {
         .then(({ roles, total }) => {
           this.total = total;
           this.roles = map(roles, r => {
+            const pageHasViewerRole = (this.page.viewerRoles && this.page.viewerRoles.includes(r._id)) || false;
             const pageHasEditorRole = (this.page.editorRoles && this.page.editorRoles.includes(r._id)) || false;
             const pageHasPublisherRole =
               (this.page.publisherRoles && this.page.publisherRoles.includes(r._id)) || false;
 
-            return { ...r, level: { editor: pageHasEditorRole, publisher: pageHasPublisherRole } };
+            return {
+              ...r,
+              level: { viewer: pageHasViewerRole, editor: pageHasEditorRole, publisher: pageHasPublisherRole },
+            };
           });
 
           if (this.roles.length < 1) this.error = 'No Results found';
