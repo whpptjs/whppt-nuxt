@@ -218,7 +218,7 @@ $primary-600: #5a67d8;
   width: 100%;
 
   &__icon {
-    color: black;
+    color: white;
   }
 
   &__icon--active {
