@@ -163,8 +163,7 @@ export default {
           this.roleToDelete = undefined;
           this.deleteRoleVisible = false;
         })
-        .catch(err => {
-          console.log(err);
+        .catch(() => {
           this.roleToDelete = undefined;
           this.deleteRoleVisible = false;
         });
