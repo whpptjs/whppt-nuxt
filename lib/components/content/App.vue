@@ -130,13 +130,9 @@ export default {
 
       this.$axios
         .$post(`${this.$whppt.apiPrefix}/user/setupNewUser`, { email, password, token: this.token })
-        .then(response => {
-          console.log(response);
+        .then(() => {
           this.$emit('closed');
           this.$router.push('/');
-        })
-        .catch(err => {
-          console.log(err);
         });
     },
   },

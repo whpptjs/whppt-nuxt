@@ -47,12 +47,11 @@ import WhpptButton from '../../../ui/Button';
 import WhpptDialog from '../../../ui/Dialog';
 import WhpptToolbar from '../../../ui/Toolbar';
 import WhpptCard from '../../../ui/Card';
-import WhpptCheckbox from '../../../ui/Checkbox';
 import WhpptInput from '../../../ui/Input';
 
 export default {
   name: 'DashboardNewUser',
-  components: { WhpptButton, WhpptDialog, WhpptToolbar, WhpptCard, WhpptCheckbox, WhpptInput },
+  components: { WhpptButton, WhpptDialog, WhpptToolbar, WhpptCard, WhpptInput },
   props: {
     active: {
       type: Boolean,
@@ -102,9 +101,8 @@ export default {
           this.$emit('userCreated', inviteLink);
           // this.$emit('closed');
         })
-        .catch(err => {
+        .catch(() => {
           /* TODO: handle error in client */
-          console.log(err);
         });
     },
   },

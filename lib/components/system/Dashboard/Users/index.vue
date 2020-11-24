@@ -30,13 +30,7 @@
       :roles="roles"
       @closed="manageRolesVisible = false"
     ></manage-roles>
-    <new-user
-      v-if="newUserVisible"
-      :active="newUserVisible"
-      @userCreated="newUserCreated"
-      @closed="newUserVisible = false"
-    >
-    </new-user>
+    <new-user v-if="newUserVisible" :active="newUserVisible" @closed="newUserVisible = false"> </new-user>
   </div>
 </template>
 
@@ -80,32 +74,19 @@ export default {
     this.loadRoles();
   },
   methods: {
-    newUserCreated(link) {
-      console.log(link);
-    },
     formatDate(date) {
       return dayjs(date).format('ddd DD MMM YYYY');
     },
     loadUsers() {
-      this.$axios
-        .$get(`${this.$whppt.apiPrefix}/user/list`)
-        .then(response => {
-          this.total = response.total;
-          this.users = map(response.users, user => ({ ...user, roles: user.roles || [] }));
-        })
-        .catch(err => {
-          console.log('loadUserError', err);
-        });
+      this.$axios.$get(`${this.$whppt.apiPrefix}/user/list`).then(response => {
+        this.total = response.total;
+        this.users = map(response.users, user => ({ ...user, roles: user.roles || [] }));
+      });
     },
     loadRoles() {
-      this.$axios
-        .$get(`${this.$whppt.apiPrefix}/roles/list`)
-        .then(response => {
-          this.roles = response.roles;
-        })
-        .catch(err => {
-          console.log('loadRolesError', err);
-        });
+      this.$axios.$get(`${this.$whppt.apiPrefix}/roles/list`).then(response => {
+        this.roles = response.roles;
+      });
     },
     manageRoles(user) {
       this.managingUser = user;
