@@ -10,7 +10,7 @@
       <input
         :id="id"
         :placeholder="placeholder"
-        :value="setTextProp(value)"
+        :value="internalValue"
         :class="{ 'whppt-select--menu-active': showSelectItems }"
         :style="`width: ${typeof width === 'number' ? `${width}px` : width}`"
         readonly
@@ -64,7 +64,7 @@ export default {
       default: '',
     },
     value: {
-      type: [Number, String, Object, Array],
+      type: [Number, String, Object, Array, Boolean],
       default: '',
     },
     placeholder: {
@@ -108,13 +108,24 @@ export default {
   data: () => ({
     showSelectItems: false,
   }),
+  computed: {
+    internalValue() {
+      if (typeof this.value === 'object') return this.value[this.itemText];
+
+      const itemFromValue = find(this.items, i => i[this.itemValue] === this.value);
+
+      return itemFromValue ? itemFromValue[this.itemText] : this.value;
+    },
+  },
   methods: {
     setValueProp(item) {
-      if (typeof item === 'string' || typeof item === 'number') return item;
+      if (typeof item !== 'object') return item;
+
       return item[this.itemValue];
     },
     setTextProp(item) {
-      if (typeof item === 'string' || typeof item === 'number') return item;
+      if (typeof item !== 'object') return item;
+
       return item[this.itemText];
     },
     onInput(value) {

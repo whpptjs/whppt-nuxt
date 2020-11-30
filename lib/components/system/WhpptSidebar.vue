@@ -41,15 +41,15 @@ forEach(editors, editor => {
 export default {
   name: 'WhpptSidebar',
   components: {
-    WhpptToolbar,
     ...additionalComponents,
     ...Editors,
     WhpptPage: () => import('./WhpptPage'),
     WhpptTabs,
-    SpacingControls,
+    WhpptToolbar,
     WhpptTab,
     WhpptButton,
     WhpptDrawer,
+    SpacingControls,
     Close,
   },
   data: () => ({
