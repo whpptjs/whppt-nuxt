@@ -29,6 +29,40 @@
       <slot></slot>
     </div>
     <whppt-sidebar />
+    <whppt-dialog :is-active="recoveryVisible" @closed="recoveryVisible = false">
+      <template v-slot:header>
+        <whppt-toolbar>
+          <h2>Welcome to Whppt!</h2>
+        </whppt-toolbar>
+      </template>
+      <div>
+        <whppt-card>
+          <form @submit.prevent="recoverPassword">
+            <whppt-input
+              :id="`${$options._scopeId}-recov-email`"
+              v-model="recovery.email"
+              label="Email"
+              placeholder="Please enter your email."
+            />
+            <whppt-input
+              :id="`${$options._scopeId}-recov-password`"
+              v-model="recovery.password"
+              type="password"
+              label="Password"
+              placeholder="Please enter your password."
+            />
+            <whppt-input
+              :id="`${$options._scopeId}-recov-confirm`"
+              v-model="recovery.passwordConfirm"
+              type="password"
+              label="Password Confirmation"
+              placeholder="Please enter your password again."
+            />
+            <whppt-button>Submit</whppt-button>
+          </form>
+        </whppt-card>
+      </div>
+    </whppt-dialog>
   </div>
 </template>
 
@@ -36,11 +70,12 @@
 import { startCase } from 'lodash';
 import { mapState, mapActions } from 'vuex';
 import EditorMenu from '../system/EditorMenu';
-import SlugSettings from '../system/SlugSettings';
 import PublishSettings from '../system/PublishSettings';
 import WhpptDialog from '../ui/Dialog';
 import WhpptButton from '../ui/Button';
 import WhpptToolbar from '../ui/Toolbar';
+import WhpptCard from '../ui/Card';
+import WhpptInput from '../ui/Input';
 import Close from '../icons/Close';
 
 export default {
@@ -55,13 +90,21 @@ export default {
     WhpptToolbar,
     WhpptButton,
     WhpptDialog,
-    SlugSettings,
+    WhpptCard,
+    WhpptInput,
     PublishSettings,
     Close,
   },
   props: { prefix: { type: String, default: '' } },
   data: () => ({
     startCase,
+    token: undefined,
+    recoveryVisible: false,
+    recovery: {
+      email: '',
+      password: '',
+      passwordConfirm: '',
+    },
   }),
   computed: {
     ...mapState('whppt/dashboard', ['dashboardVisible']),
@@ -70,9 +113,29 @@ export default {
       return this.draft;
     },
   },
+  mounted() {
+    if (this.$route.query) {
+      this.token = this.$route.query.token;
+      this.recovery.email = this.$route.query.email;
+    }
+
+    if (this.token) this.recoveryVisible = true;
+  },
   methods: {
     ...mapActions('whppt/dashboard', ['closeDashboard']),
     ...mapActions('whppt-nuxt/editor', ['closeSidebar', 'closeModal']),
+    recoverPassword() {
+      if (this.authUser) return;
+
+      const { email, password } = this.recovery;
+
+      this.$axios
+        .$post(`${this.$whppt.apiPrefix}/user/setupNewUser`, { email, password, token: this.token })
+        .then(() => {
+          this.$emit('closed');
+          this.$router.push('/');
+        });
+    },
   },
 };
 </script>

@@ -22,6 +22,7 @@
             selectedPageTypePlugin.pageType &&
             selectedPageTypePlugin.pageType.templates.length > 1
         "
+        :id="`${$options._scopeId}-whppt-page`"
         v-model="pageForm.template"
         :items="selectedPageTypePlugin.pageType.templates"
         item-text="label"
@@ -88,9 +89,6 @@ export default {
     selectedPageTypePlugin() {
       return find(pageTypePlugins, plugin => plugin.pageType.name === this.pageForm.pageType.name);
     },
-  },
-  mounted() {
-    if (this.page && this.page.pageType) this.pageForm.pageType = this.page.pageType;
   },
   methods: {
     ...mapActions('whppt-nuxt/editor', ['closeSidebar']),

@@ -8,7 +8,7 @@
         @input="$emit('input', $event.target.checked)"
         @change="$emit('change', $event.target.checked)"
       />
-      <span class="checkmark"></span>
+      <span class="whppt-checkbox__checkmark"></span>
     </label>
   </div>
 </template>
@@ -42,8 +42,11 @@ $gray-900: #1a202c;
 
 $primary-600: #5a67d8;
 
+$checkbox-height: 20px;
+$checkbox-width: 20px;
+
 .whppt-checkbox {
-  height: 1rem;
+  height: $checkbox-height;
 
   &__label {
     display: block;
@@ -56,10 +59,12 @@ $primary-600: #5a67d8;
   }
 
   label {
-    display: block;
+    display: flex;
+    align-items: center;
     position: relative;
     cursor: pointer;
-    padding: 0.2rem 0 0.2rem 2rem;
+    padding: 0 0 0 30px;
+    height: $checkbox-height;
 
     input {
       position: absolute;
@@ -68,11 +73,11 @@ $primary-600: #5a67d8;
       height: 0;
       width: 0;
 
-      &:focus + .checkmark {
+      &:focus + .whppt-checkbox__checkmark {
         border: 2px solid $primary-600;
       }
 
-      &:checked:focus + .checkmark {
+      &:checked:focus + .whppt-checkbox__checkmark {
         border: 2px solid white;
       }
     }
@@ -85,40 +90,40 @@ $primary-600: #5a67d8;
   }
 }
 
-.checkmark {
+.whppt-checkbox__checkmark {
   position: absolute;
   top: 0;
   left: 0;
-  height: 1rem;
-  width: 1rem;
+  height: $checkbox-height;
+  width: $checkbox-width;
   background-color: $gray-200;
   border: 2px solid transparent;
   border-radius: 0.25rem;
 }
 
-.whppt-checkbox:hover input ~ .checkmark {
+.whppt-checkbox:hover input ~ .whppt-checkbox__checkmark {
   background-color: $gray-500;
 }
 
-.whppt-checkbox input:checked ~ .checkmark {
+.whppt-checkbox input:checked ~ .whppt-checkbox__checkmark {
   background-color: $primary-600;
 }
 
-.checkmark:after {
+.whppt-checkbox__checkmark:after {
   content: '';
   position: absolute;
   display: none;
 }
 
-.whppt-checkbox input:checked ~ .checkmark:after {
+.whppt-checkbox input:checked ~ .whppt-checkbox__checkmark:after {
   display: block;
 }
 
-.whppt-checkbox .checkmark:after {
+.whppt-checkbox .whppt-checkbox__checkmark:after {
   left: 4px;
   top: 0;
-  width: 5px;
-  height: 10px;
+  width: 8px;
+  height: 13px;
   border: solid white;
   border-width: 0 3px 3px 0;
   transform: rotate(45deg);

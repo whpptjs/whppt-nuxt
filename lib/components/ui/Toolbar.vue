@@ -17,13 +17,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$primary-600: #5a67d8;
+
 $gray-200: #edf2f7;
 $gray-900: #1a202c;
 
 .toolbar {
   min-height: 4rem;
   display: flex;
-  border-bottom: 1px solid $gray-200;
+  border-bottom: 2px solid $primary-600;
   padding: 1rem;
   background-color: white;
 

@@ -1,5 +1,5 @@
 <template>
-  <div v-show="isActive">
+  <div v-if="isActive">
     <slot></slot>
   </div>
 </template>
@@ -18,5 +18,3 @@ export default {
   }),
 };
 </script>
-
-<style scoped></style>

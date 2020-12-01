@@ -15,6 +15,9 @@
     </whppt-card>
     <whppt-card v-if="publishing" title="Publishing">
       <div class="publishing-settings">
+        <whppt-button @click="$emit('publish-settings')">
+          Publish Site Settings
+        </whppt-button>
         <whppt-button @click="pubNav">
           Publish Nav
         </whppt-button>

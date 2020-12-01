@@ -1,7 +1,7 @@
 <template>
   <whppt-tabs position="fixed" @changed="tabChanged">
     <whppt-tab v-for="(tab, index) in tabs" :id="tab.name" :key="index" :name="tab.label">
-      <component :is="selectedTab" :settings="siteSettings" />
+      <component :is="selectedTab" :settings="siteSettings" @publish-settings="publishSettings" />
     </whppt-tab>
   </whppt-tabs>
 </template>
@@ -20,6 +20,7 @@ import Twitter from './tabs/SettingsTwitter';
 import OpenGraph from './tabs/SettingsOG';
 import General from './tabs/SettingsGeneral';
 import Files from './tabs/SettingsFiles';
+import Roles from './tabs/Roles';
 
 const { additionalTabs, additionalComponents } = global.$whppt.getAdditionalComponents('siteSettings');
 
@@ -33,6 +34,7 @@ export default {
     OpenGraph,
     Twitter,
     Files,
+    Roles,
     WhpptButton,
     WhpptTabs,
     WhpptTab,
@@ -51,6 +53,7 @@ export default {
         { name: 's-e-o', label: 'SEO' },
         { name: 'redirects', label: 'Redirects' },
         { name: 'files', label: 'Files' },
+        { name: 'roles', label: 'Roles' },
         ...additionalTabs,
       ];
     },

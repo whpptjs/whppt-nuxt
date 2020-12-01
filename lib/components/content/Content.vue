@@ -12,7 +12,13 @@
           Adjust Spacing
         </whppt-button>
       </div>
-      <component :is="content.componentType" :content="content" :class="spacingClasses(content)"></component>
+      <component
+        :is="content.componentType"
+        :content="content"
+        :class="spacingClasses(content)"
+        :container="container"
+        :custom-class="customClass"
+      ></component>
     </div>
   </div>
 </template>
@@ -28,22 +34,11 @@ export default {
     WhpptButton,
   },
   props: {
-    contentItems: {
-      type: [Array, Object],
-      required: true,
-    },
-    container: {
-      type: Boolean,
-      default: () => true,
-    },
-    whitelist: {
-      type: Array,
-      default: () => [],
-    },
-    blacklist: {
-      type: Array,
-      default: () => [],
-    },
+    contentItems: { type: [Array, Object], required: true },
+    container: { type: Boolean, default: true },
+    whitelist: { type: Array, default: () => [] },
+    blacklist: { type: Array, default: () => [] },
+    customClass: { type: String, default: '' },
   },
   computed: {
     ...mapState('whppt-nuxt/page', ['page']),

@@ -1,16 +1,25 @@
 <template>
-  <div class="whppt-editor">
+  <div class="whppt-formatted-text-editor" :class="{ 'whppt-formatted-text-editor__dark': dark }">
     <editor-menu-bar v-if="!selectedComponent.hideMenu" :editor="editor">
       <div slot-scope="{ commands, isActive }" class="whppt-menubar" style="top: -52px">
         <div v-if="!selectedComponent.hideStyle" class="whppt-menubar__section">
           <button aria-label="Bold" @click="commands.bold">
-            <i-bold class="whppt-editor__icon" :class="{ 'whppt-editor__icon--active': isActive.bold() }" />
+            <i-bold
+              class="whppt-editor__icon"
+              :class="{ 'whppt-formatted-text-editor__icon--active': isActive.bold() }"
+            />
           </button>
           <button aria-label="Italic" @click="commands.italic">
-            <i-italic class="whppt-editor__icon" :class="{ 'whppt-editor__icon--active': isActive.italic() }" />
+            <i-italic
+              class="whppt-editor__icon"
+              :class="{ 'whppt-formatted-text-editor__icon--active': isActive.italic() }"
+            />
           </button>
           <button aria-label="Underline" @click="commands.underline">
-            <i-underline class="whppt-editor__icon" :class="{ 'whppt-editor__icon--active': isActive.underline() }" />
+            <i-underline
+              class="whppt-editor__icon"
+              :class="{ 'whppt-formatted-text-editor__icon--active': isActive.underline() }"
+            />
           </button>
         </div>
       </div>
@@ -39,6 +48,12 @@ export default {
     IBold,
     IItalic,
     IUnderline,
+  },
+  props: {
+    dark: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
@@ -89,7 +104,7 @@ export default {
 $gray-200: #edf2f7;
 $primary-600: #5a67d8;
 
-.whppt-editor {
+.whppt-formatted-text-editor {
   width: 100%;
 
   &__icon {
@@ -140,7 +155,7 @@ $gray-500: #a0aec0;
 $gray-700: #4a5568;
 $primary-600: #5a67d8;
 
-.whppt-editor .ProseMirror {
+.whppt-formatted-text-editor .ProseMirror {
   margin: 1em 0;
   padding: 1rem 2rem 1rem 0.75rem;
   border: 1px solid $gray-200;

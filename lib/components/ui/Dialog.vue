@@ -1,7 +1,11 @@
 <template>
   <div v-if="isActive" class="whppt-modal" :class="{ 'whppt-modal--full': full }">
     <div class="whppt-modal__background">
-      <div class="whppt-modal__inner" :class="{ 'whppt-modal__inner--dark': dark }" :style="dialogComputedStyles">
+      <div
+        class="whppt-modal__inner"
+        :class="{ 'whppt-modal__inner--dark': dark, 'whppt-modal__inner--full': full }"
+        :style="dialogComputedStyles"
+      >
         <button class="whppt-modal__close-btn" aria-label="Close Modal" @click="$emit('closed')">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -130,6 +134,7 @@ $gray-900: #1a202c;
     overflow: hidden;
 
     &--dark {
+      color: white;
       background-color: $gray-800;
     }
   }
@@ -146,7 +151,7 @@ $gray-900: #1a202c;
       display: none;
     }
 
-    .whppt-modal__inner {
+    .whppt-modal__inner--full {
       height: 100vh;
       width: 100%;
       border: none;

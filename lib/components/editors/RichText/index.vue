@@ -218,7 +218,7 @@ $primary-600: #5a67d8;
   width: 100%;
 
   &__icon {
-    color: black;
+    color: white;
   }
 
   &__icon--active {
@@ -254,6 +254,30 @@ $primary-600: #5a67d8;
   align-items: center;
 }
 
+.whppt-link-form {
+  padding: 0.5rem 0;
+
+  .whppt-input,
+  .whppt-select__field {
+    margin-bottom: 0.5rem;
+  }
+
+  .whppt-link-form__buttons {
+    width: 100%;
+    display: flex;
+
+    .whppt-button:not(.whppt-link-form__buttons--end) {
+      margin-right: 0.5rem;
+    }
+  }
+
+  .whppt-link-form__buttons--end {
+    margin-left: auto;
+  }
+}
+</style>
+
+<style lang="scss">
 .whppt-rich-content {
   p:not(:first-child),
   h2:not(:first-child) {
@@ -284,28 +308,6 @@ $primary-600: #5a67d8;
   ol p {
     padding-top: 0;
     display: inline;
-  }
-}
-
-.whppt-link-form {
-  padding: 0.5rem 0;
-
-  .whppt-input,
-  .whppt-select__field {
-    margin-bottom: 0.5rem;
-  }
-
-  .whppt-link-form__buttons {
-    width: 100%;
-    display: flex;
-
-    .whppt-button:not(.whppt-link-form__buttons--end) {
-      margin-right: 0.5rem;
-    }
-  }
-
-  .whppt-link-form__buttons--end {
-    margin-left: auto;
   }
 }
 </style>
