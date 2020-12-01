@@ -38,19 +38,28 @@
         <template v-slot:item.hostString="{ item }">
           {{ item.hostString }}
         </template>
+
         <template v-slot:item.actions="{ item }">
-          {{ domain && domain._id === item._id ? 'ACTIVE' : 'INACTIVE' }}
           <div class="whppt-config__domains-actions">
             <button @click="editDomain(item)">
-              <edit />
+              Edit
             </button>
-            <button v-if="environment === 'development'" @click="swapDomain(item)">
-              <check />
+            <button @click="pubDomain(item)">
+              Publish
+            </button>
+            <button v-if="item.published" @click="unpubDomain(item)">
+              Unpublish
             </button>
             <!-- <button @click="remove(item)">
               <remove />
             </button> -->
           </div>
+        </template>
+        <template v-slot:item.active="{ item }">
+          <button v-if="environment === 'development'" @click="swapDomain(item)">
+            Make Active
+          </button>
+          ({{ domain && domain._id === item._id ? 'ACTIVE' : 'INACTIVE' }})
         </template>
       </whppt-table>
     </whppt-card>
@@ -98,6 +107,7 @@ export default {
         { text: 'Name', align: 'start', value: 'name' },
         { text: 'Host Names', align: 'start', value: 'hostString' },
         { text: 'Actions', align: 'start', value: 'actions' },
+        { text: 'Active Domain', align: 'start', value: 'active' },
       ];
     },
   },
@@ -105,7 +115,7 @@ export default {
     this.editingDomains = cloneDeep(this.domains);
   },
   methods: {
-    ...mapActions('whppt/config', ['saveDomain', 'changeDomain']),
+    ...mapActions('whppt/config', ['saveDomain', 'changeDomain', 'publishDomain', 'unpublishDomain']),
     saveDomainForm() {
       this.editingDomain.hostnames = this.editingDomain.hostString.split(',');
       return this.saveDomain({
@@ -113,6 +123,20 @@ export default {
       }).then(savedDomain => {
         this.editingDomains = cloneDeep(this.domains);
         this.editingDomain = undefined;
+      });
+    },
+    pubDomain(domain) {
+      return this.publishDomain({
+        domain,
+      }).then(() => {
+        this.editingDomains = cloneDeep(this.domains);
+      });
+    },
+    unpubDomain(domain) {
+      return this.unpublishDomain({
+        domain,
+      }).then(() => {
+        this.editingDomains = cloneDeep(this.domains);
       });
     },
     swapDomain(selectedDomain) {
