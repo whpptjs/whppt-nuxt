@@ -31,7 +31,7 @@
     <whppt-card>
       <div v-if="!settings.og.image.imageId">
         <div class="whppt-label">Gallery</div>
-        <Gallery :limit="7" image-display-size="25%" @input="openCropper"></Gallery>
+        <gallery :limit="7" image-display-size="25%" @input="openCropper" />
       </div>
       <div v-if="settings.og.image.imageId">
         <div class="whppt-label">Image</div>
