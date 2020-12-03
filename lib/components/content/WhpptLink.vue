@@ -2,19 +2,16 @@
   <div v-if="inactive || !to.href">
     <slot></slot>
   </div>
-  <!-- <nuxt-link v-else-if="to.type === 'page' && !exactPath" :to="to.href">
+  <nuxt-link v-else-if="to.type === 'page' && !exactPath" :to="to.href">
     <slot></slot>
-  </nuxt-link> -->
-  <a v-else-if="to.type === 'page' && !exactPath" :href="to.href">
-    <slot></slot>
-  </a>
+  </nuxt-link>
   <a v-else-if="to.type === 'page' && exactPath" :href="to.href">
     <slot></slot>
   </a>
   <a v-else-if="to.type === 'anchor'" :href="to.href" @click.prevent="navigateToAnchor(to.href)">
     <slot></slot>
   </a>
-  <a v-else-if="to.type === 'file'" target="_black" :href="to.href">
+  <a v-else-if="to.type === 'file'" target="_black" :href="`${baseFileUrl || baseAPIUrl}/file/${to.fileId}`">
     <slot></slot>
   </a>
   <a v-else :href="to.href" :target="to.type === 'external' && '_blank'">
@@ -36,7 +33,7 @@ export default {
     },
   },
   computed: {
-    ...mapState('whppt-nuxt/editor', ['activeMenuItem']),
+    ...mapState('whppt-nuxt/editor', ['activeMenuItem', 'baseAPIUrl', 'baseFileUrl']),
     inactive() {
       return this.activeMenuItem;
     },
