@@ -1,6 +1,6 @@
 <template>
   <div>
-    <whppt-tabs @changed="tabChanged">
+    <whppt-tabs ref="whpptLinkEditorTabs" :active-tab="activeTabIndex" @changed="tabChanged">
       <whppt-tab id="page" name="Page">
         <whppt-card>
           <div class="whppt-tab__info">
@@ -102,7 +102,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import { debounce } from 'lodash';
+import { debounce, findIndex } from 'lodash';
 import WhpptTextInput from '../ui/Input';
 import WhpptSelect from '../ui/Select';
 import WhpptTabs from '../ui/Tabs';
@@ -113,6 +113,7 @@ export default {
   name: 'EditorLinkEdit',
   components: { WhpptTextInput, WhpptSelect, WhpptTabs, WhpptTab, WhpptCard },
   data: () => ({
+    activeTabIndex: 0,
     search: '',
     files: [],
   }),
@@ -126,10 +127,14 @@ export default {
     search() {
       this.filterList();
     },
+    'link.type'(val) {
+      this.setActiveTabIndex(val);
+    },
   },
   mounted() {
     this.filterList = debounce(() => this.queryFilesList(), 600);
     this.filterList();
+    this.setActiveTabIndex(this.link.type);
   },
   methods: {
     ...mapActions('whppt-nuxt/editor', ['setSelectedComponentState']),
@@ -152,6 +157,10 @@ export default {
     },
     tabChanged(tab) {
       this.setSelectedComponentState({ value: tab.id, path: 'type' });
+      this.setActiveTabIndex(tab.id);
+    },
+    setActiveTabIndex(tabId) {
+      this.activeTabIndex = findIndex(this.$refs.whpptLinkEditorTabs.$children, { id: tabId }) || 0;
     },
   },
 };
