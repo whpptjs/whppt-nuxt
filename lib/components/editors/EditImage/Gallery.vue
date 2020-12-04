@@ -29,20 +29,29 @@
           </div>
         </div>
       </div>
-      <whppt-pagination
+      <!-- <whppt-pagination
         :current-page="currentPage"
         :total="total"
         :page-amount="Math.ceil(total / limit)"
         @pageChanged="loadGallery"
-      />
+      /> -->
     </div>
+    <whppt-pagination
+      :page.sync="currentPage"
+      :per-page.sync="limitPerPage"
+      :total="total || (images && images.length)"
+      direction="up"
+      class="whhpt-gallery__pagination"
+      @update:page="loadGallery"
+      @update:perPage="loadGallery"
+    />
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
 import icons from '../../icons';
-import WhpptPagination from '../__WhpptPagination';
+import WhpptPagination from '../../ui/Pagination';
 import Loading from '../../icons/Loading';
 
 export default {
@@ -53,13 +62,13 @@ export default {
       type: String,
       default: () => '',
     },
-    limit: {
-      type: Number,
-      default: 9,
-    },
     imageDisplaySize: {
       type: String,
       default: '50%',
+    },
+    limit: {
+      type: Number,
+      default: 9,
     },
   },
   data() {
@@ -69,6 +78,7 @@ export default {
       images: [],
       total: 0,
       currentPage: 1,
+      limitPerPage: this.limit,
     };
   },
   computed: {
@@ -79,11 +89,11 @@ export default {
     return this.loadGallery(this.currentPage).then(() => (this.loading = false));
   },
   methods: {
-    loadGallery(currentPage) {
-      this.currentPage = currentPage;
+    loadGallery() {
+      // this.currentPage = currentPage;
       return this.$api
         .get(`/image/loadGallery`, {
-          params: { limit: this.limit, currentPage: this.currentPage },
+          params: { limit: this.limitPerPage, currentPage: this.currentPage },
         })
         .then(({ data: { images, total } }) => {
           this.images = images;
@@ -187,5 +197,9 @@ export default {
 
 .whppt-gallery-item__remove-icon {
   width: 12px;
+}
+
+.whhpt-gallery__pagination {
+  margin-top: 16px;
 }
 </style>
