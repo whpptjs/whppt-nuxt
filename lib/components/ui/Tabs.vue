@@ -58,7 +58,7 @@ export default {
       this.$emit('changed', this.tabs[tabIndex], tabIndex, prevIndex);
 
       if (this.activeTab || this.activeTab === 0) {
-        this.tabs[prevIndex || this.activeTab].isActive = false;
+        this.tabs[prevIndex === undefined ? this.activeTab : prevIndex].isActive = false;
       } else {
         this.tabs[this.internalTabIndex].isActive = false;
         this.internalTabIndex = tabIndex;
