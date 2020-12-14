@@ -39,9 +39,12 @@
         @update:page="loadRedirects"
         @update:perPage="loadRedirects"
       >
+        <template v-slot:item.from="{ item }">
+          <span class="whppt-redirects__overflow">{{ item.from }}</span>
+        </template>
         <template v-slot:item.to="{ item }">
-          <a target="_blank" class="whppt-link" :href="item.to.startsWith('/') ? item.to : `/${item.to}`">
-            {{ item.to }}
+          <a target="_blank" class="whppt-link" :href="item.to">
+            <span class="whppt-redirects__overflow">{{ item.to }}</span>
           </a>
         </template>
         <template v-slot:item.actions="{ item }">
@@ -93,7 +96,6 @@ export default {
         createdAt: redirect.createdAt ? dayjs(redirect.createdAt).format('DD MMM YYYY') : '–',
         published: redirect.published || false,
         publishedAt: redirect.lastPublished ? dayjs(redirect.lastPublished).format('DD MMM YYYY') : '–',
-        actions: {},
       }));
     },
     headers() {
@@ -135,9 +137,6 @@ export default {
     addRedirect() {
       if (!this.domain._id) return this.$toast.global.editorError('No domain found');
 
-      this.newRedirect.to = this.formatSlug(this.newRedirect.to);
-      this.newRedirect.from = this.formatSlug(this.newRedirect.from);
-
       this.newRedirect.domainId = this.domain._id;
 
       if (!this.newRedirect.from) return this.$toast.global.editorError('Cannot save with an empty "from"');
@@ -145,8 +144,13 @@ export default {
       if (this.newRedirect.to === this.newRedirect.from)
         return this.$toast.global.editorError('To and From must be different');
 
-      if (!this.newRedirect.to.startsWith('/')) this.newRedirect.to = `/${this.newRedirect.to}`;
-      if (!this.newRedirect.from.startsWith('/')) this.newRedirect.from = `/${this.newRedirect.from}`;
+      if (!this.newRedirect.from.startsWith('http') && !this.newRedirect.from.startsWith('/')) {
+        this.newRedirect.from = `/${this.newRedirect.from}`;
+      }
+
+      if (!this.newRedirect.to.startsWith('http') && !this.newRedirect.to.startsWith('/')) {
+        this.newRedirect.to = `/${this.newRedirect.to}`;
+      }
 
       return this.$api
         .post(`/siteSettings/checkDuplicateRedirect`, {
@@ -219,6 +223,12 @@ export default {
 
 <style lang="scss" scoped>
 $primary-600: #5a67d8;
+
+.whppt-redirects__overflow {
+  width: 150px;
+  display: block;
+  white-space: pre-wrap;
+}
 
 .whppt-redirects__form {
   .whppt-redirects__inputs {
