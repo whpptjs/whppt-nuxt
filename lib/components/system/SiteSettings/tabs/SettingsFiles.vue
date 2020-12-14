@@ -26,6 +26,8 @@
         :page.sync="currentPage"
         :per-page.sync="limit"
         :total="total"
+        @update:page="loadFiles"
+        @update:perPage="loadFiles"
       >
         <template v-slot:item.name="{ item }">
           <whppt-input :id="`${$options._scopeId}-settings-file-name`" v-model="item.name"></whppt-input>
