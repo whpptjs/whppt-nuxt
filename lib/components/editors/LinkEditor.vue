@@ -140,10 +140,7 @@ export default {
     ...mapActions('whppt-nuxt/editor', ['setSelectedComponentState']),
     selectFile(item) {
       if (!item) return;
-
-      const baseUrl = this.baseFileUrl ? this.baseFileUrl : window.location.origin;
-
-      this.setSelectedComponentState({ value: `${baseUrl}/file/${item._id}`, path: 'href' });
+      this.setSelectedComponentState({ value: `/file/${item._id}`, path: 'href' });
       this.setSelectedComponentState({ value: item._id, path: 'fileId' });
     },
     queryFilesList() {
