@@ -160,12 +160,10 @@ export default {
       this.loadFiles();
     },
     getUrl(file) {
-      const baseUrl = window.location.origin;
-      return encodeURI(`${baseUrl}/file/${file._id}/${file.name}`);
+      return encodeURI(`/file/${file._id}/${file.name}`);
     },
     copyUrl(file) {
-      const baseUrl = window.location.origin;
-      const str = encodeURI(`${baseUrl}/file/${file._id}/${file.name}`);
+      const str = encodeURI(`/file/${file._id}/${file.name}`);
       const el = document.createElement('textarea');
       el.value = str;
       document.body.appendChild(el);

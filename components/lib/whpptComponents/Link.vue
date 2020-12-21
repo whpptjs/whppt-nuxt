@@ -150,9 +150,8 @@ export default {
         this.data.fileId = '';
         return;
       }
-      const baseUrl = this.baseFileUrl ? this.baseFileUrl : window.location.origin;
 
-      this.data.href = `${baseUrl}/file/${item._id}`;
+      this.data.href = `/file/${item._id}`;
       this.data.fileId = item._id;
     },
     isTypeOf(value) {
