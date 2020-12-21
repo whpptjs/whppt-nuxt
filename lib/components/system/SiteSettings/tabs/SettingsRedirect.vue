@@ -20,6 +20,7 @@
               info="Users will be sent to this Page when visiting the From Page"
             />
           </div>
+
           <div class="whppt-redirects__actions">
             <whppt-button @click="addRedirect">
               Add Redirect
@@ -29,6 +30,13 @@
       </form>
     </whppt-card>
     <whppt-card>
+      <whppt-text-input
+        id="redirectFilter"
+        v-model="filter"
+        placeholder="about-us"
+        label="Search"
+        info="Search the from / to fields"
+      />
       <whppt-table
         dense
         :items="items"
@@ -48,11 +56,16 @@
           </a>
         </template>
         <template v-slot:item.actions="{ item }">
-          <a @click="!item.published ? publish(item) : unpublishRedirect(item)">{{
-            !item.published ? 'Publish' : 'Unpublish'
-          }}</a>
+          <div class="flex">
+            <a class="underline" @click="!item.published ? publish(item) : unpublishRedirect(item)">{{
+              !item.published ? 'Publish' : 'Unpublish'
+            }}</a>
+            <div v-if="!item.published" class="flex ">
+              <div class="mx-1">-</div>
 
-          <a v-if="!item.published" @click="deleteRedirect(item)">- Delete</a>
+              <a class="underline" @click="deleteRedirect(item)">Delete</a>
+            </div>
+          </div>
         </template>
       </whppt-table>
     </whppt-card>
@@ -61,7 +74,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import { map } from 'lodash';
+import { map, filter } from 'lodash';
 import dayjs from 'dayjs';
 import slugify from 'slugify';
 import WhpptTextInput from '../../../ui/Input';
@@ -80,6 +93,7 @@ export default {
     currentPage: 1,
     limit: 5,
     total: 0,
+    filter: '',
   }),
   computed: {
     ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
@@ -88,8 +102,13 @@ export default {
       return !this.$whppt.disablePublishing;
     },
     items() {
-      return map(this.redirects, redirect => ({
+      const fItems = this.filter
+        ? filter(this.redirects, r => r.from.includes(this.filter) || r.to.includes(this.filter))
+        : this.redirects;
+      // const regex = '/\//gi';
+      return map(fItems, redirect => ({
         _id: redirect._id,
+        domainId: redirect.domainId,
         from: redirect.from,
         to: redirect.to,
         lastmod: redirect.updatedAt ? dayjs(redirect.updatedAt).format('DD MMM YYYY') : '–',
@@ -100,13 +119,13 @@ export default {
     },
     headers() {
       return [
+        { text: 'Actions', align: 'start', value: 'actions' },
         { text: 'From', align: 'start', value: 'from' },
         { text: 'To', align: 'start', value: 'to' },
-        { text: 'Last Modified', align: 'start', value: 'lastmod' },
-        { text: 'Created At', align: 'start', value: 'createdAt' },
         { text: 'Published', align: 'start', value: 'published' },
         { text: 'Published At', align: 'start', value: 'publishedAt' },
-        { text: 'Actions', align: 'start', value: 'actions' },
+        { text: 'Last Modified', align: 'start', value: 'lastmod' },
+        { text: 'Created At', align: 'start', value: 'createdAt' },
       ];
     },
   },
@@ -225,7 +244,7 @@ export default {
 $primary-600: #5a67d8;
 
 .whppt-redirects__overflow {
-  width: 150px;
+  // width: 150px;
   display: block;
   white-space: pre-wrap;
 }
