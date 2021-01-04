@@ -128,13 +128,13 @@ export default {
         {
           key: 'site-settings',
           label: 'Open Site Settings',
-          icon: 'w-globe',
+          icon: 'w-settings',
           action: () => this.editInModal('siteSettings'),
         },
         {
           key: 'page-settings',
           label: 'Open Page Settings',
-          icon: 'w-settings',
+          icon: 'w-page-settings',
           disabled: !this.page || !this.page._id,
           action: () => this.editInModal('pageSettings'),
         },
