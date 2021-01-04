@@ -18,12 +18,18 @@
             placeholder="Enter host names"
           ></whppt-input>
         </div>
-        <whppt-button @click="editingDomain = undefined">Back</whppt-button>
-        <whppt-button @click="saveDomainForm">Save Domain</whppt-button>
+        <div class="whppt-config__form-actions">
+          <whppt-button @click="editingDomain = undefined">Back</whppt-button>
+          <whppt-button @click="saveDomainForm">Save Domain</whppt-button>
+        </div>
       </form>
     </whppt-card>
-    <whppt-button v-if="!editingDomain" @click="editingDomain = {}">Add New Domain</whppt-button>
+
     <whppt-card v-if="!editingDomain">
+      <whppt-button v-if="!editingDomain" class="whppt-add-domain-btn" @click="editingDomain = {}">
+        New Domain
+      </whppt-button>
+
       <whppt-table
         dense
         :items="editingDomains"
@@ -41,18 +47,16 @@
 
         <template v-slot:item.actions="{ item }">
           <div class="whppt-config__domains-actions">
-            <button @click="editDomain(item)">
-              Edit
+            <!-- TODO: Tooltips -->
+            <button aria-label="edit domain" @click="editDomain(item)">
+              <edit />
             </button>
-            <button @click="pubDomain(item)">
-              Publish
+            <button aria-label="publish domain" @click="pubDomain(item)">
+              <publish />
             </button>
-            <button v-if="item.published" @click="unpubDomain(item)">
-              Unpublish
+            <button v-if="item.published" aria-label="unpublish domain" @click="unpubDomain(item)">
+              <unpublish />
             </button>
-            <!-- <button @click="remove(item)">
-              <remove />
-            </button> -->
           </div>
         </template>
         <template v-slot:item.active="{ item }">
@@ -75,9 +79,9 @@ import WhpptTable from '../../../ui/Table';
 import WhpptSpacer from '../../../ui/Spacer';
 import WhpptCard from '../../../ui/Card';
 import WhpptButton from '../../../ui/Button';
-import Check from '../../../icons/Check';
+import Publish from '../../../icons/Publish';
+import Unpublish from '../../../icons/Unpublish';
 import Edit from '../../../icons/Edit';
-import Remove from '../../../icons/Trash';
 
 export default {
   name: 'ConfigSettingsDomains',
@@ -87,9 +91,9 @@ export default {
     WhpptSpacer,
     WhpptCard,
     WhpptButton,
-    Check,
-    Remove,
     Edit,
+    Publish,
+    Unpublish,
   },
   data: () => ({
     editingDomain: undefined,
@@ -156,11 +160,24 @@ export default {
 <style lang="scss" scoped>
 $primary-600: #5a67d8;
 
+.whppt-add-domain-btn {
+  margin-bottom: 0.75rem;
+}
+
 .whppt-config__domains-form {
   display: flex;
   justify-content: space-between;
   input {
     width: 45%;
+  }
+}
+
+.whppt-config__form-actions {
+  display: flex;
+  margin-top: 1rem;
+
+  button {
+    margin-right: 0.5rem;
   }
 }
 
