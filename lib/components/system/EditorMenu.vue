@@ -4,13 +4,13 @@
     <div class="whppt-menu" :class="{ 'whppt-menu--expanded': !menuCollapsed }">
       <div v-if="!userCanEdit">
         <div v-if="menuCollapsed" class="whppt-menu__item">
-          <button v-v-tooltip.right="'Expand Menu'" aria-label="Expand Menu" @click="toggleMenuCollapse">
+          <button v-tooltip.right="'Expand Menu'" aria-label="Expand Menu" @click="toggleMenuCollapse">
             <expand />
           </button>
         </div>
         <div v-else>
           <div class="whppt-menu__item">
-            <button v-v-tooltip.right="'Collapse Menu'" aria-label="Collapse Menu" @click="toggleMenuCollapse">
+            <button v-tooltip.right="'Collapse Menu'" aria-label="Collapse Menu" @click="toggleMenuCollapse">
               <collapse />
             </button>
           </div>
@@ -23,7 +23,7 @@
       </div>
       <div v-if="userCanEdit">
         <div v-if="menuCollapsed" class="whppt-menu__item">
-          <button v-v-tooltip.right="'Expand Menu'" aria-label="Expand Menu" @click="toggleMenuCollapse">
+          <button v-tooltip.right="'Expand Menu'" aria-label="Expand Menu" @click="toggleMenuCollapse">
             <expand />
           </button>
         </div>
@@ -36,13 +36,13 @@
           >
             <button
               v-if="item.action && !item.disabled"
-              v-v-tooltip.right="item.label"
+              v-tooltip.right="item.label"
               :aria-label="item.label"
               @click="item.action()"
             >
               <component :is="item.icon" />
             </button>
-            <button v-else v-v-tooltip.right="item.label" aria-label="">
+            <button v-else v-tooltip.right="item.label" aria-label="">
               <component :is="item.icon" style="color: grey" />
             </button>
           </div>
@@ -54,7 +54,7 @@
 
 <script>
 import { mapMutations, mapState, mapActions } from 'vuex';
-import { VTooltip } from 'v-tooltip';
+import { VTooltip as Tooltip } from 'v-tooltip';
 import {
   Expand,
   Collapse,
@@ -98,7 +98,7 @@ export default {
     Logout,
     Expand,
   },
-  directives: { VTooltip },
+  directives: { Tooltip },
   data: () => ({
     currentAction: undefined,
     menuCollapsed: false,
