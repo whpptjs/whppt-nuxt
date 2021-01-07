@@ -2,7 +2,11 @@
   <div>
     <whppt-tabs :active-tab="activeTabIndex" position="fixed" @changed="setActiveTab">
       <whppt-tab id="cropping" name="Cropping">
-        <cropping :image-options="selectedComponent.value.image" :sizes="selectedComponent.sizes" />
+        <cropping
+          :image-options="selectedComponent.value.image"
+          :sizes="selectedComponent.sizes"
+          @changed="cropperChanged"
+        />
       </whppt-tab>
       <whppt-tab id="gallery" name="Gallery">
         <gallery :value="selectedComponent.value.image.imageId" @input="selectImage" />
@@ -35,6 +39,9 @@ export default {
     },
     setActiveTab(tab, tabIndex, prevIndex) {
       this.activeTabIndex = tabIndex;
+    },
+    cropperChanged({ dimensions, canvasName }) {
+      this.setSelectedComponentState({ value: dimensions, path: `image[${canvasName}]` });
     },
   },
 };

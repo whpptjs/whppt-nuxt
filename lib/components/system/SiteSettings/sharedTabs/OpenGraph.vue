@@ -35,7 +35,12 @@
       </div>
       <div v-if="settings.og.image.imageId">
         <div class="whppt-label">Image</div>
-        <cropping :image-options="settings.og.image" :sizes="sizes" @imageRemoved="removeImage" />
+        <cropping
+          :image-options="settings.og.image"
+          :sizes="sizes"
+          @imageRemoved="removeImage"
+          @changed="cropperChanged"
+        />
         <button @click="removeImage">Select Another Image</button>
       </div>
     </whppt-card>
@@ -64,6 +69,9 @@ export default {
     },
     removeImage() {
       this.settings.og.image.imageId = '';
+    },
+    cropperChanged({ dimensions, canvasName }) {
+      this.settings.og.image[canvasName] = dimensions;
     },
   },
 };

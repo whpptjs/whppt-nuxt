@@ -35,7 +35,12 @@
       </div>
       <div v-if="settings.twitter.image.imageId">
         <div class="whppt-label">Image</div>
-        <cropping :image-options="settings.twitter.image" :sizes="sizes" @imageRemoved="removeImage" />
+        <cropping
+          :image-options="settings.twitter.image"
+          :sizes="sizes"
+          @imageRemoved="removeImage"
+          @changed="cropperChanged"
+        />
         <button @click="removeImage">Select Another Image</button>
       </div>
     </whppt-card>
@@ -64,6 +69,9 @@ export default {
     },
     removeImage() {
       this.settings.twitter.image.imageId = '';
+    },
+    cropperChanged({ dimensions, canvasName }) {
+      this.settings.twitter.image[canvasName] = dimensions;
     },
   },
 };

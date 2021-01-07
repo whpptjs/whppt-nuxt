@@ -76,16 +76,14 @@ export default {
           siteSettings = siteSettings || { _id: 'siteSettings' };
           siteSettings.og = siteSettings.og || {};
           siteSettings.og.image =
-            siteSettings.og.image && siteSettings.og.image.imageId
-              ? siteSettings.og.image
-              : { imageId: '', crop: { desktop: {} } };
+            siteSettings.og.image && siteSettings.og.image.imageId ? siteSettings.og.image : { imageId: '' };
           siteSettings.og.keywords = siteSettings.og.keywords || '';
           siteSettings.og.title = siteSettings.og.title || '';
           siteSettings.twitter = siteSettings.twitter || {};
           siteSettings.twitter.image =
             siteSettings.twitter.image && siteSettings.twitter.image.imageId
               ? siteSettings.twitter.image
-              : { imageId: '', crop: { desktop: {} } };
+              : { imageId: '' };
           siteSettings.twitter.keywords = siteSettings.twitter.keywords || '';
           siteSettings.twitter.title = siteSettings.twitter.title || '';
 

@@ -1,6 +1,6 @@
 <template>
   <div v-if="active" class="whppt-login">
-    <whppt-button class="close" @click="close"><w-close /></whppt-button>
+    <whppt-button class="close" @click="close"><close-icon /></whppt-button>
     <div class="whppt-form-container">
       <h2 class="whppt-login__heading whppt-login__heading--dark">Welcome</h2>
       <form @submit.prevent="doLogin">
@@ -20,7 +20,7 @@
         <p v-if="error" class="error">{{ error }}</p>
         <whppt-button :disabled="busy" @click="doLogin">
           <span v-if="!busy">Submit</span>
-          <w-close v-if="busy" />
+          <close-icon v-if="busy" />
         </whppt-button>
       </form>
     </div>
@@ -31,12 +31,14 @@
 import { mapActions } from 'vuex';
 import WhpptTextInput from '../ui/Input';
 import WhpptButton from '../ui/Button';
+import { Close as CloseIcon } from '../icons';
 
 export default {
   name: 'EditorMenu',
   components: {
     WhpptTextInput,
     WhpptButton,
+    CloseIcon,
   },
   data: () => ({
     active: false,

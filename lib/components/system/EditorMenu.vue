@@ -5,18 +5,18 @@
       <div v-if="!userCanEdit">
         <div v-if="menuCollapsed" class="whppt-menu__item">
           <button v-v-tooltip.right="'Expand Menu'" aria-label="Expand Menu" @click="toggleMenuCollapse">
-            <w-expand />
+            <expand />
           </button>
         </div>
         <div v-else>
           <div class="whppt-menu__item">
             <button v-v-tooltip.right="'Collapse Menu'" aria-label="Collapse Menu" @click="toggleMenuCollapse">
-              <w-collapse />
+              <collapse />
             </button>
           </div>
           <div class="whppt-menu__item">
             <button aria-label="login" @click="showLogin()">
-              <component :is="`w-login`" />
+              <component :is="`login`" />
             </button>
           </div>
         </div>
@@ -24,7 +24,7 @@
       <div v-if="userCanEdit">
         <div v-if="menuCollapsed" class="whppt-menu__item">
           <button v-v-tooltip.right="'Expand Menu'" aria-label="Expand Menu" @click="toggleMenuCollapse">
-            <w-expand />
+            <expand />
           </button>
         </div>
         <div v-else>
@@ -55,11 +55,49 @@
 <script>
 import { mapMutations, mapState, mapActions } from 'vuex';
 import { VTooltip } from 'v-tooltip';
+import {
+  Expand,
+  Collapse,
+  Pointer,
+  Trash,
+  ArrowUp,
+  ArrowDown,
+  NewPage,
+  Save,
+  NavIcon,
+  FooterIcon,
+  Publish,
+  Globe,
+  PageSettings,
+  Settings,
+  Dashboard,
+  Login,
+  Logout,
+} from '../icons';
 import LoginForm from './LoginForm';
 
 export default {
   name: 'EditorMenu',
-  components: { LoginForm },
+  components: {
+    LoginForm,
+    Collapse,
+    Pointer,
+    Trash,
+    ArrowUp,
+    ArrowDown,
+    NewPage,
+    Save,
+    NavIcon,
+    FooterIcon,
+    Publish,
+    Globe,
+    PageSettings,
+    Settings,
+    Dashboard,
+    Login,
+    Logout,
+    Expand,
+  },
   directives: { VTooltip },
   data: () => ({
     currentAction: undefined,
@@ -74,77 +112,77 @@ export default {
         {
           key: 'collapse',
           label: 'Collapse Menu',
-          icon: this.menuCollapsed ? '' : 'w-collapse',
+          icon: this.menuCollapsed ? '' : 'collapse',
           action: () => this.toggleMenuCollapse(),
         },
         {
           key: 'select',
           label: 'Select Component',
-          icon: 'w-pointer',
+          icon: 'pointer',
           action: () => this.selectMenuItem('select'),
           isActive: () => this.activeMenuItem === 'select',
         },
         {
           key: 'remove',
           label: 'Remove Component',
-          icon: 'w-trash',
+          icon: 'trash',
           action: this.remove,
         },
-        { key: 'up', label: 'Move Component Up', icon: 'w-arrow-up', group: '', action: () => this.moveComponentUp() },
+        { key: 'up', label: 'Move Component Up', icon: 'arrow-up', group: '', action: () => this.moveComponentUp() },
         {
           key: 'down',
           label: 'Move Component Down',
-          icon: 'w-arrow-down',
+          icon: 'arrow-down',
           action: () => this.moveComponentDown(),
         },
         {
           key: 'new-page',
           label: 'Create New Page',
-          icon: 'w-new-page',
+          icon: 'new-page',
           action: () => this.newPage(),
         },
         {
           key: 'save',
           label: 'Save Current Page',
-          icon: 'w-save',
+          icon: 'save',
           disabled: !this.page || !this.page._id,
           action: this.savePage,
         },
-        { key: 'nav', label: 'Save Navigation', icon: 'w-nav', group: 'nav', action: () => this.saveNav() },
-        { key: 'footer', label: 'Save Footer', icon: 'w-footer', group: 'footer', action: () => this.saveFooter() },
+        { key: 'nav', label: 'Save Navigation', icon: 'nav-icon', group: 'nav', action: () => this.saveNav() },
+        { key: 'footer', label: 'Save Footer', icon: 'footer-icon', group: 'footer', action: () => this.saveFooter() },
         {
           key: 'publishPage',
           label: 'Publish Current Page',
-          icon: 'w-publish',
+          icon: 'publish',
           disabled: !this.page || !this.page._id,
           action: () => this.editInModal('publishSettings'),
         },
         {
           key: 'config-settings',
           label: 'Open Config Settings',
-          icon: 'w-globe',
+          icon: 'globe',
           action: () => this.editInModal('configSettings'),
         },
         {
           key: 'site-settings',
           label: 'Open Site Settings',
-          icon: 'w-settings',
+          icon: 'settings',
           action: () => this.editInModal('siteSettings'),
         },
         {
           key: 'page-settings',
           label: 'Open Page Settings',
-          icon: 'w-page-settings',
+          icon: 'page-settings',
           disabled: !this.page || !this.page._id,
           action: () => this.editInModal('pageSettings'),
         },
         {
           key: 'dashboard',
           label: 'Open Dashboard',
-          icon: 'w-dashboard',
+          icon: 'dashboard',
           action: this.showDashboard,
         },
-        { key: 'logout', label: 'Log out', icon: 'w-logout', group: 'security', action: () => this.logout() },
+        { key: 'logout', label: 'Log out', icon: 'logout', group: 'security', action: () => this.logout() },
       ];
     },
     userCanEdit() {
