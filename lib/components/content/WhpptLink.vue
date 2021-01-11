@@ -2,9 +2,12 @@
   <div v-if="inactive || !to.href">
     <slot></slot>
   </div>
-  <nuxt-link v-else-if="to.type === 'page' && !exactPath" :to="to.href">
+  <!-- <nuxt-link v-else-if="to.type === 'page' && !exactPath" :to="to.href">
     <slot></slot>
-  </nuxt-link>
+  </nuxt-link> -->
+  <a v-else-if="to.type === 'page' && !exactPath" :href="to.href">
+    <slot></slot>
+  </a>
   <a v-else-if="to.type === 'page' && exactPath" :href="to.href">
     <slot></slot>
   </a>
