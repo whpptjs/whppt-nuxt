@@ -1,7 +1,11 @@
 <template>
   <div v-if="active" class="whppt-login">
     <div class="whppt-login__heading-actions">
-      <whppt-button v-if="forgotPasswordVisible" class="whppt-login__heading-action" @click="close">
+      <whppt-button
+        v-if="forgotPasswordVisible"
+        class="whppt-login__heading-action"
+        @click="forgotPasswordVisible = false"
+      >
         <arrow-left class="whppt-login__arrow-left" />
       </whppt-button>
       <whppt-button @click="close"><close-icon /></whppt-button>
@@ -33,7 +37,15 @@
       <div v-else class="whppt-form-container">
         <h2 class="whppt-login__heading whppt-login__heading--dark">Forgot Password?</h2>
         <form @submit.prevent>
-          <!-- Add Form inputs and button here -->
+          <whppt-text-input
+            :id="`${$options._scopeId}-reset-email`"
+            v-model="forgotPassword.email"
+            label="Email"
+            placeholder="Email"
+          />
+          <whppt-button @click="resetPassword">
+            Reset Password
+          </whppt-button>
         </form>
       </div>
     </transition>
@@ -63,6 +75,7 @@ export default {
       username: '',
       password: '',
     },
+    forgotPassword: {},
   }),
   methods: {
     ...mapActions('whppt-nuxt/security', ['login']),
@@ -83,6 +96,9 @@ export default {
     },
     showForgotPassword() {
       this.forgotPasswordVisible = true;
+    },
+    resetPassword() {
+      console.log(this.forgotPassword);
     },
     show() {
       this.data.password = '';
