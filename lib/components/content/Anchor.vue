@@ -1,6 +1,6 @@
 <template>
   <div :class="{ container }">
-    <div :id="content.id" v-whppt-anchor="content" :data-property="property">
+    <div :id="content.id" v-whppt-anchor="content" :data-property="property" class="whppt-anchor">
       <p v-if="activeMenuItem"><span class="whppt-hash">#</span> {{ content[property] }}</p>
     </div>
   </div>

@@ -1,25 +1,30 @@
 <template>
-  <div v-if="inactive || !to.href">
+  <div v-if="inactive || !to.href" class="whppt-link">
     <slot></slot>
   </div>
   <!-- Temporary Work around for SEO issue -->
-  <a v-else-if="to.type === 'page' && !exactPath" :href="to.href">
+  <a v-else-if="to.type === 'page' && !exactPath" :href="to.href" class="whppt-link">
     <slot></slot>
   </a>
   <!--  <nuxt-link v-else-if="to.type === 'page' && !exactPath" :to="to.href">-->
   <!--    <slot></slot>-->
   <!--  </nuxt-link>-->
 
-  <a v-else-if="to.type === 'page' && exactPath" :href="to.href">
+  <a v-else-if="to.type === 'page' && exactPath" :href="to.href" class="whppt-link">
     <slot></slot>
   </a>
-  <a v-else-if="to.type === 'anchor'" :href="to.href" @click.prevent="navigateToAnchor(to.href)">
+  <a v-else-if="to.type === 'anchor'" :href="to.href" @click.prevent="navigateToAnchor(to.href)" class="whppt-link">
     <slot></slot>
   </a>
-  <a v-else-if="to.type === 'file'" target="_black" :href="`${baseFileUrl || baseAPIUrl}/file/${to.fileId}`">
+  <a
+    v-else-if="to.type === 'file'"
+    target="_black"
+    :href="`${baseFileUrl || baseAPIUrl}/file/${to.fileId}`"
+    class="whppt-link"
+  >
     <slot></slot>
   </a>
-  <a v-else :href="to.href" :target="to.type === 'external' && '_blank'">
+  <a v-else :href="to.href" :target="to.type === 'external' && '_blank'" class="whppt-link">
     <slot></slot>
   </a>
 </template>
