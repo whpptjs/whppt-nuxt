@@ -1,6 +1,6 @@
 <template>
   <div :class="{ container }">
-    <div v-whppt-text="content" :data-property="property">
+    <div v-whppt-text="content" :data-property="property" class="whppt-plain-text">
       <p>{{ content[property] || 'Insert Text Here' }}</p>
     </div>
   </div>
@@ -10,7 +10,7 @@
 import { mapState } from 'vuex';
 
 export default {
-  name: 'WhpptAnchor',
+  name: 'WhpptPlainText',
   props: {
     content: {
       type: Object,
