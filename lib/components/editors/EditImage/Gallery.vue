@@ -50,13 +50,13 @@
 
 <script>
 import { mapState } from 'vuex';
-import icons from '../../icons';
+import { Trash } from '../../icons';
 import WhpptPagination from '../../ui/Pagination';
 import Loading from '../../icons/Loading';
 
 export default {
   name: 'EditorGallery',
-  components: { Trash: icons.Trash, WhpptPagination, Loading },
+  components: { Trash, WhpptPagination, Loading },
   props: {
     value: {
       type: String,

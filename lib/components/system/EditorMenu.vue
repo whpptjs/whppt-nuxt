@@ -74,6 +74,7 @@ import {
   Login,
   Logout,
 } from '../icons';
+
 import LoginForm from './LoginForm';
 
 export default {
