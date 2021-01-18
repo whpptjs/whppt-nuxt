@@ -132,9 +132,7 @@ export default {
   },
   methods: {
     getUrl(file) {
-      const baseUrl = window.location.origin;
-
-      return encodeURI(`${baseUrl}/file/${file._id}/${file.name}`);
+      return encodeURI(`/file/${file._id}/${file.name}`);
     },
     copyUrl(file) {
       const str = encodeURI(`/file/${file._id}/${file.name}`);
