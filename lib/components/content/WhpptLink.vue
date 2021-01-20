@@ -13,7 +13,7 @@
   <a v-else-if="to.type === 'page' && exactPath" :href="to.href" class="whppt-link">
     <slot></slot>
   </a>
-  <a v-else-if="to.type === 'anchor'" :href="to.href" @click.prevent="navigateToAnchor(to.href)" class="whppt-link">
+  <a v-else-if="to.type === 'anchor'" :href="to.href" class="whppt-link" @click.prevent="navigateToAnchor(to.href)">
     <slot></slot>
   </a>
   <a
