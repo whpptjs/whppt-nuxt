@@ -130,7 +130,7 @@ export default {
       const { email, password } = this.recovery;
 
       this.$axios
-        .$post(`${this.$whppt.apiPrefix}/user/setupNewUser`, { email, password, token: this.token })
+        .$post(`${this.$whppt.apiPrefix}/user/setPassword`, { email, password, token: this.token })
         .then(() => {
           this.$emit('closed');
           this.$router.push('/');

@@ -1,6 +1,6 @@
 <template>
   <div v-if="active">
-    <forgot-password v-if="forgotPasswordVisible" @close="active = false" />
+    <forgot-password v-if="forgotPasswordVisible" @close="closeLoginOverlay" @return="forgotPasswordVisible = false" />
     <login v-else @showForgotPassword="forgotPasswordVisible = true" @close="active = false"></login>
   </div>
 </template>
@@ -22,6 +22,10 @@ export default {
   methods: {
     show() {
       this.active = true;
+    },
+    closeLoginOverlay() {
+      this.active = false;
+      this.forgotPasswordVisible = false;
     },
   },
 };

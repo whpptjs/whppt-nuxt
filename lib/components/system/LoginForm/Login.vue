@@ -91,7 +91,7 @@ $danger-600: #e53e3e;
 .whppt-login {
   position: fixed;
   z-index: 53;
-  width: 40vw;
+  width: 450px;
   height: 100vh;
   background-color: $gray-900;
   display: flex;
