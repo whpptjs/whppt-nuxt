@@ -1,5 +1,5 @@
 <template>
-  <button class="whppt-button" @click="$emit('click')">
+  <button class="whppt-button" @click="$emit('click')" @mouseover="$emit('mouseover')">
     <slot></slot>
   </button>
 </template>

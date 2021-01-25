@@ -3,7 +3,7 @@
     <div class="whppt-sidebar__inner">
       <whppt-tabs>
         <whppt-tab title="Selected Component">
-          <component :is="editSidebarType"></component>
+          <component :is="editSidebarType" @changePreview="$emit('changePreview', $event)"></component>
           <div v-if="selectedComponent && selectedComponent.value && selectedContent" class="whppt__default-container">
             <whppt-check-box
               v-if="selectedComponent.value.hasOwnProperty('reversed')"

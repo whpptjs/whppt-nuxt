@@ -8,10 +8,11 @@
         </template>
       </whppt-modal>
     </div>
-    <div class="whppt-content">
+    <div class="whppt-content" @mouseenter="previewImage = ''">
       <slot></slot>
     </div>
-    <whppt-sidebar />
+    <!-- <preview-sidebar :preview-image="previewImage" /> -->
+    <whppt-sidebar @changePreview="setPreview" />
   </div>
 </template>
 
@@ -35,6 +36,7 @@ export default {
     SiteSettings: () => import('../system/SiteSettings'),
     PageSettings: () => import('../system/PageSettings'),
     WhpptSidebar: () => import('../system/WhpptSidebar'),
+    PreviewSidebar: () => import('../system/PreviewSidebar'),
     WhpptButton,
     WhpptModal,
     WhpptTextInput,
@@ -46,6 +48,7 @@ export default {
     WhpptTabs,
   },
   props: { prefix: { type: String, default: '' } },
+  data: () => ({ previewImage: '' }),
   computed: {
     ...mapState('whppt-nuxt/editor', [
       'editInModal',
@@ -66,6 +69,9 @@ export default {
     ...mapActions('whppt-nuxt/editor', ['closeSidebar', 'closeModal']),
     ifExists(value) {
       return typeof value !== 'undefined';
+    },
+    setPreview(previewImage) {
+      this.previewImage = previewImage;
     },
   },
 };
@@ -103,6 +109,29 @@ export default {
 }
 
 .whppt-openEditor {
+  margin-right: 0;
+}
+
+.preview-sidebar {
+  position: fixed;
+  right: 400px;
+  padding: 1rem;
+  width: 600px;
+  min-width: 600px;
+  margin-right: -600px;
+  z-index: 51;
+}
+
+.preview-sidebar__inner {
+  width: 565px;
+  overflow: auto;
+  padding-bottom: 60px;
+}
+.preview-sidebar__inner .preview-image {
+  width: 565px;
+}
+
+.preview-openEditor {
   margin-right: 0;
 }
 

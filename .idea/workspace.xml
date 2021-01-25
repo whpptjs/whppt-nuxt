@@ -20,10 +20,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c4b06844-8cff-4e0f-85b0-2411455130ee" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/plugins/vCalendar.client.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.github/ISSUE_TEMPLATE/bug_report.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.github/ISSUE_TEMPLATE/feature_request.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/lib/system/PreviewSidebar.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/lib/system/RichText/RichTextEditor.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plugins/helpers/Video.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/module.js" beforeDir="false" afterPath="$PROJECT_DIR$/module.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/lib/content/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/lib/content/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/lib/system/Content.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/lib/system/Content.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/lib/system/RichText/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/lib/system/RichText/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/lib/system/SiteSettings/tabs/SettingsOG.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/lib/system/SiteSettings/tabs/SettingsOG.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/lib/system/SiteSettings/tabs/SettingsTwitter.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/lib/system/SiteSettings/tabs/SettingsTwitter.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/lib/system/WhpptPage/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/lib/system/WhpptPage/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/lib/system/WhpptSidebar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/lib/system/WhpptSidebar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/lib/whpptComponents/WhpptButton.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/lib/whpptComponents/WhpptButton.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/lib/whpptComponents/WhpptDatePicker.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/lib/whpptComponents/WhpptDatePicker.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/lib/whpptComponents/WhpptPagination.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/lib/whpptComponents/WhpptPagination.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugins/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/plugins/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/store/modules/editor.js" beforeDir="false" afterPath="$PROJECT_DIR$/store/modules/editor.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

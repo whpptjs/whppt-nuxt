@@ -6,6 +6,7 @@
       :key="component.key"
       class="whppt-full whppt-content--margin"
       @click="addContent(component)"
+      @mouseover="$emit('changePreview', component.previewImage)"
       >{{ component.name }}</whppt-button
     >
   </div>
@@ -19,6 +20,7 @@ import WhpptButton from '../whpptComponents/WhpptButton';
 export default {
   name: 'WhpptContent',
   components: { WhpptButton },
+  data: () => ({ previewImage: '' }),
   computed: {
     ...mapState('whppt-nuxt/editor', ['selectedComponent', 'selectedContentBlacklist', 'selectedContentWhitelist']),
     contents() {

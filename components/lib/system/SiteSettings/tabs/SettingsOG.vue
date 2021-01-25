@@ -38,7 +38,7 @@
       <div v-if="settings.og.image.imageId">
         <div class="whppt-label">Image</div>
         <cropping :image-options="settings.og.image" :sizes="sizes" @imageRemoved="removeImage" />
-        <button @click="removeImage">Select Another Image</button>
+        <button class="whppt-settings__button" @click="removeImage">Select Another Image</button>
       </div>
     </fieldset>
   </form>

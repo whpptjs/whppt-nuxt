@@ -34,7 +34,7 @@ import WhpptTextInput from './WhpptTextInput';
 let VDatePicker;
 
 if (process.client) {
-  VDatePicker = require('v-calendar/lib/components/date-picker.umd');
+  VDatePicker = require('v-calendar-ie11/lib/v-calendar.umd.js').DatePicker;
 }
 
 export default {
