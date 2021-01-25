@@ -19,19 +19,32 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c4b06844-8cff-4e0f-85b0-2411455130ee" name="Default Changelist" comment="" />
+    <list default="true" id="c4b06844-8cff-4e0f-85b0-2411455130ee" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/plugins/vCalendar.client.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/module.js" beforeDir="false" afterPath="$PROJECT_DIR$/module.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitToolBoxStore">
     <option name="projectConfigVersion" value="2" />
   </component>
   <component name="ProjectId" id="1fhms6F8LHeHmzfg4ocESePd6wX" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -50,6 +63,11 @@
     <property name="prettierjs.PrettierConfiguration.Package" value="$PROJECT_DIR$/node_modules/prettier" />
     <property name="run.prettier.on.save" value="true" />
     <property name="settings.editor.selected.configurable" value="settings.javascript.prettier" />
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="npm i" />
+    </option>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -78,27 +96,5 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state width="2518" height="340" key="GridCell.Tab.0.bottom" timestamp="1596698355679">
-      <screen x="0" y="23" width="2560" height="1417" />
-    </state>
-    <state width="2518" height="340" key="GridCell.Tab.0.bottom/2560.135.1920.1057/0.23.2560.1417@0.23.2560.1417" timestamp="1596698355679" />
-    <state width="2518" height="340" key="GridCell.Tab.0.center" timestamp="1596698355679">
-      <screen x="0" y="23" width="2560" height="1417" />
-    </state>
-    <state width="2518" height="340" key="GridCell.Tab.0.center/2560.135.1920.1057/0.23.2560.1417@0.23.2560.1417" timestamp="1596698355679" />
-    <state width="2518" height="340" key="GridCell.Tab.0.left" timestamp="1596698355678">
-      <screen x="0" y="23" width="2560" height="1417" />
-    </state>
-    <state width="2518" height="340" key="GridCell.Tab.0.left/2560.135.1920.1057/0.23.2560.1417@0.23.2560.1417" timestamp="1596698355678" />
-    <state width="2518" height="340" key="GridCell.Tab.0.right" timestamp="1596698355679">
-      <screen x="0" y="23" width="2560" height="1417" />
-    </state>
-    <state width="2518" height="340" key="GridCell.Tab.0.right/2560.135.1920.1057/0.23.2560.1417@0.23.2560.1417" timestamp="1596698355679" />
-    <state x="945" y="348" width="670" height="676" key="search.everywhere.popup" timestamp="1596682943968">
-      <screen x="0" y="23" width="2560" height="1417" />
-    </state>
-    <state x="945" y="348" width="670" height="676" key="search.everywhere.popup/2560.135.1920.1057/0.23.2560.1417@0.23.2560.1417" timestamp="1596682943968" />
   </component>
 </project>

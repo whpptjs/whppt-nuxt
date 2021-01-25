@@ -9,7 +9,14 @@ export default function WhpptNuxtModule(moduleOptions) {
     ...this.options.whppt,
   };
 
-  const pluginsToSync = ['debug.js', 'components/index.js', 'plugins/index.js', 'store/index.js'];
+  const pluginsToSync = [
+    'debug.js',
+    'components/index.js',
+    'plugins/index.js',
+    'store/index.js',
+    'plugins/vCalendar.client.js',
+  ];
+
   for (const pathString of pluginsToSync) {
     this.addPlugin({
       src: resolve(__dirname, pathString),
