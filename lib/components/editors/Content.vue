@@ -1,13 +1,16 @@
 <template>
   <div class="whppt-content">
-    <whppt-button
-      v-for="component in componentList"
-      :key="component.key"
-      class="whppt-content__button"
-      @click="addContent(component)"
-    >
-      {{ component.name }}
-    </whppt-button>
+    <div v-for="(component, index) in componentList" :key="component.key">
+      <whppt-button class="whppt-content__button" @click="setPreviewIndex(index)">
+        {{ component.name }}
+      </whppt-button>
+      <div class="whppt-content__preview" :class="{ 'whppt-content__preview--active': index === previewIndex }">
+        <div v-if="previewIndex === index" class="whppt-preview">
+          <component :is="component.displayType" v-whppt-editor-enabled="false" />
+          <whppt-button flat @click="addContent(component)">Add +</whppt-button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -19,6 +22,9 @@ import WhpptButton from '../ui/Button';
 export default {
   name: 'WhpptContent',
   components: { WhpptButton },
+  data: () => ({
+    previewIndex: -1,
+  }),
   computed: {
     ...mapState('whppt-nuxt/page', ['page']),
     ...mapState('whppt-nuxt/editor', ['selectedComponent']),
@@ -48,11 +54,17 @@ export default {
 
       this.pushSelectedComponentState({ value });
     },
+    setPreviewIndex(index) {
+      if (this.previewIndex === index) return (this.previewIndex = -1);
+      this.previewIndex = index;
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+$primary-600: #5a67d8;
+
 .whppt-content {
   width: 100%;
   display: flex;
@@ -60,6 +72,23 @@ export default {
 
   &__button {
     margin: 0.5rem 0;
+    width: 100%;
   }
+
+  &__preview {
+    max-height: 0;
+    background-color: $primary-600;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+
+    &--active {
+      max-height: 300px;
+      transition: max-height 0.3s ease;
+    }
+  }
+}
+
+.whppt-preview {
+  height: 300px;
 }
 </style>
