@@ -17,7 +17,6 @@
           :items="pageTypes"
           :value="newPage.pageTypeObj"
           return-object
-          placeholder="Select a page type"
           @input="setPageTypeObj"
         />
         <whppt-select
@@ -224,9 +223,11 @@ export default {
       if (!template) return;
       this.newPage.template = template;
     },
-    setPageTypeObj($event) {
-      this.newPage.pageTypeObj = $event;
-      this.newPage.pageType = $event;
+    setPageTypeObj(pageType) {
+      if (!pageType) return;
+
+      this.newPage.pageTypeObj = pageType;
+      this.newPage.pageType = pageType;
     },
     changePageType() {
       let newSlug = this.rawSlug;

@@ -1,15 +1,16 @@
 <template>
   <div class="whppt-content">
-    <div v-for="(component, index) in componentList" :key="component.key">
-      <whppt-button class="whppt-content__button" @click="setPreviewIndex(index)">
+    <div v-for="(component, index) in componentList" :key="`${component.key}-${index}`">
+      <!--      <whppt-button class="whppt-content__button" @click="setPreviewIndex(index)">-->
+      <whppt-button class="whppt-content__button" @click="addContent(component)">
         {{ component.name }}
       </whppt-button>
-      <div class="whppt-content__preview" :class="{ 'whppt-content__preview--active': index === previewIndex }">
-        <div v-if="previewIndex === index" class="whppt-preview">
-          <component :is="component.displayType" v-whppt-editor-enabled="false" />
-          <whppt-button flat @click="addContent(component)">Add +</whppt-button>
-        </div>
-      </div>
+      <!--      <div class="whppt-content__preview" :class="{ 'whppt-content__preview&#45;&#45;active': index === previewIndex }">-->
+      <!--        <div v-if="previewIndex === index" class="whppt-preview">-->
+      <!--          <component :is="component.displayType" v-whppt-editor-enabled="false" />-->
+      <!--          <whppt-button flat @click="addContent(component)">Add +</whppt-button>-->
+      <!--        </div>-->
+      <!--      </div>-->
     </div>
   </div>
 </template>

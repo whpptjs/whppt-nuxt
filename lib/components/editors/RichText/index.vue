@@ -1,57 +1,71 @@
 <template>
-  <div class="whppt-editor">
+  <div class="whppt-richtext" :class="{ 'whppt-richtext--dark': dark }">
     <editor-menu-bar v-if="!selectedComponent.hideMenu" :editor="editor">
       <div slot-scope="{ commands, isActive, getMarkAttrs }">
-        <div class="whppt-menubar" style="top: -52px">
-          <div v-if="!selectedComponent.hideStyle" class="whppt-menubar__section">
+        <div class="whppt-richtext__menubar" style="top: -52px">
+          <div v-if="!selectedComponent.hideStyle" class="whppt-richtext__menu-section">
             <button aria-label="Bold" @click="commands.bold">
-              <i-bold class="whppt-editor__icon" :class="{ 'whppt-editor__icon--active': isActive.bold() }" />
+              <i-bold class="whppt-richtext__icon" :class="{ 'whppt-richtext__icon--active': isActive.bold() }" />
             </button>
             <button aria-label="Italic" @click="commands.italic">
-              <i-italic class="whppt-editor__icon" :class="{ 'whppt-editor__icon--active': isActive.italic() }" />
+              <i-italic class="whppt-richtext__icon" :class="{ 'whppt-richtext__icon--active': isActive.italic() }" />
             </button>
             <button aria-label="Underline" @click="commands.underline">
-              <i-underline class="whppt-editor__icon" :class="{ 'whppt-editor__icon--active': isActive.underline() }" />
+              <i-underline
+                class="whppt-richtext__icon"
+                :class="{ 'whppt-richtext__icon--active': isActive.underline() }"
+              />
             </button>
           </div>
-          <div v-if="!selectedComponent.hideHeaders" class="whppt-menubar__section">
+          <div v-if="!selectedComponent.hideHeaders" class="whppt-richtext__menu-section">
             <button aria-label="Paragraph" @click="commands.paragraph">
-              <i-paragraph class="whppt-editor__icon" :class="{ 'whppt-editor__icon--active': isActive.paragraph() }" />
+              <i-paragraph
+                class="whppt-richtext__icon"
+                :class="{ 'whppt-richtext__icon--active': isActive.paragraph() }"
+              />
             </button>
             <button aria-label="Header Size 2" @click="commands.heading({ level: 2 })">
               <i-header2
-                class="whppt-editor__icon"
-                :class="{ 'whppt-editor__icon--active': isActive.heading({ level: 2 }) }"
+                class="whppt-richtext__icon"
+                :class="{ 'whppt-richtext__icon--active': isActive.heading({ level: 2 }) }"
               />
             </button>
             <button aria-label="Header Size 3" @click="commands.heading({ level: 3 })">
               <i-header3
-                class="whppt-editor__icon"
-                :class="{ 'whppt-editor__icon--active': isActive.heading({ level: 3 }) }"
+                class="whppt-richtext__icon"
+                :class="{ 'whppt-richtext__icon--active': isActive.heading({ level: 3 }) }"
               />
             </button>
           </div>
-          <div v-if="!selectedComponent.hideLists" class="whppt-menubar__section">
+          <div v-if="!selectedComponent.hideLists" class="whppt-richtext__menu-section">
             <button aria-label="Bullet List" @click="commands.bullet_list">
               <i-bullet-list
-                class="whppt-editor__icon"
-                :class="{ 'whppt-editor__icon--active': isActive.bullet_list() }"
+                class="whppt-richtext__icon"
+                :class="{ 'whppt-richtext__icon--active': isActive.bullet_list() }"
               />
             </button>
             <button aria-label="Ordered List" @click="commands.ordered_list">
               <i-ordered-list
-                class="whppt-editor__icon"
-                :class="{ 'whppt-editor__icon--active': isActive.ordered_list() }"
+                class="whppt-richtext__icon"
+                :class="{ 'whppt-richtext__icon--active': isActive.ordered_list() }"
               />
             </button>
           </div>
-          <div v-if="!selectedComponent.hideLinks" class="whppt-menubar__section">
+          <div v-if="!selectedComponent.hideLinks" class="whppt-richtext__menu-section">
             <button aria-label="Create Link" @click="showLink(getMarkAttrs('link'))">
               <i-link
-                class="whppt-editor__icon"
-                :class="{ 'whppt-editor__icon--active': isActive.link() }"
+                class="whppt-richtext__icon"
+                :class="{ 'whppt-richtext__icon--active': isActive.link() }"
                 :fill="isActive.link() ? 'orangered' : 'white'"
               />
+            </button>
+          </div>
+          <div class="whppt-richtext__menu-section">
+            <button aria-label="Undo" @click="commands.undo">
+              <i-undo class="whppt-richtext__icon" />
+            </button>
+            <button aria-label="Redo" @click="commands.redo">
+              <i-redo class="whppt-richtext__icon" />
             </button>
           </div>
         </div>
@@ -83,12 +97,26 @@
         </form>
       </div>
     </editor-menu-bar>
-    <editor-content class="whppt-rich-content" :editor="editor" />
+    <editor-content
+      class="whppt-richtext__content whppt-rich-content"
+      :class="{ 'whppt-richtext__content--dark': dark }"
+      :editor="editor"
+    />
   </div>
 </template>
 
 <script>
-import { Bold, BulletList, HardBreak, Heading, Italic, ListItem, OrderedList, Underline } from 'tiptap-extensions';
+import {
+  Bold,
+  BulletList,
+  HardBreak,
+  Heading,
+  Italic,
+  ListItem,
+  OrderedList,
+  Underline,
+  History,
+} from 'tiptap-extensions';
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap';
 import { mapActions, mapState } from 'vuex';
 
@@ -106,6 +134,8 @@ import IOrderedList from '../../icons/OrderedList';
 import IUnderline from '../../icons/Underline';
 import ILink from '../../icons/ChainLink';
 import IClose from '../../icons/Close';
+import IUndo from '../../icons/Undo';
+import IRedo from '../../icons/Redo';
 import Link from './CustomLink';
 
 const isEmptyValue = val => {
@@ -127,29 +157,37 @@ export default {
     IUnderline,
     ILink,
     IClose,
+    IUndo,
+    IRedo,
     WhpptSelect,
     WhpptTextInput,
     WhpptButton,
   },
-  data() {
-    return {
-      editor: null,
-      internal: undefined,
-      editingLink: undefined,
-      linkTypes: [
-        { text: 'External', value: 'external' },
-        { text: 'Page', value: 'page' },
-      ],
-    };
+  props: {
+    dark: {
+      type: Boolean,
+      default: true,
+    },
   },
-  computed: mapState('whppt-nuxt/editor', ['richTextWatcher', 'selectedComponent']),
+  data: () => ({
+    editor: null,
+    internal: undefined,
+    editingLink: undefined,
+    linkTypes: [
+      { text: 'External', value: 'external' },
+      { text: 'Page', value: 'page' },
+    ],
+  }),
+  computed: {
+    ...mapState('whppt-nuxt/editor', ['richTextWatcher', 'selectedComponent']),
+  },
   watch: {
-    richTextWatcher(val) {
+    richTextWatcher() {
       if (this.internal !== this.selectedComponent.value[this.selectedComponent.property]) {
         this.internal = this.selectedComponent.value[this.selectedComponent.property];
         this.editor.setContent(
           isEmptyValue(this.selectedComponent.value[this.selectedComponent.property])
-            ? 'Insert text here'
+            ? 'Start typing here...'
             : this.selectedComponent.value[this.selectedComponent.property]
         );
       }
@@ -157,6 +195,7 @@ export default {
   },
   mounted() {
     const vm = this;
+
     this.internal = this.selectedComponent.value[this.selectedComponent.property];
 
     this.editor = new Editor({
@@ -170,9 +209,10 @@ export default {
         new OrderedList(),
         new Link(),
         new HardBreak(),
+        new History(),
       ],
       content: isEmptyValue(this.selectedComponent.value[this.selectedComponent.property])
-        ? 'Insert text here'
+        ? 'Start typing here...'
         : this.selectedComponent.value[this.selectedComponent.property],
       onUpdate({ getHTML }) {
         vm.internal = getHTML();
@@ -212,46 +252,60 @@ export default {
 
 <style lang="scss" scoped>
 $gray-200: #edf2f7;
+$gray-500: #a0aec0;
+$gray-700: #4a5568;
+
 $primary-600: #5a67d8;
 
-.whppt-editor {
+.whppt-richtext {
   width: 100%;
+  color: black;
+
+  .whppt-richtext__menubar {
+    background-color: white;
+    border: 1px solid $gray-200;
+    display: flex;
+    align-items: center;
+    padding: 0.2rem 0;
+    border-radius: 0.25rem;
+  }
+
+  .whppt-richtext__menu-section {
+    display: flex;
+
+    button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: none;
+      cursor: pointer;
+      height: 2rem;
+      width: 2rem;
+    }
+  }
+
+  &--dark {
+    color: white;
+
+    .whppt-richtext__menubar {
+      background-color: $gray-700;
+      border: 1px solid $gray-200;
+    }
+
+    .whppt-richtext__menu-section {
+      button {
+        background-color: transparent;
+      }
+    }
+  }
 
   &__icon {
-    color: white;
+    width: 1.25rem;
+
+    &--active {
+      color: $primary-600;
+    }
   }
-
-  &__icon--active {
-    color: $primary-600;
-  }
-}
-
-.whppt-menubar {
-  display: flex;
-  align-items: center;
-  padding: 0.2rem 0;
-  border: 1px solid $gray-200;
-  border-radius: 0.25rem;
-}
-
-.whppt-menubar__section {
-  display: flex;
-}
-
-.whppt-menubar button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-  height: 2rem;
-  width: 2rem;
-}
-
-.whppt-menubar__section-container {
-  display: flex;
-  align-items: center;
 }
 
 .whppt-link-form {
@@ -278,6 +332,53 @@ $primary-600: #5a67d8;
 </style>
 
 <style lang="scss">
+$gray-200: #edf2f7;
+$gray-500: #a0aec0;
+$gray-700: #4a5568;
+$gray-800: #2d3748;
+$gray-900: #1a202c;
+
+$primary-600: #5a67d8;
+
+.whppt-richtext {
+  .ProseMirror {
+    margin: 1em 0;
+    padding: 1rem 2rem 1rem 0.75rem;
+    border: 1px solid $gray-200;
+    border-radius: 0.25rem;
+    background-color: $gray-200;
+    color: $gray-700;
+    height: 60vh;
+    min-height: 400px;
+    overflow-y: auto;
+    line-height: 1.25;
+    transition: background-color 0.3s ease;
+
+    &:focus {
+      outline: none;
+      background-color: white;
+      border-color: $gray-500;
+    }
+
+    a {
+      color: $primary-600;
+    }
+  }
+
+  &--dark {
+    .ProseMirror {
+      background-color: $gray-900;
+      color: white;
+
+      &:focus {
+        background-color: $gray-700;
+        border-color: $gray-200;
+      }
+    }
+  }
+}
+
+// TODO: rename class to whppt-richtext__content before 2.0 release
 .whppt-rich-content {
   p:not(:first-child),
   h2:not(:first-child) {

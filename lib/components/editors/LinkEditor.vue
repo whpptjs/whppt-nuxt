@@ -134,6 +134,7 @@ export default {
   mounted() {
     this.filterList = debounce(() => this.queryFilesList(), 600);
     this.filterList();
+
     this.setActiveTabIndex(this.link.type);
   },
   methods: {
@@ -144,20 +145,18 @@ export default {
       this.setSelectedComponentState({ value: item._id, path: 'fileId' });
     },
     queryFilesList() {
-      return this.$api
-        .get(`/file/searchFiles`, {
-          params: { search: this.search },
-        })
-        .then(({ data: { files } }) => {
-          this.files = files;
-        });
+      const config = { params: { search: this.search } };
+
+      return this.$api.get(`/file/searchFiles`, config).then(({ data: { files } }) => (this.files = files));
     },
     tabChanged(tab) {
       this.setSelectedComponentState({ value: tab.id, path: 'type' });
       this.setActiveTabIndex(tab.id);
     },
     setActiveTabIndex(tabId) {
-      this.activeTabIndex = findIndex(this.$refs.whpptLinkEditorTabs.$children, { id: tabId }) || 0;
+      const tabIndex = findIndex(this.$refs.whpptLinkEditorTabs.$children, { id: tabId });
+
+      this.activeTabIndex = tabIndex || 0;
     },
   },
 };
