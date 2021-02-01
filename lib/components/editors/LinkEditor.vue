@@ -103,11 +103,11 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import { debounce, findIndex } from 'lodash';
-import WhpptTextInput from '../ui/Input';
-import WhpptSelect from '../ui/Select';
-import WhpptTabs from '../ui/Tabs';
-import WhpptTab from '../ui/Tab';
-import WhpptCard from '../ui/Card';
+import WhpptTextInput from '../ui/components/Input';
+import WhpptSelect from '../ui/components/Select';
+import WhpptTabs from '../ui/components/Tabs';
+import WhpptTab from '../ui/components/Tab';
+import WhpptCard from '../ui/components/Card';
 
 export default {
   name: 'EditorLinkEdit',
@@ -118,7 +118,7 @@ export default {
     files: [],
   }),
   computed: {
-    ...mapState('whppt-nuxt/editor', ['baseAPIUrl', 'baseFileUrl', 'selectedComponent']),
+    ...mapState('whppt/editor', ['baseAPIUrl', 'baseFileUrl', 'selectedComponent']),
     link() {
       return this.selectedComponent.value[this.selectedComponent.property] || this.selectedComponent.value;
     },
@@ -138,7 +138,7 @@ export default {
     this.setActiveTabIndex(this.link.type);
   },
   methods: {
-    ...mapActions('whppt-nuxt/editor', ['setSelectedComponentState']),
+    ...mapActions('whppt/editor', ['setSelectedComponentState']),
     selectFile(item) {
       if (!item) return;
       this.setSelectedComponentState({ value: `/file/${item._id}`, path: 'href' });

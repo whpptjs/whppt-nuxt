@@ -54,11 +54,11 @@
 
 <script>
 import { clamp } from 'lodash';
-import WhpptTextInput from '../../../ui/Input';
-import WhpptTextArea from '../../../ui/Textarea';
-import WhpptSelect from '../../../ui/Select';
-import WhpptButton from '../../../ui/Button';
-import WhpptCard from '../../../ui/Card';
+import WhpptTextInput from '../../../ui/components/Input';
+import WhpptTextArea from '../../../ui/components/Textarea';
+import WhpptSelect from '../../../ui/components/Select';
+import WhpptButton from '../../../ui/components/Button';
+import WhpptCard from '../../../ui/components/Card';
 
 import savePageMixin from '../../../../util/mixins/pageSettings';
 

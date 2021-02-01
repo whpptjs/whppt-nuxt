@@ -36,10 +36,10 @@
 </template>
 
 <script>
-import WhpptTextInput from '../../../ui/Input';
-import WhpptTextArea from '../../../ui/Textarea';
-import WhpptCard from '../../../ui/Card';
-import WhpptButton from '../../../ui/Button';
+import WhpptTextInput from '../../../ui/components/Input';
+import WhpptTextArea from '../../../ui/components/Textarea';
+import WhpptCard from '../../../ui/components/Card';
+import WhpptButton from '../../../ui/components/Button';
 import siteSettingsMixin from '../../../../util/mixins/siteSettings';
 
 export default {

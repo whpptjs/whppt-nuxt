@@ -77,11 +77,11 @@ import { mapState } from 'vuex';
 import { map, filter } from 'lodash';
 import dayjs from 'dayjs';
 import slugify from 'slugify';
-import WhpptTextInput from '../../../ui/Input';
-import WhpptTable from '../../../ui/Table';
-import WhpptCard from '../../../ui/Card';
-import WhpptSpacer from '../../../ui/Spacer';
-import WhpptButton from '../../../ui/Button';
+import WhpptTextInput from '../../../ui/components/Input';
+import WhpptTable from '../../../ui/components/Table';
+import WhpptCard from '../../../ui/components/Card';
+import WhpptSpacer from '../../../ui/components/Spacer';
+import WhpptButton from '../../../ui/components/Button';
 
 export default {
   name: 'SettingsRedirects',
@@ -96,7 +96,7 @@ export default {
     filter: '',
   }),
   computed: {
-    ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
+    ...mapState('whppt/editor', ['baseAPIUrl']),
     ...mapState('whppt/config', ['domain']),
     publishing() {
       return !this.$whppt.disablePublishing;

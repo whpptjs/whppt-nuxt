@@ -1,20 +1,22 @@
 <template>
-  <whppt-textarea
-    id="editor-plain-text"
-    :value="selectedComponent.value[selectedComponent.property]"
-    label="Edit Text"
-    @input="updateSelectedComponent"
-  ></whppt-textarea>
+  <div>
+    <whppt-select
+      id="whppt-editor-select"
+      :items="selectedComponent.items"
+      :value="selectedComponent.value[selectedComponent.property]"
+      @input="updateSelectedComponent"
+    ></whppt-select>
+  </div>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import WhpptTextarea from '../ui/components/Textarea';
+import WhpptSelect from '../ui/components/Select';
 
 export default {
-  name: 'WhpptTextEditor',
+  name: 'WhpptSelectEditor',
   components: {
-    WhpptTextarea,
+    WhpptSelect,
   },
   computed: {
     ...mapState('whppt/editor', ['selectedComponent']),
@@ -27,5 +29,3 @@ export default {
   },
 };
 </script>
-
-<style scoped></style>

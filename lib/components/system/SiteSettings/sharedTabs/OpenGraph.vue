@@ -48,9 +48,9 @@
 </template>
 
 <script>
-import WhpptTextInput from '../../../ui/Input';
-import WhpptTextArea from '../../../ui/Textarea';
-import WhpptCard from '../../../ui/Card';
+import WhpptTextInput from '../../../ui/components/Input';
+import WhpptTextArea from '../../../ui/components/Textarea';
+import WhpptCard from '../../../ui/components/Card';
 import Gallery from '../../../editors/EditImage/Gallery';
 import Cropping from '../../../editors/EditImage/Cropping';
 

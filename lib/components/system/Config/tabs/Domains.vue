@@ -84,11 +84,11 @@ import { cloneDeep } from 'lodash';
 import { mapState, mapActions } from 'vuex';
 import { VTooltip as Tooltip } from 'v-tooltip';
 
-import WhpptInput from '../../../ui/Input';
-import WhpptTable from '../../../ui/Table';
-import WhpptSpacer from '../../../ui/Spacer';
-import WhpptCard from '../../../ui/Card';
-import WhpptButton from '../../../ui/Button';
+import WhpptInput from '../../../ui/components/Input';
+import WhpptTable from '../../../ui/components/Table';
+import WhpptSpacer from '../../../ui/components/Spacer';
+import WhpptCard from '../../../ui/components/Card';
+import WhpptButton from '../../../ui/components/Button';
 import Publish from '../../../icons/Publish';
 import Unpublish from '../../../icons/Unpublish';
 import Edit from '../../../icons/Edit';
@@ -115,7 +115,7 @@ export default {
     editingDomains: [],
   }),
   computed: {
-    ...mapState('whppt-nuxt/editor', ['baseAPIUrl', 'environment']),
+    ...mapState('whppt/editor', ['baseAPIUrl', 'environment']),
     ...mapState('whppt/config', ['domains', 'domain']),
     headers() {
       return [

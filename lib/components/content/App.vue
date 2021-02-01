@@ -2,7 +2,7 @@
   <div class="whppt-flex whppt-overflow-hidden">
     <div v-if="isDraft">
       <editor-menu></editor-menu>
-      <whppt-dialog :is-active.sync="editInModal" @closed="closeModal">
+      <whppt-dialog v-if="editInModal" :is-active.sync="editInModal" @closed="closeModal">
         <template v-slot:header>
           <whppt-toolbar>
             <div class="whppt-toolbar__content">
@@ -13,7 +13,7 @@
         </template>
         <component :is="editInModalType" :prefix="prefix" @closed="closeModal" />
       </whppt-dialog>
-      <whppt-dialog full :is-active.sync="dashboardVisible" @closed="closeDashboard">
+      <whppt-dialog v-if="dashboardVisible" full :is-active.sync="dashboardVisible" @closed="closeDashboard">
         <template v-slot:header>
           <whppt-toolbar>
             <div class="whppt-toolbar__content">
@@ -29,7 +29,7 @@
       <slot></slot>
     </div>
     <whppt-sidebar />
-    <whppt-dialog :is-active="recoveryVisible" @closed="recoveryVisible = false">
+    <whppt-dialog v-if="recoveryVisible" :is-active="recoveryVisible" @closed="recoveryVisible = false">
       <template v-slot:header>
         <whppt-toolbar>
           <h2>Welcome to Whppt!</h2>
@@ -71,11 +71,11 @@ import { startCase } from 'lodash';
 import { mapState, mapActions } from 'vuex';
 import EditorMenu from '../system/EditorMenu';
 import PublishSettings from '../system/PublishSettings';
-import WhpptDialog from '../ui/Dialog';
-import WhpptButton from '../ui/Button';
-import WhpptToolbar from '../ui/Toolbar';
-import WhpptCard from '../ui/Card';
-import WhpptInput from '../ui/Input';
+import WhpptDialog from '../ui/components/Dialog';
+import WhpptButton from '../ui/components/Button';
+import WhpptToolbar from '../ui/components/Toolbar';
+import WhpptCard from '../ui/components/Card';
+import WhpptInput from '../ui/components/Input';
 import Close from '../icons/Close';
 
 export default {
@@ -108,7 +108,7 @@ export default {
   }),
   computed: {
     ...mapState('whppt/dashboard', ['dashboardVisible']),
-    ...mapState('whppt-nuxt/editor', ['editInModal', 'editInModalType', 'editSidebar', 'editSidebarType', 'draft']),
+    ...mapState('whppt/editor', ['editInModal', 'editInModalType', 'editSidebar', 'editSidebarType', 'draft']),
     isDraft() {
       return this.draft;
     },
@@ -123,7 +123,7 @@ export default {
   },
   methods: {
     ...mapActions('whppt/dashboard', ['closeDashboard']),
-    ...mapActions('whppt-nuxt/editor', ['closeSidebar', 'closeModal']),
+    ...mapActions('whppt/editor', ['closeSidebar', 'closeModal']),
     recoverPassword() {
       if (this.authUser) return;
 

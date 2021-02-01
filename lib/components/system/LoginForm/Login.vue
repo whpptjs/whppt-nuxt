@@ -34,8 +34,8 @@
 import { mapActions } from 'vuex';
 import { validationMixin } from 'vuelidate';
 import { required, minLength } from 'vuelidate/lib/validators';
-import WhpptTextInput from '../../ui/Input';
-import WhpptButton from '../../ui/Button';
+import WhpptTextInput from '../../ui/components/Input';
+import WhpptButton from '../../ui/components/Button';
 import { Close as CloseIcon } from '../../icons';
 
 export default {
@@ -53,7 +53,7 @@ export default {
     password: '',
   }),
   methods: {
-    ...mapActions('whppt-nuxt/security', ['login']),
+    ...mapActions('whppt/security', ['login']),
     doLogin() {
       this.busy = true;
       this.login({ username: this.username, password: this.password })

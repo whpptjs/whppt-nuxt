@@ -51,7 +51,7 @@
 <script>
 import { mapState } from 'vuex';
 import { Trash } from '../../icons';
-import WhpptPagination from '../../ui/Pagination';
+import WhpptPagination from '../../ui/components/Pagination';
 import Loading from '../../icons/Loading';
 
 export default {
@@ -82,7 +82,7 @@ export default {
     };
   },
   computed: {
-    ...mapState('whppt-nuxt/editor', ['baseImageUrl', 'baseCdnImageUrl']),
+    ...mapState('whppt/editor', ['baseImageUrl', 'baseCdnImageUrl']),
   },
   mounted() {
     this.loading = true;

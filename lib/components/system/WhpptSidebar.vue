@@ -16,11 +16,11 @@
 import { filter, flatMap, forEach, clamp, startCase } from 'lodash';
 import { mapActions, mapState } from 'vuex';
 import Close from '../icons/Close';
-import WhpptButton from '../ui/Button';
-import WhpptDrawer from '../ui/Drawer';
-import WhpptTabs from '../ui/Tabs';
-import WhpptTab from '../ui/Tab';
-import WhpptToolbar from '../ui/Toolbar';
+import WhpptButton from '../ui/components/Button';
+import WhpptDrawer from '../ui/components/Drawer';
+import WhpptTabs from '../ui/components/Tabs';
+import WhpptTab from '../ui/components/Tab';
+import WhpptToolbar from '../ui/components/Toolbar';
 import * as Editors from '../editors';
 import SpacingControls from '../editors/SpacingControls';
 
@@ -56,7 +56,7 @@ export default {
     startCase,
   }),
   computed: {
-    ...mapState('whppt-nuxt/editor', [
+    ...mapState('whppt/editor', [
       'editSidebar',
       'editSidebarType',
       'editData',
@@ -66,7 +66,7 @@ export default {
     ]),
   },
   methods: {
-    ...mapActions('whppt-nuxt/editor', ['closeSidebar', 'closeModal']),
+    ...mapActions('whppt/editor', ['closeSidebar', 'closeModal']),
     clampInput(input, property) {
       if (input) this.selectedComponent.value[property] = `${clamp(input, 0, 8)}`;
     },

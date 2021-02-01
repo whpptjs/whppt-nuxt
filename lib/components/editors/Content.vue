@@ -18,7 +18,7 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import { orderBy, find, filter, includes } from 'lodash';
-import WhpptButton from '../ui/Button';
+import WhpptButton from '../ui/components/Button';
 
 export default {
   name: 'WhpptContent',
@@ -27,8 +27,8 @@ export default {
     previewIndex: -1,
   }),
   computed: {
-    ...mapState('whppt-nuxt/page', ['page']),
-    ...mapState('whppt-nuxt/editor', ['selectedComponent']),
+    ...mapState('whppt/page', ['page']),
+    ...mapState('whppt/editor', ['selectedComponent']),
     componentList() {
       if (!this.selectedComponent) return;
 
@@ -48,7 +48,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('whppt-nuxt/editor', ['pushSelectedComponentState']),
+    ...mapActions('whppt/editor', ['pushSelectedComponentState']),
     addContent(content) {
       const value = { marginTop: '', componentType: content.componentType };
       if (content.init) Object.assign(value, { ...content.init({ $set: this.$set }) });

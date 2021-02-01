@@ -76,7 +76,7 @@ export default {
     internal: undefined,
   }),
   computed: {
-    ...mapState('whppt-nuxt/editor', ['formattedTextWatcher', 'selectedComponent']),
+    ...mapState('whppt/editor', ['formattedTextWatcher', 'selectedComponent']),
   },
   watch: {
     formattedTextWatcher() {
@@ -109,7 +109,7 @@ export default {
     this.editor.destroy();
   },
   methods: {
-    ...mapActions('whppt-nuxt/editor', ['setSelectedComponentState']),
+    ...mapActions('whppt/editor', ['setSelectedComponentState']),
   },
 };
 </script>

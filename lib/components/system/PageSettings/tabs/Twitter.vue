@@ -9,8 +9,8 @@
 
 <script>
 import SettingsTwitter from '../../SiteSettings/sharedTabs/Twitter';
-import WhpptCard from '../../../ui/Card';
-import WhpptButton from '../../../ui/Button';
+import WhpptCard from '../../../ui/components/Card';
+import WhpptButton from '../../../ui/components/Button';
 import pageSettingsMixin from '../../../../util/mixins/pageSettings';
 
 export default {

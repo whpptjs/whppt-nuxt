@@ -42,7 +42,7 @@
     </whppt-card>
 
     <!-- Change slug dialog -->
-    <whppt-dialog :is-active="showSlugModal" :height="prefix ? 500 : 400" :width="800">
+    <whppt-dialog v-if="showSlugModal" :is-active="showSlugModal" :height="prefix ? 500 : 400" :width="800">
       <template v-slot:header>
         <whppt-toolbar>
           <h3>Edit Slug</h3>
@@ -93,7 +93,7 @@
     </whppt-dialog>
 
     <!-- Delete page dialog -->
-    <whppt-dialog :is-active="showWarning" :height="350" :width="800">
+    <whppt-dialog v-if="showWarning" :is-active="showWarning" :height="350" :width="800">
       <template v-slot:header>
         <whppt-toolbar>
           <h3>Are you sure?</h3>
@@ -112,7 +112,7 @@
     </whppt-dialog>
 
     <!-- Duplicate page dialog -->
-    <whppt-dialog :is-active="showDuplicatePageModal" :height="450" :width="800">
+    <whppt-dialog v-if="showDuplicatePageModal" :is-active="showDuplicatePageModal" :height="450" :width="800">
       <template v-slot:header>
         <whppt-toolbar>
           <h3>Duplicate Page</h3>
@@ -147,12 +147,12 @@
 import slugify from 'slugify';
 import { mapActions } from 'vuex';
 import { map, find, get, compact, filter, forEach, omit } from 'lodash';
-import WhpptCard from '../../../ui/Card';
-import WhpptSelect from '../../../ui/Select';
-import WhpptTextInput from '../../../ui/Input';
-import WhpptButton from '../../../ui/Button';
-import WhpptDialog from '../../../ui/Dialog';
-import WhpptToolbar from '../../../ui/Toolbar';
+import WhpptCard from '../../../ui/components/Card';
+import WhpptSelect from '../../../ui/components/Select';
+import WhpptTextInput from '../../../ui/components/Input';
+import WhpptButton from '../../../ui/components/Button';
+import WhpptDialog from '../../../ui/components/Dialog';
+import WhpptToolbar from '../../../ui/components/Toolbar';
 import Italic from '../../../icons/Italic';
 
 const additionalComponents = {};
@@ -218,7 +218,7 @@ export default {
     if (!this.newPage.template) this.newPage.template = this.page.template;
   },
   methods: {
-    ...mapActions('whppt-nuxt/page', ['savePage', 'deletePage', 'checkSlug']),
+    ...mapActions('whppt/page', ['savePage', 'deletePage', 'checkSlug']),
     setPageTemplate(template) {
       if (!template) return;
       this.newPage.template = template;

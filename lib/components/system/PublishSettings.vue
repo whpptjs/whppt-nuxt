@@ -21,7 +21,7 @@
         </div>
       </div>
     </form>
-    <whppt-dialog :is-active="showWarning" :width="800" :height="300">
+    <whppt-dialog v-if="showWarning" :is-active="showWarning" :width="800" :height="300">
       <template v-slot:header>
         <whppt-toolbar>
           <h3>Are you sure?</h3>
@@ -44,10 +44,10 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import dayjs from 'dayjs';
-import WhpptCard from '../ui/Card';
-import WhpptButton from '../ui/Button';
-import WhpptDialog from '../ui/Dialog';
-import WhpptToolbar from '../ui/Toolbar';
+import WhpptCard from '../ui/components/Card';
+import WhpptButton from '../ui/components/Button';
+import WhpptDialog from '../ui/components/Dialog';
+import WhpptToolbar from '../ui/components/Toolbar';
 
 export default {
   name: 'WhpptPublishSettings',
@@ -63,10 +63,10 @@ export default {
     showWarning: false,
   }),
   computed: {
-    ...mapState('whppt-nuxt/page', ['page']),
+    ...mapState('whppt/page', ['page']),
   },
   methods: {
-    ...mapActions('whppt-nuxt/page', ['savePage', 'unpublishPage', 'deletePage', 'publishPage']),
+    ...mapActions('whppt/page', ['savePage', 'unpublishPage', 'deletePage', 'publishPage']),
     formatDate(date) {
       return dayjs(date).format('dddd D MMMM YYYY');
     },

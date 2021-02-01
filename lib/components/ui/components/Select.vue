@@ -1,6 +1,6 @@
 <template>
-  <!-- TODO: Click outside directive -->
   <div
+    v-click-outside="close"
     class="whppt-select"
     :class="{ 'whppt-select--dark': dark, 'whppt-select--dense': dense }"
     :style="`width: ${typeof width === 'number' ? `${width}px` : width}`"
@@ -47,9 +47,13 @@
 
 <script>
 import { find } from 'lodash';
+import clickOutside from '../directives/clickOutside';
 
 export default {
   name: 'WhpptSelect',
+  directives: {
+    clickOutside,
+  },
   props: {
     id: {
       type: String,
@@ -142,6 +146,9 @@ export default {
       if (this.showSelectItems) this.showSelectItems = false;
       this.onInput(value);
       this.onChange(value);
+    },
+    close() {
+      this.showSelectItems = false;
     },
   },
 };

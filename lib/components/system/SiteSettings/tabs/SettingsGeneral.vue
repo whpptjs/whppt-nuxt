@@ -32,10 +32,10 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 
-import WhpptSelect from '../../../ui/Select';
-import WhpptInput from '../../../ui/Input';
-import WhpptButton from '../../../ui/Button';
-import WhpptCard from '../../../ui/Card';
+import WhpptSelect from '../../../ui/components/Select';
+import WhpptInput from '../../../ui/components/Input';
+import WhpptButton from '../../../ui/components/Button';
+import WhpptCard from '../../../ui/components/Card';
 
 export default {
   name: 'SettingsGeneral',
@@ -45,7 +45,7 @@ export default {
     domains: [],
   }),
   computed: {
-    ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
+    ...mapState('whppt/editor', ['baseAPIUrl']),
     publishing() {
       return !this.$whppt.disablePublishing;
     },
@@ -54,7 +54,7 @@ export default {
     // this.$api.get(`/siteSettings/getVerifiedDomains`).then(({ data }) => (this.domains = data));
   },
   methods: {
-    ...mapActions('whppt-nuxt/site', ['saveSiteSettings', 'publishSiteSettings', 'publishNav', 'publishFooter']),
+    ...mapActions('whppt/site', ['saveSiteSettings', 'publishSiteSettings', 'publishNav', 'publishFooter']),
     pubNav() {
       this.publishNav();
     },

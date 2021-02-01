@@ -39,8 +39,8 @@ import dayjs from 'dayjs';
 import { map } from 'lodash';
 import CheckIcon from '../../../icons/Check';
 import CloseIcon from '../../../icons/Close';
-import WhpptTable from '../../../ui/Table';
-import WhpptButton from '../../../ui/Button';
+import WhpptTable from '../../../ui/components/Table';
+import WhpptButton from '../../../ui/components/Button';
 import ManageRoles from './ManageRoles';
 import NewUser from './NewUser';
 

@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import WhpptDrawer from '../../ui/Drawer';
+import WhpptDrawer from '../../ui/components/Drawer';
 import Users from './Users';
 
 const { additionalComponents, additionalTabs } = global.$whppt.getAdditionalComponents('dashboard');

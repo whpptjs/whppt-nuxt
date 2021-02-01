@@ -120,9 +120,9 @@ import {
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap';
 import { mapActions, mapState } from 'vuex';
 
-import WhpptSelect from '../../ui/Select';
-import WhpptTextInput from '../../ui/Input';
-import WhpptButton from '../../ui/Button';
+import WhpptSelect from '../../ui/components/Select';
+import WhpptTextInput from '../../ui/components/Input';
+import WhpptButton from '../../ui/components/Button';
 
 import IBold from '../../icons/Bold';
 import IItalic from '../../icons/Italic';
@@ -179,7 +179,7 @@ export default {
     ],
   }),
   computed: {
-    ...mapState('whppt-nuxt/editor', ['richTextWatcher', 'selectedComponent']),
+    ...mapState('whppt/editor', ['richTextWatcher', 'selectedComponent']),
   },
   watch: {
     richTextWatcher() {
@@ -224,7 +224,7 @@ export default {
     this.editor.destroy();
   },
   methods: {
-    ...mapActions('whppt-nuxt/editor', ['setSelectedComponentState']),
+    ...mapActions('whppt/editor', ['setSelectedComponentState']),
     link(linkCommand) {
       linkCommand({ ...this.editingLink, target: this.editingLink.type === 'external' ? '_blank' : '' });
       this.editingLink = undefined;

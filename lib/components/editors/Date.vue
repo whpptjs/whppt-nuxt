@@ -9,7 +9,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import WhpptDatepicker from '../ui/Datepicker';
+import WhpptDatepicker from '../ui/components/Datepicker';
 
 export default {
   name: 'DateEditor',
@@ -17,10 +17,10 @@ export default {
     WhpptDatepicker,
   },
   computed: {
-    ...mapState('whppt-nuxt/editor', ['selectedComponent']),
+    ...mapState('whppt/editor', ['selectedComponent']),
   },
   methods: {
-    ...mapActions('whppt-nuxt/editor', ['setSelectedComponentState']),
+    ...mapActions('whppt/editor', ['setSelectedComponentState']),
     onInput($event) {
       this.setSelectedComponentState({ value: $event, path: this.selectedComponent.property });
     },

@@ -105,9 +105,9 @@ export default {
     menuCollapsed: false,
   }),
   computed: {
-    ...mapState('whppt-nuxt/editor', ['activeMenuItem', 'selectedContent', 'selectedComponent', 'environment']),
-    ...mapState('whppt-nuxt/page', ['page']),
-    ...mapState('whppt-nuxt/security', ['authUser']),
+    ...mapState('whppt/editor', ['activeMenuItem', 'selectedContent', 'selectedComponent', 'environment']),
+    ...mapState('whppt/page', ['page']),
+    ...mapState('whppt/security', ['authUser']),
     menuItems() {
       return [
         {
@@ -196,10 +196,10 @@ export default {
   },
   methods: {
     ...mapActions('whppt/dashboard', ['showDashboard']),
-    ...mapActions('whppt-nuxt/security', ['verifyUser', 'logout']),
-    ...mapActions('whppt-nuxt/site', ['saveFooter', 'saveNav']),
-    ...mapActions('whppt-nuxt/page', ['savePage']),
-    ...mapActions('whppt-nuxt/editor', [
+    ...mapActions('whppt/security', ['verifyUser', 'logout']),
+    ...mapActions('whppt/site', ['saveFooter', 'saveNav']),
+    ...mapActions('whppt/page', ['savePage']),
+    ...mapActions('whppt/editor', [
       'selectMenuItem',
       'moveComponentUp',
       'moveComponentDown',
@@ -207,7 +207,7 @@ export default {
       'clearSelectedComponent',
       'clearSelectedContent',
     ]),
-    ...mapMutations('whppt-nuxt/editor', ['editInModal', 'editInSidebar']),
+    ...mapMutations('whppt/editor', ['editInModal', 'editInSidebar']),
     newPage() {
       this.clearSelectedContent();
       this.clearSelectedComponent();

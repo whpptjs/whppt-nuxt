@@ -9,8 +9,8 @@
 
 <script>
 import OpenGraphTab from '../../SiteSettings/sharedTabs/OpenGraph';
-import WhpptCard from '../../../ui/Card';
-import WhpptButton from '../../../ui/Button';
+import WhpptCard from '../../../ui/components/Card';
+import WhpptButton from '../../../ui/components/Button';
 import siteSettingsMixin from '../../../../util/mixins/siteSettings';
 
 export default {

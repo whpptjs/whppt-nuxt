@@ -9,9 +9,9 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 
-import WhpptTabs from '../../ui/Tabs';
-import WhpptTab from '../../ui/Tab';
-import WhpptButton from '../../ui/Button';
+import WhpptTabs from '../../ui/components/Tabs';
+import WhpptTab from '../../ui/components/Tab';
+import WhpptButton from '../../ui/components/Button';
 
 import Domains from './tabs/Domains';
 
@@ -32,14 +32,14 @@ export default {
     selectedTab: 'domains',
   }),
   computed: {
-    ...mapState('whppt-nuxt/page', ['page']),
+    ...mapState('whppt/page', ['page']),
     tabs() {
       return [{ name: 'domains', label: 'Domains' }, ...additionalTabs];
     },
   },
   mounted() {},
   methods: {
-    ...mapActions('whppt-nuxt/page', ['savePage']),
+    ...mapActions('whppt/page', ['savePage']),
     tabChanged(_, index) {
       this.selectedTab = this.tabs[index].name;
     },

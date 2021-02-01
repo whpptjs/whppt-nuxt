@@ -16,9 +16,9 @@
 import { clamp, filter } from 'lodash';
 import { mapActions, mapState } from 'vuex';
 
-import WhpptTabs from '../../ui/Tabs';
-import WhpptTab from '../../ui/Tab';
-import WhpptButton from '../../ui/Button';
+import WhpptTabs from '../../ui/components/Tabs';
+import WhpptTab from '../../ui/components/Tab';
+import WhpptButton from '../../ui/components/Button';
 
 import SEO from './tabs/SEO';
 import Twitter from './tabs/Twitter';
@@ -49,7 +49,7 @@ export default {
     selectedTab: 'general',
   }),
   computed: {
-    ...mapState('whppt-nuxt/page', ['page']),
+    ...mapState('whppt/page', ['page']),
     tabs() {
       const conditionalTabs = filter(additionalTabs, tab => {
         if (tab.condition) return tab.condition({ page: this.page });
@@ -72,7 +72,7 @@ export default {
     this.page.frequency = this.page.frequency || 'yearly';
   },
   methods: {
-    ...mapActions('whppt-nuxt/page', ['savePage']),
+    ...mapActions('whppt/page', ['savePage']),
     tabChanged(_, index) {
       this.selectedTab = this.tabs[index].name;
     },

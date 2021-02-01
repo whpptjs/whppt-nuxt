@@ -26,7 +26,7 @@
 <script>
 import { mapState } from 'vuex';
 import { find, map, keyBy } from 'lodash';
-import WhpptButton from '../ui/Button';
+import WhpptButton from '../ui/components/Button';
 
 export default {
   name: 'WhpptContent',
@@ -41,8 +41,8 @@ export default {
     customClass: { type: String, default: '' },
   },
   computed: {
-    ...mapState('whppt-nuxt/page', ['page']),
-    ...mapState('whppt-nuxt/editor', ['activeMenuItem', 'editSidebar']),
+    ...mapState('whppt/page', ['page']),
+    ...mapState('whppt/editor', ['activeMenuItem', 'editSidebar']),
     initContentItems() {
       // TODO: work out why this.page.pageType would ever be an object and if it ever is, should we allow that?
       if (this.page && this.page.pageType && typeof this.page.pageType === 'object') return;

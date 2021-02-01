@@ -55,7 +55,13 @@
         </template>
       </whppt-table>
     </whppt-card>
-    <whppt-dialog :is-active="deleteRoleVisible" :width="800" :height="300" @closed="deleteRoleVisible = false">
+    <whppt-dialog
+      v-if="deleteRoleVisible"
+      :is-active="deleteRoleVisible"
+      :width="800"
+      :height="300"
+      @closed="deleteRoleVisible = false"
+    >
       <template v-slot:header>
         <whppt-toolbar>
           <h3>Are you sure?</h3>
@@ -77,13 +83,13 @@
 
 <script>
 import dayjs from 'dayjs';
-import WhpptCard from '../../../ui/Card';
-import WhpptTable from '../../../ui/Table';
-import WhpptInput from '../../../ui/Input';
-import WhpptButton from '../../../ui/Button';
-import WhpptToolbar from '../../../ui/Toolbar';
-import WhpptDialog from '../../../ui/Dialog';
-import WhpptCheckbox from '../../../ui/Checkbox';
+import WhpptCard from '../../../ui/components/Card';
+import WhpptTable from '../../../ui/components/Table';
+import WhpptInput from '../../../ui/components/Input';
+import WhpptButton from '../../../ui/components/Button';
+import WhpptToolbar from '../../../ui/components/Toolbar';
+import WhpptDialog from '../../../ui/components/Dialog';
+import WhpptCheckbox from '../../../ui/components/Checkbox';
 
 export default {
   name: 'SettingsRoles',

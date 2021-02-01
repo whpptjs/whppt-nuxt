@@ -54,10 +54,10 @@
 import { map, filter, forEach, find } from 'lodash';
 import { mapState, mapActions } from 'vuex';
 import slugify from 'slugify';
-import WhpptSelect from '../ui/Select';
-import WhpptTextInput from '../ui/Input';
-import WhpptButton from '../ui/Button';
-import WhpptField from '../ui/Field';
+import WhpptSelect from '../ui/components/Select';
+import WhpptTextInput from '../ui/components/Input';
+import WhpptButton from '../ui/components/Button';
+import WhpptField from '../ui/components/Field';
 
 const additionalComponents = {};
 
@@ -81,7 +81,7 @@ export default {
     },
   }),
   computed: {
-    ...mapState('whppt-nuxt/page', ['page']),
+    ...mapState('whppt/page', ['page']),
     ...mapState('whppt/config', ['domain']),
     pageTypes() {
       return map(pageTypePlugins, t => t.pageType);
@@ -91,8 +91,8 @@ export default {
     },
   },
   methods: {
-    ...mapActions('whppt-nuxt/editor', ['closeSidebar']),
-    ...mapActions('whppt-nuxt/page', ['checkSlug']),
+    ...mapActions('whppt/editor', ['closeSidebar']),
+    ...mapActions('whppt/page', ['checkSlug']),
     saveNewPage() {
       const vm = this;
 

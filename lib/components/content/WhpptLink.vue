@@ -43,7 +43,7 @@ export default {
     },
   },
   computed: {
-    ...mapState('whppt-nuxt/editor', ['activeMenuItem', 'baseAPIUrl', 'baseFileUrl']),
+    ...mapState('whppt/editor', ['activeMenuItem', 'baseAPIUrl', 'baseFileUrl']),
     inactive() {
       return this.activeMenuItem;
     },
