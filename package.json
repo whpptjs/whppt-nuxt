@@ -4,6 +4,9 @@
   "version": "2.0.0-rc35",
   "author": "Svelte Studios (https://www.npmjs.com/settings/svelte-studios/packages)",
   "main": "lib/module.js",
+  "files": [
+    "lib"
+  ],
   "scripts": {
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "lint --fix": "eslint --ext .js,.vue --ignore-path .gitignore . --fix",
