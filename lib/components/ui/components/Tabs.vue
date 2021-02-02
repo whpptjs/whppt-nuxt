@@ -84,6 +84,7 @@ $gray-900: #1a202c;
   border-radius: 0.25rem 0.25rem 0 0;
   list-style: none;
   padding: 0;
+  overflow-x: auto;
 
   &--dark {
     background-color: $gray-900;
@@ -92,7 +93,7 @@ $gray-900: #1a202c;
 
   &--fixed {
     .whppt-tab {
-      min-width: 0;
+      // min-width: 0; // TODO: work out why i needed this for fixed originally
       flex-grow: 1;
       flex-shrink: 1;
     }
@@ -115,6 +116,7 @@ $gray-900: #1a202c;
   cursor: pointer;
   padding: 0.5rem 1rem;
   text-align: center;
+  white-space: nowrap;
 
   &--active {
     color: $primary-600;
