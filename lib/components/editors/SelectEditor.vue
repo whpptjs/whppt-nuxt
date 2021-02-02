@@ -4,6 +4,7 @@
       id="whppt-editor-select"
       :items="selectedComponent.items"
       :value="selectedComponent.value[selectedComponent.property]"
+      placeholder="Select Item"
       @input="updateSelectedComponent"
     ></whppt-select>
   </div>
