@@ -26,7 +26,8 @@ import SpacingControls from '../editors/SpacingControls';
 
 const additionalComponents = {};
 
-// global.$whppt.getPlugins('editors')
+// TODO: additionalComponents
+// const { additionalComponents } = global.$whppt.getAdditionalComponents('editor');
 
 const types = global.$whppt.plugins;
 const editors = flatMap(

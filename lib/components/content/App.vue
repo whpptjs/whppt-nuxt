@@ -2,17 +2,7 @@
   <div class="whppt-flex whppt-overflow-hidden">
     <div v-if="isDraft">
       <editor-menu></editor-menu>
-      <whppt-dialog :is-active.sync="editInModal" @closed="closeModal">
-        <template v-slot:header>
-          <whppt-toolbar>
-            <div class="whppt-toolbar__content">
-              <h2>{{ startCase(editInModalType) }}</h2>
-              <whppt-button @click="closeModal">Close</whppt-button>
-            </div>
-          </whppt-toolbar>
-        </template>
-        <component :is="editInModalType" :prefix="prefix" @closed="closeModal" />
-      </whppt-dialog>
+      <whppt-editor-dialog @closed="closeModal"></whppt-editor-dialog>
       <whppt-dialog full :is-active.sync="dashboardVisible" @closed="closeDashboard">
         <template v-slot:header>
           <whppt-toolbar>
@@ -67,20 +57,18 @@
 </template>
 
 <script>
-import { startCase } from 'lodash';
 import { mapState, mapActions } from 'vuex';
 import EditorMenu from '../system/EditorMenu';
-import PublishSettings from '../system/PublishSettings';
 import WhpptDialog from '../ui/Dialog';
 import WhpptButton from '../ui/Button';
 import WhpptToolbar from '../ui/Toolbar';
 import WhpptCard from '../ui/Card';
 import WhpptInput from '../ui/Input';
-import Close from '../icons/Close';
 
 export default {
   name: 'WhpptEditorApp',
   components: {
+    WhpptEditorDialog: () => import('../system/WhpptEditorDialog'),
     ConfigSettings: () => import('../system/Config/index'),
     SiteSettings: () => import('../system/SiteSettings/index'),
     PageSettings: () => import('../system/PageSettings/index'),
@@ -92,12 +80,9 @@ export default {
     WhpptDialog,
     WhpptCard,
     WhpptInput,
-    PublishSettings,
-    Close,
   },
   props: { prefix: { type: String, default: '' } },
   data: () => ({
-    startCase,
     token: undefined,
     recoveryVisible: false,
     recovery: {
