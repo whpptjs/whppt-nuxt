@@ -18,7 +18,10 @@
         @focus="showSelectItems = true"
         @input="$emit('input', $event.target.value)"
         @change="$emit('change', $event.target.value)"
-        @blur="$emit('blur', $event.target.value)"
+        @blur="showSelectItems = false"
+        @keydown.down.prevent="onArrowDown"
+        @keydown.up.prevent="onArrowUp"
+        @keydown.enter.prevent="onEnter"
       />
       <div class="icon">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -26,14 +29,21 @@
         </svg>
       </div>
       <div v-if="showSelectItems" class="whppt-select__menu" :class="`whppt-select__menu--${direction}`">
-        <ul role="listbox">
-          <li v-if="placeholder" class="default" role="option" @click="updateValue(undefined, undefined)">
+        <ul role="listbox" :aria-expanded="showSelectItems">
+          <li
+            v-if="placeholder"
+            class="whppt-select__menu-item default"
+            role="option"
+            @click="updateValue(undefined, undefined)"
+          >
             {{ placeholder }}
           </li>
           <li
             v-for="(item, index) in items"
             :key="index"
             role="option"
+            class="whppt-select__menu-item"
+            :class="{ 'whppt-select__menu-item--active': arrowCounter === index }"
             @click="updateValue(setTextProp(item), setValueProp(item))"
           >
             {{ setTextProp(item) }}
@@ -111,6 +121,7 @@ export default {
   },
   data: () => ({
     showSelectItems: false,
+    arrowCounter: -1,
   }),
   computed: {
     internalValue() {
@@ -149,6 +160,25 @@ export default {
     },
     close() {
       this.showSelectItems = false;
+    },
+    onArrowDown() {
+      if (this.arrowCounter > this.items.length) return this.close();
+
+      if (this.arrowCounter < this.items.length) {
+        this.arrowCounter = this.arrowCounter + 1;
+      }
+    },
+    onArrowUp() {
+      if (this.arrowCounter > 0) {
+        this.arrowCounter = this.arrowCounter - 1;
+      }
+    },
+    onEnter() {
+      const item = this.items[this.arrowCounter];
+
+      this.updateValue(this.setTextProp(item), this.setValueProp(item));
+
+      this.arrowCounter = -1;
     },
   },
 };
@@ -239,6 +269,10 @@ $gray-900: #1a202c;
       margin: 0;
       list-style: none;
 
+      .whppt-select__menu-item--active {
+        background-color: $gray-200;
+      }
+
       li {
         padding: 0.75rem;
 
@@ -296,6 +330,10 @@ $gray-900: #1a202c;
       ul {
         border: 1px solid $gray-500;
         background-color: $gray-800;
+
+        .whppt-select__menu-item--active {
+          background-color: $gray-900;
+        }
 
         li {
           color: white;
