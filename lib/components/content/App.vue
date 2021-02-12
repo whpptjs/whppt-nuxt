@@ -1,6 +1,6 @@
 <template>
   <div class="whppt-flex whppt-overflow-hidden">
-    <div v-if="isDraft">
+    <div v-if="draft">
       <editor-menu></editor-menu>
       <whppt-dialog v-if="editInModal" :is-active.sync="editInModal" @closed="closeModal">
         <template v-slot:header>
@@ -67,8 +67,9 @@
 </template>
 
 <script>
-import { startCase } from 'lodash';
+import { startCase, isEmpty } from 'lodash';
 import { mapState, mapActions } from 'vuex';
+import { updatedDiff } from 'deep-object-diff';
 import EditorMenu from '../system/EditorMenu';
 import PublishSettings from '../system/PublishSettings';
 import WhpptDialog from '../ui/components/Dialog';
@@ -109,9 +110,10 @@ export default {
   computed: {
     ...mapState('whppt/dashboard', ['dashboardVisible']),
     ...mapState('whppt/editor', ['editInModal', 'editInModalType', 'editSidebar', 'editSidebarType', 'draft']),
-    isDraft() {
-      return this.draft;
-    },
+    ...mapState('whppt/page', ['page', 'savedPage']),
+  },
+  beforeMount() {
+    if (this.draft) window.addEventListener('beforeunload', this.preventNavigate);
   },
   mounted() {
     if (this.$route.query) {
@@ -120,6 +122,9 @@ export default {
     }
 
     if (this.token) this.recoveryVisible = true;
+  },
+  destroyed() {
+    window.removeEventListener('beforeunload', this.preventNavigate);
   },
   methods: {
     ...mapActions('whppt/dashboard', ['closeDashboard']),
@@ -135,6 +140,17 @@ export default {
           this.$emit('closed');
           this.$router.push('/');
         });
+    },
+    preventNavigate(event) {
+      const unsavedChanges = updatedDiff(this.savedPage, this.page);
+      const hasUnsavedChanges = !isEmpty(unsavedChanges);
+
+      if (hasUnsavedChanges) {
+        if (!window.confirm("Changes you've made may not be saved, are you sure you want to do this?")) {
+          event.returnValue = 'Ok';
+          event.preventDefault();
+        }
+      }
     },
   },
 };
