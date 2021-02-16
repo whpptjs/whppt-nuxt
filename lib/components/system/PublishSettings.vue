@@ -68,7 +68,7 @@ export default {
   methods: {
     ...mapActions('whppt/page', ['savePage', 'unpublishPage', 'deletePage', 'publishPage']),
     formatDate(date) {
-      return dayjs(date).format('dddd D MMMM YYYY');
+      return dayjs(date).format('h:mmA dddd D MMMM YYYY');
     },
     deletePageFromDraft() {
       if (this.page.published) {

@@ -1,16 +1,14 @@
 <template>
   <div class="whppt-content">
     <div v-for="(component, index) in componentList" :key="`${component.key}-${index}`">
-      <!--      <whppt-button class="whppt-content__button" @click="setPreviewIndex(index)">-->
-      <whppt-button class="whppt-content__button" @click="addContent(component)">
+      <whppt-button
+        class="whppt-content__button"
+        @click="addContent(component)"
+        @mouseover.native="changeComponentPreviewType(component.componentType)"
+        @mouseout.native="changeComponentPreviewType('')"
+      >
         {{ component.name }}
       </whppt-button>
-      <!--      <div class="whppt-content__preview" :class="{ 'whppt-content__preview&#45;&#45;active': index === previewIndex }">-->
-      <!--        <div v-if="previewIndex === index" class="whppt-preview">-->
-      <!--          <component :is="component.displayType" v-whppt-editor-enabled="false" />-->
-      <!--          <whppt-button flat @click="addContent(component)">Add +</whppt-button>-->
-      <!--        </div>-->
-      <!--      </div>-->
     </div>
   </div>
 </template>
@@ -48,16 +46,12 @@ export default {
     },
   },
   methods: {
-    ...mapActions('whppt/editor', ['pushSelectedComponentState']),
+    ...mapActions('whppt/editor', ['pushSelectedComponentState', 'changeComponentPreviewType']),
     addContent(content) {
       const value = { marginTop: '', componentType: content.componentType };
       if (content.init) Object.assign(value, { ...content.init({ $set: this.$set }) });
 
       this.pushSelectedComponentState({ value });
-    },
-    setPreviewIndex(index) {
-      if (this.previewIndex === index) return (this.previewIndex = -1);
-      this.previewIndex = index;
     },
   },
 };

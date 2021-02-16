@@ -73,6 +73,7 @@ import {
   Dashboard,
   Login,
   Logout,
+  PublishWithNotification,
 } from '../icons';
 
 import LoginForm from './LoginForm';
@@ -98,6 +99,7 @@ export default {
     Login,
     Logout,
     Expand,
+    PublishWithNotification,
   },
   directives: { Tooltip },
   data: () => ({
@@ -154,7 +156,7 @@ export default {
         {
           key: 'publishPage',
           label: 'Publish Current Page',
-          icon: 'publish',
+          icon: this.hasPublishableChanges ? 'publish-with-notification' : 'publish',
           disabled: !this.page || !this.page._id,
           action: () => this.editInModal('publishSettings'),
         },
@@ -185,6 +187,9 @@ export default {
         },
         { key: 'logout', label: 'Log out', icon: 'logout', group: 'security', action: () => this.logout() },
       ];
+    },
+    hasPublishableChanges() {
+      return new Date(this.page.lastPublished) < new Date(this.page.updatedAt);
     },
     userCanEdit() {
       // && this.authUser.roles.editor

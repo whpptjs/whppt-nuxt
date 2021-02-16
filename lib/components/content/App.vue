@@ -26,6 +26,7 @@
       </whppt-dialog>
     </div>
     <div class="whppt-content">
+      <whppt-preview />
       <slot></slot>
     </div>
     <whppt-sidebar />
@@ -87,6 +88,7 @@ export default {
     PageSettings: () => import('../system/PageSettings/index'),
     Dashboard: () => import('../system/Dashboard/index'),
     WhpptSidebar: () => import('../system/WhpptSidebar'),
+    WhpptPreview: () => import('../system/WhpptPreview'),
     EditorMenu,
     WhpptToolbar,
     WhpptButton,
@@ -109,7 +111,14 @@ export default {
   }),
   computed: {
     ...mapState('whppt/dashboard', ['dashboardVisible']),
-    ...mapState('whppt/editor', ['editInModal', 'editInModalType', 'editSidebar', 'editSidebarType', 'draft']),
+    ...mapState('whppt/editor', [
+      'editInModal',
+      'editInModalType',
+      'editSidebar',
+      'editSidebarType',
+      'draft',
+      'componentPreviewType',
+    ]),
     ...mapState('whppt/page', ['page', 'savedPage']),
   },
   beforeMount() {
@@ -178,6 +187,7 @@ export default {
 }
 
 .whppt-content {
+  position: relative;
   flex: 1;
   width: 100%;
 }
