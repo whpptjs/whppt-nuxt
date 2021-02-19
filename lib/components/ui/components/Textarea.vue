@@ -12,6 +12,12 @@
       @blur="$emit('blur', $event.target.value)"
     ></textarea>
     <p class="info">{{ info }}</p>
+    <span v-if="error && typeof error === 'string'" class="whppt-error">{{ error }}</span>
+    <div v-if="error && Array.isArray(error)">
+      <span v-for="(err, index) in error" :key="index" class="whppt-error">
+        {{ err }}<span v-if="index + 1 < error.length">, </span>
+      </span>
+    </div>
   </div>
 </template>
 
@@ -39,6 +45,7 @@ export default {
       type: String,
       default: () => '',
     },
+    error: { type: [String, Array], default: '' },
     value: {
       type: String,
       default: () => '',
@@ -62,6 +69,8 @@ $gray-700: #4a5568;
 $gray-800: #2d3748;
 $gray-900: #1a202c;
 
+$danger-600: #e53e3e;
+
 .whppt-textarea {
   label {
     display: block;
@@ -70,6 +79,11 @@ $gray-900: #1a202c;
     font-weight: bold;
     letter-spacing: 0.025em;
     font-size: 0.75rem;
+  }
+
+  .whppt-error {
+    font-size: 0.75rem;
+    color: $danger-600;
   }
 
   textarea {

@@ -72,17 +72,16 @@ import { startCase, isEmpty } from 'lodash';
 import { mapState, mapActions } from 'vuex';
 import { updatedDiff } from 'deep-object-diff';
 import EditorMenu from '../system/EditorMenu';
-import PublishSettings from '../system/PublishSettings';
 import WhpptDialog from '../ui/components/Dialog';
 import WhpptButton from '../ui/components/Button';
 import WhpptToolbar from '../ui/components/Toolbar';
 import WhpptCard from '../ui/components/Card';
 import WhpptInput from '../ui/components/Input';
-import Close from '../icons/Close';
 
 export default {
   name: 'WhpptEditorApp',
   components: {
+    WhpptEditorDialog: () => import('../system/WhpptEditorDialog'),
     ConfigSettings: () => import('../system/Config/index'),
     SiteSettings: () => import('../system/SiteSettings/index'),
     PageSettings: () => import('../system/PageSettings/index'),
@@ -95,8 +94,6 @@ export default {
     WhpptDialog,
     WhpptCard,
     WhpptInput,
-    PublishSettings,
-    Close,
   },
   props: { prefix: { type: String, default: '' } },
   data: () => ({
