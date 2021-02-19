@@ -35,7 +35,9 @@
         v-model="filter"
         placeholder="about-us"
         label="Search"
-        info="Search the from / to fields"
+        info="Search the from field or the to field"
+        class="whppt-redirects__search"
+        @input="loadRedirects"
       />
       <whppt-table
         dense
@@ -74,7 +76,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import { map, filter } from 'lodash';
+import { map } from 'lodash';
 import dayjs from 'dayjs';
 import slugify from 'slugify';
 import WhpptTextInput from '../../../ui/Input';
@@ -102,11 +104,7 @@ export default {
       return !this.$whppt.disablePublishing;
     },
     items() {
-      const fItems = this.filter
-        ? filter(this.redirects, r => r.from.includes(this.filter) || r.to.includes(this.filter))
-        : this.redirects;
-      // const regex = '/\//gi';
-      return map(fItems, redirect => ({
+      return map(this.redirects, redirect => ({
         _id: redirect._id,
         domainId: redirect.domainId,
         from: redirect.from,
@@ -135,7 +133,7 @@ export default {
   methods: {
     loadRedirects() {
       if (!this.domain._id) return this.$toast.global.editorError('No domain found');
-      const params = { page: this.currentPage, size: this.limit, domainId: this.domain._id };
+      const params = { page: this.currentPage, size: this.limit, domainId: this.domain._id, search: this.filter };
 
       return this.$axios
         .$get(`${this.$whppt.apiPrefix}/siteSettings/loadRedirects`, { params })
@@ -261,6 +259,10 @@ $primary-600: #5a67d8;
       margin-left: auto;
     }
   }
+}
+
+.whppt-redirects__search {
+  margin-bottom: 1.5rem;
 }
 
 .whppt-link {
