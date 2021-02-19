@@ -69,9 +69,6 @@ export default {
   name: 'WhpptEditorApp',
   components: {
     WhpptEditorDialog: () => import('../system/WhpptEditorDialog'),
-    ConfigSettings: () => import('../system/Config/index'),
-    SiteSettings: () => import('../system/SiteSettings/index'),
-    PageSettings: () => import('../system/PageSettings/index'),
     Dashboard: () => import('../system/Dashboard/index'),
     WhpptSidebar: () => import('../system/WhpptSidebar'),
     EditorMenu,
