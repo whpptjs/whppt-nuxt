@@ -2,13 +2,18 @@
 name: Bug report
 about: Create a report to help us improve
 title: ''
-labels: ''
-assignees: ''
+labels: bug
+assignees: lvcasjm
 
 ---
 
 **Describe the bug**
 A clear and concise description of what the bug is.
+
+@whppt/nuxt version: x.x.x
+@whppt/api-express version: x.x.x
+nuxt version: x.x.x
+node version: x.x.x
 
 **To Reproduce**
 Steps to reproduce the behavior:
