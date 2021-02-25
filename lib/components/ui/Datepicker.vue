@@ -15,12 +15,12 @@
         <div slot-scope="{ inputProps, inputEvents }">
           <label v-if="label" :for="`${$options._scopeId}-whppt-date-input`">{{ label }}</label>
           <div class="whppt-datepicker__input-wrapper">
-            <whppt-input
+            <input
               :id="`${$options._scopeId}-whppt-date-input`"
               :placeholder="placeholder"
               v-bind="inputProps"
               v-on="inputEvents"
-            ></whppt-input>
+            ></input>
             <button v-if="clearable && value" class="icon" @click.stop="$emit('input', undefined)">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="transform: rotate(360deg)">
                 <path
