@@ -20,7 +20,7 @@
               :placeholder="placeholder"
               v-bind="inputProps"
               v-on="inputEvents"
-            ></input>
+            />
             <button v-if="clearable && value" class="icon" @click.stop="$emit('input', undefined)">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="transform: rotate(360deg)">
                 <path
@@ -37,15 +37,13 @@
 </template>
 
 <script>
-import WhpptInput from '../ui/Input';
-
 let VDatePicker;
 
 if (process.client) VDatePicker = require('v-calendar-ie11/lib/v-calendar.umd.js').DatePicker;
 
 export default {
   name: 'WhpptDatepicker',
-  components: { WhpptInput, VDatePicker },
+  components: { VDatePicker },
   props: {
     dark: { type: Boolean, default: true },
     label: { type: String, default: '' },

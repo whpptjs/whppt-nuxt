@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import { Cropper } from 'vue-advanced-cropper';
 import WhpptTextInput from '../../ui/Input';
 
