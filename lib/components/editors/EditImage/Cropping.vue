@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import { Cropper } from 'vue-advanced-cropper';
 import WhpptTextInput from '../../ui/components/Input';
 
@@ -47,6 +47,7 @@ export default {
     ...mapState('whppt/editor', ['baseImageUrl', 'baseCdnImageUrl']),
   },
   methods: {
+    ...mapActions('whppt-nuxt/editor', ['setSelectedComponentState']),
     change({ canvasName }, changes) {
       const { coordinates } = changes;
 

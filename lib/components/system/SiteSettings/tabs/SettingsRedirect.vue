@@ -37,7 +37,7 @@
         label="Search"
         info="Search the from field or the to field"
         class="whppt-redirects__search"
-        @input="loadRedirects"
+        @input="searchRedirects"
       />
       <whppt-table
         dense
@@ -131,8 +131,13 @@ export default {
     this.loadRedirects();
   },
   methods: {
+    searchRedirects() {
+      this.currentPage = 1;
+      this.loadRedirects();
+    },
     loadRedirects() {
       if (!this.domain._id) return this.$toast.global.editorError('No domain found');
+
       const params = { page: this.currentPage, size: this.limit, domainId: this.domain._id, search: this.filter };
 
       return this.$axios

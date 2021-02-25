@@ -15,12 +15,12 @@
         <div slot-scope="{ inputProps, inputEvents }">
           <label v-if="label" :for="`${$options._scopeId}-whppt-date-input`">{{ label }}</label>
           <div class="whppt-datepicker__input-wrapper">
-            <whppt-input
+            <input
               :id="`${$options._scopeId}-whppt-date-input`"
               :placeholder="placeholder"
               v-bind="inputProps"
               v-on="inputEvents"
-            ></whppt-input>
+            />
             <button v-if="clearable && value" class="icon" @click.stop="$emit('input', undefined)">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="transform: rotate(360deg)">
                 <path
@@ -37,15 +37,13 @@
 </template>
 
 <script>
-import WhpptInput from './Input';
-
 let VDatePicker;
 
 if (process.client) VDatePicker = require('v-calendar-ie11/lib/v-calendar.umd.js').DatePicker;
 
 export default {
   name: 'WhpptDatepicker',
-  components: { WhpptInput, VDatePicker },
+  components: { VDatePicker },
   props: {
     dark: { type: Boolean, default: true },
     label: { type: String, default: '' },

@@ -30,6 +30,7 @@ export default {
     ConfigSettings: () => import('../system/Config/index'),
     SiteSettings: () => import('../system/SiteSettings/index'),
     PageSettings: () => import('../system/PageSettings/index'),
+    PublishSettings: () => import('../system/PublishSettings'),
     Dashboard: () => import('../system/Dashboard/index'),
     WhpptDialog,
     WhpptButton,
