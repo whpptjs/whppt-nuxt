@@ -13,21 +13,22 @@
         style="background-color: #3d3d3d"
       >
         <div class="text-xs ">{{ startCase(content.componentType) }}</div>
-        <button @click.stop="remove">
+        <button @click.stop="remove(content.componentType, index, content)">
           <delete-icon class="h-3" aria-label="delete component" />
         </button>
-        <button @click.stop="moveComponentUp">
+        <button @click.stop="moveUp(content.componentType, index, content)">
           <arrow-up-icon class="h-3" aria-label="move component up" />
         </button>
-        <button @click.stop="moveComponentDown">
+        <button @click.stop="moveDown(content.componentType, index, content)">
           <arrow-down-icon class="h-3" aria-label="move component down" />
         </button>
-        <button v-whppt-spacing="content">
+        <!-- <button v-whppt-spacing="content">
           <spacing-icon class="h-3" aria-label="move component down" />
-        </button>
+        </button> -->
       </div>
       <component
         :is="content.componentType"
+        :ref="`${content.componentType}-${index}`"
         :content="content"
         :class="spacingClasses(content)"
         :container="container"
@@ -66,7 +67,7 @@ export default {
   },
   data: () => ({
     startCase,
-    componentActionsVisible: false,
+    componentActionsVisible: true,
   }),
   computed: {
     ...mapState('whppt/page', ['page']),
@@ -88,7 +89,26 @@ export default {
     },
   },
   methods: {
-    ...mapActions('whppt/editor', ['moveComponentUp', 'moveComponentDown', 'removeComponent']),
+    ...mapActions('whppt/editor', [
+      'moveComponentUp',
+      'moveComponentDown',
+      'removeComponent',
+      'selectContent',
+      'selectComponent',
+    ]),
+    doSelectComponent(componentType, index, content) {
+      const refs = this.$refs[`${componentType}-${index}`];
+
+      const component = refs && refs.length && refs[0];
+      // ? not sure if $parent is safe to use here.
+      const parent = component.$parent;
+
+      return this.selectContent({ el: parent.$el, value: parent.contentItems }).then(() => {
+        const value = { value: content }; // should have label and property as well.
+
+        return this.selectComponent({ el: component.$el, value });
+      });
+    },
     spacingClasses(content) {
       const { setMarginTop, setMarginBottom, setPaddingTop, setPaddingBottom } = this.$whppt.spacing;
 
@@ -99,10 +119,22 @@ export default {
 
       return [marginTop, marginBottom, paddingTop, paddingBottom];
     },
-    remove() {
-      if (window.confirm('Are you sure?')) {
-        this.removeComponent();
-      }
+    remove(componentType, index, content) {
+      return this.doSelectComponent(componentType, index, content).then(() => {
+        if (window.confirm('Are you sure?')) {
+          return this.removeComponent();
+        }
+      });
+    },
+    moveUp(componentType, index, content) {
+      return this.doSelectComponent(componentType, index, content).then(() => {
+        return this.moveComponentUp();
+      });
+    },
+    moveDown(componentType, index, content) {
+      return this.doSelectComponent(componentType, index, content).then(() => {
+        return this.moveComponentDown();
+      });
     },
   },
 };
@@ -117,9 +149,6 @@ export default {
     justify-content: flex-end;
     position: relative;
   }
-}
-
-.whppt-contents__spacing-button {
 }
 </style>
 

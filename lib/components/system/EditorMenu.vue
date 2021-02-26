@@ -125,19 +125,19 @@ export default {
           action: () => this.selectMenuItem('select'),
           isActive: () => this.activeMenuItem === 'select',
         },
-        {
-          key: 'remove',
-          label: 'Remove Component',
-          icon: 'trash',
-          action: this.remove,
-        },
-        { key: 'up', label: 'Move Component Up', icon: 'arrow-up', group: '', action: () => this.moveComponentUp() },
-        {
-          key: 'down',
-          label: 'Move Component Down',
-          icon: 'arrow-down',
-          action: () => this.moveComponentDown(),
-        },
+        // {
+        //   key: 'remove',
+        //   label: 'Remove Component',
+        //   icon: 'trash',
+        //   action: this.remove,
+        // },
+        // { key: 'up', label: 'Move Component Up', icon: 'arrow-up', group: '', action: () => this.moveComponentUp() },
+        // {
+        //   key: 'down',
+        //   label: 'Move Component Down',
+        //   icon: 'arrow-down',
+        //   action: () => this.moveComponentDown(),
+        // },
         {
           key: 'new-page',
           label: 'Create New Page',
@@ -146,7 +146,7 @@ export default {
         },
         {
           key: 'save',
-          label: 'Save Current Page',
+          label: 'Save Page',
           icon: 'save',
           disabled: !this.page || !this.page._id,
           action: this.savePage,
@@ -155,7 +155,7 @@ export default {
         { key: 'footer', label: 'Save Footer', icon: 'footer-icon', group: 'footer', action: () => this.saveFooter() },
         {
           key: 'publishPage',
-          label: 'Publish Current Page',
+          label: 'Publish Page',
           icon: this.hasPublishableChanges ? 'publish-with-notification' : 'publish',
           disabled: !this.page || !this.page._id,
           action: () => this.editInModal('publishSettings'),
