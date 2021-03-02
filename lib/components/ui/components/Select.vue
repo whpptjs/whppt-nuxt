@@ -1,12 +1,11 @@
 <template>
   <div
-    v-click-outside="close"
     class="whppt-select"
     :class="{ 'whppt-select--dark': dark, 'whppt-select--dense': dense }"
     :style="`width: ${typeof width === 'number' ? `${width}px` : width}`"
   >
     <label v-if="label" :for="id">{{ label }}</label>
-    <div class="whppt-select__input">
+    <div v-click-outside="close" class="whppt-select__input">
       <input
         :id="id"
         :placeholder="placeholder"
@@ -18,10 +17,10 @@
         @focus="showSelectItems = true"
         @input="$emit('input', $event.target.value)"
         @change="$emit('change', $event.target.value)"
-        @blur="showSelectItems = false"
         @keydown.down.prevent="onArrowDown"
         @keydown.up.prevent="onArrowUp"
         @keydown.enter.prevent="onEnter"
+        @keydown.tab="close"
       />
       <div class="icon">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -162,6 +161,7 @@ export default {
     },
     updateValue(text, value) {
       if (this.showSelectItems) this.showSelectItems = false;
+
       this.onInput(value);
       this.onChange(value);
     },

@@ -2,17 +2,7 @@
   <div class="whppt-flex whppt-overflow-hidden">
     <div v-if="draft">
       <editor-menu></editor-menu>
-      <whppt-dialog v-if="editInModal" :is-active.sync="editInModal" @closed="closeModal">
-        <template v-slot:header>
-          <whppt-toolbar>
-            <div class="whppt-toolbar__content">
-              <h2>{{ startCase(editInModalType) }}</h2>
-              <whppt-button @click="closeModal">Close</whppt-button>
-            </div>
-          </whppt-toolbar>
-        </template>
-        <component :is="editInModalType" :prefix="prefix" @closed="closeModal" />
-      </whppt-dialog>
+      <whppt-editor-dialog @closed="closeModal"></whppt-editor-dialog>
       <whppt-dialog v-if="dashboardVisible" full :is-active.sync="dashboardVisible" @closed="closeDashboard">
         <template v-slot:header>
           <whppt-toolbar>

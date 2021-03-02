@@ -1,7 +1,5 @@
 <template>
   <div class="whppt-page">
-    <p class="font-xl">Create a Page</p>
-
     <form class="whppt-page__form" @submit.prevent>
       <whppt-field>
         <whppt-select
@@ -79,6 +77,7 @@ export default {
       template: '',
       pageType: '',
     },
+    selectTest: '',
   }),
   computed: {
     ...mapState('whppt/page', ['page']),
