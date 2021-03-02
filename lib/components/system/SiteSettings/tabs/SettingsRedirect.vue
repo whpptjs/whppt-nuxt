@@ -7,17 +7,17 @@
             <whppt-text-input
               :id="`${$options._scopeId}-settings-redirects-from`"
               v-model="newRedirect.from"
-              placeholder="From page (eg. my-page)"
+              placeholder="From page"
               label="From"
-              info="When visiting this page, users will be sent to the To page instead."
+              info="Example: /my-page. When visiting this page, users will be sent to the To URL instead."
             />
             <whppt-spacer :width="2"></whppt-spacer>
             <whppt-text-input
               :id="`${$options._scopeId}-settings-redirects-to`"
               v-model="newRedirect.to"
-              placeholder="To page (eg. another-page)"
+              placeholder="To URL"
               label="To"
-              info="Users will be sent to this Page when visiting the From Page"
+              info="Example: /another-page or https://www.whppt.org. Users will be sent to this URL when visiting the From Page."
             />
           </div>
 
