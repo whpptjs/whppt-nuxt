@@ -31,9 +31,9 @@ export default {
       const whitelist = this.selectedComponent.whitelist;
       const blacklist = this.selectedComponent.blacklist;
 
-      if (whitelist.length) {
+      if (whitelist && whitelist.length) {
         components = filter(components, c => includes(whitelist, c.key));
-      } else if (blacklist.length) {
+      } else if (blacklist && blacklist.length) {
         components = filter(components, c => !includes(blacklist, c.key));
       }
 
