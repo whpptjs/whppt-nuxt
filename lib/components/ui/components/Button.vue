@@ -1,7 +1,12 @@
 <template>
   <button
     class="whppt-button"
-    :class="{ 'whppt-button--danger': danger, 'whppt-button--flat': flat, 'whppt-button--dark': dark }"
+    :class="{
+      'whppt-button--danger': danger,
+      'whppt-button--flat': flat,
+      'whppt-button--dark': dark,
+      'whppt-button--round': round,
+    }"
     :disabled="disabled"
     @click="$emit('click')"
   >
@@ -28,6 +33,10 @@ export default {
     dark: {
       type: Boolean,
       default: true,
+    },
+    round: {
+      type: Boolean,
+      default: false,
     },
   },
 };
@@ -120,6 +129,11 @@ button {
 
   &--dark {
     color: white;
+  }
+
+  &--round {
+    border-radius: 10rem;
+    padding: 0.5rem;
   }
 }
 </style>

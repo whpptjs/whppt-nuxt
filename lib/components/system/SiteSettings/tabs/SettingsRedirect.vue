@@ -1,36 +1,58 @@
 <template>
   <div class="whppt-redirects">
-    <whppt-card>
-      <form @submit.prevent>
-        <div class="whppt-redirects__form">
-          <div class="whppt-redirects__inputs">
-            <whppt-text-input
-              :id="`${$options._scopeId}-settings-redirects-from`"
-              v-model="newRedirect.from"
-              placeholder="From page"
-              label="From"
-              info="Example: /my-page. When visiting this page, users will be sent to the To URL instead."
-            />
-            <whppt-spacer :width="2"></whppt-spacer>
-            <whppt-text-input
-              :id="`${$options._scopeId}-settings-redirects-to`"
-              v-model="newRedirect.to"
-              placeholder="To URL"
-              label="To"
-              info="Example: /another-page or https://www.whppt.org. Users will be sent to this URL when visiting the From Page."
-            />
+    <whppt-card class="whppt-redirects__form-card" :show-content="redirectFormVisible">
+      <template v-slot:header>
+        <whppt-toolbar class="whppt-redirects__toolbar">
+          <div
+            class="items-center cursor-pointer flex justify-between w-full"
+            @click="redirectFormVisible ? (redirectFormVisible = false) : (redirectFormVisible = true)"
+          >
+            <span>Add New Redirect</span>
+            <button>
+              <chevron-down-icon
+                :class="!redirectFormVisible ? 'whppt-redirects__toolbar-expand' : 'whppt-redirects__toolbar-contract'"
+              ></chevron-down-icon>
+            </button>
           </div>
+        </whppt-toolbar>
+      </template>
+      <div>
+        <form v-if="redirectFormVisible" @submit.prevent>
+          <div class="whppt-redirects__form">
+            <whppt-input
+              :id="`${$options._scopeId}-settings-redirects-name`"
+              v-model="newRedirect.name"
+              label="Name"
+            ></whppt-input>
+            <div class="whppt-redirects__inputs">
+              <whppt-input
+                :id="`${$options._scopeId}-settings-redirects-from`"
+                v-model="newRedirect.from"
+                placeholder="From page"
+                label="From"
+                info="Example: /my-page. When visiting this page, users will be sent to the To URL instead."
+              />
+              <whppt-spacer :width="2"></whppt-spacer>
+              <whppt-input
+                :id="`${$options._scopeId}-settings-redirects-to`"
+                v-model="newRedirect.to"
+                placeholder="To URL"
+                label="To"
+                info="Example: /another-page or https://www.whppt.org. Users will be sent to this URL when visiting the From Page."
+              />
+            </div>
 
-          <div class="whppt-redirects__actions">
-            <whppt-button @click="addRedirect">
-              Add Redirect
-            </whppt-button>
+            <div class="whppt-redirects__actions">
+              <whppt-button @click="addRedirect">
+                Add Redirect
+              </whppt-button>
+            </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </whppt-card>
     <whppt-card>
-      <whppt-text-input
+      <whppt-input
         id="redirectFilter"
         v-model="filter"
         placeholder="about-us"
@@ -57,15 +79,26 @@
             <span class="whppt-redirects__overflow">{{ item.to }}</span>
           </a>
         </template>
+        <template v-slot:item.published="{ item }">
+          <component
+            :is="item.published ? 'CheckIcon' : 'CrossIcon'"
+            class="whppt-redirects__table-published"
+            :class="item.published ? 'whppt-redirects__icon--success' : 'whppt-redirects__icon--danger'"
+          />
+        </template>
         <template v-slot:item.actions="{ item }">
-          <div class="flex">
-            <a class="underline" @click="!item.published ? publish(item) : unpublishRedirect(item)">{{
-              !item.published ? 'Publish' : 'Unpublish'
-            }}</a>
+          <div class="whppt-redirects__table-actions">
+            <button
+              v-tooltip="!item.published ? 'Publish' : 'Unpublish'"
+              flat
+              @click="!item.published ? publish(item) : unpublishRedirect(item)"
+            >
+              <component :is="!item.published ? 'PublishIcon' : 'UnpublishIcon'" />
+            </button>
             <div v-if="!item.published" class="flex ">
-              <div class="mx-1">-</div>
-
-              <a class="underline" @click="deleteRedirect(item)">Delete</a>
+              <button v-tooltip="'Delete'" flat @click="deleteRedirect(item)">
+                <trash-icon />
+              </button>
             </div>
           </div>
         </template>
@@ -79,23 +112,48 @@ import { mapState } from 'vuex';
 import { map } from 'lodash';
 import dayjs from 'dayjs';
 import slugify from 'slugify';
-import WhpptTextInput from '../../../ui/components/Input';
+import { VTooltip as Tooltip } from 'v-tooltip';
+import WhpptInput from '../../../ui/components/Input';
 import WhpptTable from '../../../ui/components/Table';
 import WhpptCard from '../../../ui/components/Card';
 import WhpptSpacer from '../../../ui/components/Spacer';
+import WhpptToolbar from '../../../ui/components/Toolbar';
 import WhpptButton from '../../../ui/components/Button';
+import PublishIcon from '../../../icons/Publish';
+import UnpublishIcon from '../../../icons/Unpublish';
+import TrashIcon from '../../../icons/Trash';
+import CheckIcon from '../../../icons/Check';
+import CrossIcon from '../../../icons/Close';
+import ChevronDownIcon from '../../../icons/ChevronDown';
 
 export default {
   name: 'SettingsRedirects',
-  components: { WhpptTextInput, WhpptTable, WhpptCard, WhpptButton, WhpptSpacer },
+  components: {
+    WhpptInput,
+    WhpptTable,
+    WhpptCard,
+    WhpptButton,
+    WhpptSpacer,
+    WhpptToolbar,
+    PublishIcon,
+    UnpublishIcon,
+    TrashIcon,
+    CheckIcon,
+    CrossIcon,
+    ChevronDownIcon,
+  },
+  directives: {
+    Tooltip,
+  },
   data: () => ({
     redirects: [],
-    newRedirect: { from: '', to: '' },
+    newRedirect: { name: '', from: '', to: '' },
     errorMessage: '',
     currentPage: 1,
     limit: 5,
     total: 0,
     filter: '',
+    redirectFormVisible: false,
   }),
   computed: {
     ...mapState('whppt/editor', ['baseAPIUrl']),
@@ -107,17 +165,19 @@ export default {
       return map(this.redirects, redirect => ({
         _id: redirect._id,
         domainId: redirect.domainId,
+        name: redirect.name,
         from: redirect.from,
         to: redirect.to,
         lastmod: redirect.updatedAt ? dayjs(redirect.updatedAt).format('DD MMM YYYY') : '–',
         createdAt: redirect.createdAt ? dayjs(redirect.createdAt).format('DD MMM YYYY') : '–',
         published: redirect.published || false,
-        publishedAt: redirect.lastPublished ? dayjs(redirect.lastPublished).format('DD MMM YYYY') : '–',
+        publishedAt: redirect.lastPublished ? dayjs(redirect.lastPublished).format('mm:hhA DD MMM YYYY') : '–',
       }));
     },
     headers() {
       return [
         { text: 'Actions', align: 'start', value: 'actions' },
+        { text: 'Name', align: 'start', value: 'name' },
         { text: 'From', align: 'start', value: 'from' },
         { text: 'To', align: 'start', value: 'to' },
         { text: 'Published', align: 'start', value: 'published' },
@@ -152,40 +212,41 @@ export default {
 
       return this.$axios
         .post(`${this.$whppt.apiPrefix}/siteSettings/deleteRedirect`, { _id: redirect._id })
-        .then(() => {
-          this.loadRedirects();
-        });
+        .then(() => this.loadRedirects());
     },
     addRedirect() {
-      if (!this.domain._id) return this.$toast.global.editorError('No domain found');
+      this.formatRedirect();
 
-      this.newRedirect.domainId = this.domain._id;
+      const redirect = { ...this.newRedirect, domainId: this.domain._id };
 
-      if (!this.newRedirect.from) return this.$toast.global.editorError('Cannot save with an empty "from"');
+      // TODO: Should only be 1 request, consolidate into api project.
+      return this.$axios
+        .$post(`${this.$whppt.apiPrefix}/siteSettings/checkDuplicateRedirect`, {
+          redirect,
+        })
+        .then(redirectExists => {
+          if (redirectExists) return this.$toast.global.editorError('Redirect already exists.');
 
-      if (this.newRedirect.to === this.newRedirect.from)
-        return this.$toast.global.editorError('To and From must be different');
-
-      if (!this.newRedirect.from.startsWith('http') && !this.newRedirect.from.startsWith('/')) {
+          return this.$axios.$post(`${this.$whppt.apiPrefix}/siteSettings/saveRedirect`, { redirect }).then(() => {
+            this.loadRedirects();
+            this.$toast.global.editorSuccess('Redirect Successfully Added');
+            this.newRedirect = { name: '', to: '', from: '' };
+          });
+        })
+        .catch(err => this.$toast.global.editorError(err.response.data.error.message));
+    },
+    formatRedirect() {
+      if (
+        this.newRedirect.from &&
+        !this.newRedirect.from.startsWith('http') &&
+        !this.newRedirect.from.startsWith('/')
+      ) {
         this.newRedirect.from = `/${this.newRedirect.from}`;
       }
 
-      if (!this.newRedirect.to.startsWith('http') && !this.newRedirect.to.startsWith('/')) {
+      if (this.newRedirect.to && !this.newRedirect.to.startsWith('http') && !this.newRedirect.to.startsWith('/')) {
         this.newRedirect.to = `/${this.newRedirect.to}`;
       }
-
-      return this.$api
-        .post(`/siteSettings/checkDuplicateRedirect`, {
-          redirect: this.newRedirect,
-        })
-        .then(({ data: alreadyExists }) => {
-          if (alreadyExists) return this.$toast.global.editorError('Redirect already exists');
-          return this.$api.post(`/siteSettings/saveRedirect`, { redirect: this.newRedirect }).then(() => {
-            this.loadRedirects();
-            this.$toast.global.editorSuccess('Redirect Successfully Added');
-            this.newRedirect = { to: '', from: '' };
-          });
-        });
     },
     formatSlug(slug) {
       if (slug.startsWith('/')) slug = slug.replace(/^(\/*)/, '');
@@ -193,22 +254,8 @@ export default {
 
       slug = slugify(slug, { remove: /[*+~.()'"!:@]/g, lower: true });
       slug = slug.replace(/[#?]/g, '');
-      return slug;
-    },
-    save(redirect) {
-      redirect.to = this.formatSlug(redirect.to);
-      redirect.from = this.formatSlug(redirect.from);
-      if (!redirect.from) return this.$toast.global.editorError('Cannot save with an empty "from"');
-      if (redirect.to === redirect.from) return this.$toast.global.editorError('To and From must be different');
-      if (!redirect.to.startsWith('/')) redirect.to = `/${redirect.to}`;
-      if (!redirect.from.startsWith('/')) redirect.from = `/${redirect.from}`;
 
-      return this.$api.post(`/siteSettings/checkDuplicateRedirect`, { redirect }).then(({ data: alreadyExists }) => {
-        if (alreadyExists) return this.$toast.global.editorError('Redirect already exists');
-        return this.$api.post(`/siteSettings/saveRedirect`, { redirect }).then(({ data: redirect }) => {
-          this.$toast.global.editorSuccess('Redirect Saved');
-        });
-      });
+      return slug;
     },
     publish(redirect) {
       const vm = this;
@@ -245,9 +292,10 @@ export default {
 
 <style lang="scss" scoped>
 $primary-600: #5a67d8;
+$danger-600: #e53e3e;
+$success-600: #059669;
 
 .whppt-redirects__overflow {
-  // width: 150px;
   display: block;
   white-space: pre-wrap;
 }
@@ -266,6 +314,14 @@ $primary-600: #5a67d8;
   }
 }
 
+.whppt-redirects__table-actions {
+  display: flex;
+}
+
+.whppt-redirects__table-published {
+  margin: 0 auto;
+}
+
 .whppt-redirects__search {
   margin-bottom: 1.5rem;
 }
@@ -274,6 +330,35 @@ $primary-600: #5a67d8;
   &:hover {
     text-decoration: underline;
     color: $primary-600;
+  }
+}
+
+.whppt-redirects__icon--success {
+  color: $success-600;
+}
+
+.whppt-redirects__icon--danger {
+  color: $danger-600;
+}
+
+.whppt-redirects__toolbar {
+  border-radius: 0.25rem 0.25rem 0 0;
+
+  &-expand,
+  &-contract {
+    width: 1.5rem;
+  }
+
+  &-expand {
+    will-change: transform;
+    transform: rotate(0deg);
+    transition: transform 0.3s ease;
+  }
+
+  &-contract {
+    will-change: transform;
+    transform: rotate(180deg);
+    transition: transform 0.3s ease;
   }
 }
 </style>

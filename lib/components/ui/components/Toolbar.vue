@@ -1,5 +1,5 @@
 <template>
-  <div class="toolbar" :class="{ 'toolbar--dark': dark }">
+  <div class="whppt-toolbar" :class="{ 'whppt-toolbar--dark': dark, 'whppt-toolbar--dense': dense }">
     <slot></slot>
   </div>
 </template>
@@ -12,6 +12,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    dense: {
+      type: Boolean,
+      default: false,
+    },
   },
 };
 </script>
@@ -22,8 +26,8 @@ $primary-600: #5a67d8;
 $gray-200: #edf2f7;
 $gray-900: #1a202c;
 
-.toolbar {
-  min-height: 4rem;
+.whppt-toolbar {
+  min-height: 3rem;
   display: flex;
   border-bottom: 2px solid $primary-600;
   padding: 1rem;
@@ -32,6 +36,11 @@ $gray-900: #1a202c;
   &--dark {
     background-color: $gray-900;
     color: white;
+  }
+
+  &--dense {
+    padding: 0.5rem;
+    min-height: 0;
   }
 }
 </style>
