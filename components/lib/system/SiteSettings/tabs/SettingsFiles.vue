@@ -1,8 +1,8 @@
 <template>
   <form @submit.prevent>
     <fieldset>
-      <div style="display:flex; justify-content: space-between;">
-        <div style="font-weight: bold; margin-right:40px;">Files</div>
+      <div style="display: flex; justify-content: space-between">
+        <div style="font-weight: bold; margin-right: 40px">Files</div>
         <button
           v-if="!itemToBeRemoved"
           class="whppt-settings__button"
@@ -79,17 +79,15 @@
           </tbody>
         </table>
 
-        <div v-if="loading" style="margin-top: 30px;">
-          Loading...
-        </div>
-        <div v-if="openEditor" style="margin-top: 30px;">
+        <div v-if="loading" style="margin-top: 30px">Loading...</div>
+        <div v-if="openEditor" style="margin-top: 30px">
           <whppt-text-input v-model="file.description" placeholder="File description" class="whppt-full" />
           <button class="whppt-settings__button" @click="$refs.fileInput.click()">
-            <input ref="fileInput" type="file" style="display: none;" @input="upload" />
+            <input ref="fileInput" type="file" style="display: none" @input="upload" />
             <span>{{ file.formData ? file.formData.name : `Select File` }}</span>
           </button>
           <div>
-            <button class="whppt-settings__button" style="margin-top:30px;" @click="save">
+            <button class="whppt-settings__button" style="margin-top: 30px" @click="save">
               <span>Save</span>
             </button>
           </div>
@@ -97,9 +95,7 @@
       </div>
       <div v-if="itemToBeRemoved">
         Are you sure you want to delete this item?
-        <button class="whppt-settings__button" style="display: flex" @click="remove">
-          Confirm
-        </button>
+        <button class="whppt-settings__button" style="display: flex" @click="remove">Confirm</button>
       </div>
     </fieldset>
   </form>
@@ -140,7 +136,6 @@ export default {
     };
   },
   computed: {
-    ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
     pagesArray() {
       const length = [];
       for (let i = 1; i <= this.pages; i++) {
@@ -160,12 +155,10 @@ export default {
       this.loadFiles();
     },
     getUrl(file) {
-      const baseUrl = window.location.origin;
-      return encodeURI(`${baseUrl}/file/${file._id}/${file.name}`);
+      return encodeURI(`/file/${file._id}/${file.name}`);
     },
     copyUrl(file) {
-      const baseUrl = window.location.origin;
-      const str = encodeURI(`${baseUrl}/file/${file._id}/${file.name}`);
+      const str = encodeURI(`/file/${file._id}/${file.name}`);
       const el = document.createElement('textarea');
       el.value = str;
       document.body.appendChild(el);
