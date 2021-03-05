@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent>
-    <fieldset>
+    <div>
       <div style="display: flex; justify-content: space-between">
         <div style="font-weight: bold; margin-right: 40px">Files</div>
         <button
@@ -97,12 +97,11 @@
         Are you sure you want to delete this item?
         <button class="whppt-settings__button" style="display: flex" @click="remove">Confirm</button>
       </div>
-    </fieldset>
+    </div>
   </form>
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import { ceil } from 'lodash';
 import { VTooltip } from 'v-tooltip';
 import WhpptTextInput from '../../../whpptComponents/WhpptTextInput';
@@ -112,7 +111,7 @@ import Remove from '../../../icons/Remove';
 import ExternalLink from '../../../icons/External';
 
 export default {
-  name: 'Test',
+  name: 'SettingsFiles',
   directives: {
     VTooltip,
   },
@@ -169,7 +168,7 @@ export default {
 
     remove() {
       const vm = this;
-      return this.$api.post(`/file/removeFile`, { _id: this.itemToBeRemoved._id }).then(() => {
+      return this.$axios.$post(`/file/removeFile`, { _id: this.itemToBeRemoved._id }).then(() => {
         vm.itemToBeRemoved = undefined;
         vm.loadFiles();
       });
