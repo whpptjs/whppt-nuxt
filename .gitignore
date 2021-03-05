@@ -5,3 +5,6 @@ data
 
 .DS_Store
 package-lock.json
+
+.vscode
+.idea
