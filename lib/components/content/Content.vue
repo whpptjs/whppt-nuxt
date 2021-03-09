@@ -7,6 +7,7 @@
     :class="{ 'whppt-contents--active': activeMenuItem }"
   >
     <div v-for="(content, index) in initContentItems" :key="`${content.key}-${index}`" class="whppt-content">
+      <!-- TODO: Remove tailwind classes -->
       <div
         v-show="draft && activeActionsIndex === index"
         class="absolute top-0 right-0 z-50 text-white items-center flex p-1"
@@ -35,6 +36,7 @@
         <component
           :is="content.componentType"
           :ref="`${content.componentType}-${index}`"
+          v-whppt-actions="{ content, action() {} }"
           :content="content"
           :class="spacingClasses(content)"
           :container="container"
