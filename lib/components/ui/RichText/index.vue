@@ -1,9 +1,9 @@
 <template>
   <div class="whppt-editor">
-    <editor-menu-bar v-if="!selectedComponent.hideMenu" :editor="editor">
+    <editor-menu-bar v-if="!hideMenu" :editor="editor">
       <div slot-scope="{ commands, isActive, getMarkAttrs }">
         <div class="whppt-menubar" style="top: -52px">
-          <div v-if="!selectedComponent.hideStyle" class="whppt-menubar__section">
+          <div v-if="!hideStyle" class="whppt-menubar__section">
             <button aria-label="Bold" @click="commands.bold">
               <i-bold class="whppt-editor__icon" :class="{ 'whppt-editor__icon--active': isActive.bold() }" />
             </button>
@@ -14,7 +14,7 @@
               <i-underline class="whppt-editor__icon" :class="{ 'whppt-editor__icon--active': isActive.underline() }" />
             </button>
           </div>
-          <div v-if="!selectedComponent.hideHeaders" class="whppt-menubar__section">
+          <div v-if="!hideHeaders" class="whppt-menubar__section">
             <button aria-label="Paragraph" @click="commands.paragraph">
               <i-paragraph class="whppt-editor__icon" :class="{ 'whppt-editor__icon--active': isActive.paragraph() }" />
             </button>
@@ -31,7 +31,7 @@
               />
             </button>
           </div>
-          <div v-if="!selectedComponent.hideLists" class="whppt-menubar__section">
+          <div v-if="!hideLists" class="whppt-menubar__section">
             <button aria-label="Bullet List" @click="commands.bullet_list">
               <i-bullet-list
                 class="whppt-editor__icon"
@@ -45,7 +45,7 @@
               />
             </button>
           </div>
-          <div v-if="!selectedComponent.hideLinks" class="whppt-menubar__section">
+          <div v-if="!hideLinks" class="whppt-menubar__section">
             <button aria-label="Create Link" @click="showLink(getMarkAttrs('link'))">
               <i-link
                 class="whppt-editor__icon"
@@ -90,11 +90,6 @@
 <script>
 import { Bold, BulletList, HardBreak, Heading, Italic, ListItem, OrderedList, Underline } from 'tiptap-extensions';
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap';
-import { mapActions, mapState } from 'vuex';
-
-import WhpptSelect from '../../ui/Select';
-import WhpptTextInput from '../../ui/Input';
-import WhpptButton from '../../ui/Button';
 
 import IBold from '../../icons/Bold';
 import IItalic from '../../icons/Italic';
@@ -107,6 +102,10 @@ import IUnderline from '../../icons/Underline';
 import ILink from '../../icons/ChainLink';
 import IClose from '../../icons/Close';
 import Link from './CustomLink';
+
+import WhpptSelect from './..//Select';
+import WhpptTextInput from './..//Input';
+import WhpptButton from './..//Button';
 
 const isEmptyValue = val => {
   return !val || val === '' || val === '<p></p>';
@@ -131,6 +130,14 @@ export default {
     WhpptTextInput,
     WhpptButton,
   },
+  props: {
+    value: { type: String, default: '' },
+    hideMenu: { type: Boolean, default: false },
+    hideStyle: { type: Boolean, default: false },
+    hideHeaders: { type: Boolean, default: false },
+    hideLists: { type: Boolean, default: false },
+    hideLinks: { type: Boolean, default: false },
+  },
   data() {
     return {
       editor: null,
@@ -142,22 +149,16 @@ export default {
       ],
     };
   },
-  computed: mapState('whppt-nuxt/editor', ['richTextWatcher', 'selectedComponent']),
   watch: {
-    richTextWatcher(val) {
-      if (this.internal !== this.selectedComponent.value[this.selectedComponent.property]) {
-        this.internal = this.selectedComponent.value[this.selectedComponent.property];
-        this.editor.setContent(
-          isEmptyValue(this.selectedComponent.value[this.selectedComponent.property])
-            ? 'Insert text here'
-            : this.selectedComponent.value[this.selectedComponent.property]
-        );
+    value(val) {
+      if (this.internal !== val) {
+        this.editor.setContent(isEmptyValue(val) ? 'Insert text here' : val);
       }
     },
   },
   mounted() {
     const vm = this;
-    this.internal = this.selectedComponent.value[this.selectedComponent.property];
+    this.internal = this.value;
 
     this.editor = new Editor({
       extensions: [
@@ -171,12 +172,10 @@ export default {
         new Link(),
         new HardBreak(),
       ],
-      content: isEmptyValue(this.selectedComponent.value[this.selectedComponent.property])
-        ? 'Insert text here'
-        : this.selectedComponent.value[this.selectedComponent.property],
+      content: isEmptyValue(this.value) ? 'Insert text here' : this.value,
       onUpdate({ getHTML }) {
         vm.internal = getHTML();
-        vm.setSelectedComponentState({ value: getHTML(), path: vm.selectedComponent.property });
+        vm.$emit('input', getHTML());
       },
     });
   },
@@ -184,7 +183,6 @@ export default {
     this.editor.destroy();
   },
   methods: {
-    ...mapActions('whppt-nuxt/editor', ['setSelectedComponentState']),
     link(linkCommand) {
       linkCommand({ ...this.editingLink, target: this.editingLink.type === 'external' ? '_blank' : '' });
       this.editingLink = undefined;
