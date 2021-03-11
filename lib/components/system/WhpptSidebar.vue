@@ -6,7 +6,9 @@
         <whppt-button @click="closeSidebar"><close /></whppt-button>
       </div>
     </whppt-toolbar>
+    <!-- TODO: update content class -->
     <div v-if="editSidebar" class="content">
+      {{ editSidebarType }}
       <component :is="editSidebarType" />
     </div>
   </whppt-drawer>

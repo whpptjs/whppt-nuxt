@@ -1,0 +1,22 @@
+.whppt-actions {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 0.75rem;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 0.25rem;
+}
+
+.whppt-actions span {
+  margin-right: 0.25rem;
+}
+
+.whppt-actions ul {
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.whppt-actions ul li {
+}
