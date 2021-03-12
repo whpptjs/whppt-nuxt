@@ -8,12 +8,17 @@
   >
     <div v-for="(content, index) in initContentItems" :key="`${content.key}-${index}`" class="whppt-content">
       <div v-if="activeMenuItem && !editSidebar" class="whppt-content__container container">
+        <button @click.stop="showDuplicateComponentDialog(content.componentType, index, content)">
+          Duplicate Component
+        </button>
+        <whppt-spacer width="0.25rem"></whppt-spacer>
         <whppt-button v-whppt-spacing="content" class="whppt-contents__spacing-button">
           Adjust Spacing
         </whppt-button>
       </div>
       <component
         :is="content.componentType"
+        :ref="`${content.componentType}-${index}`"
         :content="content"
         :class="spacingClasses(content)"
         :container="container"
@@ -24,14 +29,16 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapActions, mapMutations, mapState } from 'vuex';
 import { find, map, keyBy } from 'lodash';
 import WhpptButton from '../ui/Button';
+import WhpptSpacer from '../ui/Spacer';
 
 export default {
   name: 'WhpptContent',
   components: {
     WhpptButton,
+    WhpptSpacer,
   },
   props: {
     contentItems: { type: [Array, Object], required: true },
@@ -60,6 +67,22 @@ export default {
     },
   },
   methods: {
+    ...mapActions('whppt-nuxt/editor', ['selectContent', 'selectComponent']),
+    ...mapMutations('whppt-nuxt/editor', ['editInSidebar']),
+    doSelectComponent(componentType, index, content) {
+      const refs = this.$refs[`${componentType}-${index}`];
+      const component = refs && refs.length && refs[0];
+      const parent = component.$parent;
+
+      return this.selectContent({ el: parent.$el, value: parent.contentItems }).then(() => {
+        const value = { value: content };
+
+        return this.selectComponent({ el: component.$el, value });
+      });
+    },
+    showDuplicateComponentDialog(componentType, index, content) {
+      return this.doSelectComponent(componentType, index, content).then(() => this.editInSidebar('DuplicateComponent'));
+    },
     spacingClasses(content) {
       const { setMarginTop, setMarginBottom, setPaddingTop, setPaddingBottom } = this.$whppt.spacing;
 
@@ -81,9 +104,6 @@ export default {
     justify-content: flex-end;
     position: relative;
   }
-}
-
-.whppt-contents__spacing-button {
 }
 </style>
 
