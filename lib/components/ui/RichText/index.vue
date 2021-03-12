@@ -103,9 +103,9 @@ import ILink from '../../icons/ChainLink';
 import IClose from '../../icons/Close';
 import Link from './CustomLink';
 
-import WhpptSelect from './..//Select';
-import WhpptTextInput from './..//Input';
-import WhpptButton from './..//Button';
+import WhpptSelect from './../Select';
+import WhpptTextInput from './../Input';
+import WhpptButton from './../Button';
 
 const isEmptyValue = val => {
   return !val || val === '' || val === '<p></p>';
