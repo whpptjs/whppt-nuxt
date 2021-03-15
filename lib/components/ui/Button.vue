@@ -1,5 +1,6 @@
 <template>
   <button
+    v-bind="$attrs"
     class="whppt-button"
     :class="{ 'whppt-button--danger': danger, 'whppt-button--flat': flat, 'whppt-button--dark': dark }"
     :disabled="disabled"
@@ -29,6 +30,9 @@ export default {
       type: Boolean,
       default: true,
     },
+  },
+  mounted() {
+    console.log(this);
   },
 };
 </script>

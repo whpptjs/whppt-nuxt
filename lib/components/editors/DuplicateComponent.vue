@@ -1,5 +1,5 @@
 <template>
-  <form class="whppt-clone-editor" @sumbit.prevent>
+  <div class="whppt-clone-editor">
     <div class="whppt-clone-editor__field">
       <whppt-autocomplete
         v-model="selectedPageType"
@@ -32,11 +32,11 @@
       />
     </div>
     <div class="whppt-clone-editor__field whppt-clone-editor__button">
-      <whppt-button :disabled="!selectedPageType && !selectedPage" @click.prevent="duplicateComponent">
+      <whppt-button :disabled="!selectedPageType && !selectedPage" @click="duplicateComponent">
         Duplicate Component
       </whppt-button>
     </div>
-  </form>
+  </div>
 </template>
 
 <script>
