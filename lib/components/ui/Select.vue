@@ -59,7 +59,7 @@ export default {
   props: {
     id: {
       type: String,
-      required: true,
+      default: '',
     },
     items: {
       type: Array,

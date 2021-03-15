@@ -24,6 +24,7 @@
   "homepage": "https://github.com/whpptjs/whppt-nuxt",
   "devDependencies": {
     "@nuxtjs/eslint-config": "^2.0.0",
+    "@types/lodash": "^4.14.168",
     "babel-eslint": "^10.0.3",
     "eslint": "^6.7.2",
     "eslint-config-prettier": "^6.7.0",

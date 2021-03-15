@@ -51,6 +51,8 @@ export default {
       return this.items.filter(item => {
         const _itemText = typeof this.item === 'object' ? item : item[this.itemText];
 
+        if (!_itemText) return;
+
         return _itemText.toLowerCase().includes(this.searchQuery.toLowerCase());
       });
     },
@@ -81,6 +83,7 @@ export default {
       this.searchQuery = typeof result !== 'object' ? result : result[this.itemText];
 
       this.$emit('input', result);
+      this.$emit('select', result);
     },
     onChange() {
       this.$emit('input', this.searchQuery);
