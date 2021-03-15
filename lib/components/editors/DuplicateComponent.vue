@@ -19,7 +19,7 @@
         item-text="slug"
         item-value="_id"
         placeholder="Start typing..."
-        info="Search for a page to clone the component into"
+        info="Search for a page by slug to clone the component into"
         @select="setCloneInto"
       />
     </div>
@@ -32,7 +32,7 @@
       />
     </div>
     <div class="whppt-clone-editor__field whppt-clone-editor__button">
-      <whppt-button :disabled="!selectedPageType && !selectedPage" @click="duplicateComponent">
+      <whppt-button :disabled="!selectedPageType && !selectedPage" @click.prevent="duplicateComponent">
         Duplicate Component
       </whppt-button>
     </div>
@@ -102,7 +102,7 @@ export default {
 
           this.pages = map(pages, page => ({
             _id: page._id,
-            slug: page.slug,
+            slug: `/${page.slug}`,
             pageType: page.pageType,
           }));
         })
