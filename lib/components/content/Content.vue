@@ -60,10 +60,10 @@ export default {
       return [
         { label: 'Up', classes: 'whppt-icon whppt-icon-up', action: this.moveComponentUp },
         { label: 'Down', classes: 'whppt-icon whppt-icon-down', action: this.moveComponentDown },
-        { label: 'Remove', classes: 'whppt-icon whppt-icon-delete', action: this.removeComponent },
+        { label: 'Remove', classes: 'whppt-icon whppt-icon-delete', action: this.remove },
         {
           label: 'Spacing',
-          classes: ' whppt-icon  whppt-icon-spacing ',
+          classes: 'whppt-icon whppt-icon-spacing ',
           action: () => this.doEditInSidebar('SpacingControls'),
         },
       ];
@@ -80,6 +80,9 @@ export default {
       const paddingBottom = setPaddingBottom(content);
 
       return [marginTop, marginBottom, paddingTop, paddingBottom];
+    },
+    remove() {
+      if (window.confirm('Are you sure you want to delete this component?')) return this.removeComponent();
     },
   },
 };
