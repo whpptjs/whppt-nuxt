@@ -147,7 +147,9 @@ export default {
     queryFilesList() {
       const config = { params: { search: this.search } };
 
-      return this.$api.get(`/file/searchFiles`, config).then(({ data: { files } }) => (this.files = files));
+      return this.$axios.$get(`${this.$whppt.apiPrefix}/file/searchFiles`, config).then(({ files }) => {
+        this.files = files;
+      });
     },
     tabChanged(tab) {
       this.setSelectedComponentState({ value: tab.id, path: 'type' });

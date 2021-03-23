@@ -7,7 +7,10 @@
         <template v-slot:header>
           <whppt-toolbar>
             <div class="whppt-toolbar__content">
-              <h2>Welcome to your dashboard.</h2>
+              <h2>
+                Welcome to your dashboard<span v-if="authUser && authUser.username">, {{ authUser.username }}</span
+                >.
+              </h2>
               <whppt-button @click="closeDashboard">Close</whppt-button>
             </div>
           </whppt-toolbar>
@@ -104,6 +107,7 @@ export default {
       'componentPreviewType',
     ]),
     ...mapState('whppt/page', ['page', 'savedPage']),
+    ...mapState('whppt/security', ['authUser']),
   },
   beforeMount() {
     if (this.draft) window.addEventListener('beforeunload', this.preventNavigate);

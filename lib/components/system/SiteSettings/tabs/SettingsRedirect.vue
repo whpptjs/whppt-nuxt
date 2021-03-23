@@ -270,7 +270,8 @@ export default {
         .$post(`${this.$whppt.apiPrefix}/siteSettings/checkDuplicatePublishedRedirect`, { redirect })
         .then(alreadyExists => {
           if (alreadyExists) return vm.$toast.global.editorError('Redirect already exists');
-          return vm.$api.post(`/siteSettings/publishRedirect`, { redirect }).then(() => {
+
+          return vm.$axios.post(`${this.$whppt.apiPrefix}/siteSettings/publishRedirect`, { redirect }).then(() => {
             vm.$toast.global.editorSuccess('Redirect Published');
             this.loadRedirects();
           });

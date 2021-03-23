@@ -70,9 +70,9 @@ export default {
       this.selectedTab = this.tabs[index].name;
     },
     loadSiteSettings() {
-      return this.$api
-        .get(`/siteSettings/loadSiteSettings?domainId=${this.domain._id}`)
-        .then(({ data: siteSettings }) => {
+      return this.$axios
+        .$get(`${this.$whppt.apiPrefix}/siteSettings/loadSiteSettings?domainId=${this.domain._id}`)
+        .then(siteSettings => {
           siteSettings = siteSettings || { _id: 'siteSettings' };
           siteSettings.og = siteSettings.og || {};
           siteSettings.og.image =

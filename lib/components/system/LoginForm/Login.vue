@@ -8,7 +8,7 @@
         </div>
       </div>
       <form @submit.prevent>
-        <whppt-text-input :id="`${$options._scopeId}-login-username`" v-model="username" label="Username" />
+        <whppt-text-input :id="`${$options._scopeId}-login-username`" v-model="username" label="Username or Email" />
         <whppt-text-input
           :id="`${$options._scopeId}-login-password`"
           v-model="password"

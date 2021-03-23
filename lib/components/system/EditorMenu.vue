@@ -189,7 +189,7 @@ export default {
       ];
     },
     hasPublishableChanges() {
-      return new Date(this.page.lastPublished) < new Date(this.page.updatedAt);
+      return this.page ? new Date(this.page.lastPublished) < new Date(this.page.updatedAt) : false;
     },
     userCanEdit() {
       // && this.authUser.roles.editor
