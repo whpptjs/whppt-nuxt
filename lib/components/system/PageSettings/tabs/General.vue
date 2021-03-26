@@ -37,7 +37,7 @@
     <whppt-card>
       <div class="whppt-page__actions">
         <whppt-button @click="openDupModal">Duplicate Page</whppt-button>
-        <whppt-button @click="showWarning = true">Delete Page</whppt-button>
+        <whppt-button @click="openDeleteModal">Delete Page</whppt-button>
       </div>
     </whppt-card>
 
@@ -45,10 +45,19 @@
     <whppt-dialog v-if="showSlugModal" :is-active="showSlugModal" :height="prefix ? 500 : 400" :width="800">
       <template v-slot:header>
         <whppt-toolbar>
-          <h3>Edit Slug</h3>
+          <div class="whppt-slug__toolbar">
+            <h3>Edit Slug</h3>
+          </div>
         </whppt-toolbar>
       </template>
       <whppt-card class="whppt-dialog__warning">
+        <p v-if="foundDependencies" class="whppt-dialog__warning-dependencies">
+          <em>
+            Warning: The current slug is in use in {{ foundDependencies }} place{{
+              foundDependencies !== 1 ? 's' : ''
+            }}. Changing the slug may break links around the site, to avoid broken links remember to change the links.
+          </em>
+        </p>
         <form @submit.prevent>
           <div v-if="prefix">
             <whppt-text-input
@@ -70,6 +79,7 @@
           </div>
           <div v-if="!prefix">
             <whppt-text-input
+              :id="`${$options._scopeId}-edit-prefix`"
               v-model="slugCopy"
               placeholder="Enter a page slug"
               label="Slug"
@@ -102,7 +112,16 @@
       <whppt-card class="whppt-dialog__warning">
         <div class="whppt-dialog__warning-message">
           <h4>Are you sure you want to delete this page</h4>
-          <p><em>Warning: Once you delete this page there is no way to recover it.</em></p>
+          <p class="whppt-dialog__warning-dependencies">
+            <em>Warning: Once you delete this page there is no way to recover it.</em>
+          </p>
+          <p v-if="foundDependencies" class="whppt-dialog__warning-dependencies">
+            <em>
+              Warning: The current slug is in use in {{ foundDependencies }} place{{
+                foundDependencies !== 1 ? 's' : ''
+              }}. Changing the slug may break links around the site, to avoid broken links remember to change the links.
+            </em>
+          </p>
         </div>
         <div class="whppt-dialog__warning-actions">
           <whppt-button danger @click="deletePageFromDraft">Delete</whppt-button>
@@ -185,6 +204,7 @@ export default {
     showWarning: false,
     showSlugModal: false,
     showDuplicatePageModal: false,
+    foundDependencies: 0,
     slugCopy: '',
     rawSlug: '',
     newPage: {
@@ -275,13 +295,25 @@ export default {
         }
       });
     },
+    checkDependencies() {
+      const params = { url: this.page.slug, type: 'link' };
+
+      this.$axios.$get(`${this.$whppt.apiPrefix}/dependencies/checkDependencies`, { params }).then(dependencies => {
+        if (dependencies && dependencies.length) this.foundDependencies = dependencies.length;
+      });
+    },
     openSlugModal() {
       this.showSlugModal = true;
       this.slugCopy = this.rawSlug;
+      this.checkDependencies();
     },
     openDupModal() {
       this.showDuplicatePageModal = true;
       this.slugCopy = '';
+    },
+    openDeleteModal() {
+      this.showWarning = true;
+      this.checkDependencies();
     },
     formatSlug(slug) {
       if (slug.startsWith('/')) slug = slug.replace(/^(\/*)/, '');
@@ -297,19 +329,21 @@ export default {
       this.slugCopy = value;
     },
     saveSlug() {
-      const vm = this;
       const newSlug = this.formattedSlug;
+
       if (!newSlug) {
         this.$toast.global.editorError('Please provide a slug');
         return;
       }
-      return vm.checkSlug({ slug: newSlug, _id: this.page._id, pageType: this.page.pageType }).then(duplicateSlug => {
+
+      return this.checkSlug({ slug: newSlug, _id: this.page._id, pageType: this.page.pageType }).then(duplicateSlug => {
         if (duplicateSlug) {
           this.$toast.global.editorError('Slug already in use');
         } else {
-          return vm.savePage({ ...vm.page, slug: newSlug }).then(() => {
-            vm.$router.push(`/${newSlug}`);
-            vm.$emit('closed');
+          return this.savePage({ ...this.page, slug: newSlug }).then(() => {
+            this.foundDependencies = 0;
+            this.$router.push(`/${newSlug}`);
+            this.$emit('closed');
           });
         }
       });
@@ -348,6 +382,7 @@ export default {
       return vm.deletePage().then(() => {
         !vm.page.slug || vm.page.slug === '/' ? vm.$router.push(`/404`) : vm.$router.push(`/`);
         vm.showWarning = false;
+        vm.foundDependencies = 0;
         vm.$emit('closeModal');
       });
     },
@@ -356,6 +391,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$warning-500: #f59e0b;
+
 .whppt-page-setting__general {
   .whppt-divider {
     margin: 0.5rem 0;
@@ -386,7 +423,6 @@ export default {
   display: flex;
   flex-direction: column;
   margin-bottom: 0;
-  height: 100%;
 
   h3,
   h4 {
@@ -396,10 +432,20 @@ export default {
   p {
     font-size: 0.75rem;
   }
+
+  &-dependencies {
+    color: $warning-500;
+    font-size: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
 }
 
 .whppt-dialog__warning-message {
   margin-bottom: 1rem;
+
+  h4 {
+    margin-bottom: 1rem;
+  }
 }
 
 .whppt-dialog__warning-actions {
@@ -417,5 +463,12 @@ export default {
   button {
     margin-top: 1rem;
   }
+}
+
+.whppt-slug__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 }
 </style>
