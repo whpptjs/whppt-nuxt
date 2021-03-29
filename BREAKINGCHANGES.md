@@ -49,4 +49,4 @@
 
 ## Removed
 
-- \$api()
+- \whppt.\$api()
