@@ -36,7 +36,7 @@
 export default {
   name: 'WhpptInput',
   props: {
-    id: { type: String, required: true },
+    id: { type: String, default: '' },
     name: { type: String, default: undefined },
     type: { type: String, default: 'text' },
     label: { type: String, default: '' },
