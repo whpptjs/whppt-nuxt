@@ -1,7 +1,6 @@
 <template>
   <div class="whppt-autocomplete" :class="{ 'whppt-autocomplete--dark': dark }">
     <WhpptInput
-      id="mehh"
       v-model="searchQuery"
       :value="setTextProp(internalValue)"
       v-bind="$attrs"
@@ -9,7 +8,7 @@
       @input="onChange"
     />
     <slot :results="results">
-      <div v-if="isSearching && searchQuery" class="whppt-autocomplete__menu">
+      <div v-if="isSearching && searchQuery" v-click-outside="close" class="whppt-autocomplete__menu">
         <ul role="listbox">
           <li v-for="(result, index) in results" :key="index" role="option" @click="setResult(result)">
             {{ setTextProp(result) }}
@@ -25,12 +24,16 @@
 </template>
 
 <script>
+import clickOutside from '../directives/clickOutside';
 import WhpptInput from './Input';
 
 export default {
   name: 'WhpptAutocomplete',
   components: {
     WhpptInput,
+  },
+  directives: {
+    clickOutside,
   },
   props: {
     items: { type: Array, default: () => [] },
@@ -68,6 +71,9 @@ export default {
     this.searchQuery = this.setTextProp(this.value);
   },
   methods: {
+    close() {
+      this.isSearching = false;
+    },
     setValueProp(item) {
       if (typeof item !== 'object') return item;
 
