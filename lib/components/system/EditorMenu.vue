@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import { mapMutations, mapState, mapActions } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import { VTooltip as Tooltip } from 'v-tooltip';
 import {
   Expand,
@@ -158,26 +158,26 @@ export default {
           label: 'Publish Page',
           icon: this.hasPublishableChanges ? 'publish-with-notification' : 'publish',
           disabled: !this.page || !this.page._id,
-          action: () => this.editInModal('publishSettings'),
+          action: () => this.doEditInModal('publishSettings'),
         },
         {
           key: 'config-settings',
           label: 'Open Config Settings',
           icon: 'globe',
-          action: () => this.editInModal('configSettings'),
+          action: () => this.doEditInModal('configSettings'),
         },
         {
           key: 'site-settings',
           label: 'Open Site Settings',
           icon: 'settings',
-          action: () => this.editInModal('siteSettings'),
+          action: () => this.doEditInModal('siteSettings'),
         },
         {
           key: 'page-settings',
           label: 'Open Page Settings',
           icon: 'page-settings',
           disabled: !this.page || !this.page._id,
-          action: () => this.editInModal('pageSettings'),
+          action: () => this.doEditInModal('pageSettings'),
         },
         {
           key: 'dashboard',
@@ -211,12 +211,13 @@ export default {
       'removeComponent',
       'clearSelectedComponent',
       'clearSelectedContent',
+      'doEditInSidebar',
+      'doEditInModal',
     ]),
-    ...mapMutations('whppt/editor', ['editInModal', 'editInSidebar']),
     newPage() {
       this.clearSelectedContent();
       this.clearSelectedComponent();
-      return this.editInSidebar('WhpptPage');
+      return this.doEditInSidebar('WhpptPage');
     },
     remove() {
       // if (!this.selectedContent || !this.selectedComponent) return;

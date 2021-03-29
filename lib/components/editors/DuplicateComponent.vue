@@ -61,7 +61,7 @@ export default {
     cloneInto: '',
   }),
   computed: {
-    ...mapState('whppt-nuxt/editor', ['selectedComponent']),
+    ...mapState('whppt/editor', ['selectedComponent']),
     pageTypes() {
       const plugins = this.$whppt.plugins;
       const pageTypePlugins = filter(plugins, plugin => plugin.pageType);

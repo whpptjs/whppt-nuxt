@@ -47,7 +47,7 @@ export default {
     ...mapState('whppt/editor', ['baseImageUrl', 'baseCdnImageUrl']),
   },
   methods: {
-    ...mapActions('whppt-nuxt/editor', ['setSelectedComponentState']),
+    ...mapActions('whppt/editor', ['setSelectedComponentState']),
     change({ canvasName }, changes) {
       const { coordinates } = changes;
 

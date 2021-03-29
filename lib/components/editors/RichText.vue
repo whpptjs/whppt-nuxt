@@ -26,7 +26,7 @@ export default {
     richTextValue: undefined,
   }),
   computed: {
-    ...mapState('whppt-nuxt/editor', ['selectedComponent', 'richTextWatcher']),
+    ...mapState('whppt/editor', ['selectedComponent', 'richTextWatcher']),
   },
   watch: {
     richTextWatcher() {
@@ -37,7 +37,7 @@ export default {
     this.richTextValue = this.selectedComponent.value[this.selectedComponent.property];
   },
   methods: {
-    ...mapActions('whppt-nuxt/editor', ['setSelectedComponentState']),
+    ...mapActions('whppt/editor', ['setSelectedComponentState']),
     updateSelectedComponent(ev) {
       this.setSelectedComponentState({ value: ev, path: this.selectedComponent.property });
     },
