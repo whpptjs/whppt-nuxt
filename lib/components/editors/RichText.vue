@@ -15,7 +15,7 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 
-import WhpptRichTextInput from '../ui/RichText';
+import WhpptRichTextInput from '../ui/components/RichText';
 
 export default {
   name: 'WhpptRichTextEditor',

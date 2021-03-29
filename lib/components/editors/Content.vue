@@ -1,27 +1,32 @@
 <template>
   <div class="whppt-content">
-    <whppt-button
-      v-for="component in componentList"
-      :key="component.key"
-      class="whppt-content__button"
-      @click="addContent(component)"
-    >
-      {{ component.name }}
-    </whppt-button>
+    <div v-for="(component, index) in componentList" :key="`${component.key}-${index}`">
+      <whppt-button
+        class="whppt-content__button"
+        @click="addContent(component)"
+        @mouseover.native="changeComponentPreviewType(component.componentType)"
+        @mouseout.native="changeComponentPreviewType('')"
+      >
+        {{ component.name }}
+      </whppt-button>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
 import { orderBy, find, filter, includes } from 'lodash';
-import WhpptButton from '../ui/Button';
+import WhpptButton from '../ui/components/Button';
 
 export default {
   name: 'WhpptContent',
   components: { WhpptButton },
+  data: () => ({
+    previewIndex: -1,
+  }),
   computed: {
-    ...mapState('whppt-nuxt/page', ['page']),
-    ...mapState('whppt-nuxt/editor', ['selectedComponent']),
+    ...mapState('whppt/page', ['page']),
+    ...mapState('whppt/editor', ['selectedComponent']),
     componentList() {
       if (!this.selectedComponent) return;
 
@@ -41,7 +46,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('whppt-nuxt/editor', ['pushSelectedComponentState']),
+    ...mapActions('whppt/editor', ['pushSelectedComponentState', 'changeComponentPreviewType']),
     addContent(content) {
       const value = { marginTop: '', componentType: content.componentType };
       if (content.init) Object.assign(value, { ...content.init({ $set: this.$set }) });
@@ -53,6 +58,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$primary-600: #5a67d8;
+
 .whppt-content {
   width: 100%;
   display: flex;
@@ -60,6 +67,23 @@ export default {
 
   &__button {
     margin: 0.5rem 0;
+    width: 100%;
   }
+
+  &__preview {
+    max-height: 0;
+    background-color: $primary-600;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+
+    &--active {
+      max-height: 300px;
+      transition: max-height 0.3s ease;
+    }
+  }
+}
+
+.whppt-preview {
+  height: 300px;
 }
 </style>

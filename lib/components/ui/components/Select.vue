@@ -1,12 +1,11 @@
 <template>
-  <!-- TODO: Click outside directive -->
   <div
     class="whppt-select"
     :class="{ 'whppt-select--dark': dark, 'whppt-select--dense': dense }"
     :style="`width: ${typeof width === 'number' ? `${width}px` : width}`"
   >
     <label v-if="label" :for="id">{{ label }}</label>
-    <div class="whppt-select__input">
+    <div v-click-outside="close" class="whppt-select__input">
       <input
         :id="id"
         :placeholder="placeholder"
@@ -18,7 +17,10 @@
         @focus="showSelectItems = true"
         @input="$emit('input', $event.target.value)"
         @change="$emit('change', $event.target.value)"
-        @blur="$emit('blur', $event.target.value)"
+        @keydown.down.prevent="onArrowDown"
+        @keydown.up.prevent="onArrowUp"
+        @keydown.enter.prevent="onEnter"
+        @keydown.tab="close"
       />
       <div class="icon">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -26,14 +28,21 @@
         </svg>
       </div>
       <div v-if="showSelectItems" class="whppt-select__menu" :class="`whppt-select__menu--${direction}`">
-        <ul role="listbox">
-          <li v-if="placeholder" class="default" role="option" @click="updateValue(undefined, undefined)">
+        <ul role="listbox" :aria-expanded="showSelectItems">
+          <li
+            v-if="placeholder"
+            class="whppt-select__menu-item default"
+            role="option"
+            @click="updateValue(undefined, undefined)"
+          >
             {{ placeholder }}
           </li>
           <li
             v-for="(item, index) in items"
             :key="index"
             role="option"
+            class="whppt-select__menu-item"
+            :class="{ 'whppt-select__menu-item--active': arrowCounter === index }"
             @click="updateValue(setTextProp(item), setValueProp(item))"
           >
             {{ setTextProp(item) }}
@@ -53,9 +62,13 @@
 
 <script>
 import { find } from 'lodash';
+import clickOutside from '../directives/clickOutside';
 
 export default {
   name: 'WhpptSelect',
+  directives: {
+    clickOutside,
+  },
   props: {
     id: {
       type: String,
@@ -114,6 +127,7 @@ export default {
   },
   data: () => ({
     showSelectItems: false,
+    arrowCounter: -1,
   }),
   computed: {
     internalValue() {
@@ -147,8 +161,31 @@ export default {
     },
     updateValue(text, value) {
       if (this.showSelectItems) this.showSelectItems = false;
+
       this.onInput(value);
       this.onChange(value);
+    },
+    close() {
+      this.showSelectItems = false;
+    },
+    onArrowDown() {
+      if (this.arrowCounter > this.items.length) return this.close();
+
+      if (this.arrowCounter < this.items.length) {
+        this.arrowCounter = this.arrowCounter + 1;
+      }
+    },
+    onArrowUp() {
+      if (this.arrowCounter > 0) {
+        this.arrowCounter = this.arrowCounter - 1;
+      }
+    },
+    onEnter() {
+      const item = this.items[this.arrowCounter];
+
+      this.updateValue(this.setTextProp(item), this.setValueProp(item));
+
+      this.arrowCounter = -1;
     },
   },
 };
@@ -246,6 +283,10 @@ $danger-600: #e53e3e;
       margin: 0;
       list-style: none;
 
+      .whppt-select__menu-item--active {
+        background-color: $gray-200;
+      }
+
       li {
         padding: 0.75rem;
 
@@ -303,6 +344,10 @@ $danger-600: #e53e3e;
       ul {
         border: 1px solid $gray-500;
         background-color: $gray-800;
+
+        .whppt-select__menu-item--active {
+          background-color: $gray-900;
+        }
 
         li {
           color: white;

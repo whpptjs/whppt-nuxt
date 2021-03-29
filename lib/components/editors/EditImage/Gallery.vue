@@ -51,7 +51,7 @@
 <script>
 import { mapState } from 'vuex';
 import { Trash } from '../../icons';
-import WhpptPagination from '../../ui/Pagination';
+import WhpptPagination from '../../ui/components/Pagination';
 import Loading from '../../icons/Loading';
 
 export default {
@@ -82,7 +82,7 @@ export default {
     };
   },
   computed: {
-    ...mapState('whppt-nuxt/editor', ['baseImageUrl', 'baseCdnImageUrl']),
+    ...mapState('whppt/editor', ['baseImageUrl', 'baseCdnImageUrl']),
   },
   mounted() {
     this.loading = true;
@@ -90,12 +90,11 @@ export default {
   },
   methods: {
     loadGallery() {
-      // this.currentPage = currentPage;
-      return this.$api
-        .get(`/image/loadGallery`, {
+      return this.$axios
+        .$get(`${this.$whppt.apiPrefix}/image/loadGallery`, {
           params: { limit: this.limitPerPage, currentPage: this.currentPage },
         })
-        .then(({ data: { images, total } }) => {
+        .then(({ images, total }) => {
           this.images = images;
           this.total = total;
         });
@@ -109,19 +108,17 @@ export default {
       formData.append('file', file);
       this.newImageLoading = true;
 
-      return this.$api
-        .post(`${this.baseImageUrl}/upload`, formData, {
+      return this.$axios
+        .$post(`${this.baseImageUrl}/upload`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
         })
         .then(() => this.loadGallery(1))
-        .then(() => {
-          this.newImageLoading = false;
-        });
+        .then(() => (this.newImageLoading = false));
     },
     remove(id) {
-      return this.$api.post(`/image/remove`, { id }).then(() => this.loadGallery(this.currentPage));
+      return this.$axios.$post(`${this.baseImageUrl}/remove`, { id }).then(() => this.loadGallery(this.currentPage));
     },
   },
 };

@@ -55,7 +55,7 @@
         </template>
       </whppt-table>
     </whppt-card>
-    <whppt-dialog :is-active="itemToBeRemoved" :height="300" :width="800">
+    <whppt-dialog v-if="itemToBeRemoved" :is-active="itemToBeRemoved" :height="300" :width="800">
       <template v-slot:header>
         <whppt-toolbar>
           <h3>Warning, You are about to delete a file!</h3>
@@ -78,12 +78,12 @@
 <script>
 import { mapState } from 'vuex';
 import { VTooltip } from 'v-tooltip';
-import WhpptDialog from '../../../ui/Dialog';
-import WhpptToolbar from '../../../ui/Toolbar';
-import WhpptInput from '../../../ui/Input';
-import WhpptTable from '../../../ui/Table';
-import WhpptCard from '../../../ui/Card';
-import WhpptButton from '../../../ui/Button';
+import WhpptDialog from '../../../ui/components/Dialog';
+import WhpptToolbar from '../../../ui/components/Toolbar';
+import WhpptInput from '../../../ui/components/Input';
+import WhpptTable from '../../../ui/components/Table';
+import WhpptCard from '../../../ui/components/Card';
+import WhpptButton from '../../../ui/components/Button';
 import Save from '../../../icons/Save';
 import LinkIcon from '../../../icons/ChainLink';
 import Remove from '../../../icons/Trash';
@@ -116,7 +116,7 @@ export default {
     total: 0,
   }),
   computed: {
-    ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
+    ...mapState('whppt/editor', ['baseAPIUrl']),
     headers() {
       return [
         { text: 'Name', align: 'start', value: 'name' },

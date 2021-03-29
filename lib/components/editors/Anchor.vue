@@ -12,16 +12,16 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import WhpptTextInput from '../ui/Input';
+import WhpptTextInput from '../ui/components/Input';
 
 export default {
   name: 'WhpptAnchorMenu',
   components: { WhpptTextInput },
   computed: {
-    ...mapState('whppt-nuxt/editor', ['selectedComponent']),
+    ...mapState('whppt/editor', ['selectedComponent']),
   },
   methods: {
-    ...mapActions('whppt-nuxt/editor', ['setSelectedComponentState']),
+    ...mapActions('whppt/editor', ['setSelectedComponentState']),
   },
 };
 </script>

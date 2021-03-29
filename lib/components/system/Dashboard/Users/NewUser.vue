@@ -1,5 +1,5 @@
 <template>
-  <whppt-dialog :is-active="active" :full="false" class="whppt-new-user">
+  <whppt-dialog v-if="active" :is-active="active" :full="false" class="whppt-new-user">
     <template v-slot:header>
       <whppt-toolbar>
         <h3>
@@ -43,11 +43,11 @@
 
 <script>
 import { filter, map } from 'lodash';
-import WhpptButton from '../../../ui/Button';
-import WhpptDialog from '../../../ui/Dialog';
-import WhpptToolbar from '../../../ui/Toolbar';
-import WhpptCard from '../../../ui/Card';
-import WhpptInput from '../../../ui/Input';
+import WhpptButton from '../../../ui/components/Button';
+import WhpptDialog from '../../../ui/components/Dialog';
+import WhpptToolbar from '../../../ui/components/Toolbar';
+import WhpptCard from '../../../ui/components/Card';
+import WhpptInput from '../../../ui/components/Input';
 
 export default {
   name: 'DashboardNewUser',

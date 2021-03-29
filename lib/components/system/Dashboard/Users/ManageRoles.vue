@@ -1,5 +1,5 @@
 <template>
-  <whppt-dialog :is-active="active" :full="false" class="whppt-manage-rolls">
+  <whppt-dialog v-if="active" :is-active="active" :full="false" class="whppt-manage-rolls">
     <template v-slot:header>
       <whppt-toolbar>
         <h3>
@@ -22,12 +22,12 @@
 
 <script>
 import { filter, map } from 'lodash';
-import WhpptTable from '../../../ui/Table';
-import WhpptButton from '../../../ui/Button';
-import WhpptDialog from '../../../ui/Dialog';
-import WhpptToolbar from '../../../ui/Toolbar';
-import WhpptCard from '../../../ui/Card';
-import WhpptCheckbox from '../../../ui/Checkbox';
+import WhpptTable from '../../../ui/components/Table';
+import WhpptButton from '../../../ui/components/Button';
+import WhpptDialog from '../../../ui/components/Dialog';
+import WhpptToolbar from '../../../ui/components/Toolbar';
+import WhpptCard from '../../../ui/components/Card';
+import WhpptCheckbox from '../../../ui/components/Checkbox';
 
 export default {
   name: 'DashboardManageRoles',

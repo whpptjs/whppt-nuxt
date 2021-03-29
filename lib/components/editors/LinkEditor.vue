@@ -103,11 +103,11 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import { debounce, findIndex } from 'lodash';
-import WhpptTextInput from '../ui/Input';
-import WhpptSelect from '../ui/Select';
-import WhpptTabs from '../ui/Tabs';
-import WhpptTab from '../ui/Tab';
-import WhpptCard from '../ui/Card';
+import WhpptTextInput from '../ui/components/Input';
+import WhpptSelect from '../ui/components/Select';
+import WhpptTabs from '../ui/components/Tabs';
+import WhpptTab from '../ui/components/Tab';
+import WhpptCard from '../ui/components/Card';
 
 export default {
   name: 'EditorLinkEdit',
@@ -118,7 +118,7 @@ export default {
     files: [],
   }),
   computed: {
-    ...mapState('whppt-nuxt/editor', ['baseAPIUrl', 'baseFileUrl', 'selectedComponent']),
+    ...mapState('whppt/editor', ['baseAPIUrl', 'baseFileUrl', 'selectedComponent']),
     link() {
       return this.selectedComponent.value[this.selectedComponent.property] || this.selectedComponent.value;
     },
@@ -134,30 +134,31 @@ export default {
   mounted() {
     this.filterList = debounce(() => this.queryFilesList(), 600);
     this.filterList();
+
     this.setActiveTabIndex(this.link.type);
   },
   methods: {
-    ...mapActions('whppt-nuxt/editor', ['setSelectedComponentState']),
+    ...mapActions('whppt/editor', ['setSelectedComponentState']),
     selectFile(item) {
       if (!item) return;
       this.setSelectedComponentState({ value: `/file/${item._id}`, path: 'href' });
       this.setSelectedComponentState({ value: item._id, path: 'fileId' });
     },
     queryFilesList() {
-      return this.$api
-        .get(`/file/searchFiles`, {
-          params: { search: this.search },
-        })
-        .then(({ data: { files } }) => {
-          this.files = files;
-        });
+      const config = { params: { search: this.search } };
+
+      return this.$axios.$get(`${this.$whppt.apiPrefix}/file/searchFiles`, config).then(({ files }) => {
+        this.files = files;
+      });
     },
     tabChanged(tab) {
       this.setSelectedComponentState({ value: tab.id, path: 'type' });
       this.setActiveTabIndex(tab.id);
     },
     setActiveTabIndex(tabId) {
-      this.activeTabIndex = findIndex(this.$refs.whpptLinkEditorTabs.$children, { id: tabId }) || 0;
+      const tabIndex = findIndex(this.$refs.whpptLinkEditorTabs.$children, { id: tabId });
+
+      this.activeTabIndex = tabIndex || 0;
     },
   },
 };

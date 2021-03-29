@@ -161,9 +161,9 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import WhpptTabs from '../ui/Tabs';
-import WhpptTab from '../ui/Tab';
-import WhpptTextInput from '../ui/Input';
+import WhpptTabs from '../ui/components/Tabs';
+import WhpptTab from '../ui/components/Tab';
+import WhpptTextInput from '../ui/components/Input';
 
 export default {
   name: 'SpacingControls',
@@ -173,10 +173,10 @@ export default {
     WhpptTextInput,
   },
   computed: {
-    ...mapState('whppt-nuxt/editor', ['selectedComponent']),
+    ...mapState('whppt/editor', ['selectedComponent']),
   },
   methods: {
-    ...mapActions('whppt-nuxt/editor', ['setSelectedComponentState']),
+    ...mapActions('whppt/editor', ['setSelectedComponentState']),
   },
 };
 </script>

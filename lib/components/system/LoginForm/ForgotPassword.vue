@@ -60,8 +60,8 @@
 <script>
 import { validationMixin } from 'vuelidate';
 import { required, email } from 'vuelidate/lib/validators';
-import WhpptTextInput from '../../ui/Input';
-import WhpptButton from '../../ui/Button';
+import WhpptTextInput from '../../ui/components/Input';
+import WhpptButton from '../../ui/components/Button';
 import { Close as CloseIcon, ArrowUp as ArrowLeft, MailboxUp } from '../../icons';
 
 export default {

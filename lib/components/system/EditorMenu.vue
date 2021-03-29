@@ -73,6 +73,7 @@ import {
   Dashboard,
   Login,
   Logout,
+  PublishWithNotification,
 } from '../icons';
 
 import LoginForm from './LoginForm';
@@ -98,6 +99,7 @@ export default {
     Login,
     Logout,
     Expand,
+    PublishWithNotification,
   },
   directives: { Tooltip },
   data: () => ({
@@ -105,9 +107,9 @@ export default {
     menuCollapsed: false,
   }),
   computed: {
-    ...mapState('whppt-nuxt/editor', ['activeMenuItem', 'selectedContent', 'selectedComponent', 'environment']),
-    ...mapState('whppt-nuxt/page', ['page']),
-    ...mapState('whppt-nuxt/security', ['authUser']),
+    ...mapState('whppt/editor', ['activeMenuItem', 'selectedContent', 'selectedComponent', 'environment']),
+    ...mapState('whppt/page', ['page']),
+    ...mapState('whppt/security', ['authUser']),
     menuItems() {
       return [
         {
@@ -123,19 +125,19 @@ export default {
           action: () => this.selectMenuItem('select'),
           isActive: () => this.activeMenuItem === 'select',
         },
-        {
-          key: 'remove',
-          label: 'Remove Component',
-          icon: 'trash',
-          action: this.remove,
-        },
-        { key: 'up', label: 'Move Component Up', icon: 'arrow-up', group: '', action: () => this.moveComponentUp() },
-        {
-          key: 'down',
-          label: 'Move Component Down',
-          icon: 'arrow-down',
-          action: () => this.moveComponentDown(),
-        },
+        // {
+        //   key: 'remove',
+        //   label: 'Remove Component',
+        //   icon: 'trash',
+        //   action: this.remove,
+        // },
+        // { key: 'up', label: 'Move Component Up', icon: 'arrow-up', group: '', action: () => this.moveComponentUp() },
+        // {
+        //   key: 'down',
+        //   label: 'Move Component Down',
+        //   icon: 'arrow-down',
+        //   action: () => this.moveComponentDown(),
+        // },
         {
           key: 'new-page',
           label: 'Create New Page',
@@ -144,7 +146,7 @@ export default {
         },
         {
           key: 'save',
-          label: 'Save Current Page',
+          label: 'Save Page',
           icon: 'save',
           disabled: !this.page || !this.page._id,
           action: this.savePage,
@@ -153,8 +155,8 @@ export default {
         { key: 'footer', label: 'Save Footer', icon: 'footer-icon', group: 'footer', action: () => this.saveFooter() },
         {
           key: 'publishPage',
-          label: 'Publish Current Page',
-          icon: 'publish',
+          label: 'Publish Page',
+          icon: this.hasPublishableChanges ? 'publish-with-notification' : 'publish',
           disabled: !this.page || !this.page._id,
           action: () => this.editInModal('publishSettings'),
         },
@@ -186,6 +188,9 @@ export default {
         { key: 'logout', label: 'Log out', icon: 'logout', group: 'security', action: () => this.logout() },
       ];
     },
+    hasPublishableChanges() {
+      return this.page ? new Date(this.page.lastPublished) < new Date(this.page.updatedAt) : false;
+    },
     userCanEdit() {
       // && this.authUser.roles.editor
       return this.authUser;
@@ -196,10 +201,10 @@ export default {
   },
   methods: {
     ...mapActions('whppt/dashboard', ['showDashboard']),
-    ...mapActions('whppt-nuxt/security', ['verifyUser', 'logout']),
-    ...mapActions('whppt-nuxt/site', ['saveFooter', 'saveNav']),
-    ...mapActions('whppt-nuxt/page', ['savePage']),
-    ...mapActions('whppt-nuxt/editor', [
+    ...mapActions('whppt/security', ['verifyUser', 'logout']),
+    ...mapActions('whppt/site', ['saveFooter', 'saveNav']),
+    ...mapActions('whppt/page', ['savePage']),
+    ...mapActions('whppt/editor', [
       'selectMenuItem',
       'moveComponentUp',
       'moveComponentDown',
@@ -207,7 +212,7 @@ export default {
       'clearSelectedComponent',
       'clearSelectedContent',
     ]),
-    ...mapMutations('whppt-nuxt/editor', ['editInModal', 'editInSidebar']),
+    ...mapMutations('whppt/editor', ['editInModal', 'editInSidebar']),
     newPage() {
       this.clearSelectedContent();
       this.clearSelectedComponent();

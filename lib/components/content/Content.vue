@@ -24,6 +24,14 @@
         :container="container"
         :custom-class="customClass"
       ></component>
+      <!-- <component
+          :is="content.componentType"
+          v-whppt-actions="{ content, actions }"
+          :content="content"
+          :class="spacingClasses(content)"
+          :container="container"
+          :custom-class="customClass"
+        /> -->
     </div>
   </div>
 </template>
@@ -31,8 +39,8 @@
 <script>
 import { mapActions, mapMutations, mapState } from 'vuex';
 import { find, map, keyBy } from 'lodash';
-import WhpptButton from '../ui/Button';
-import WhpptSpacer from '../ui/Spacer';
+import WhpptSpacer from '../ui/components/Spacer';
+import WhpptButton from '../ui/components/Button';
 
 export default {
   name: 'WhpptContent',
@@ -48,8 +56,8 @@ export default {
     customClass: { type: String, default: '' },
   },
   computed: {
-    ...mapState('whppt-nuxt/page', ['page']),
-    ...mapState('whppt-nuxt/editor', ['activeMenuItem', 'editSidebar']),
+    ...mapState('whppt/page', ['page']),
+    ...mapState('whppt/editor', ['activeMenuItem', 'editSidebar', 'draft']),
     initContentItems() {
       // TODO: work out why this.page.pageType would ever be an object and if it ever is, should we allow that?
       if (this.page && this.page.pageType && typeof this.page.pageType === 'object') return;
@@ -65,9 +73,28 @@ export default {
         return ci;
       });
     },
+    actions() {
+      return [
+        { label: 'Up', classes: 'whppt-icon whppt-icon-up', action: this.moveComponentUp },
+        { label: 'Down', classes: 'whppt-icon whppt-icon-down', action: this.moveComponentDown },
+        { label: 'Remove', classes: 'whppt-icon whppt-icon-delete', action: this.remove },
+        {
+          label: 'Spacing',
+          classes: 'whppt-icon whppt-icon-spacing ',
+          action: () => this.doEditInSidebar('SpacingControls'),
+        },
+      ];
+    },
   },
   methods: {
-    ...mapActions('whppt-nuxt/editor', ['selectContent', 'selectComponent']),
+    ...mapActions('whppt-nuxt/editor', [
+      'selectContent',
+      'selectComponent',
+      'moveComponentUp',
+      'moveComponentDown',
+      'removeComponent',
+      'doEditInSidebar',
+    ]),
     ...mapMutations('whppt-nuxt/editor', ['editInSidebar']),
     doSelectComponent(componentType, index, content) {
       const refs = this.$refs[`${componentType}-${index}`];
@@ -93,12 +120,17 @@ export default {
 
       return [marginTop, marginBottom, paddingTop, paddingBottom];
     },
+    remove() {
+      if (window.confirm('Are you sure you want to delete this component?')) return this.removeComponent();
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
 .whppt-content {
+  position: relative;
+
   .whppt-content__container {
     display: flex;
     justify-content: flex-end;

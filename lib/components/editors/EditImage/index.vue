@@ -17,8 +17,8 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import WhpptTab from '../../ui/Tab';
-import WhpptTabs from '../../ui/Tabs';
+import WhpptTab from '../../ui/components/Tab';
+import WhpptTabs from '../../ui/components/Tabs';
 import Gallery from './Gallery';
 import Cropping from './Cropping';
 
@@ -29,10 +29,10 @@ export default {
     activeTabIndex: 0,
   }),
   computed: {
-    ...mapState('whppt-nuxt/editor', ['selectedComponent']),
+    ...mapState('whppt/editor', ['selectedComponent']),
   },
   methods: {
-    ...mapActions('whppt-nuxt/editor', ['setSelectedComponentState']),
+    ...mapActions('whppt/editor', ['setSelectedComponentState']),
     selectImage(id) {
       this.setSelectedComponentState({ value: id, path: 'image.imageId' });
       this.setActiveTab(undefined, 0);

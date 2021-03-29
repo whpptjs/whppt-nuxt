@@ -27,19 +27,19 @@ import ArrowUp from '../icons/ArrowUp';
 import ArrowDown from '../icons/ArrowDown';
 import Add from '../icons/Add';
 import Trash from '../icons/Trash';
-import WhpptButton from '../ui/Button';
+import WhpptButton from '../ui/components/Button';
 
 export default {
   name: 'EditorList',
   components: { ArrowUp, ArrowDown, Add, Trash, WhpptButton },
   computed: {
-    ...mapState('whppt-nuxt/editor', ['selectedComponent', 'options']),
+    ...mapState('whppt/editor', ['selectedComponent', 'options']),
     items() {
       return this.selectedComponent.value[this.selectedComponent.property];
     },
   },
   methods: {
-    ...mapActions('whppt-nuxt/editor', ['setSelectedComponentState']),
+    ...mapActions('whppt/editor', ['setSelectedComponentState']),
     removeItem(link) {
       if (window.confirm('Are you sure?')) {
         const removed = without(this.selectedComponent.value[this.selectedComponent.property], link);

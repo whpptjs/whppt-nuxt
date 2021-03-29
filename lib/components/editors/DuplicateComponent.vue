@@ -42,9 +42,9 @@
 <script>
 import { filter, map, find } from 'lodash';
 import { mapState } from 'vuex';
-import WhpptAutocomplete from '../ui/Autocomplete';
-import WhpptSelect from '../ui/Select';
-import WhpptButton from '../ui/Button';
+import WhpptAutocomplete from '../ui/components/Autocomplete';
+import WhpptSelect from '../ui/components/Select';
+import WhpptButton from '../ui/components/Button';
 
 export default {
   name: 'DuplicateComponentEditor',

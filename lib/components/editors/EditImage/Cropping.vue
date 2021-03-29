@@ -28,7 +28,7 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import { Cropper } from 'vue-advanced-cropper';
-import WhpptTextInput from '../../ui/Input';
+import WhpptTextInput from '../../ui/components/Input';
 
 export default {
   name: 'EditorImageCropping',
@@ -44,7 +44,7 @@ export default {
     },
   },
   computed: {
-    ...mapState('whppt-nuxt/editor', ['baseImageUrl', 'baseCdnImageUrl']),
+    ...mapState('whppt/editor', ['baseImageUrl', 'baseCdnImageUrl']),
   },
   methods: {
     ...mapActions('whppt-nuxt/editor', ['setSelectedComponentState']),

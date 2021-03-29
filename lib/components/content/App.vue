@@ -1,13 +1,16 @@
 <template>
   <div class="whppt-flex whppt-overflow-hidden">
-    <div v-if="isDraft">
+    <div v-if="draft">
       <editor-menu></editor-menu>
       <whppt-editor-dialog @closed="closeModal"></whppt-editor-dialog>
-      <whppt-dialog full :is-active.sync="dashboardVisible" @closed="closeDashboard">
+      <whppt-dialog v-if="dashboardVisible" full :is-active.sync="dashboardVisible" @closed="closeDashboard">
         <template v-slot:header>
           <whppt-toolbar>
             <div class="whppt-toolbar__content">
-              <h2>Welcome to your dashboard.</h2>
+              <h2>
+                Welcome to your dashboard<span v-if="authUser && authUser.username">, {{ authUser.username }}</span
+                >.
+              </h2>
               <whppt-button @click="closeDashboard">Close</whppt-button>
             </div>
           </whppt-toolbar>
@@ -16,10 +19,11 @@
       </whppt-dialog>
     </div>
     <div class="whppt-content">
+      <whppt-preview />
       <slot></slot>
     </div>
     <whppt-sidebar />
-    <whppt-dialog :is-active="recoveryVisible" @closed="recoveryVisible = false">
+    <whppt-dialog v-if="recoveryVisible" :is-active="recoveryVisible" @closed="recoveryVisible = false">
       <template v-slot:header>
         <whppt-toolbar>
           <h2>Welcome to Whppt!</h2>
@@ -57,13 +61,15 @@
 </template>
 
 <script>
+import { startCase, isEmpty } from 'lodash';
 import { mapState, mapActions } from 'vuex';
+import { updatedDiff } from 'deep-object-diff';
 import EditorMenu from '../system/EditorMenu';
-import WhpptDialog from '../ui/Dialog';
-import WhpptButton from '../ui/Button';
-import WhpptToolbar from '../ui/Toolbar';
-import WhpptCard from '../ui/Card';
-import WhpptInput from '../ui/Input';
+import WhpptDialog from '../ui/components/Dialog';
+import WhpptButton from '../ui/components/Button';
+import WhpptToolbar from '../ui/components/Toolbar';
+import WhpptCard from '../ui/components/Card';
+import WhpptInput from '../ui/components/Input';
 
 export default {
   name: 'WhpptEditorApp',
@@ -71,6 +77,7 @@ export default {
     WhpptEditorDialog: () => import('../system/WhpptEditorDialog'),
     Dashboard: () => import('../system/Dashboard/index'),
     WhpptSidebar: () => import('../system/WhpptSidebar'),
+    WhpptPreview: () => import('../system/WhpptPreview'),
     EditorMenu,
     WhpptToolbar,
     WhpptButton,
@@ -80,6 +87,7 @@ export default {
   },
   props: { prefix: { type: String, default: '' } },
   data: () => ({
+    startCase,
     token: undefined,
     recoveryVisible: false,
     recovery: {
@@ -90,10 +98,19 @@ export default {
   }),
   computed: {
     ...mapState('whppt/dashboard', ['dashboardVisible']),
-    ...mapState('whppt-nuxt/editor', ['editInModal', 'editInModalType', 'editSidebar', 'editSidebarType', 'draft']),
-    isDraft() {
-      return this.draft;
-    },
+    ...mapState('whppt/editor', [
+      'editInModal',
+      'editInModalType',
+      'editSidebar',
+      'editSidebarType',
+      'draft',
+      'componentPreviewType',
+    ]),
+    ...mapState('whppt/page', ['page', 'savedPage']),
+    ...mapState('whppt/security', ['authUser']),
+  },
+  beforeMount() {
+    if (this.draft) window.addEventListener('beforeunload', this.preventNavigate);
   },
   mounted() {
     if (this.$route.query) {
@@ -103,9 +120,12 @@ export default {
 
     if (this.token) this.recoveryVisible = true;
   },
+  destroyed() {
+    window.removeEventListener('beforeunload', this.preventNavigate);
+  },
   methods: {
     ...mapActions('whppt/dashboard', ['closeDashboard']),
-    ...mapActions('whppt-nuxt/editor', ['closeSidebar', 'closeModal']),
+    ...mapActions('whppt/editor', ['closeSidebar', 'closeModal']),
     recoverPassword() {
       if (this.authUser) return;
 
@@ -117,6 +137,17 @@ export default {
           this.$emit('closed');
           this.$router.push('/');
         });
+    },
+    preventNavigate(event) {
+      const unsavedChanges = updatedDiff(this.savedPage, this.page);
+      const hasUnsavedChanges = !isEmpty(unsavedChanges);
+
+      if (hasUnsavedChanges) {
+        if (!window.confirm("Changes you've made may not be saved, are you sure you want to do this?")) {
+          event.returnValue = 'Ok';
+          event.preventDefault();
+        }
+      }
     },
   },
 };
@@ -144,6 +175,7 @@ export default {
 }
 
 .whppt-content {
+  position: relative;
   flex: 1;
   width: 100%;
 }

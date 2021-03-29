@@ -9,7 +9,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import WhpptTextarea from '../ui/Textarea';
+import WhpptTextarea from '../ui/components/Textarea';
 
 export default {
   name: 'WhpptTextEditor',
@@ -17,10 +17,10 @@ export default {
     WhpptTextarea,
   },
   computed: {
-    ...mapState('whppt-nuxt/editor', ['selectedComponent']),
+    ...mapState('whppt/editor', ['selectedComponent']),
   },
   methods: {
-    ...mapActions('whppt-nuxt/editor', ['setSelectedComponentState']),
+    ...mapActions('whppt/editor', ['setSelectedComponentState']),
     updateSelectedComponent(ev) {
       this.setSelectedComponentState({ value: ev, path: this.selectedComponent.property });
     },

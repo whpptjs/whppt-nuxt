@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent>
-    <whppt-card title="Email">
+    <!-- <whppt-card title="Email">
       <div class="">
         <whppt-input id="site-settings-email-local" v-model="settings.emailLocal" label="Give the mailbox a name" />
       </div>
@@ -12,7 +12,7 @@
           label="Select a domain name"
         />
       </div>
-    </whppt-card>
+    </whppt-card> -->
     <whppt-card v-if="publishing" title="Publishing">
       <div class="publishing-settings">
         <whppt-button @click="$emit('publish-settings')">
@@ -32,29 +32,26 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 
-import WhpptSelect from '../../../ui/Select';
-import WhpptInput from '../../../ui/Input';
-import WhpptButton from '../../../ui/Button';
-import WhpptCard from '../../../ui/Card';
+// import WhpptSelect from '../../../ui/components/Select';
+// import WhpptInput from '../../../ui/components/Input';
+import WhpptButton from '../../../ui/components/Button';
+import WhpptCard from '../../../ui/components/Card';
 
 export default {
   name: 'SettingsGeneral',
-  components: { WhpptInput, WhpptSelect, WhpptButton, WhpptCard },
+  components: { WhpptButton, WhpptCard },
   props: { settings: { type: Object, default: () => ({}) } },
   data: () => ({
     domains: [],
   }),
   computed: {
-    ...mapState('whppt-nuxt/editor', ['baseAPIUrl']),
+    ...mapState('whppt/editor', ['baseAPIUrl']),
     publishing() {
       return !this.$whppt.disablePublishing;
     },
   },
-  mounted() {
-    // this.$api.get(`/siteSettings/getVerifiedDomains`).then(({ data }) => (this.domains = data));
-  },
   methods: {
-    ...mapActions('whppt-nuxt/site', ['saveSiteSettings', 'publishSiteSettings', 'publishNav', 'publishFooter']),
+    ...mapActions('whppt/site', ['saveSiteSettings', 'publishSiteSettings', 'publishNav', 'publishFooter']),
     pubNav() {
       this.publishNav();
     },

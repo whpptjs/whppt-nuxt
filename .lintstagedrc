@@ -1,5 +1,5 @@
 {
-  "**/*.{js,css,vue}": [
+  "**/*.{js,vue}": [
     "prettier --write",
     "eslint --ext .js,.vue --ignore-path .gitignore . --fix"
   ]

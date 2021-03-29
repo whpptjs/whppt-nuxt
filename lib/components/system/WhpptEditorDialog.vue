@@ -17,9 +17,9 @@
 <script>
 import { mapState } from 'vuex';
 import { startCase } from 'lodash';
-import WhpptDialog from '../ui/Dialog';
-import WhpptButton from '../ui/Button';
-import WhpptToolbar from '../ui/Toolbar';
+import WhpptDialog from '../ui/components/Dialog';
+import WhpptButton from '../ui/components/Button';
+import WhpptToolbar from '../ui/components/Toolbar';
 
 const { additionalComponents } = global.$whppt.getAdditionalComponents('editors');
 
@@ -41,7 +41,7 @@ export default {
     startCase,
   }),
   computed: {
-    ...mapState('whppt-nuxt/editor', ['editInModal', 'editInModalType']),
+    ...mapState('whppt/editor', ['editInModal', 'editInModalType']),
   },
 };
 </script>

@@ -48,8 +48,13 @@
 </template>
 
 <script>
+import clickOutside from '../directives/clickOutside';
+
 export default {
   name: 'WhpptModal',
+  directives: {
+    clickOutside,
+  },
   props: {
     isActive: {
       type: Boolean,

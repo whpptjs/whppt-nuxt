@@ -20,9 +20,9 @@
 <script>
 import { map } from 'lodash';
 import { mapActions } from 'vuex';
-import WhpptCard from '../../../ui/Card.vue';
-import WhpptTable from '../../../ui/Table.vue';
-import WhpptCheckbox from '../../../ui/Checkbox.vue';
+import WhpptCard from '../../../ui/components/Card.vue';
+import WhpptTable from '../../../ui/components/Table.vue';
+import WhpptCheckbox from '../../../ui/components/Checkbox.vue';
 
 export default {
   name: 'RolesPageSetting',
@@ -52,7 +52,7 @@ export default {
     this.loadRoles();
   },
   methods: {
-    ...mapActions('whppt-nuxt/page', ['applyRoles']),
+    ...mapActions('whppt/page', ['applyRoles']),
     updatePageRoles() {
       this.applyRoles({ page: this.page, roles: this.roles });
     },
