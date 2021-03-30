@@ -3,7 +3,7 @@
     <editor-menu-bar v-if="!hideMenu" :editor="editor">
       <div slot-scope="{ commands, isActive, getMarkAttrs }">
         <div class="whppt-richtext__menubar" style="top: -52px">
-          <div v-if="!selectedComponent.hideStyle" class="whppt-richtext__menu-section">
+          <div v-if="!hideStyle" class="whppt-richtext__menu-section">
             <button aria-label="Bold" @click="commands.bold">
               <i-bold class="whppt-richtext__icon" :class="{ 'whppt-richtext__icon--active': isActive.bold() }" />
             </button>
