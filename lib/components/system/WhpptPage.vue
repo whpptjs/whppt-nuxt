@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { map, filter, forEach, find } from 'lodash';
+import { map, filter, forEach, find, get } from 'lodash';
 import { mapState, mapActions } from 'vuex';
 import slugify from 'slugify';
 import WhpptSelect from '../ui/components/Select';
@@ -86,7 +86,7 @@ export default {
       return map(pageTypePlugins, t => t.pageType);
     },
     selectedPageTypePlugin() {
-      return find(pageTypePlugins, plugin => plugin.pageType.name === this.pageForm.pageType.name);
+      return find(pageTypePlugins, plugin => plugin.pageType.name === get(this.pageForm, 'pageType.name'));
     },
   },
   methods: {
