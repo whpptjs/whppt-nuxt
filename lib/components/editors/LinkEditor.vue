@@ -12,14 +12,14 @@
               :value="link.href"
               placeholder="e.g. /contact"
               label="Hyperlink"
-              @input="setSelectedComponentState({ value: $event, path: 'href' })"
+              @input="setSelectedComponentState({ value: $whppt.trim($event), path: 'href' })"
             />
             <whppt-text-input
               id="link-editor-page-text"
               :value="link.text"
               placeholder="Link Text"
               label="Link Text"
-              @input="setSelectedComponentState({ value: $event, path: 'text' })"
+              @input="setSelectedComponentState({ value: $whppt.trim($event), path: 'text' })"
             />
           </div>
         </whppt-card>
@@ -35,14 +35,14 @@
               :value="link.href"
               placeholder="e.g. https://example.com/example"
               label="Hyperlink"
-              @input="setSelectedComponentState({ value: $event, path: 'href' })"
+              @input="setSelectedComponentState({ value: $whppt.trim($event), path: 'href' })"
             />
             <whppt-text-input
               id="link-editor-external-text"
               :value="link.text"
               placeholder="Link Text"
               label="Link Text"
-              @input="setSelectedComponentState({ value: $event, path: 'text' })"
+              @input="setSelectedComponentState({ value: $whppt.trim($event), path: 'text' })"
             />
           </div>
         </whppt-card>
@@ -59,14 +59,14 @@
               :value="link.href"
               placeholder="e.g. #museum"
               label="Hyperlink"
-              @input="setSelectedComponentState({ value: $event, path: 'href' })"
+              @input="setSelectedComponentState({ value: $whppt.trim($event), path: 'href' })"
             />
             <whppt-text-input
               id="link-editor-anchor-text"
               :value="link.text"
               placeholder="Link Text"
               label="Link Text"
-              @input="setSelectedComponentState({ value: $event, path: 'text' })"
+              @input="setSelectedComponentState({ value: $whppt.trim($event), path: 'text' })"
             />
           </div>
         </whppt-card>
@@ -80,7 +80,7 @@
               :value="link.text"
               placeholder="Link Text"
               label="Link Text"
-              @input="setSelectedComponentState({ value: $event, path: 'text' })"
+              @input="setSelectedComponentState({ value: $whppt.trim($event), path: 'text' })"
             />
             <whppt-select
               id="link-editor-file-select"
@@ -141,6 +141,7 @@ export default {
     ...mapActions('whppt/editor', ['setSelectedComponentState']),
     selectFile(item) {
       if (!item) return;
+
       this.setSelectedComponentState({ value: `/file/${item._id}`, path: 'href' });
       this.setSelectedComponentState({ value: item._id, path: 'fileId' });
     },

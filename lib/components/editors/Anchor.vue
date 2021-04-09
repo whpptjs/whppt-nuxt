@@ -5,7 +5,7 @@
       :value="selectedComponent.value[selectedComponent.property]"
       label="Anchor To"
       placeholder="eg. content"
-      @input="setSelectedComponentState({ value: $event, path: selectedComponent.property })"
+      @input="setSelectedComponentState({ value: $whppt.trim($event), path: selectedComponent.property })"
     ></whppt-text-input>
   </div>
 </template>

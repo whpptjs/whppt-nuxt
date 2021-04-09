@@ -22,7 +22,7 @@ export default {
   methods: {
     ...mapActions('whppt/editor', ['setSelectedComponentState']),
     updateSelectedComponent(ev) {
-      this.setSelectedComponentState({ value: ev, path: this.selectedComponent.property });
+      this.setSelectedComponentState({ value: this.$whppt.trim(ev), path: this.selectedComponent.property });
     },
   },
 };
