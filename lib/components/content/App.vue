@@ -23,40 +23,47 @@
       <slot></slot>
     </div>
     <whppt-sidebar />
-    <whppt-dialog v-if="recoveryVisible" :is-active="recoveryVisible" @closed="recoveryVisible = false">
-      <template v-slot:header>
-        <whppt-toolbar>
-          <h2>Welcome to Whppt!</h2>
-        </whppt-toolbar>
-      </template>
-      <div>
-        <whppt-card>
-          <form @submit.prevent="recoverPassword">
-            <whppt-input
-              :id="`${$options._scopeId}-recov-email`"
-              v-model="recovery.email"
-              label="Email"
-              placeholder="Please enter your email."
-            />
-            <whppt-input
-              :id="`${$options._scopeId}-recov-password`"
-              v-model="recovery.password"
-              type="password"
-              label="Password"
-              placeholder="Please enter your password."
-            />
-            <whppt-input
-              :id="`${$options._scopeId}-recov-confirm`"
-              v-model="recovery.passwordConfirm"
-              type="password"
-              label="Password Confirmation"
-              placeholder="Please enter your password again."
-            />
-            <whppt-button>Submit</whppt-button>
-          </form>
-        </whppt-card>
-      </div>
-    </whppt-dialog>
+    <client-only>
+      <whppt-dialog
+        v-if="!authUser && recoveryVisible"
+        :is-active="recoveryVisible"
+        class="whppt-recovery"
+        @closed="recoveryVisible = false"
+      >
+        <template v-slot:header>
+          <whppt-toolbar>
+            <h2>Welcome to Whppt!</h2>
+          </whppt-toolbar>
+        </template>
+        <div>
+          <whppt-card>
+            <form @submit.prevent>
+              <whppt-input
+                :id="`${$options._scopeId}-recov-email`"
+                v-model="recovery.email"
+                label="Email"
+                placeholder="Please enter your email."
+              />
+              <whppt-input
+                :id="`${$options._scopeId}-recov-password`"
+                v-model="recovery.password"
+                type="password"
+                label="Password"
+                placeholder="Please enter your password."
+              />
+              <whppt-input
+                :id="`${$options._scopeId}-recov-confirm`"
+                v-model="recovery.passwordConfirm"
+                type="password"
+                label="Password Confirmation"
+                placeholder="Please enter your password again."
+              />
+              <whppt-button class="whppt-recovery__button" @click="recoverPassword">Submit</whppt-button>
+            </form>
+          </whppt-card>
+        </div>
+      </whppt-dialog>
+    </client-only>
   </div>
 </template>
 
@@ -127,14 +134,18 @@ export default {
     ...mapActions('whppt/dashboard', ['closeDashboard']),
     ...mapActions('whppt/editor', ['closeSidebar', 'closeModal']),
     recoverPassword() {
-      if (this.authUser) return;
+      if (this.authUser) {
+        this.$toast.global.editorError('You are already logged in as another user');
+        return;
+      }
 
       const { email, password } = this.recovery;
 
       this.$axios
         .$post(`${this.$whppt.apiPrefix}/user/setPassword`, { email, password, token: this.token })
         .then(() => {
-          this.$emit('closed');
+          this.recoveryVisible = false;
+          this.$toast.global.editorSuccess('Password successfully reset, you can now login.');
           this.$router.push('/');
         });
     },
@@ -143,7 +154,7 @@ export default {
       const hasUnsavedChanges = !isEmpty(unsavedChanges);
 
       if (hasUnsavedChanges) {
-        if (!window.confirm("Changes you've made may not be saved, are you sure you want to do this?")) {
+        if (!window.confirm("Changes you've made may not be saved, are you sure you want to leave this page?")) {
           event.returnValue = 'Ok';
           event.preventDefault();
         }
@@ -178,6 +189,12 @@ export default {
   position: relative;
   flex: 1;
   width: 100%;
+}
+
+.whppt-recovery {
+  &__button {
+    margin-top: 1rem;
+  }
 }
 </style>
 
