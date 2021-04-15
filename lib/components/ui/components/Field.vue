@@ -1,5 +1,5 @@
 <template>
-  <div class="form-field">
+  <div class="whppt-form-field">
     <slot></slot>
   </div>
 </template>
@@ -11,7 +11,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.form-field {
+.whppt-form-field {
   margin-bottom: 0.5rem;
 }
 </style>
