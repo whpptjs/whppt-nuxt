@@ -1,7 +1,9 @@
 <template>
   <div v-if="componentPreviewType && componentData" class="whppt-component-preview">
-    <div class="whppt-component-preview__inner">
-      <component :is="componentPreviewType" v-if="componentData" :content="componentData" />
+    <div class="whppt-component-preview__container">
+      <div class="whppt-component-preview__inner">
+        <component :is="componentPreviewType" v-if="componentData" :content="componentData" />
+      </div>
     </div>
   </div>
 </template>
@@ -60,13 +62,25 @@ export default {
   background-color: rgba(0, 0, 0, 0.6);
   z-index: 999;
 
-  &__inner {
+  &__container {
     position: fixed;
     height: 100vh;
     width: calc(100% - 480px); // 480px is whppt sidebar width, TODO make variable
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  &__inner {
+    border-radius: 0.25rem;
+    background-color: #efefef;
+    width: 90%;
+    height: auto;
+    max-height: 90%;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
   }
 }
 </style>
