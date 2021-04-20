@@ -75,14 +75,14 @@ $gray-900: #1a202c;
 
   &--left {
     .whppt-drawer__content-wrapper {
-      border-right: 1px solid $gray-200;
+      // border-right: 1px solid $gray-200;
       left: 0;
     }
   }
 
   &--right {
     .whppt-drawer__content-wrapper {
-      border-left: 1px solid $gray-200;
+      // border-left: 1px solid $gray-200;
       right: 0;
     }
   }
