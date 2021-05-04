@@ -15,7 +15,7 @@
       <div>
         <component
           :is="content.componentType"
-          v-whppt-actions="{ content, actions }"
+          v-whppt-actions="{ content, actions: actions(content) }"
           :content="content"
           :class="spacingClasses(content)"
           :container="container"
@@ -59,34 +59,13 @@ export default {
     initContentItems() {
       // TODO: work out why this.page.pageType would ever be an object and if it ever is, should we allow that?
       if (this.page && this.page.pageType && typeof this.page.pageType === 'object') return;
-
-      const plugin = find(this.$whppt.plugins, p => (p.pageType && p.pageType.name) === this.page.pageType);
-
-      const component = keyBy({ ...this.$whppt.components, ...plugin.pageType.components }, c => c.componentType);
-
+      const definitions = this.$whppt.getComponentDefinitions(this.page.pageType);
       return map(this.contentItems, ci => {
-        const componentInit = component && component[ci.componentType] && component[ci.componentType].init;
+        const componentInit = definitions && definitions[ci.componentType] && definitions[ci.componentType].init;
         if (typeof componentInit === 'function') componentInit({ $set: this.$set }, ci);
 
         return ci;
       });
-    },
-    actions() {
-      return [
-        { label: 'Up', classes: 'whppt-icon whppt-icon-up', action: this.moveComponentUp },
-        { label: 'Down', classes: 'whppt-icon whppt-icon-down', action: this.moveComponentDown },
-        { label: 'Remove', classes: 'whppt-icon whppt-icon-delete', action: this.remove },
-        {
-          label: 'Spacing',
-          classes: 'whppt-icon whppt-icon-spacing ',
-          action: () => this.doEditInSidebar('SpacingControls'),
-        },
-        {
-          label: 'Duplicate Components',
-          classes: 'whppt-icon whppt-icon-copy',
-          action: () => this.doEditInSidebar('DuplicateComponent'),
-        },
-      ];
     },
   },
   methods: {
@@ -99,6 +78,29 @@ export default {
       'doEditInSidebar',
     ]),
     ...mapMutations('whppt/editor', ['editInSidebar']),
+    getComponentDefinition(componentType) {
+      const definitions = this.$whppt.getComponentDefinitions(this.page.pageType);
+      return definitions[componentType];
+    },
+    actions(content) {
+      const componentDefinition = this.getComponentDefinition(content.componentType);
+      return [
+        { label: 'Up', classes: 'whppt-icon whppt-icon-up', action: this.moveComponentUp },
+        { label: 'Down', classes: 'whppt-icon whppt-icon-down', action: this.moveComponentDown },
+        { label: 'Remove', classes: 'whppt-icon whppt-icon-delete', action: this.remove },
+        componentDefinition &&
+          !componentDefinition.hideSpacingInContent && {
+            label: 'Spacing',
+            classes: 'whppt-icon whppt-icon-spacing ',
+            action: () => this.doEditInSidebar('SpacingControls'),
+          },
+        {
+          label: 'Duplicate Components',
+          classes: 'whppt-icon whppt-icon-copy',
+          action: () => this.doEditInSidebar('DuplicateComponent'),
+        },
+      ];
+    },
     // Delete
     doSelectComponent(componentType, index, content) {
       const refs = this.$refs[`${componentType}-${index}`];
@@ -116,6 +118,8 @@ export default {
       return this.doSelectComponent(componentType, index, content).then(() => this.editInSidebar('DuplicateComponent'));
     },
     spacingClasses(content) {
+      const componentDefinition = this.getComponentDefinition(content.componentType);
+      if (componentDefinition && componentDefinition.hideSpacingInContent) return [];
       const { setMarginTop, setMarginBottom, setPaddingTop, setPaddingBottom } = this.$whppt.spacing;
 
       const marginTop = setMarginTop(content);
