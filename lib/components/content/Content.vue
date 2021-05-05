@@ -7,11 +7,6 @@
     :class="{ 'whppt-contents--active': activeMenuItem }"
   >
     <div v-for="(content, index) in initContentItems" :key="`${content.key}-${index}`" class="whppt-content">
-      <!-- <div v-if="activeMenuItem && !editSidebar" class="whppt-content__container container">
-        <button @click.stop="showDuplicateComponentDialog(content.componentType, index, content)">
-          Duplicate Component
-        </button>
-      </div> -->
       <div>
         <component
           :is="content.componentType"
@@ -21,14 +16,6 @@
           :container="container"
           :custom-class="customClass"
         />
-        <!-- <component
-          :is="content.componentType"
-          :ref="`${content.componentType}-${index}`"
-          :content="content"
-          :class="spacingClasses(content)"
-          :container="container"
-          :custom-class="customClass"
-        ></component> -->
       </div>
     </div>
   </div>
@@ -36,7 +23,7 @@
 
 <script>
 import { mapActions, mapMutations, mapState } from 'vuex';
-import { find, map, keyBy } from 'lodash';
+import { map } from 'lodash';
 import WhpptSpacer from '../ui/components/Spacer';
 import WhpptButton from '../ui/components/Button';
 
@@ -100,22 +87,6 @@ export default {
           action: () => this.doEditInSidebar('DuplicateComponent'),
         },
       ];
-    },
-    // Delete
-    doSelectComponent(componentType, index, content) {
-      const refs = this.$refs[`${componentType}-${index}`];
-      const component = refs && refs.length && refs[0];
-      const parent = component.$parent;
-
-      return this.selectContent({ el: parent.$el, value: parent.contentItems }).then(() => {
-        const value = { value: content };
-
-        return this.selectComponent({ el: component.$el, value });
-      });
-    },
-    // Delete
-    showDuplicateComponentDialog(componentType, index, content) {
-      return this.doSelectComponent(componentType, index, content).then(() => this.editInSidebar('DuplicateComponent'));
     },
     spacingClasses(content) {
       const componentDefinition = this.getComponentDefinition(content.componentType);
