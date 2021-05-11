@@ -109,7 +109,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import { map } from 'lodash';
+import { map, trimEnd } from 'lodash';
 import dayjs from 'dayjs';
 import slugify from 'slugify';
 import { VTooltip as Tooltip } from 'v-tooltip';
@@ -125,6 +125,8 @@ import TrashIcon from '../../../icons/Trash';
 import CheckIcon from '../../../icons/Check';
 import CrossIcon from '../../../icons/Close';
 import ChevronDownIcon from '../../../icons/ChevronDown';
+
+const isAbsolute = slug => slug.startsWith('https') || slug.startsWith('http');
 
 export default {
   name: 'SettingsRedirects',
@@ -236,35 +238,29 @@ export default {
         .catch(err => this.$toast.global.editorError(err.response.data.error.message));
     },
     formatRedirect() {
-      if (
-        this.newRedirect.from &&
-        !this.newRedirect.from.startsWith('http') &&
-        !this.newRedirect.from.startsWith('/')
-      ) {
-        this.newRedirect.from = `/${this.newRedirect.from}`;
+      if (this.newRedirect.from && !isAbsolute(this.newRedirect.from) && !this.newRedirect.from.startsWith('/')) {
+        this.newRedirect.from = this.formatSlug(`/${this.newRedirect.from}`);
       }
 
-      if (this.newRedirect.to && !this.newRedirect.to.startsWith('http') && !this.newRedirect.to.startsWith('/')) {
-        this.newRedirect.to = `/${this.newRedirect.to}`;
+      if (this.newRedirect.to && !isAbsolute(this.newRedirect.to) && !this.newRedirect.to.startsWith('/')) {
+        this.newRedirect.to = this.formatSlug(`/${this.newRedirect.to}`);
       }
     },
     formatSlug(slug) {
       if (slug.startsWith('/')) slug = slug.replace(/^(\/*)/, '');
       slug = slug.replace(/\/{2,}/g, '/');
 
+      if (isAbsolute(slug)) return trimEnd(slug, '/');
+
       slug = slugify(slug, { remove: /[*+~.()'"!:@]/g, lower: true });
       slug = slug.replace(/[#?]/g, '');
 
-      return slug;
+      return trimEnd(slug, '/');
     },
     publish(redirect) {
       const vm = this;
-      redirect.to = this.formatSlug(redirect.to);
-      redirect.from = this.formatSlug(redirect.from);
       if (!redirect.from) return this.$toast.global.editorError('Cannot publish with an empty "from"');
       if (redirect.to === redirect.from) return this.$toast.global.editorError('To and From must be different');
-      if (!redirect.to.startsWith('/')) redirect.to = `/${redirect.to}`;
-      if (!redirect.from.startsWith('/')) redirect.from = `/${redirect.from}`;
 
       return this.$axios
         .$post(`${this.$whppt.apiPrefix}/siteSettings/checkDuplicatePublishedRedirect`, { redirect })
