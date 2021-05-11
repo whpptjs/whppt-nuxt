@@ -109,7 +109,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import { map } from 'lodash';
+import { map, trimEnd } from 'lodash';
 import dayjs from 'dayjs';
 import slugify from 'slugify';
 import { VTooltip as Tooltip } from 'v-tooltip';
@@ -125,7 +125,7 @@ import TrashIcon from '../../../icons/Trash';
 import CheckIcon from '../../../icons/Check';
 import CrossIcon from '../../../icons/Close';
 import ChevronDownIcon from '../../../icons/ChevronDown';
-
+const isAbsolute = slug => slug.startsWith('https') || slug.startsWith('http');
 export default {
   name: 'SettingsRedirects',
   components: {
@@ -197,9 +197,7 @@ export default {
     },
     loadRedirects() {
       if (!this.domain._id) return this.$toast.global.editorError('No domain found');
-
       const params = { page: this.currentPage, size: this.limit, domainId: this.domain._id, search: this.filter };
-
       return this.$axios
         .$get(`${this.$whppt.apiPrefix}/siteSettings/loadRedirects`, { params })
         .then(({ redirects, total }) => {
@@ -209,16 +207,13 @@ export default {
     },
     deleteRedirect(redirect) {
       if (redirect.published) return this.$toast.global.editorError('Redirect has to be unpublished first');
-
       return this.$axios
         .post(`${this.$whppt.apiPrefix}/siteSettings/deleteRedirect`, { _id: redirect._id })
         .then(() => this.loadRedirects());
     },
     addRedirect() {
       this.formatRedirect();
-
       const redirect = { ...this.newRedirect, domainId: this.domain._id };
-
       // TODO: Should only be 1 request, consolidate into api project.
       return this.$axios
         .$post(`${this.$whppt.apiPrefix}/siteSettings/checkDuplicateRedirect`, {
@@ -226,7 +221,6 @@ export default {
         })
         .then(redirectExists => {
           if (redirectExists) return this.$toast.global.editorError('Redirect already exists.');
-
           return this.$axios.$post(`${this.$whppt.apiPrefix}/siteSettings/saveRedirect`, { redirect }).then(() => {
             this.loadRedirects();
             this.$toast.global.editorSuccess('Redirect Successfully Added');
@@ -236,41 +230,29 @@ export default {
         .catch(err => this.$toast.global.editorError(err.response.data.error.message));
     },
     formatRedirect() {
-      if (
-        this.newRedirect.from &&
-        !this.newRedirect.from.startsWith('http') &&
-        !this.newRedirect.from.startsWith('/')
-      ) {
-        this.newRedirect.from = `/${this.newRedirect.from}`;
+      if (this.newRedirect.from && !isAbsolute(this.newRedirect.from) && !this.newRedirect.from.startsWith('/')) {
+        this.newRedirect.from = this.formatSlug(`/${this.newRedirect.from}`);
       }
-
-      if (this.newRedirect.to && !this.newRedirect.to.startsWith('http') && !this.newRedirect.to.startsWith('/')) {
-        this.newRedirect.to = `/${this.newRedirect.to}`;
+      if (this.newRedirect.to && !isAbsolute(this.newRedirect.to) && !this.newRedirect.to.startsWith('/')) {
+        this.newRedirect.to = this.formatSlug(`/${this.newRedirect.to}`);
       }
     },
     formatSlug(slug) {
       if (slug.startsWith('/')) slug = slug.replace(/^(\/*)/, '');
       slug = slug.replace(/\/{2,}/g, '/');
-
+      if (isAbsolute(slug)) return trimEnd(slug, '/');
       slug = slugify(slug, { remove: /[*+~.()'"!:@]/g, lower: true });
       slug = slug.replace(/[#?]/g, '');
-
-      return slug;
+      return trimEnd(slug, '/');
     },
     publish(redirect) {
       const vm = this;
-      redirect.to = this.formatSlug(redirect.to);
-      redirect.from = this.formatSlug(redirect.from);
       if (!redirect.from) return this.$toast.global.editorError('Cannot publish with an empty "from"');
       if (redirect.to === redirect.from) return this.$toast.global.editorError('To and From must be different');
-      if (!redirect.to.startsWith('/')) redirect.to = `/${redirect.to}`;
-      if (!redirect.from.startsWith('/')) redirect.from = `/${redirect.from}`;
-
       return this.$axios
         .$post(`${this.$whppt.apiPrefix}/siteSettings/checkDuplicatePublishedRedirect`, { redirect })
         .then(alreadyExists => {
           if (alreadyExists) return vm.$toast.global.editorError('Redirect already exists');
-
           return vm.$axios.post(`${this.$whppt.apiPrefix}/siteSettings/publishRedirect`, { redirect }).then(() => {
             vm.$toast.global.editorSuccess('Redirect Published');
             this.loadRedirects();
@@ -279,7 +261,6 @@ export default {
     },
     unpublishRedirect(redirect) {
       if (!redirect.published) return this.$toast.global.editorError("Redirect isn't published");
-
       return this.$axios
         .$post(`${this.$whppt.apiPrefix}/siteSettings/unpublishRedirect`, { _id: redirect._id })
         .then(() => {
@@ -295,12 +276,10 @@ export default {
 $primary-600: #5a67d8;
 $danger-600: #e53e3e;
 $success-600: #059669;
-
 .whppt-redirects__overflow {
   display: block;
   white-space: pre-wrap;
 }
-
 .whppt-redirects__form {
   .whppt-redirects__inputs {
     display: flex;
@@ -308,54 +287,43 @@ $success-600: #059669;
   .whppt-redirects__actions {
     display: flex;
     margin-top: 1rem;
-
     button:first-of-type {
       margin-left: auto;
     }
   }
 }
-
 .whppt-redirects__table-actions {
   display: flex;
 }
-
 .whppt-redirects__table-published {
   margin: 0 auto;
 }
-
 .whppt-redirects__search {
   margin-bottom: 1.5rem;
 }
-
 .whppt-link {
   &:hover {
     text-decoration: underline;
     color: $primary-600;
   }
 }
-
 .whppt-redirects__icon--success {
   color: $success-600;
 }
-
 .whppt-redirects__icon--danger {
   color: $danger-600;
 }
-
 .whppt-redirects__toolbar {
   border-radius: 0.25rem 0.25rem 0 0;
-
   &-expand,
   &-contract {
     width: 1.5rem;
   }
-
   &-expand {
     will-change: transform;
     transform: rotate(0deg);
     transition: transform 0.3s ease;
   }
-
   &-contract {
     will-change: transform;
     transform: rotate(180deg);
