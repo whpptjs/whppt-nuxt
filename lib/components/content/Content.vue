@@ -6,10 +6,11 @@
     class="whppt-contents"
     :class="{ 'whppt-contents--active': activeMenuItem }"
   >
-    <div v-for="(content, index) in initContentItems" :key="`${content.key}-${index}`" class="whppt-content">
+    <div v-for="content in initContentItems" :key="`${content.componentType}-${content.key}`" class="whppt-content">
       <div>
         <component
           :is="content.componentType"
+          :key="`${content.componentType}-${content.key}`"
           v-whppt-actions="{ content, actions: actions(content) }"
           :content="content"
           :class="spacingClasses(content)"
@@ -24,6 +25,7 @@
 <script>
 import { mapActions, mapMutations, mapState } from 'vuex';
 import { map } from 'lodash';
+import { nanoid } from 'nanoid';
 import WhpptSpacer from '../ui/components/Spacer';
 import WhpptButton from '../ui/components/Button';
 
@@ -48,6 +50,7 @@ export default {
       if (this.page && this.page.pageType && typeof this.page.pageType === 'object') return;
       const definitions = this.$whppt.getComponentDefinitions(this.page.pageType);
       return map(this.contentItems, ci => {
+        ci.key = nanoid();
         const componentInit = definitions && definitions[ci.componentType] && definitions[ci.componentType].init;
         if (typeof componentInit === 'function') componentInit({ $set: this.$set }, ci);
 
