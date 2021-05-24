@@ -20,7 +20,7 @@
       :value="imageOptions.alt"
       placeholder="e.g. Article Heading Image"
       label="Image alt text"
-      @input="setSelectedComponentState({ value: $event, path: 'image.alt' })"
+      @input="$event => (imageOptions.alt = $event)"
     />
   </div>
 </template>
