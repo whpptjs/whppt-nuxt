@@ -7,6 +7,13 @@
           :sizes="selectedComponent.sizes"
           @changed="cropperChanged"
         />
+        <whppt-text-input
+          id="editor-image-alt"
+          :value="selectedComponent.value.image.alt"
+          placeholder="e.g. Article Heading Image"
+          label="Image alt text"
+          @input="setAltText"
+        />
       </whppt-tab>
       <whppt-tab id="gallery" name="Gallery">
         <gallery :value="selectedComponent.value.image.imageId" @input="selectImage" />
@@ -19,12 +26,13 @@
 import { mapActions, mapState } from 'vuex';
 import WhpptTab from '../../ui/components/Tab';
 import WhpptTabs from '../../ui/components/Tabs';
+import WhpptTextInput from '../../ui/components/Input';
 import Gallery from './Gallery';
 import Cropping from './Cropping';
 
 export default {
   name: 'EditorImageEdit',
-  components: { WhpptTabs, WhpptTab, Gallery, Cropping },
+  components: { WhpptTabs, WhpptTab, Gallery, Cropping, WhpptTextInput },
   data: () => ({
     activeTabIndex: 0,
   }),
@@ -36,6 +44,9 @@ export default {
     selectImage(id) {
       this.setSelectedComponentState({ value: id, path: 'image.imageId' });
       this.setActiveTab(undefined, 0);
+    },
+    setAltText(value) {
+      this.setSelectedComponentState({ value, path: 'image.alt' });
     },
     setActiveTab(tab, tabIndex, prevIndex) {
       this.activeTabIndex = tabIndex;
