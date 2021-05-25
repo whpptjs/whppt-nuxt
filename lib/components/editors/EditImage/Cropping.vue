@@ -15,24 +15,16 @@
         @change="changes => change({ canvas, canvasName }, changes)"
       ></cropper>
     </div>
-    <whppt-text-input
-      id="editor-image-alt"
-      :value="imageOptions.alt"
-      placeholder="e.g. Article Heading Image"
-      label="Image alt text"
-      @input="setSelectedComponentState({ value: $event, path: 'image.alt' })"
-    />
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex';
 import { Cropper } from 'vue-advanced-cropper';
-import WhpptTextInput from '../../ui/components/Input';
 
 export default {
   name: 'EditorImageCropping',
-  components: { Cropper, WhpptTextInput },
+  components: { Cropper },
   props: {
     imageOptions: {
       type: Object,
