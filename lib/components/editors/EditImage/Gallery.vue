@@ -29,12 +29,6 @@
           </div>
         </div>
       </div>
-      <!-- <whppt-pagination
-        :current-page="currentPage"
-        :total="total"
-        :page-amount="Math.ceil(total / limit)"
-        @pageChanged="loadGallery"
-      /> -->
     </div>
     <whppt-pagination
       :page.sync="currentPage"
@@ -45,6 +39,11 @@
       @update:page="loadGallery"
       @update:perPage="loadGallery"
     />
+
+    <div v-if="dependencies.length" class="whppt-gallery__warning-message">
+      <h4>Warning: this image is in use on the following pages:</h4>
+      <div v-for="dep in dependencies" :key="dep._id" class="whppt-gallery__warning-dependencies">/{{ dep.slug }}</div>
+    </div>
   </div>
 </template>
 
@@ -79,6 +78,7 @@ export default {
       total: 0,
       currentPage: 1,
       limitPerPage: this.limit,
+      dependencies: [],
     };
   },
   computed: {
@@ -118,13 +118,26 @@ export default {
         .then(() => (this.newImageLoading = false));
     },
     remove(id) {
-      return this.$axios.$post(`${this.baseImageUrl}/remove`, { id }).then(() => this.loadGallery(this.currentPage));
+      return this.$axios
+        .$get(`${this.$whppt.apiPrefix}/dependencies/checkDependencies`, { params: { imageId: id, type: 'image' } })
+        .then(dependencies => {
+          this.dependencies = dependencies;
+
+          // if (dependencies.length) return;
+
+          // return this.$axios.$post(`${this.baseImageUrl}/remove`, { id }).then(() => {
+          //   this.$toast.global.editorSuccess('Image Deleted');
+          //   this.loadGallery(this.currentPage);
+          // });
+        });
     },
   },
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+$warning-500: #f59e0b;
+
 .whppt-gallery-container {
   display: flex;
   flex-wrap: wrap;
@@ -198,5 +211,20 @@ export default {
 
 .whhpt-gallery__pagination {
   margin-top: 16px;
+}
+
+.whppt-gallery__warning-message {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+
+  h4 {
+    margin-bottom: 1rem;
+  }
+}
+
+.whppt-gallery__warning-dependencies {
+  color: $warning-500;
+  font-size: 0.75rem;
+  margin-bottom: 0.5rem;
 }
 </style>
