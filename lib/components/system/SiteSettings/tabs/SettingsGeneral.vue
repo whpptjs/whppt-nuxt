@@ -1,20 +1,7 @@
 <template>
   <form @submit.prevent>
-    <!-- <whppt-card title="Email">
-      <div class="">
-        <whppt-input id="site-settings-email-local" v-model="settings.emailLocal" label="Give the mailbox a name" />
-      </div>
-      <div class="">
-        <whppt-select
-          id="site-settings-email-domain"
-          v-model="settings.emailDomain"
-          :items="domains"
-          label="Select a domain name"
-        />
-      </div>
-    </whppt-card> -->
     <whppt-card v-if="publishing" title="Publishing">
-      <div class="publishing-settings">
+      <div class="general-settings">
         <whppt-button @click="$emit('publish-settings')">
           Publish Site Settings
         </whppt-button>
@@ -26,14 +13,29 @@
         </whppt-button>
       </div>
     </whppt-card>
+    <whppt-card title="Dependencies">
+      <div>
+        <whppt-button @click="recreateDependencies">
+          Recreate Dependencies
+        </whppt-button>
+        <div class="general-settings__dependencies">
+          <div v-if="recreatingDependencies" class="general-settings__dependencies-container">
+            <div class="general-settings__dependencies-unfilled" />
+            <div
+              class="general-settings__dependencies-filled"
+              :style="`width: ${(dependencyProgress / totalPages) * 100}%; `"
+            />
+          </div>
+          <div class="general-settings__dependencies-progress">{{ dependencyProgress }} / {{ totalPages }}</div>
+        </div>
+      </div>
+    </whppt-card>
   </form>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
 
-// import WhpptSelect from '../../../ui/components/Select';
-// import WhpptInput from '../../../ui/components/Input';
 import WhpptButton from '../../../ui/components/Button';
 import WhpptCard from '../../../ui/components/Card';
 
@@ -43,6 +45,9 @@ export default {
   props: { settings: { type: Object, default: () => ({}) } },
   data: () => ({
     domains: [],
+    recreatingDependencies: false,
+    totalPages: 0,
+    dependencyProgress: 0,
   }),
   computed: {
     ...mapState('whppt/editor', ['baseAPIUrl']),
@@ -52,22 +57,86 @@ export default {
   },
   methods: {
     ...mapActions('whppt/site', ['saveSiteSettings', 'publishSiteSettings', 'publishNav', 'publishFooter']),
+    ...mapActions('whppt/page', ['loadPage', 'savePage']),
     pubNav() {
       this.publishNav();
     },
     pubFooter() {
       this.publishFooter();
     },
+    resetDependencyProgress() {
+      this.recreatingDependencies = false;
+      this.dependencyProgress = 0;
+      this.totalPages = 0;
+    },
+    recreateDependencies() {
+      // TODO: Seperate logic from store so that you can use $whppt.page.save and $whppt.page.load instead of the store actions
+      return this.$axios.$get(`${this.$whppt.apiPrefix}/sitemap/filter`).then(({ sitemap, total }) => {
+        this.totalPages = total;
+        this.dependencyProgress = 0;
+        this.recreatingDependencies = true;
+
+        return Promise.all(
+          sitemap.map(sitemapPage => {
+            const { slug, pageType, collection } = sitemapPage;
+            return this.loadPage({ slug, pageType, collection }).then(page => {
+              return this.savePage(page).then(() => {
+                this.dependencyProgress = this.dependencyProgress + 1;
+              });
+            });
+          })
+        )
+          .then(() => {
+            this.resetDependencyProgress();
+            this.$toast.global.editorSuccess('Dependencies recreated');
+          })
+          .catch(() => {
+            this.resetDependencyProgress();
+            this.$toast.global.editorError('Something went wrong');
+          });
+      });
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.publishing-settings {
+.general-settings {
   display: flex;
 
   button {
     margin-right: 0.5rem;
+  }
+
+  &__dependencies {
+    display: flex;
+    align-items: 'center';
+
+    &-progress {
+      margin-left: 1rem;
+    }
+
+    &-container {
+      position: relative;
+      width: 500px;
+      height: 20px;
+      margin-top: 1rem;
+    }
+
+    &-unfilled {
+      background: #5a67d8;
+      height: 20px;
+      position: absolute;
+      width: 100%;
+      border-radius: 6rem;
+    }
+
+    &-filled {
+      background: #2734a5;
+      height: 20px;
+      position: absolute;
+      border-radius: 6rem;
+    }
   }
 }
 </style>
