@@ -51,13 +51,23 @@
         </whppt-toolbar>
       </template>
       <whppt-card class="whppt-dialog__warning">
-        <p v-if="foundDependencies" class="whppt-dialog__warning-dependencies">
-          <em>
-            Warning: The current slug is in use in {{ foundDependencies }} place{{
-              foundDependencies !== 1 ? 's' : ''
-            }}. Changing the slug may break links around the site, to avoid broken links remember to change the links.
-          </em>
-        </p>
+        <div v-if="foundDependencies.length" class="whppt-dialog__warning-dependencies">
+          <p>
+            <em>
+              Warning: The current slug is in use on the following page{{ foundDependencies.length !== 1 ? 's' : '' }}
+            </em>
+          </p>
+          <div class="whppt-dialog__warning-dependencies-list">
+            <p v-for="dep in foundDependencies" :key="dep._id">
+              <em>{{ dep.slug }}</em>
+            </p>
+          </div>
+          <p>
+            <em>
+              Changing the slug may break links around the site, to avoid broken links remember to change the links.
+            </em>
+          </p>
+        </div>
         <form @submit.prevent>
           <div v-if="prefix">
             <whppt-text-input
@@ -115,13 +125,23 @@
           <p class="whppt-dialog__warning-dependencies">
             <em>Warning: Once you delete this page there is no way to recover it.</em>
           </p>
-          <p v-if="foundDependencies" class="whppt-dialog__warning-dependencies">
-            <em>
-              Warning: The current slug is in use in {{ foundDependencies }} place{{
-                foundDependencies !== 1 ? 's' : ''
-              }}. Changing the slug may break links around the site, to avoid broken links remember to change the links.
-            </em>
-          </p>
+          <div v-if="foundDependencies.length" class="whppt-dialog__warning-dependencies">
+            <p>
+              <em>
+                Warning: The current slug is in use on the following page{{ foundDependencies.length !== 1 ? 's' : '' }}
+              </em>
+            </p>
+            <div class="whppt-dialog__warning-dependencies-list">
+              <p v-for="dep in foundDependencies" :key="dep._id">
+                <em>{{ dep.slug }}</em>
+              </p>
+            </div>
+            <p>
+              <em>
+                Changing the slug may break links around the site, to avoid broken links remember to change the links.
+              </em>
+            </p>
+          </div>
         </div>
         <div class="whppt-dialog__warning-actions">
           <whppt-button danger @click="deletePageFromDraft">Delete</whppt-button>
@@ -204,7 +224,7 @@ export default {
     showWarning: false,
     showSlugModal: false,
     showDuplicatePageModal: false,
-    foundDependencies: 0,
+    foundDependencies: [],
     slugCopy: '',
     rawSlug: '',
     newPage: {
@@ -299,7 +319,7 @@ export default {
       const params = { url: this.page.slug, type: 'link' };
 
       this.$axios.$get(`${this.$whppt.apiPrefix}/dependencies/checkDependencies`, { params }).then(dependencies => {
-        if (dependencies && dependencies.length) this.foundDependencies = dependencies.length;
+        if (dependencies && dependencies.length) this.foundDependencies = dependencies;
       });
     },
     openSlugModal() {
@@ -437,6 +457,10 @@ $warning-500: #f59e0b;
     color: $warning-500;
     font-size: 0.75rem;
     margin-bottom: 0.5rem;
+    &-list {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
   }
 }
 

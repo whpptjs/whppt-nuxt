@@ -18,8 +18,8 @@
         <whppt-button @click="recreateDependencies">
           Recreate Dependencies
         </whppt-button>
-        <div class="general-settings__dependencies">
-          <div v-if="recreatingDependencies" class="general-settings__dependencies-container">
+        <div v-if="recreatingDependencies" class="general-settings__dependencies">
+          <div class="general-settings__dependencies-container">
             <div class="general-settings__dependencies-unfilled" />
             <div
               class="general-settings__dependencies-filled"
@@ -57,7 +57,6 @@ export default {
   },
   methods: {
     ...mapActions('whppt/site', ['saveSiteSettings', 'publishSiteSettings', 'publishNav', 'publishFooter']),
-    ...mapActions('whppt/page', ['loadPage', 'savePage']),
     pubNav() {
       this.publishNav();
     },
@@ -70,7 +69,6 @@ export default {
       this.totalPages = 0;
     },
     recreateDependencies() {
-      // TODO: Seperate logic from store so that you can use $whppt.page.save and $whppt.page.load instead of the store actions
       return this.$axios.$get(`${this.$whppt.apiPrefix}/sitemap/filter`).then(({ sitemap, total }) => {
         this.totalPages = total;
         this.dependencyProgress = 0;
@@ -79,8 +77,8 @@ export default {
         return Promise.all(
           sitemap.map(sitemapPage => {
             const { slug, pageType, collection } = sitemapPage;
-            return this.loadPage({ slug, pageType, collection }).then(page => {
-              return this.savePage(page).then(() => {
+            return this.$whppt.page.load({ slug, pageType, collection }).then(page => {
+              return this.$whppt.page.save(page).then(() => {
                 this.dependencyProgress = this.dependencyProgress + 1;
               });
             });
@@ -109,6 +107,7 @@ export default {
   }
 
   &__dependencies {
+    margin-top: 1rem;
     display: flex;
     align-items: 'center';
 
@@ -120,7 +119,6 @@ export default {
       position: relative;
       width: 500px;
       height: 20px;
-      margin-top: 1rem;
     }
 
     &-unfilled {

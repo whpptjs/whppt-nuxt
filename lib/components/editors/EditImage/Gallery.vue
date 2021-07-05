@@ -123,12 +123,12 @@ export default {
         .then(dependencies => {
           this.dependencies = dependencies;
 
-          // if (dependencies.length) return;
+          if (dependencies.length) return;
 
-          // return this.$axios.$post(`${this.baseImageUrl}/remove`, { id }).then(() => {
-          //   this.$toast.global.editorSuccess('Image Deleted');
-          //   this.loadGallery(this.currentPage);
-          // });
+          return this.$axios.$post(`${this.baseImageUrl}/remove`, { id }).then(() => {
+            this.$toast.global.editorSuccess('Image Deleted');
+            this.loadGallery(this.currentPage);
+          });
         });
     },
   },
@@ -214,6 +214,7 @@ $warning-500: #f59e0b;
 }
 
 .whppt-gallery__warning-message {
+  color: $warning-500;
   margin-top: 1rem;
   margin-bottom: 1rem;
 
