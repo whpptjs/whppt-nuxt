@@ -361,7 +361,7 @@ export default {
           this.$toast.global.editorError('Slug already in use');
         } else {
           return this.savePage({ ...this.page, slug: newSlug }).then(() => {
-            this.foundDependencies = 0;
+            this.foundDependencies = [];
             this.$router.push(`/${newSlug}`);
             this.$emit('closed');
           });
@@ -402,7 +402,7 @@ export default {
       return vm.deletePage().then(() => {
         !vm.page.slug || vm.page.slug === '/' ? vm.$router.push(`/404`) : vm.$router.push(`/`);
         vm.showWarning = false;
-        vm.foundDependencies = 0;
+        vm.foundDependencies = [];
         vm.$emit('closeModal');
       });
     },

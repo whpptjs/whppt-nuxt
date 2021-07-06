@@ -24,7 +24,8 @@
           class="whppt-gallery-item"
           @click="$emit('input', image._id)"
         >
-          <div class="whppt-gallery-item__remove" @click.stop="remove(image._id)">
+          <!-- <div class="whppt-gallery-item__remove" @click.stop="remove(image._id)"> -->
+          <div class="whppt-gallery-item__remove" @click.stop="openDeleteModal(image._id)">
             <trash class="whppt-gallery-item__remove-icon" />
           </div>
         </div>
@@ -40,10 +41,38 @@
       @update:perPage="loadGallery"
     />
 
-    <div v-if="dependencies.length" class="whppt-gallery__warning-message">
-      <h4>Warning: this image is in use on the following pages:</h4>
-      <div v-for="dep in dependencies" :key="dep._id" class="whppt-gallery__warning-dependencies">/{{ dep.slug }}</div>
-    </div>
+    <!-- Delete image dialog -->
+    <whppt-dialog v-if="showWarning" :is-active="showWarning" :height="350" :width="800">
+      <template v-slot:header>
+        <whppt-toolbar>
+          <h3>Are you sure?</h3>
+        </whppt-toolbar>
+      </template>
+      <whppt-card class="whppt-dialog__warning">
+        <div class="whppt-dialog__warning-message">
+          <h4>Are you sure you want to delete this image</h4>
+          <p class="whppt-dialog__warning-dependencies">
+            <em>Warning: Once you delete this image there is no way to recover it.</em>
+          </p>
+          <div v-if="foundDependencies.length" class="whppt-dialog__warning-dependencies">
+            <p>
+              <em>
+                The current image is in use on the following page{{ foundDependencies.length !== 1 ? 's' : '' }}
+              </em>
+            </p>
+            <div class="whppt-dialog__warning-dependencies-list">
+              <p v-for="dep in foundDependencies" :key="dep._id">
+                <em>{{ dep.slug }}</em>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="whppt-dialog__warning-actions">
+          <whppt-button v-if="!foundDependencies.length" danger @click="remove()">Delete</whppt-button>
+          <whppt-button flat @click="closeDeleteModal()">Cancel</whppt-button>
+        </div>
+      </whppt-card>
+    </whppt-dialog>
   </div>
 </template>
 
@@ -51,11 +80,15 @@
 import { mapState } from 'vuex';
 import { Trash } from '../../icons';
 import WhpptPagination from '../../ui/components/Pagination';
+import WhpptDialog from '../../ui/components/Dialog';
+import WhpptCard from '../../ui/components/Card';
+import WhpptButton from '../../ui/components/Button';
+import WhpptToolbar from '../../ui/components/Toolbar';
 import Loading from '../../icons/Loading';
 
 export default {
   name: 'EditorGallery',
-  components: { Trash, WhpptPagination, Loading },
+  components: { Trash, WhpptPagination, WhpptDialog, WhpptCard, WhpptButton, WhpptToolbar, Loading },
   props: {
     value: {
       type: String,
@@ -78,7 +111,9 @@ export default {
       total: 0,
       currentPage: 1,
       limitPerPage: this.limit,
-      dependencies: [],
+      imageIdToDelete: '',
+      foundDependencies: [],
+      showWarning: false,
     };
   },
   computed: {
@@ -117,19 +152,30 @@ export default {
         .then(() => this.loadGallery(1))
         .then(() => (this.newImageLoading = false));
     },
-    remove(id) {
-      return this.$axios
-        .$get(`${this.$whppt.apiPrefix}/dependencies/checkDependencies`, { params: { imageId: id, type: 'image' } })
-        .then(dependencies => {
-          this.dependencies = dependencies;
+    checkDependencies(id) {
+      const params = { imageId: id, type: 'image' };
 
-          if (dependencies.length) return;
-
-          return this.$axios.$post(`${this.baseImageUrl}/remove`, { id }).then(() => {
-            this.$toast.global.editorSuccess('Image Deleted');
-            this.loadGallery(this.currentPage);
-          });
-        });
+      this.$axios.$get(`${this.$whppt.apiPrefix}/dependencies/checkDependencies`, { params }).then(dependencies => {
+        if (dependencies && dependencies.length) this.foundDependencies = dependencies;
+      });
+    },
+    openDeleteModal(id) {
+      this.showWarning = true;
+      this.imageIdToDelete = id;
+      this.checkDependencies(id);
+    },
+    closeDeleteModal() {
+      this.showWarning = false;
+      this.foundDependencies = [];
+      this.imageIdToDelete = '';
+    },
+    remove() {
+      return this.$axios.$post(`${this.baseImageUrl}/remove`, { id: this.imageIdToDelete }).then(() => {
+        this.$toast.global.editorSuccess('Image deleted');
+        this.showWarning = false;
+        this.foundDependencies = [];
+        this.loadGallery(this.currentPage);
+      });
     },
   },
 };
@@ -213,9 +259,32 @@ $warning-500: #f59e0b;
   margin-top: 16px;
 }
 
-.whppt-gallery__warning-message {
-  color: $warning-500;
-  margin-top: 1rem;
+.whppt-dialog__warning {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0;
+
+  h3,
+  h4 {
+    font-weight: bold;
+  }
+
+  p {
+    font-size: 0.75rem;
+  }
+
+  &-dependencies {
+    color: $warning-500;
+    font-size: 0.75rem;
+    margin-bottom: 0.5rem;
+    &-list {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+.whppt-dialog__warning-message {
   margin-bottom: 1rem;
 
   h4 {
@@ -223,9 +292,14 @@ $warning-500: #f59e0b;
   }
 }
 
-.whppt-gallery__warning-dependencies {
-  color: $warning-500;
-  font-size: 0.75rem;
-  margin-bottom: 0.5rem;
+.whppt-dialog__warning-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  height: 100%;
+
+  button {
+    margin-left: 0.5rem;
+  }
 }
 </style>
