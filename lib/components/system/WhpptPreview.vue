@@ -22,7 +22,7 @@ export default {
 
       const plugin = find(this.$whppt.plugins, p => (p.pageType && p.pageType.name) === this.page.pageType);
 
-      const components = keyBy({ ...this.$whppt.components, ...plugin.pageType.components }, c => c.componentType);
+      const components = keyBy(plugin.pageType.components, c => c.componentType);
       const data = {};
 
       // TODO: extract to more readable functions

@@ -31,7 +31,7 @@ export default {
       if (!this.selectedComponent) return;
 
       const plugin = find(this.$whppt.plugins, p => (p.pageType && p.pageType.name) === this.page.pageType);
-      let components = [...this.$whppt.components, ...plugin.pageType.components];
+      let components = plugin.pageType.components;
 
       const whitelist = this.selectedComponent.whitelist;
       const blacklist = this.selectedComponent.blacklist;

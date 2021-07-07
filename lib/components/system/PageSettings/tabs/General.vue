@@ -106,7 +106,7 @@
           </div>
         </form>
         <div class="whppt-dialog__warning-actions">
-          <whppt-button @click="saveSlug">Save</whppt-button>
+          <whppt-button v-if="!foundDependencies.length" @click="saveSlug">Save</whppt-button>
           <whppt-button flat @click="showSlugModal = false">Close</whppt-button>
         </div>
       </whppt-card>
@@ -144,7 +144,7 @@
           </div>
         </div>
         <div class="whppt-dialog__warning-actions">
-          <whppt-button danger @click="deletePageFromDraft">Delete</whppt-button>
+          <whppt-button v-if="!foundDependencies.length" danger @click="deletePageFromDraft">Delete</whppt-button>
           <whppt-button flat @click="showWarning = false">Cancel</whppt-button>
         </div>
       </whppt-card>
