@@ -11,9 +11,9 @@
         <component
           :is="content.componentType"
           :key="`${content.componentType}-${content.key}`"
-          v-whppt-actions="{ content, actions: actions(content) }"
-          :content="content"
-          :class="spacingClasses(content)"
+          v-whppt-actions="{ content: content.value, actions: actions(content.value) }"
+          :content="content.value"
+          :class="spacingClasses(content.value)"
           :container="container"
           :custom-class="customClass"
         />
@@ -50,11 +50,9 @@ export default {
       if (this.page && this.page.pageType && typeof this.page.pageType === 'object') return;
       const definitions = this.$whppt.getComponentDefinitions(this.page.pageType);
       return map(this.contentItems, ci => {
-        ci.key = nanoid();
         const componentInit = definitions && definitions[ci.componentType] && definitions[ci.componentType].init;
         if (typeof componentInit === 'function') componentInit({ $set: this.$set }, ci);
-
-        return ci;
+        return { key: ci.key || nanoid(), value: ci, componentType: ci.componentType };
       });
     },
   },
@@ -74,22 +72,23 @@ export default {
     },
     actions(content) {
       const componentDefinition = this.getComponentDefinition(content.componentType);
-      return [
+      const actionMenuItems = [
         { label: 'Up', classes: 'whppt-icon whppt-icon-up', action: this.moveComponentUp },
         { label: 'Down', classes: 'whppt-icon whppt-icon-down', action: this.moveComponentDown },
         { label: 'Remove', classes: 'whppt-icon whppt-icon-delete', action: this.remove },
-        componentDefinition &&
-          !componentDefinition.hideSpacingInContent && {
-            label: 'Spacing',
-            classes: 'whppt-icon whppt-icon-spacing ',
-            action: () => this.doEditInSidebar('SpacingControls'),
-          },
-        {
-          label: 'Duplicate Components',
-          classes: 'whppt-icon whppt-icon-copy',
-          action: () => this.doEditInSidebar('DuplicateComponent'),
-        },
       ];
+      if (componentDefinition && !componentDefinition.hideSpacingInContent)
+        actionMenuItems.push({
+          label: 'Spacing',
+          classes: 'whppt-icon whppt-icon-spacing ',
+          action: () => this.doEditInSidebar('SpacingControls'),
+        });
+      actionMenuItems.push({
+        label: 'Duplicate Components',
+        classes: 'whppt-icon whppt-icon-copy',
+        action: () => this.doEditInSidebar('DuplicateComponent'),
+      });
+      return actionMenuItems;
     },
     spacingClasses(content) {
       const componentDefinition = this.getComponentDefinition(content.componentType);
