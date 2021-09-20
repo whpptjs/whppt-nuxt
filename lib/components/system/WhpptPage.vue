@@ -142,14 +142,13 @@ export default {
                 page: newPage,
                 form: vm.pageForm,
               })
-              .then(page => {
-                const { slug } = page;
+              .then(() => {
                 vm.closeSidebar();
-                if (`/${slug}` === vm.$router.currentRoute.path) {
+                if (`/${newPage.slug}` === vm.$router.currentRoute.path) {
                   // return vm.$router.go();
                 }
                 this.$toast.global.editorSuccess('Page Successfully Created!');
-                return vm.$router.push(`/${slug}` || '/');
+                return vm.$router.push(`/${newPage.slug}` || '/');
               });
           }
         });
