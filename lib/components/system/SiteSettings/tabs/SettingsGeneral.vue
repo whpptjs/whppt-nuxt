@@ -76,8 +76,8 @@ export default {
 
         return Promise.all(
           sitemap.map(sitemapPage => {
-            const { slug, pageType, collection } = sitemapPage;
-            return this.$whppt.page.load({ slug, pageType, collection }).then(page => {
+            const { slug, pageType } = sitemapPage;
+            return this.$whppt.page.load({ slug, pageType }).then(page => {
               return this.$whppt.page.save(page).then(() => {
                 this.dependencyProgress = this.dependencyProgress + 1;
               });

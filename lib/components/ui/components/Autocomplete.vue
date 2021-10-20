@@ -5,6 +5,7 @@
       :value="setTextProp(internalValue)"
       v-bind="$attrs"
       :dark="dark"
+      :clearable="clearable"
       @input="onChange"
     />
     <slot :results="results">
@@ -42,6 +43,7 @@ export default {
     value: { type: [String, Array, Object], default: '' },
     itemText: { type: String, default: 'text' },
     itemValue: { type: String, default: 'value' },
+    clearable: { type: Boolean, default: false },
   },
   data: () => ({
     isSearching: false,

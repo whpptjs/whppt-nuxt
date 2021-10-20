@@ -70,7 +70,7 @@
 <script>
 import { startCase, isEmpty } from 'lodash';
 import { mapState, mapActions } from 'vuex';
-import { updatedDiff } from 'deep-object-diff';
+import { diff } from 'deep-object-diff';
 import EditorMenu from '../system/EditorMenu';
 import WhpptDialog from '../ui/components/Dialog';
 import WhpptButton from '../ui/components/Button';
@@ -150,7 +150,7 @@ export default {
         });
     },
     preventNavigate(event) {
-      const unsavedChanges = updatedDiff(this.savedPage, this.page);
+      const unsavedChanges = diff(this.savedPage, this.page);
       const hasUnsavedChanges = !isEmpty(unsavedChanges);
 
       if (hasUnsavedChanges) {
