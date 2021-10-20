@@ -361,9 +361,7 @@ export default {
           this.$toast.global.editorError('Slug already in use');
         } else {
           return this.savePage({ ...this.page, slug: newSlug }).then(() => {
-            this.foundDependencies = [];
-            this.$router.push(`/${newSlug}`);
-            this.$emit('closed');
+            window.location = `/${newSlug}`;
           });
         }
       });
@@ -383,9 +381,7 @@ export default {
           this.$toast.global.editorError('Slug already in use');
         } else {
           return vm.savePage({ ...this.page, slug: newSlug, _id: undefined }).then(() => {
-            vm.$router.push(`/${newSlug}`);
-            this.showDuplicatePageModal = false;
-            vm.$emit('closed');
+            window.location = `/${newSlug}`;
           });
         }
       });

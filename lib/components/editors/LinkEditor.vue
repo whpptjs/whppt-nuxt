@@ -7,12 +7,22 @@
             Page links take the user to another page on this website
           </div>
           <div>
-            <whppt-text-input
-              id="link-editor-page-href"
+            <whppt-autocomplete
+              id="link-editor-page-href-autocomplete"
               :value="link.href"
-              placeholder="e.g. /contact"
-              label="Hyperlink"
-              @input="setSelectedComponentState({ value: $whppt.trim($event), path: 'href' })"
+              :items="pages"
+              item-text="slug"
+              item-value="slug"
+              placeholder="Search by slug..."
+              label="Page"
+              clearable
+              @select="
+                setSelectedComponentState({
+                  value: $whppt.trim($event && $event.slug ? `/${$event.slug}` : ''),
+                  path: 'href',
+                })
+              "
+              @input="updatePageLinkFilter"
             />
             <whppt-text-input
               id="link-editor-page-text"
@@ -104,6 +114,7 @@
 import { mapActions, mapState } from 'vuex';
 import { debounce, findIndex } from 'lodash';
 import WhpptTextInput from '../ui/components/Input';
+import WhpptAutocomplete from '../ui/components/Autocomplete';
 import WhpptSelect from '../ui/components/Select';
 import WhpptTabs from '../ui/components/Tabs';
 import WhpptTab from '../ui/components/Tab';
@@ -111,11 +122,12 @@ import WhpptCard from '../ui/components/Card';
 
 export default {
   name: 'EditorLinkEdit',
-  components: { WhpptTextInput, WhpptSelect, WhpptTabs, WhpptTab, WhpptCard },
+  components: { WhpptTextInput, WhpptAutocomplete, WhpptSelect, WhpptTabs, WhpptTab, WhpptCard },
   data: () => ({
     activeTabIndex: 0,
     search: '',
     files: [],
+    pages: [],
   }),
   computed: {
     ...mapState('whppt/editor', ['baseAPIUrl', 'baseFileUrl', 'selectedComponent']),
@@ -134,11 +146,15 @@ export default {
   mounted() {
     this.filterList = debounce(() => this.queryFilesList(), 600);
     this.filterList();
+    this.loadPagesList();
 
     this.setActiveTabIndex(this.link.type);
   },
   methods: {
     ...mapActions('whppt/editor', ['setSelectedComponentState']),
+    updatePageLinkFilter(filter) {
+      if (!filter) this.setSelectedComponentState({ value: '', path: 'href' });
+    },
     selectFile(item) {
       if (!item) return;
 
@@ -150,6 +166,11 @@ export default {
 
       return this.$axios.$get(`${this.$whppt.apiPrefix}/file/searchFiles`, config).then(({ files }) => {
         this.files = files;
+      });
+    },
+    loadPagesList() {
+      return this.$axios.$get(`${this.$whppt.apiPrefix}/sitemap/filter`).then(({ sitemap }) => {
+        this.pages = sitemap;
       });
     },
     tabChanged(tab) {
