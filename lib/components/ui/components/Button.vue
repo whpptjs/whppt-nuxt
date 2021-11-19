@@ -7,6 +7,7 @@
       'whppt-button--flat': flat,
       'whppt-button--dark': dark,
       'whppt-button--round': round,
+      'whppt-button--pressed': pressed,
     }"
     :disabled="disabled"
     @click="$emit('click')"
@@ -36,6 +37,10 @@ export default {
       default: true,
     },
     round: {
+      type: Boolean,
+      default: false,
+    },
+    pressed: {
       type: Boolean,
       default: false,
     },
@@ -135,6 +140,10 @@ button {
   &--round {
     border-radius: 10rem;
     padding: 0.5rem;
+  }
+
+  &--pressed {
+    background-color: darken($primary-600, 20%);
   }
 }
 </style>
