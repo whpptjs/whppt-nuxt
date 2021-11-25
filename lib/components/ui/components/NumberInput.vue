@@ -53,7 +53,6 @@ export default {
   }),
   watch: {
     internalValue(newVal) {
-      if (!newVal) return;
       this.$emit('input', newVal);
     },
   },
