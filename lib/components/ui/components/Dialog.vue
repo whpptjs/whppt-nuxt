@@ -162,6 +162,8 @@ $gray-900: #1a202c;
       border: none;
       border-radius: 0;
       max-width: unset;
+      display: flex;
+      flex-direction: column;
     }
 
     .whppt-modal__content {
