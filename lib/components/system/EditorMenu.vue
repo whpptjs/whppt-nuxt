@@ -55,6 +55,7 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import { VTooltip as Tooltip } from 'v-tooltip';
+import { orderBy } from 'lodash';
 import {
   Expand,
   Collapse,
@@ -111,12 +112,14 @@ export default {
     ...mapState('whppt/page', ['page']),
     ...mapState('whppt/security', ['authUser']),
     menuItems() {
-      return [
+      console.log('🚀 ~ file: EditorMenu.vue ~ line 115 ~ menuItems ~ this.$whppt', this.$whppt.menuItems);
+      const items = [
         {
           key: 'collapse',
           label: 'Collapse Menu',
           icon: this.menuCollapsed ? '' : 'collapse',
           action: () => this.toggleMenuCollapse(),
+          order: 100,
         },
         {
           key: 'select',
@@ -124,25 +127,14 @@ export default {
           icon: 'pointer',
           action: () => this.selectMenuItem('select'),
           isActive: () => this.activeMenuItem === 'select',
+          order: 200,
         },
-        // {
-        //   key: 'remove',
-        //   label: 'Remove Component',
-        //   icon: 'trash',
-        //   action: this.remove,
-        // },
-        // { key: 'up', label: 'Move Component Up', icon: 'arrow-up', group: '', action: () => this.moveComponentUp() },
-        // {
-        //   key: 'down',
-        //   label: 'Move Component Down',
-        //   icon: 'arrow-down',
-        //   action: () => this.moveComponentDown(),
-        // },
         {
           key: 'new-page',
           label: 'Create New Page',
           icon: 'new-page',
           action: () => this.newPage(),
+          order: 300,
         },
         {
           key: 'save',
@@ -150,27 +142,45 @@ export default {
           icon: 'save',
           disabled: !this.page || !this.page._id,
           action: this.savePage,
+          order: 400,
         },
-        { key: 'nav', label: 'Save Navigation', icon: 'nav-icon', group: 'nav', action: () => this.saveNav() },
-        { key: 'footer', label: 'Save Footer', icon: 'footer-icon', group: 'footer', action: () => this.saveFooter() },
+        {
+          key: 'nav',
+          label: 'Save Navigation',
+          icon: 'nav-icon',
+          group: 'nav',
+          action: () => this.saveNav(),
+          order: 500,
+        },
+        {
+          key: 'footer',
+          label: 'Save Footer',
+          icon: 'footer-icon',
+          group: 'footer',
+          action: () => this.saveFooter(),
+          order: 600,
+        },
         {
           key: 'publishPage',
           label: 'Publish Page',
           icon: this.hasPublishableChanges ? 'publish-with-notification' : 'publish',
           disabled: !this.page || !this.page._id,
           action: () => this.doEditInModal('publishSettings'),
+          order: 700,
         },
         {
           key: 'config-settings',
           label: 'Open Config Settings',
           icon: 'globe',
           action: () => this.doEditInModal('configSettings'),
+          order: 800,
         },
         {
           key: 'site-settings',
           label: 'Open Site Settings',
           icon: 'settings',
           action: () => this.doEditInModal('siteSettings'),
+          order: 900,
         },
         {
           key: 'page-settings',
@@ -178,15 +188,26 @@ export default {
           icon: 'page-settings',
           disabled: !this.page || !this.page._id,
           action: () => this.doEditInModal('pageSettings'),
+          order: 1000,
         },
         {
           key: 'dashboard',
           label: 'Open Dashboard',
           icon: 'dashboard',
           action: this.showDashboard,
+          order: 1100,
         },
-        { key: 'logout', label: 'Log out', icon: 'logout', group: 'security', action: () => this.logout() },
+        {
+          key: 'logout',
+          label: 'Log out',
+          icon: 'logout',
+          group: 'security',
+          action: () => this.logout(),
+          order: 1200,
+        },
+        ...this.$whppt.menuItems.map(i => ({ ...i, action: this.runAction(i.action) })),
       ];
+      return orderBy(items, i => i.order);
     },
     hasPublishableChanges() {
       return this.page ? new Date(this.page.lastPublished) < new Date(this.page.updatedAt) : false;
@@ -214,6 +235,14 @@ export default {
       'doEditInSidebar',
       'doEditInModal',
     ]),
+    runAction(action) {
+      const methods = {
+        clearSelectedContent: this.clearSelectedContent,
+        clearSelectedComponent: this.clearSelectedComponent,
+        openInSideBar: this.doEditInSidebar,
+      };
+      return () => action(methods);
+    },
     newPage() {
       this.clearSelectedContent();
       this.clearSelectedComponent();
