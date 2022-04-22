@@ -11,7 +11,8 @@
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "lint --fix": "eslint --ext .js,.vue --ignore-path .gitignore . --fix",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "publish-rc": "yarn publish --access public --tag rc"
+    "publish-rc": "yarn publish --access public --tag rc",
+    "add-tag": "npm dist-tag add @whppt/nuxt@<version> next"
   },
   "repository": {
     "type": "git",
