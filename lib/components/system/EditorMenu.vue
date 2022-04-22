@@ -112,7 +112,6 @@ export default {
     ...mapState('whppt/page', ['page']),
     ...mapState('whppt/security', ['authUser']),
     menuItems() {
-      console.log('🚀 ~ file: EditorMenu.vue ~ line 115 ~ menuItems ~ this.$whppt', this.$whppt.menuItems);
       const items = [
         {
           key: 'collapse',
