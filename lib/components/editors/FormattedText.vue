@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { Bold, Italic, Underline, History } from 'tiptap-extensions';
+import { Bold, Italic, Underline, History, HardBreak } from 'tiptap-extensions';
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap';
 import { mapActions, mapState } from 'vuex';
 import IBold from '../icons/Bold';
@@ -95,7 +95,7 @@ export default {
     this.internal = this.selectedComponent.value[this.selectedComponent.property];
 
     this.editor = new Editor({
-      extensions: [new Bold(), new Italic(), new Underline(), new History()],
+      extensions: [new Bold(), new Italic(), new Underline(), new History(), new HardBreak()],
       content: isEmptyValue(this.selectedComponent.value[this.selectedComponent.property])
         ? 'Start typing here...'
         : this.selectedComponent.value[this.selectedComponent.property],
