@@ -36,6 +36,12 @@
                 :class="{ 'whppt-richtext__icon--active': isActive.heading({ level: 3 }) }"
               />
             </button>
+            <button aria-label="Header Size 4" @click="commands.heading({ level: 4 })">
+              <i-header4
+                class="whppt-richtext__icon"
+                :class="{ 'whppt-richtext__icon--active': isActive.heading({ level: 4 }) }"
+              />
+            </button>
           </div>
           <div v-if="!hideLists" class="whppt-richtext__menu-section">
             <button aria-label="Bullet List" @click="commands.bullet_list">
@@ -128,6 +134,7 @@ import IBold from '../../../icons/Bold';
 import IItalic from '../../../icons/Italic';
 import IHeader2 from '../../../icons/Header2';
 import IHeader3 from '../../../icons/Header3';
+import IHeader4 from '../../../icons/Header4';
 import IParagraph from '../../../icons/Paragraph';
 import IBulletList from '../../../icons/BulletList';
 import IOrderedList from '../../../icons/OrderedList';
@@ -151,6 +158,7 @@ export default {
     IItalic,
     IHeader2,
     IHeader3,
+    IHeader4,
     IParagraph,
     IBulletList,
     IOrderedList,
