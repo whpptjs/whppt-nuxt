@@ -1,8 +1,7 @@
 <template>
   <div :class="{ container }">
-    <div :id="content.id" v-whppt-anchor="content" :data-property="property" class="whppt-anchor">
-      <p v-if="activeMenuItem"><span class="whppt-hash">#</span> {{ content[property] }}</p>
-    </div>
+    <div :id="content.id" v-whppt-anchor="content" :data-property="property" class="whppt-anchor"></div>
+    <p v-if="activeMenuItem"><span class="whppt-hash">#</span> {{ content[property] }}</p>
   </div>
 </template>
 
