@@ -42,7 +42,7 @@ export default {
         components = filter(components, c => !includes(blacklist, c.key));
       }
 
-      return orderBy(components, ['key']);
+      return orderBy(components, ['name']);
     },
   },
   methods: {
