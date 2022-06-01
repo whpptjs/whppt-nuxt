@@ -53,7 +53,9 @@ export default {
   },
   methods: {
     navigateToAnchor(to) {
-      const elementId = to.replace('#', '');
+      const [path, elementId] = to.split('#');
+      if (path) return (window.location = to);
+
       const anchor = document.getElementById(elementId);
       if (!anchor) return;
 
