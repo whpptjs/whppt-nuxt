@@ -16,6 +16,7 @@
           :class="spacingClasses(content.value)"
           :container="container"
           :custom-class="customClass"
+          :in-split-content="inSplitContent"
         />
       </div>
     </div>
@@ -38,6 +39,7 @@ export default {
   props: {
     contentItems: { type: [Array, Object], required: true },
     container: { type: Boolean, default: true },
+    inSplitContent: { type: Boolean, default: false },
     whitelist: { type: Array, default: () => [] },
     blacklist: { type: Array, default: () => [] },
     customClass: { type: String, default: '' },
