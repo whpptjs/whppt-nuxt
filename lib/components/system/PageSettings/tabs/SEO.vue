@@ -44,6 +44,11 @@
           item-value="value"
           info="Frequency tells search engines how often the page is likely to change."
         />
+        <whppt-checkbox
+          v-model="pageSettings.hideFromSitemap"
+          class="whppt-pt-2"
+          label="Hide this page from the sitemap xml?"
+        />
       </form>
     </whppt-card>
     <whppt-card>
@@ -59,6 +64,7 @@ import WhpptTextArea from '../../../ui/components/Textarea';
 import WhpptSelect from '../../../ui/components/Select';
 import WhpptButton from '../../../ui/components/Button';
 import WhpptCard from '../../../ui/components/Card';
+import WhpptCheckbox from '../../../ui/components/Checkbox';
 
 import savePageMixin from '../../../../util/mixins/pageSettings';
 
@@ -70,6 +76,7 @@ export default {
     WhpptSelect,
     WhpptButton,
     WhpptCard,
+    WhpptCheckbox,
   },
   mixins: [savePageMixin],
   data: () => ({
@@ -88,6 +95,7 @@ export default {
       description: '',
       priority: '',
       frequency: '',
+      hideFromSitemap: '',
     },
   }),
   created() {
@@ -97,6 +105,7 @@ export default {
       this.pageSettings.description = this.page.description;
       this.pageSettings.priority = this.page.priority;
       this.pageSettings.frequency = this.page.frequency;
+      this.pageSettings.hideFromSitemap = this.page.hideFromSitemap;
     }
   },
   methods: {
