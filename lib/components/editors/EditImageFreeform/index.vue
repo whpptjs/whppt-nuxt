@@ -7,6 +7,7 @@
           :sizes="selectedComponent.sizes"
           @changed="cropperChanged"
         />
+        <whppt-button class="whppt-pt-2" @click="clearImage">Clear Image</whppt-button>
         <whppt-text-input
           id="editor-image-alt"
           :value="selectedComponent.value.image.alt"
@@ -44,6 +45,10 @@ export default {
     selectImage(id) {
       this.setSelectedComponentState({ value: id, path: 'image.imageId' });
       this.setActiveTab(undefined, 0);
+    },
+    clearImage() {
+      this.setSelectedComponentState({ value: undefined, path: 'image.imageId' });
+      this.setActiveTab(undefined, 1);
     },
     setAltText(value) {
       this.setSelectedComponentState({ value, path: 'image.alt' });

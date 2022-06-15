@@ -7,6 +7,7 @@
           :sizes="selectedComponent.sizes"
           @changed="cropperChanged"
         />
+        <whppt-button class="whppt-pt-2" @click="clearImage">Clear Image</whppt-button>
         <whppt-text-input
           id="editor-image-alt"
           :value="selectedComponent.value.image.alt"
@@ -26,13 +27,14 @@
 import { mapActions, mapState } from 'vuex';
 import WhpptTab from '../../ui/components/Tab';
 import WhpptTabs from '../../ui/components/Tabs';
+import WhpptButton from '../../ui/components/Button';
 import WhpptTextInput from '../../ui/components/Input';
 import Gallery from './Gallery';
 import Cropping from './Cropping';
 
 export default {
   name: 'EditorImageEdit',
-  components: { WhpptTabs, WhpptTab, Gallery, Cropping, WhpptTextInput },
+  components: { WhpptTabs, WhpptTab, Gallery, Cropping, WhpptTextInput, WhpptButton },
   data: () => ({
     activeTabIndex: 0,
   }),
@@ -44,6 +46,10 @@ export default {
     selectImage(id) {
       this.setSelectedComponentState({ value: id, path: 'image.imageId' });
       this.setActiveTab(undefined, 0);
+    },
+    clearImage() {
+      this.setSelectedComponentState({ value: undefined, path: 'image.imageId' });
+      this.setActiveTab(undefined, 1);
     },
     setAltText(value) {
       this.setSelectedComponentState({ value, path: 'image.alt' });
