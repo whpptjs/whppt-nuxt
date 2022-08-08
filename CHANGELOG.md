@@ -1,5 +1,11 @@
 # Changelog
 
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [2.0.0-rc.76](https://github.com/whpptjs/whppt-nuxt/compare/v2.0.0-rc75...v2.0.0-rc.76) (2022-08-08)
+
+# Changelog
+
 ## v2.0.0-rc15
 ### Fixes
 - Fix Custom editor directives arguments format.
