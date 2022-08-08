@@ -10,7 +10,8 @@
   "scripts": {
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "lint --fix": "eslint --ext .js,.vue --ignore-path .gitignore . --fix",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "echo \"Error: no build specified\" && exit 0",
+    "test": "echo \"Error: no test specified\" && exit 0",
     "publish-rc": "yarn publish --tag rc",
     "add-tag": "npm dist-tag add @whppt/nuxt@<version> next",
     "publish:patch-rc-dry": "yarn test && yarn build && standard-version --release-as patch --prerelease rc --dry-run",
