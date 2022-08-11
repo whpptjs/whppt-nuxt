@@ -107,6 +107,26 @@
         </whppt-card>
       </whppt-tab>
     </whppt-tabs>
+    <!-- <div v-if="$config.googleTagManagerId">
+      <div class="">Tag Manager Click Tracking</div>
+      <whppt-card>
+        <div>
+          <whppt-button @click="toggleTracking()">{{
+            link.tracking && link.tracking.custom ? 'Use Defaults' : 'Customise'
+          }}</whppt-button>
+          <div v-if="link.tracking && link.tracking.custom">
+            <whppt-text-input
+              id="link-editor-tracking-event"
+              :value="link.tracking.eventName"
+              placeholder="whppt.linkClicked"
+              label="Event Name"
+              :disabled="link.tracking && !link.tracking.custom"
+              @input="val => setSelectedComponentState({ value: val, path: 'tracking.eventName' })"
+            />
+          </div>
+        </div>
+      </whppt-card>
+    </div> -->
   </div>
 </template>
 
@@ -119,10 +139,11 @@ import WhpptSelect from '../ui/components/Select';
 import WhpptTabs from '../ui/components/Tabs';
 import WhpptTab from '../ui/components/Tab';
 import WhpptCard from '../ui/components/Card';
+import WhpptButton from '../ui/components/Button';
 
 export default {
   name: 'EditorLinkEdit',
-  components: { WhpptTextInput, WhpptAutocomplete, WhpptSelect, WhpptTabs, WhpptTab, WhpptCard },
+  components: { WhpptTextInput, WhpptAutocomplete, WhpptSelect, WhpptTabs, WhpptTab, WhpptCard, WhpptButton },
   data: () => ({
     activeTabIndex: 0,
     search: '',
@@ -158,7 +179,7 @@ export default {
     selectFile(item) {
       if (!item) return;
 
-      this.setSelectedComponentState({ value: `/file/${item._id}`, path: 'href' });
+      this.setSelectedComponentState({ value: `/file/${item._id}/${item.name}`, path: 'href' });
       this.setSelectedComponentState({ value: item._id, path: 'fileId' });
     },
     queryFilesList() {
@@ -181,6 +202,26 @@ export default {
       const tabIndex = findIndex(this.$refs.whpptLinkEditorTabs.$children, { id: tabId });
 
       this.activeTabIndex = tabIndex || 0;
+    },
+    toggleTracking() {
+      if (this.link.tracking && this.link.tracking.custom) {
+        this.setSelectedComponentState({ value: false, path: 'tracking.custom' });
+        // this.setSelectedComponentState({
+        //   path: 'tracking.eventName',
+        //   value: 'whppt.linkClicked',
+        // });
+        // this.setSelectedComponentState({
+        //   path: 'tracking.eventText',
+        //   value: '',
+        // });
+        return;
+      }
+      if (!this.link.tracking) this.setSelectedComponentState({ value: {}, path: 'tracking' });
+      this.setSelectedComponentState({ path: 'tracking.custom', value: true });
+      // this.setSelectedComponentState({
+      //   path: 'tracking.eventName',
+      //   value: 'whppt.linkClicked',
+      // });
     },
   },
 };
