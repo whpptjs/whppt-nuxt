@@ -65,6 +65,7 @@ export default {
       history.pushState(null, null, to);
     },
     clickLink() {
+      // https://support.google.com/tagmanager/answer/7182738?hl=en
       if (!process.client && !this.$config.googleTagManagerId) return;
       const trackingValues = {
         event: 'whppt.linkClicked',
