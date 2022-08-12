@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-rc.81](https://github.com/whpptjs/whppt-nuxt/compare/v2.0.0-rc.80...v2.0.0-rc.81) (2022-08-12)
+
 ## [2.0.0-rc.80](https://github.com/whpptjs/whppt-nuxt/compare/v2.0.0-rc.79...v2.0.0-rc.80) (2022-08-12)
 
 ## [2.0.0-rc.79](https://github.com/whpptjs/whppt-nuxt/compare/v2.0.0-rc.78...v2.0.0-rc.79) (2022-08-12)
