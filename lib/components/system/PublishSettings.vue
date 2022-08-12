@@ -3,7 +3,7 @@
     <form v-if="page" @submit.prevent>
       <div>
         <div style="font-weight: bold">Last Change:</div>
-        <div>{{ formatDate(page.updatedAt) }}</div>
+        <div>{{ page.updatedAt ? formatDate(page.updatedAt) : 'Not yet saved' }}</div>
         <div v-if="!this.$whppt.disablePublishing">
           <div style="font-weight: bold">Last Published:</div>
           <div>{{ page.published ? formatDate(page.lastPublished) : 'Not published' }}</div>
