@@ -66,7 +66,7 @@ export default {
     },
     clickLink() {
       // https://support.google.com/tagmanager/answer/7182738?hl=en
-      if (!process.client && !this.$config.googleTagManagerId) return;
+      if (!process.client) return;
       const trackingValues = {
         event: 'whppt.linkClicked',
         'gtm.element': this.$slots.default[0].elm,
