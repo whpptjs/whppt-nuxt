@@ -70,7 +70,7 @@ export default {
       const trackingValues = {
         event: 'whppt.linkClicked',
         'gtm.element': this.$slots.default[0].elm,
-        'gtm.elementClasses': this.$slots.default[0].data.staticClass,
+        'gtm.elementClasses': this.$slots.default[0].data?.staticClass || 'whppt-link',
         'gtm.elementUrl': `${this.baseFileUrl || this.baseAPIUrl}${this.to.href}`,
         'gtm.elementTarget': (this.to.type === 'file' || this.to.type === 'external') && '_blank',
       };
