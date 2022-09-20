@@ -233,12 +233,15 @@ export default {
       'clearSelectedContent',
       'doEditInSidebar',
       'doEditInModal',
+      'selectComponent',
     ]),
     runAction(action) {
       const methods = {
         clearSelectedContent: this.clearSelectedContent,
         clearSelectedComponent: this.clearSelectedComponent,
         openInSideBar: this.doEditInSidebar,
+        selectComponent: this.selectComponent,
+        getPage: () => this.page,
       };
       return () => action(methods);
     },
