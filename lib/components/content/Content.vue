@@ -7,7 +7,7 @@
     :class="{ 'whppt-contents--active': activeMenuItem }"
   >
     <div v-for="content in initContentItems" :key="`${content.componentType}-${content.key}`" class="whppt-content">
-      <div>
+      <div :style="setColours(content)">
         <component
           :is="content.componentType"
           :key="`${content.componentType}-${content.key}`"
@@ -103,6 +103,12 @@ export default {
       const paddingBottom = setPaddingBottom(content);
 
       return [marginTop, marginBottom, paddingTop, paddingBottom];
+    },
+    setColours(content) {
+      const backgroundColour = `background-color: ${content?.backgroundColour?.value};`;
+      const fontColour = `color: ${content?.backgroundColour?.fontColour};`;
+
+      return backgroundColour + fontColour;
     },
     remove() {
       if (window.confirm('Are you sure you want to delete this component?')) return this.removeComponent();
