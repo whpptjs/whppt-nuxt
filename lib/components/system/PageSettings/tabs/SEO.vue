@@ -44,11 +44,18 @@
           item-value="value"
           info="Frequency tells search engines how often the page is likely to change."
         />
-        <whppt-checkbox
-          v-model="pageSettings.hideFromSitemap"
-          class="whppt-pt-2"
-          label="Hide this page from the sitemap xml?"
-        />
+        <div class="flex flex-col space-y-4">
+          <whppt-checkbox
+            v-model="pageSettings.hideFromSitemap"
+            class="whppt-pt-2"
+            label="Hide this page from the sitemap xml?"
+          />
+          <whppt-checkbox
+            v-model="pageSettings.hideFromRobots"
+            class="whppt-pt-2"
+            label="Hide this page from the robots?"
+          />
+        </div>
       </form>
     </whppt-card>
     <whppt-card>
@@ -106,6 +113,7 @@ export default {
       this.pageSettings.priority = this.page.priority;
       this.pageSettings.frequency = this.page.frequency;
       this.pageSettings.hideFromSitemap = this.page.hideFromSitemap;
+      this.pageSettings.hideFromRobots = this.page.hideFromRobots;
     }
   },
   methods: {
