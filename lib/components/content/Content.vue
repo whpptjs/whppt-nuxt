@@ -7,7 +7,7 @@
     :class="{ 'whppt-contents--active': activeMenuItem }"
   >
     <div v-for="content in initContentItems" :key="`${content.componentType}-${content.key}`" class="whppt-content">
-      <div :style="setColours(content)">
+      <div :style="setColours(content.value)">
         <component
           :is="content.componentType"
           :key="`${content.componentType}-${content.key}`"
