@@ -189,6 +189,14 @@ export default {
       ];
     },
   },
+  watch: {
+    'newRedirect.to'(newValue) {
+      this.newRedirect.to = newValue.toLowerCase();
+    },
+    'newRedirect.from'(newValue) {
+      this.newRedirect.from = newValue.toLowerCase();
+    },
+  },
   mounted() {
     this.loadRedirects();
   },
