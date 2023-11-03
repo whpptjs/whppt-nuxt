@@ -26,6 +26,7 @@
             info="Username is not required and can be added later by the invited user."
           />
           <whppt-button @click="createUser">Submit</whppt-button>
+          <p v-if="createUserError" class="whppt-error">{{ createUserError }}</p>
         </form>
       </whppt-card>
       <whppt-card v-if="link">
@@ -63,6 +64,7 @@ export default {
       username: '',
       email: '',
     },
+    createUserError: '',
     link: '',
   }),
   computed: {
@@ -101,7 +103,9 @@ export default {
           this.$emit('userCreated', inviteLink);
           // this.$emit('closed');
         })
-        .catch(() => {
+        .catch(err => {
+          console.log('🚀  createUser ~ err:', err, err.message);
+          this.createUserError = err.message;
           /* TODO: handle error in client */
         });
     },

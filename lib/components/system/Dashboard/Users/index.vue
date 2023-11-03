@@ -17,12 +17,21 @@
         <component
           :is="item.verified ? 'check-icon' : 'close-icon'"
           :style="`color: ${item.verified ? 'green' : 'red'}`"
+          @click="getNewVerifiedCode(item)"
         />
       </template>
       <template v-slot:item.roles="{ item }">
         <whppt-button flat @click="manageRoles(item)">Manage Roles</whppt-button>
       </template>
     </whppt-table>
+    <whppt-card v-if="newVerifiedLink">
+      To complete the sign up process send them the following link. The link expires in 24 hours.
+      <br />
+      <a :href="newVerifiedLink" target="_blank" class="whppt-invite-link">{{ newVerifiedLink }}</a>
+
+      <!-- TODO: Copy link to clipboard button -->
+      <!-- TODO: Email to user button -->
+    </whppt-card>
     <manage-roles
       v-if="manageRolesVisible"
       :active="manageRolesVisible"
@@ -55,6 +64,7 @@ export default {
     roles: [],
     manageRolesVisible: false,
     newUserVisible: false,
+    newVerifiedLink: '',
     managingUser: {},
   }),
   computed: {
@@ -76,6 +86,13 @@ export default {
   methods: {
     formatDate(date) {
       return dayjs(date).format('ddd DD MMM YYYY');
+    },
+    getNewVerifiedCode(user) {
+      this.newVerifiedLink = '';
+      if (user.verified) return;
+      this.$axios.$post(`${this.$whppt.apiPrefix}/user/reverify`, { userId: user._id }).then(response => {
+        this.newVerifiedLink = response.link;
+      });
     },
     loadUsers() {
       this.$axios.$get(`${this.$whppt.apiPrefix}/user/list`).then(response => {
