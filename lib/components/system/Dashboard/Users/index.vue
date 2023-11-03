@@ -50,12 +50,13 @@ import CheckIcon from '../../../icons/Check';
 import CloseIcon from '../../../icons/Close';
 import WhpptTable from '../../../ui/components/Table';
 import WhpptButton from '../../../ui/components/Button';
+import WhpptCard from '../../../ui/components/Card';
 import ManageRoles from './ManageRoles';
 import NewUser from './NewUser';
 
 export default {
   name: 'GeneralDashboard',
-  components: { WhpptTable, WhpptButton, ManageRoles, NewUser, CheckIcon, CloseIcon },
+  components: { WhpptTable, WhpptButton, ManageRoles, NewUser, CheckIcon, CloseIcon, WhpptCard },
   data: () => ({
     users: [],
     page: 1,
@@ -91,7 +92,7 @@ export default {
       this.newVerifiedLink = '';
       if (user.verified) return;
       this.$axios.$post(`${this.$whppt.apiPrefix}/user/reverify`, { userId: user._id }).then(response => {
-        this.newVerifiedLink = response.link;
+        this.newVerifiedLink = response;
       });
     },
     loadUsers() {
