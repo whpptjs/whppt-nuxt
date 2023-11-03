@@ -14,11 +14,12 @@
         {{ formatDate(item.updatedAt) }}
       </template>
       <template v-slot:item.verified="{ item }">
-        <component
-          :is="item.verified ? 'check-icon' : 'close-icon'"
-          :style="`color: ${item.verified ? 'green' : 'red'}`"
-          @click="getNewVerifiedCode(item)"
-        />
+        <button @click="getNewVerifiedCode(item)">
+          <component
+            :is="item.verified ? 'check-icon' : 'close-icon'"
+            :style="`color: ${item.verified ? 'green' : 'red'}`"
+          />
+        </button>
       </template>
       <template v-slot:item.roles="{ item }">
         <whppt-button flat @click="manageRoles(item)">Manage Roles</whppt-button>
